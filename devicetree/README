@@ -1,0 +1,48 @@
+##Introduction##
+
+This directory contains all the out of tree device tree structures, for external
+(also called out of tree) modules, along with Makefiles to support the build.
+Objective is to build the external device trees, with the same build tools being
+used by mainline kernel. All the modules specific device tree source files, are
+to be added under this directory. Each such child directory contains module
+specific device tree files, typically one dts file, many dtsi files, and
+optionally, module specific DT binding files. Each module specific directory also
+contains its own Makefile, needed to build it.
+
+The top 'devicetree' directory contains Makefile, containing required rules to build
+all the device tree source files(*.dts and *.dtsi files).
+
+devicetree
+|
+|---> Makefile, Makefile.common. These files add core build framework.
+|--->Board/Soc specific files: *.dts(per board/soc), one or more *.dtsi,
+and *.h header files for deviectree bindings).
+
+###Adding a new module#####
+The main concept behind adding new module is almost same as in the standard
+Linux kernel device tree. For instance, nearly same procedure is to be
+followed, as one would following while adding new vendor specific directory,
+under following mainline kernel directory:
+<kernel_dir>/arch/<ARCH_NAME>/boot/dts.
+
+Steps to be followed:
+
+1. Add the new *.dts file, if we are adding the support of overlay for new board/soc,
+and add the DTS file related task into the Makefile as following:
+	dtb-y += <new_DTS_file_name>.dtbo
+
+Else, if the DTS file is already present, add the due modification in the same for overlay.
+
+Optionally, add dtsi files as appropriate. If the module used its own DT binding header files,
+create binding-directory and copy the header files under the same.
+
+2. If the module needs its own DT binding, add the patch of the DT bindings in
+file Devicetree/Makefile.common, by adding following line:
+TECHPACK_INCLUDE += <path of module specific DT binding>
+
+###Building the device tree bins for out of tree/external modules###
+
+make KDIR=<main_kernel_directory> ARCH=<arch_name(arm64 by default)> dtbs
+
+Prerequisite: The kernel directory pointed by KDIR, should be built to the
+extent of generating .config file.
