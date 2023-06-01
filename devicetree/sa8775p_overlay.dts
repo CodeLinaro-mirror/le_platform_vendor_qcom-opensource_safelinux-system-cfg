@@ -38,6 +38,12 @@
 		hwlocks = <&tcsr_mutex 3>;
 		status = "okay";
 	};
+
+	scm_user_intf_device {
+		compatible = "qcom,scm-user-intf";
+		scm_dev = "scm";
+		status = "ok";
+	};
 };
 
 &{/firmware} {
