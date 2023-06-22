@@ -7,15 +7,28 @@ TECHPACK_DTSTREE=$(TECHPACK_BINDING_DIR)
 
 #set KERNEL_DIR to appropriate mainline kernel top directory which is built
 #already, at-least to the extent of generating .config file.
+KDIR_BASE_NAME = $(shell basename $(KDIR))
+LOCAL_KDIR = $(PWD)/$(KDIR_BASE_NAME)
+
+
+BASE_DTB_IN ?= $(LOCAL_KDIR)/arch/arm64/boot/dts/qcom
+DTB_MERGE_OUT ?= $(LOCAL_KDIR)/arch/arm64/boot/dts/qcom
 
 #Include the paths for DT binding header files. First two are standard paths
 # found in mainline kernel. Post that, add any paths for module specific, out
 # of tree definition of the device tree bindings. Here, last two paths contain
 # the out of tree device tree bindings.
-TECHPACK_INCLUDE := $(KERNEL_DIR)/scripts/dtc/include-prefixes
-TECHPACK_INCLUDE += $(KERNEL_DIR)/include
+TECHPACK_INCLUDE := $(KDIR)/scripts/dtc/include-prefixes
+TECHPACK_INCLUDE += $(KDIR)/include
 TECHPACK_INCLUDE += $(TECHPACK_BINDING_DIR)
 
+all: dtbs merge_dtbs.sh
+	./merge_dtbs.sh $(BASE_DTB_IN) oot $(DTB_MERGE_OUT) $(LOCAL_KDIR)
 dtbs:
-	$(MAKE) -C $(KERNEL_DIR) ARCH=$(ARCH) dtstree=$(TECHPACK_DTSTREE) \
-		DTC_INCLUDE="$(TECHPACK_INCLUDE)" dtbs
+	cp $(KDIR)  . -rf
+	$(MAKE) -C $(LOCAL_KDIR) ARCH=$(ARCH) dtstree=$(TECHPACK_DTSTREE) \
+		DTC_INCLUDE="$(TECHPACK_INCLUDE)" DTC_FLAGS="-@" dtbs
+	rm -rf oot
+	mkdir oot
+	cp *.dtbo oot
+	cp *.dts oot
