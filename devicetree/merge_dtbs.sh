@@ -8,24 +8,15 @@ usage ()
 	echo "$0 <base DTB dir> <out of tree DTBO dir> <out out dir> <kernel dir>"
 }
 
-if [ $# -ne 4 ]
+if [ $# -ne 3 ]
 then
 	usage "Invalid parameters"
 	exit 1
 fi
 
-DTB_DIR=$1
+KDIR=$1
 DTBO_DIR=$2
-
 OUT_DIR=$3
-KDIR=$4
-
-
-#dtb_files=$(find ${DTB_DIR} -name "*.dtb")
-
-#copy into KDIR. we need to build it again with certain flags to enabled overlay
-
-cp ${DTB_DIR}/*.dtb ${KDIR}/arch/arm64/boot/dts/qcom
 
 dtb_files=$(find ${KDIR}/arch/arm64/boot/dts/qcom -name "*.dtb")
 
@@ -44,6 +35,7 @@ create_dts()
 }
 
 #create dts from dtbs
+: <<'END_COMMENT'
 for base_dtb in $dtb_files
 do
 	base_dts=$(echo "$base_dtb" | sed -e 's/\.[^.]*$//')
@@ -51,6 +43,7 @@ do
         #echo $file : create dts
 	create_dts $base_dts $base_dtb
 done
+END_COMMENT
 
 #build with support of overlay
 make -C ${KDIR} DTC_FLAGS="-@" -s  qcom/*.dtb
@@ -70,8 +63,6 @@ match_dtb_to_dtbo()
 
 	dtb_compatible=$(cat $dtb | grep compatible | head -1 | sed -e 's/compatible =//' -e 's/\"//g' -e 's/[;\,]//g')
 	dtb_model=$(cat $dtb | grep model | head -1 | sed -e 's/model =//' -e 's/\"//g' -e 's/[;\,]//g')
-
-	#echo "dtb mode: $dtb_model dtbo model: $dtbo_model"
 
 	if [ "$dtb_model" = "$dtbo_model" ]
 	then
@@ -100,19 +91,17 @@ match_dtb_to_dtbo()
 merge_dtbos()
 {
 	base_dtb=$1
-	base_dts=$(echo "$base_dtb" | sed -e 's/\.[^.]*$//')
-	base_dts="${base_dts}.dts"
+	base_dts_name=$(echo "$base_dtb" | sed -e 's/\.[^.]*$//')
+	base_dts="${base_dts_name}.dts"
 	dtbo_files=$2
 
 	matched_dtbos=""
 
-	#echo base dts $base_dts
 	for dtbo_file in $dtbo_files
 	do
 	dtbs_file=$(echo "$dtbo_file" | sed -e 's/\.[^.]*$//')
 	dtbs_file="${dtbs_file}.dts"
-	#match_dtb_to_dtbo $dtbs_file $base_dts
-	#[ match_dtb_to_dtbo $dtbs_file $base_dts ] && matched_dtbos="${matched_dtbos} ${dtbo_file}"
+
 	if match_dtb_to_dtbo $base_dts $dtbs_file
 	then
 		matched_dtbos="${matched_dtbos} ${dtbo_file}"
@@ -120,19 +109,21 @@ merge_dtbos()
 	done
 
 	base_name=$(basename $base_dtb)
+	base_dts_name=$(echo "$base_name" | sed -e 's/\.[^.]*$//')
+	out_file="${base_dts_name}.overlay.dtb"
+
 
 	if [ "$matched_dtbos" != ""  ]
 	then
 		echo "=============================================================="
 		echo dtbos matches : $matched_dtbos
 		echo base dtb: $base_dtb
-		echo output file: ${OUT_DIR}/${base_name}
+		echo output file: ${OUT_DIR}/${out_file}
 		echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-		${KDIR}/scripts/dtc/fdtoverlay -i $base_dtb -o ${OUT_DIR}/${base_name} -v $matched_dtbos
+		${KDIR}/scripts/dtc/fdtoverlay -i $base_dtb -o ${OUT_DIR}/${out_file} -v $matched_dtbos
 	fi
 }
 
-#echo dtb files $dtb_files
 for file in $dtb_files
 do
 	#echo $file
