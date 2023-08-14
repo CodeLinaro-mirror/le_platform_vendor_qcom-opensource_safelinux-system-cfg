@@ -6,6 +6,7 @@ BuildArch: noarch
 License: BSD-3-Clause-Clear
 Source0: %{name}-%{version}.tar.gz
 
+BuildRequires: systemd-rpm-macros
 
 %description
 Adding conf file to Autoload DLKMs during bootup.
@@ -14,8 +15,13 @@ Adding conf file to Autoload DLKMs during bootup.
 %setup -qn %{name}
 
 %install
-mkdir -p  "$RPM_BUILD_ROOT/usr/lib/modules-load.d"
-cp i2cdev.conf "$RPM_BUILD_ROOT/usr/lib/modules-load.d"
+mkdir -p  %{buildroot}%{_modulesloaddir}
+mkdir -p  %{buildroot}%{_modprobedir}
+cp i2cdev.conf "%{buildroot}%{_modulesloaddir}"
+echo "options vfio_platform reset_required=0" > "%{buildroot}%{_modprobedir}/vfio.conf"
+echo "vfio_platform" > "%{buildroot}%{_modulesloaddir}/vfio.conf"
 
 %files
-/usr/lib/modules-load.d/i2cdev.conf
+%{_modulesloaddir}/i2cdev.conf
+%{_modulesloaddir}/vfio.conf
+%{_modprobedir}/vfio.conf
