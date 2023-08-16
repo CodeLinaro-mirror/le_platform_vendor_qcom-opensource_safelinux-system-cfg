@@ -20,6 +20,11 @@
 	#address-cells = <2>;
 	#size-cells = <2>;
 
+	kaslr_store {
+		compatible = "qcom,kaslr-off-store";
+		reg = <0 0x90880000 0 0x10>;
+	};
+
 	tcsr: syscon@1fc0000 {
 		compatible = "syscon";
 		reg = <0x0 0x1fc0000 0x0 0x30000>;
@@ -49,5 +54,12 @@
 &{/firmware} {
 	scm {
 		qcom,dload-mode = <&tcsr 0x13000>;
+	};
+};
+
+&{/reserved-memory} {
+	kaslr_off_reg: kasr_off_reg@90880000 {
+		reg = <0 0x90880000 0 0x10>;
+		no-map;
 	};
 };
