@@ -26,6 +26,7 @@ DTB_MERGE_OUT ?= $(KERNEL_DIR)/arch/arm64/boot/dts/qcom
 TECHPACK_INCLUDE := $(KERNEL_DIR)/scripts/dtc/include-prefixes
 TECHPACK_INCLUDE += $(KERNEL_DIR)/include
 TECHPACK_INCLUDE += $(TECHPACK_BINDING_DIR)
+TECHPACK_INCLUDE += $(TECHPACK_BINDING_DIR)/oot-dt-bindings
 
 all: dtbos merge_dtbs.sh
 	./merge_dtbs.sh $(KERNEL_DIR) oot $(DTB_MERGE_OUT)
