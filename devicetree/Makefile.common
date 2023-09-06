@@ -17,6 +17,7 @@ DTB_MERGE_OUT ?= $(KDIR)/arch/arm64/boot/dts/qcom
 # the out of tree device tree bindings.
 TECHPACK_INCLUDE := $(KDIR)/scripts/dtc/include-prefixes
 TECHPACK_INCLUDE += $(KDIR)/include
+TECHPACK_INCLUDE += $(KDIR)/arch/$(ARCH)/boot/dts/qcom
 TECHPACK_INCLUDE += $(TECHPACK_BINDING_DIR)
 TECHPACK_INCLUDE += $(TECHPACK_BINDING_DIR)/oot-dt-bindings
 
