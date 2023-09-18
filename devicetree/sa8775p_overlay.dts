@@ -9,6 +9,9 @@
 
 #include <dt-bindings/interrupt-controller/irq.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/mailbox/qcom-ipcc.h>
+#include "sa8775p-pinctrl.dtsi"
+#include "sa8775p-vfio.dtsi"
 
 / {
 	model = "Qualcomm SA8775P Ride";
