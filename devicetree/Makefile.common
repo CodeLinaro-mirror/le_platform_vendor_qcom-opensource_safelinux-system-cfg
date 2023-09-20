@@ -1,0 +1,52 @@
+# SPDX-License-Identifier: GPL-2.0
+
+ARCH?=arm64
+LRH_ARCH?=aarch64
+
+TECHPACK_BINDING_DIR=$(PWD)
+TECHPACK_DTSTREE=$(TECHPACK_BINDING_DIR)
+
+REPO ?= https://gitlab.com/redhat/centos-stream/src/kernel/centos-stream-9.git
+KERNEL_BRANCH ?= main-automotive
+
+# Set KDIR to appropriate mainline kernel top directory which is built
+# already, at-least to the extent of generating .config file.
+# If 'centos-stream-9' is locally present, use that
+KDIR ?= $(shell if [ ! -d $(PWD)/centos-stream-9 ]; then \
+                    git clone $(REPO) centos-stream-9 -b $(KERNEL_BRANCH); \
+                fi; \
+                cd $(PWD)/centos-stream-9; pwd)
+
+KERNEL_DIR := $(KDIR)
+
+BASE_DTB_IN ?= $(KERNEL_DIR)/arch/arm64/boot/dts/qcom
+DTB_MERGE_OUT ?= $(KERNEL_DIR)/arch/arm64/boot/dts/qcom
+
+#Include the paths for DT binding header files. First two are standard paths
+# found in mainline kernel. Post that, add any paths for module specific, out
+# of tree definition of the device tree bindings. Here, last two paths contain
+# the out of tree device tree bindings.
+TECHPACK_INCLUDE := $(KERNEL_DIR)/scripts/dtc/include-prefixes
+TECHPACK_INCLUDE += $(KERNEL_DIR)/include
+TECHPACK_INCLUDE += $(TECHPACK_BINDING_DIR)
+TECHPACK_INCLUDE += $(TECHPACK_BINDING_DIR)/oot-dt-bindings
+
+all: dtbos merge_dtbs.sh
+	./merge_dtbs.sh $(KERNEL_DIR) oot $(DTB_MERGE_OUT)
+
+defconfig:
+	$(MAKE) -C $(KERNEL_DIR) ARCH=$(ARCH) dist-configs
+	cp $(KERNEL_DIR)/redhat/configs/kernel-automotive-5.14.0-$(LRH_ARCH).config \
+				$(KERNEL_DIR)/arch/$(ARCH)/configs/defconfig
+	$(MAKE) -C $(KERNEL_DIR) ARCH=$(ARCH) defconfig
+
+dtbs : defconfig
+	$(MAKE) -C $(KERNEL_DIR) ARCH=$(ARCH) DTC_FLAGS="-@" dtbs
+
+dtbos: dtbs
+	$(MAKE) -C $(KERNEL_DIR) ARCH=$(ARCH) dtstree=$(TECHPACK_DTSTREE) \
+		DTC_INCLUDE="$(TECHPACK_INCLUDE)" DTC_FLAGS="-@" dtbs
+	rm -rf oot
+	mkdir oot
+	cp *.dtbo oot
+	cp *.dts oot
