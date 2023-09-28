@@ -7,8 +7,12 @@
 /dts-v1/;
 /plugin/;
 
+#include <dt-bindings/clock/qcom,rpmh.h>
+#include <dt-bindings/clock/qcom,sa8775p-gcc.h>
+#include <dt-bindings/interconnect/qcom,sa8775p-rpmh.h>
 #include <dt-bindings/interrupt-controller/irq.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/power/qcom-rpmpd.h>
 #include <dt-bindings/mailbox/qcom-ipcc.h>
 #include "sa8775p-pinctrl.dtsi"
 #include "sa8775p-vfio.dtsi"
@@ -35,6 +39,96 @@
 };
 
 &soc {
+	camcc: clock-controller@ade0000 {
+		compatible = "qcom,sa8775p-camcc";
+		reg = <0x0 0xade0000 0x0 0x20000>;
+		clocks = <&gcc GCC_CAMERA_AHB_CLK>,
+				<&rpmhcc RPMH_CXO_CLK>,
+				<&rpmhcc RPMH_CXO_CLK_A>,
+				<&sleep_clk>;
+		power-domains = <&rpmhpd SA8775P_MMCX>;
+		required-opps = <&rpmhpd_opp_nom>;
+		#clock-cells = <1>;
+		#reset-cells = <1>;
+		#power-domain-cells = <1>;
+	};
+
+	dispcc0: clock-controller@af00000 {
+		compatible = "qcom,sa8775p-dispcc0";
+		reg = <0x0 0xaf00000 0x0 0x20000>;
+		clocks = <&gcc GCC_DISP_AHB_CLK>,
+				<&rpmhcc RPMH_CXO_CLK>,
+				<&rpmhcc RPMH_CXO_CLK_A>,
+				<&sleep_clk>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>;
+		power-domains = <&rpmhpd SA8775P_MMCX>;
+		#clock-cells = <1>;
+		#reset-cells = <1>;
+		#power-domain-cells = <1>;
+	};
+
+	dispcc1: clock-controller@22100000 {
+		compatible = "qcom,sa8775p-dispcc1";
+		reg = <0x0 0x22100000 0x0 0x20000>;
+		clocks = <&gcc GCC_DISP_AHB_CLK>,
+				<&rpmhcc RPMH_CXO_CLK>,
+				<&rpmhcc RPMH_CXO_CLK_A>,
+				<&sleep_clk>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>;
+		power-domains = <&rpmhpd SA8775P_MMCX>;
+		#clock-cells = <1>;
+		#reset-cells = <1>;
+		#power-domain-cells = <1>;
+	};
+
+	videocc: clock-controller@abf0000 {
+		compatible = "qcom,sa8775p-videocc";
+		reg = <0x0 0xabf0000 0x0 0x10000>;
+		clocks = <&gcc GCC_VIDEO_AHB_CLK>,
+				<&rpmhcc RPMH_CXO_CLK>,
+				<&rpmhcc RPMH_CXO_CLK_A>,
+				<&sleep_clk>;
+		power-domains = <&rpmhpd SA8775P_MMCX>;
+		#clock-cells = <1>;
+		#reset-cells = <1>;
+		#power-domain-cells = <1>;
+	};
+
+	dummy_icc: dummy-icc {
+		compatible = "qcom,sa8775p-dummy";
+		interconnects = <&nspa_noc MASTER_CDSP_PROC 0 &mc_virt SLAVE_EBI1 0>,
+				<&mmss_noc MASTER_MDP0 0 &gem_noc SLAVE_LLCC 0>,
+				<&mmss_noc MASTER_MDP1 0 &gem_noc SLAVE_LLCC 0>,
+				<&mc_virt MASTER_LLCC 0 &mc_virt SLAVE_EBI1 0>,
+				<&mmss_noc MASTER_MDP_CORE1_0 0 &gem_noc SLAVE_LLCC 0>,
+				<&mmss_noc MASTER_MDP_CORE1_1 0 &gem_noc SLAVE_LLCC 0>,
+				<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_DISPLAY_CFG 0>,
+				<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_DISPLAY1_CFG 0>,
+				<&nspb_noc MASTER_CDSP_PROC 0 &mc_virt SLAVE_EBI1 0>,
+				<&gpdsp_anoc MASTER_DSP0 0 &config_noc SLAVE_CLK_CTL 0>,
+				<&gpdsp_anoc MASTER_DSP1 0 &config_noc SLAVE_CLK_CTL 0>,
+				<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_CAMERA_CFG 0>,
+				<&mmss_noc MASTER_CAMNOC_HF 0 &mc_virt SLAVE_EBI1 0>,
+				<&mmss_noc MASTER_CAMNOC_SF 0 &mc_virt SLAVE_EBI1 0>,
+				<&mmss_noc MASTER_CAMNOC_ICP 0 &mc_virt SLAVE_EBI1 0>;
+		power-domains = <&rpmhpd SA8775P_NSP0>,
+				<&rpmhpd SA8775P_NSP1>;
+	};
+
 	mem_dump {
 		compatible = "qcom,mem-dump";
 		memory-region = <&dump_mem>;
