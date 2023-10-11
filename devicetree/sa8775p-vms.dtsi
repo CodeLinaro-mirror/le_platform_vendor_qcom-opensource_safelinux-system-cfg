@@ -85,13 +85,23 @@
 		qcom,label = <0x1f>;
 	};
 
+	auto_vm_be15: auto_vm_be15@20 {
+		qcom,vm = <&auto_vm>;
+		qcom,label = <0x20>;
+	};
+
+	auto_vm_be16: auto_vm_be16@21 {
+		qcom,vm = <&auto_vm>;
+		qcom,label = <0x21>;
+	};
+
 	auto_vm_0: gh-secure-vm-loader@0 {
 		compatible = "qcom,gh-secure-vm-loader";
 		qcom,pas-id = <44>;
 		qcom,vmid = <52>;
 		qcom,firmware-name = "autoghgvm";
 		memory-region = <&auto_vm_0_mem>;
-		virtio-backends = <&auto_vm_be0 &auto_vm_be1 &auto_vm_be2 &auto_vm_be3 &auto_vm_be4 &auto_vm_be5 &auto_vm_be6 &auto_vm_be7 &auto_vm_be8 &auto_vm_be9 &auto_vm_be10 &auto_vm_be11 &auto_vm_be12 &auto_vm_be13 &auto_vm_be14>;
+		virtio-backends = <&auto_vm_be0 &auto_vm_be1 &auto_vm_be2 &auto_vm_be3 &auto_vm_be4 &auto_vm_be5 &auto_vm_be6 &auto_vm_be7 &auto_vm_be8 &auto_vm_be9 &auto_vm_be10 &auto_vm_be11 &auto_vm_be12 &auto_vm_be13 &auto_vm_be14 &auto_vm_be15 &auto_vm_be16>;
 	};
 };
 
@@ -184,10 +194,22 @@
 		gunyah-label = <0x1e>;
 	};
 
-	auto_vm_resv_ring: auto_vm_resv_ring@d5350000 {
+	auto_vm_vconsole_ring: auto_vm_vconsole_ring@d5350000 {
 		no-map;
-		reg = <0x0 0xd5350000 0x0 0xB0000>;
+		reg = <0x0 0xd5350000 0x0 0x8000>;
 		gunyah-label = <0x1f>;
+	};
+
+	auto_vm_input1_ring: auto_vm_input1_ring@d5358000 {
+		no-map;
+		reg = <0x0 0xd5358000 0x0 0x8000>;
+		gunyah-label = <0x20>;
+	};
+
+	auto_vm_resv_ring: auto_vm_resv_ring@d5360000 {
+		no-map;
+		reg = <0x0 0xd5360000 0x0 0xA0000>;
+		gunyah-label = <0x21>;
 	};
 
 	auto_vm_swiotlb: auto_vm_swiotlb@d5400000 {
