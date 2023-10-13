@@ -51,6 +51,13 @@
 		iommus = <&apps_smmu 0x2A00 0x0>;
 		dma-coherent;
 	};
+	//Add LLCC node for vfio probe.
+	umd_llcc@9200000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x9200000 0x86A000>,
+	    <0x1fc8088 0x4>;
+		iommus = <&apps_smmu 0x2E00 0x0>;
+	};
 
 	subsystem_ramdump_util@90900000 {
 		compatible = "qcom,vfio-platform";
