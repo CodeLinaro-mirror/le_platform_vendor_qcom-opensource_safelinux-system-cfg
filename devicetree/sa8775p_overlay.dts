@@ -471,4 +471,14 @@
 		reg = <0 0x90880000 0 0x10>;
 		no-map;
 	};
+
+	sail_mailbox_mem: sail_mailbox_region@90d80000 {
+		no-map;
+		reg = <0x0 0x90d80000 0x0 0x80000>;
+	};
+
+	sail_ota_mem: sail_ota_region@0x90e00000 {
+		no-map;
+		reg = <0x0 0x90e00000 0x0 0x300000>;
+	};
 };
