@@ -9,10 +9,13 @@ TECHPACK_DTSTREE=$(TECHPACK_BINDING_DIR)
 REPO ?= https://gitlab.com/redhat/centos-stream/src/kernel/centos-stream-9.git
 KERNEL_BRANCH ?= main-automotive
 
-#set KERNEL_DIR to appropriate mainline kernel top directory which is built
-#already, at-least to the extent of generating .config file.
-KDIR ?= $(shell if [ ! -d centos-stream-9 ]; then git clone $(REPO) centos-stream-9; fi; \
-		cd centos-stream-9; git checkout $(KERNEL_BRANCH) > /dev/null; pwd)
+# Set KDIR to appropriate mainline kernel top directory which is built
+# already, at-least to the extent of generating .config file.
+# If 'centos-stream-9' is locally present, use that
+KDIR ?= $(shell if [ ! -d $(PWD)/centos-stream-9 ]; then \
+                    git clone $(REPO) centos-stream-9 -b $(KERNEL_BRANCH); \
+                fi; \
+                cd $(PWD)/centos-stream-9; pwd)
 
 KERNEL_DIR := $(KDIR)
 
@@ -26,6 +29,7 @@ DTB_MERGE_OUT ?= $(KERNEL_DIR)/arch/arm64/boot/dts/qcom
 TECHPACK_INCLUDE := $(KERNEL_DIR)/scripts/dtc/include-prefixes
 TECHPACK_INCLUDE += $(KERNEL_DIR)/include
 TECHPACK_INCLUDE += $(TECHPACK_BINDING_DIR)
+TECHPACK_INCLUDE += $(TECHPACK_BINDING_DIR)/oot-dt-bindings
 
 all: dtbos merge_dtbs.sh
 	./merge_dtbs.sh $(KERNEL_DIR) oot $(DTB_MERGE_OUT)
