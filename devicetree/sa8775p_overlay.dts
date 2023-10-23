@@ -28,6 +28,10 @@
 	#address-cells = <2>;
 	#size-cells = <2>;
 
+	aliases {
+		serial1 = "/soc@0/geniqup@9c0000/serial@990000";
+	};
+
 	kaslr_store {
 		compatible = "qcom,kaslr-off-store";
 		reg = <0 0x90880000 0 0x10>;
@@ -40,6 +44,31 @@
 };
 
 &soc {
+	qupv3_id_0: geniqup@9c0000 {
+		status = "okay";
+		uart4: serial@990000 {
+			compatible = "qcom,geni-uart";
+			reg = <0x0 0x990000 0x0 0x4000>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			interrupts = <GIC_SPI 531 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&gcc GCC_QUPV3_WRAP0_S4_CLK>;
+			clock-names = "se";
+			interconnects = <&clk_virt MASTER_QUP_CORE_0 0
+					 &clk_virt SLAVE_QUP_CORE_0 0>,
+					<&gem_noc MASTER_APPSS_PROC 0
+					 &config_noc SLAVE_QUP_0 0>,
+					<&aggre2_noc MASTER_QUP_0 0
+					 &mc_virt SLAVE_EBI1 0>;
+			interconnect-names = "qup-core", "qup-config", "qup-memory";
+			power-domains = <&rpmhpd SA8775P_CX>;
+			pinctrl-0 = <&qupv3_se4_2uart_active>;
+			pinctrl-1 = <&qupv3_se4_2uart_sleep>;
+			pinctrl-names = "default", "sleep";
+			status = "okay";
+		};
+	};
+
 	camcc: clock-controller@ade0000 {
 		compatible = "qcom,sa8775p-camcc";
 		reg = <0x0 0xade0000 0x0 0x20000>;
