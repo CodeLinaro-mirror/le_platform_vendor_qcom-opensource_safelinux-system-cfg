@@ -37,6 +37,23 @@
 		compatible = "syscon";
 		reg = <0x0 0x1fc0000 0x0 0x30000>;
 	};
+
+	qcom_tzlog: tz-log@146d8720 {
+		compatible = "qcom,tz-log";
+		reg = <0 0x146d8720 0 0x3000>;
+		qcom,hyplog-enabled;
+		hyplog-address-offset = <0x410>;
+		hyplog-size-offset = <0x414>;
+	};
+
+	qtee_shmbridge {
+		compatible = "qcom,tee-shared-memory-bridge";
+		qcom,support-hypervisor;
+	};
+
+	qcom_smcinvoke {
+		compatible = "qcom,smcinvoke";
+	};
 };
 
 &soc {
