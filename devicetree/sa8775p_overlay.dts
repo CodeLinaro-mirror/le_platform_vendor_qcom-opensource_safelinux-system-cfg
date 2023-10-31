@@ -537,4 +537,14 @@
                 size = <0x0 0x2000000>;
                 linux,cma-default;
         };
+
+	tz-start-count {
+		reg = <0x0 0x146d87f8 0x0 0x8>;
+		no-map;
+	};
+
+	tz-end-count {
+		reg = <0x0 0x146d87dc 0x0 0x8>;
+		no-map;
+	};
 };
