@@ -54,8 +54,8 @@
 	//Add LLCC node for vfio probe.
 	umd_llcc@9200000 {
 		compatible = "qcom,vfio-platform";
-		reg = <0x9200000 0x86A000>,
-	    <0x1fc8088 0x4>;
+                reg = <0x0 0x9200000 0x0 0x86A000>,
+                    <0x0 0x1fc8000 0x0 0x1000>;
 		iommus = <&apps_smmu 0x2E00 0x0>;
 	};
 
