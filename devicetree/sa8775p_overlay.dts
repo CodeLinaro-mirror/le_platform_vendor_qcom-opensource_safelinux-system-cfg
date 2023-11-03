@@ -7,8 +7,16 @@
 /dts-v1/;
 /plugin/;
 
+#include <dt-bindings/clock/qcom,rpmh.h>
+#include <dt-bindings/clock/qcom,sa8775p-gcc.h>
+#include <dt-bindings/interconnect/qcom,sa8775p-rpmh.h>
 #include <dt-bindings/interrupt-controller/irq.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/power/qcom-rpmpd.h>
+#include <oot-dt-bindings/qcom-ipcc.h>
+#include "sa8775p-pinctrl.dtsi"
+#include "sa8775p-vfio.dtsi"
+#include "sa8775p-vms.dtsi"
 
 / {
 	model = "Qualcomm SA8775P Ride";
@@ -32,6 +40,105 @@
 };
 
 &soc {
+	camcc: clock-controller@ade0000 {
+		compatible = "qcom,sa8775p-camcc";
+		reg = <0x0 0xade0000 0x0 0x20000>;
+		clocks = <&gcc GCC_CAMERA_AHB_CLK>,
+				<&rpmhcc RPMH_CXO_CLK>,
+				<&rpmhcc RPMH_CXO_CLK_A>,
+				<&sleep_clk>;
+		power-domains = <&rpmhpd SA8775P_MMCX>;
+		required-opps = <&rpmhpd_opp_nom>;
+		#clock-cells = <1>;
+		#reset-cells = <1>;
+		#power-domain-cells = <1>;
+	};
+
+	dispcc0: clock-controller@af00000 {
+		compatible = "qcom,sa8775p-dispcc0";
+		reg = <0x0 0xaf00000 0x0 0x20000>;
+		clocks = <&gcc GCC_DISP_AHB_CLK>,
+				<&rpmhcc RPMH_CXO_CLK>,
+				<&rpmhcc RPMH_CXO_CLK_A>,
+				<&sleep_clk>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>;
+		power-domains = <&rpmhpd SA8775P_MMCX>;
+		#clock-cells = <1>;
+		#reset-cells = <1>;
+		#power-domain-cells = <1>;
+	};
+
+	dispcc1: clock-controller@22100000 {
+		compatible = "qcom,sa8775p-dispcc1";
+		reg = <0x0 0x22100000 0x0 0x20000>;
+		clocks = <&gcc GCC_DISP_AHB_CLK>,
+				<&rpmhcc RPMH_CXO_CLK>,
+				<&rpmhcc RPMH_CXO_CLK_A>,
+				<&sleep_clk>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>;
+		power-domains = <&rpmhpd SA8775P_MMCX>;
+		#clock-cells = <1>;
+		#reset-cells = <1>;
+		#power-domain-cells = <1>;
+	};
+
+	videocc: clock-controller@abf0000 {
+		compatible = "qcom,sa8775p-videocc";
+		reg = <0x0 0xabf0000 0x0 0x10000>;
+		clocks = <&gcc GCC_VIDEO_AHB_CLK>,
+				<&rpmhcc RPMH_CXO_CLK>,
+				<&rpmhcc RPMH_CXO_CLK_A>,
+				<&sleep_clk>;
+		power-domains = <&rpmhpd SA8775P_MMCX>;
+		#clock-cells = <1>;
+		#reset-cells = <1>;
+		#power-domain-cells = <1>;
+	};
+
+	dummy_icc: dummy-icc {
+		compatible = "qcom,sa8775p-dummy";
+		interconnects = <&nspa_noc MASTER_CDSP_PROC 0 &mc_virt SLAVE_EBI1 0>,
+				<&mmss_noc MASTER_MDP0 0 &gem_noc SLAVE_LLCC 0>,
+				<&mmss_noc MASTER_MDP1 0 &gem_noc SLAVE_LLCC 0>,
+				<&mc_virt MASTER_LLCC 0 &mc_virt SLAVE_EBI1 0>,
+				<&mmss_noc MASTER_MDP_CORE1_0 0 &gem_noc SLAVE_LLCC 0>,
+				<&mmss_noc MASTER_MDP_CORE1_1 0 &gem_noc SLAVE_LLCC 0>,
+				<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_DISPLAY_CFG 0>,
+				<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_DISPLAY1_CFG 0>,
+				<&nspb_noc MASTER_CDSP_PROC 0 &mc_virt SLAVE_EBI1 0>,
+				<&gpdsp_anoc MASTER_DSP0 0 &config_noc SLAVE_CLK_CTL 0>,
+				<&gpdsp_anoc MASTER_DSP1 0 &config_noc SLAVE_CLK_CTL 0>,
+				<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_CAMERA_CFG 0>,
+				<&mmss_noc MASTER_CAMNOC_HF 0 &mc_virt SLAVE_EBI1 0>,
+				<&mmss_noc MASTER_CAMNOC_SF 0 &mc_virt SLAVE_EBI1 0>,
+				<&mmss_noc MASTER_CAMNOC_ICP 0 &mc_virt SLAVE_EBI1 0>;
+		power-domains = <&rpmhpd SA8775P_NSP0>,
+				<&rpmhpd SA8775P_NSP1>;
+	};
+
+	ipcc_computeL1: mailbox@488000 {
+		compatible = "qcom,sa8775p-ipcc", "qcom,ipcc";
+		reg = <0x0 0x488000 0x0 0x1000>;
+		interrupts = <GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-controller;
+		#interrupt-cells = <3>;
+		#mbox-cells = <2>;
+	};
+
 	mem_dump {
 		compatible = "qcom,mem-dump";
 		memory-region = <&dump_mem>;
@@ -330,6 +437,16 @@
 		scm_dev = "scm";
 		status = "ok";
 	};
+
+	kryo_erp: erp {
+	compatible = "arm,arm64-kryo-cpu-erp";
+	interrupts = <GIC_PPI 0 IRQ_TYPE_LEVEL_LOW>,
+			<GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>;
+	interrupt-names = "l1-l2-faultirq",
+				"l3-c0-scu-faultirq",
+				"l3-c1-scu-faultirq";
+	};
 };
 
 &{/firmware} {
@@ -353,5 +470,15 @@
 	kaslr_off_reg: kasr_off_reg@90880000 {
 		reg = <0 0x90880000 0 0x10>;
 		no-map;
+	};
+
+	sail_mailbox_mem: sail_mailbox_region@90d80000 {
+		no-map;
+		reg = <0x0 0x90d80000 0x0 0x80000>;
+	};
+
+	sail_ota_mem: sail_ota_region@0x90e00000 {
+		no-map;
+		reg = <0x0 0x90e00000 0x0 0x300000>;
 	};
 };

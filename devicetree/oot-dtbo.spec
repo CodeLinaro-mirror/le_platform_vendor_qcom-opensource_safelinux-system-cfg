@@ -30,13 +30,16 @@ make
 
 %install
 mkdir -p ${RPM_BUILD_ROOT}/lib/modules/%{kversion}/dtb/qcom/
-cp %{_builddir}/%{name}/centos-stream-9/arch/arm64/boot/dts/qcom/*.dtb.overlay \
-	${RPM_BUILD_ROOT}/lib/modules/%{kversion}/dtb/qcom/
+cat %{_builddir}/%{name}/centos-stream-9/arch/arm64/boot/dts/qcom/sa8775p-ride.dtb.overlay \
+            %{_builddir}/%{name}/sa8770p-ride/sa8770p-ride.dtb \
+            > ${RPM_BUILD_ROOT}/lib/modules/%{kversion}/dtb/qcom/sa8775p-ride.dtb.overlay
 
 %files
 /lib/modules/%{kversion}/dtb/qcom/sa8775p-ride.dtb.overlay
 
 %changelog
+* Thu Oct 12 2023 Ninad Naik <quic_ninanaik@quicinc.com> 1.0
+- Added support for sa8775, sa8775 pcie ep and sa8770 appended dtbo
 * Fri Jul 14 2023 Parikshit Pareek <quic_ppareek@quicinc.com> 1.0
 - First commit!
 - Added minidump support.

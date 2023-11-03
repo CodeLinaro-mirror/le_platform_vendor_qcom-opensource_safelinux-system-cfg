@@ -14,6 +14,7 @@ then
 	exit 1
 fi
 
+ARCH="${ARCH:=arm64}"
 KDIR=$1
 DTBO_DIR=$2
 OUT_DIR=$3
@@ -89,7 +90,7 @@ merge_dtbos()
 main()
 {
 	#build with support of overlay
-	make -C ${KDIR} DTC_FLAGS="-@" -s qcom/*.dtb
+	make -C ${KDIR} ARCH=${ARCH} DTC_FLAGS="-@" -s qcom/*.dtb
 
 	#refresh the dtb list
 	dtb_files=$(find ${KDIR}/arch/arm64/boot/dts/qcom -name "*.dtb")
