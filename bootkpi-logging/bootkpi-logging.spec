@@ -5,7 +5,7 @@ Summary: bootkpi-logging API
 License: BSD-3-Clause-Clear
 URL: https://www.codelinaro.org/
 Source0: %{name}-%{version}.tar.gz
-BuildRequires: cmake gcc-c++ glibc-devel
+BuildRequires: cmake gcc-c++
 
 %description
 %{name} - %{summary} - abstracts the implementation of bootkpi logging for other userspace apps.
@@ -13,7 +13,7 @@ BuildRequires: cmake gcc-c++ glibc-devel
 %package devel
 Summary: %{summary} - development files
 Requires: %{name} = %{version}-%{release}
-Requires: glibc-devel
+Requires: glibc-devel systemd-devel
 
 %description devel
 %{name} - %{summary} - development files - header and pkgconfig file

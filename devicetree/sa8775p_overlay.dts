@@ -1,0 +1,484 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) 2023, Linaro Limited
+ */
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/clock/qcom,rpmh.h>
+#include <dt-bindings/clock/qcom,sa8775p-gcc.h>
+#include <dt-bindings/interconnect/qcom,sa8775p-rpmh.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/power/qcom-rpmpd.h>
+#include <oot-dt-bindings/qcom-ipcc.h>
+#include "sa8775p-pinctrl.dtsi"
+#include "sa8775p-vfio.dtsi"
+#include "sa8775p-vms.dtsi"
+
+/ {
+	model = "Qualcomm SA8775P Ride";
+	compatible = "qcom,sa8775p-ride", "qcom,sa8775p";
+};
+
+
+&{/} {
+	#address-cells = <2>;
+	#size-cells = <2>;
+
+	kaslr_store {
+		compatible = "qcom,kaslr-off-store";
+		reg = <0 0x90880000 0 0x10>;
+	};
+
+	tcsr: syscon@1fc0000 {
+		compatible = "syscon";
+		reg = <0x0 0x1fc0000 0x0 0x30000>;
+	};
+};
+
+&soc {
+	camcc: clock-controller@ade0000 {
+		compatible = "qcom,sa8775p-camcc";
+		reg = <0x0 0xade0000 0x0 0x20000>;
+		clocks = <&gcc GCC_CAMERA_AHB_CLK>,
+				<&rpmhcc RPMH_CXO_CLK>,
+				<&rpmhcc RPMH_CXO_CLK_A>,
+				<&sleep_clk>;
+		power-domains = <&rpmhpd SA8775P_MMCX>;
+		required-opps = <&rpmhpd_opp_nom>;
+		#clock-cells = <1>;
+		#reset-cells = <1>;
+		#power-domain-cells = <1>;
+	};
+
+	dispcc0: clock-controller@af00000 {
+		compatible = "qcom,sa8775p-dispcc0";
+		reg = <0x0 0xaf00000 0x0 0x20000>;
+		clocks = <&gcc GCC_DISP_AHB_CLK>,
+				<&rpmhcc RPMH_CXO_CLK>,
+				<&rpmhcc RPMH_CXO_CLK_A>,
+				<&sleep_clk>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>;
+		power-domains = <&rpmhpd SA8775P_MMCX>;
+		#clock-cells = <1>;
+		#reset-cells = <1>;
+		#power-domain-cells = <1>;
+	};
+
+	dispcc1: clock-controller@22100000 {
+		compatible = "qcom,sa8775p-dispcc1";
+		reg = <0x0 0x22100000 0x0 0x20000>;
+		clocks = <&gcc GCC_DISP_AHB_CLK>,
+				<&rpmhcc RPMH_CXO_CLK>,
+				<&rpmhcc RPMH_CXO_CLK_A>,
+				<&sleep_clk>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>,
+				<0>;
+		power-domains = <&rpmhpd SA8775P_MMCX>;
+		#clock-cells = <1>;
+		#reset-cells = <1>;
+		#power-domain-cells = <1>;
+	};
+
+	videocc: clock-controller@abf0000 {
+		compatible = "qcom,sa8775p-videocc";
+		reg = <0x0 0xabf0000 0x0 0x10000>;
+		clocks = <&gcc GCC_VIDEO_AHB_CLK>,
+				<&rpmhcc RPMH_CXO_CLK>,
+				<&rpmhcc RPMH_CXO_CLK_A>,
+				<&sleep_clk>;
+		power-domains = <&rpmhpd SA8775P_MMCX>;
+		#clock-cells = <1>;
+		#reset-cells = <1>;
+		#power-domain-cells = <1>;
+	};
+
+	dummy_icc: dummy-icc {
+		compatible = "qcom,sa8775p-dummy";
+		interconnects = <&nspa_noc MASTER_CDSP_PROC 0 &mc_virt SLAVE_EBI1 0>,
+				<&mmss_noc MASTER_MDP0 0 &gem_noc SLAVE_LLCC 0>,
+				<&mmss_noc MASTER_MDP1 0 &gem_noc SLAVE_LLCC 0>,
+				<&mc_virt MASTER_LLCC 0 &mc_virt SLAVE_EBI1 0>,
+				<&mmss_noc MASTER_MDP_CORE1_0 0 &gem_noc SLAVE_LLCC 0>,
+				<&mmss_noc MASTER_MDP_CORE1_1 0 &gem_noc SLAVE_LLCC 0>,
+				<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_DISPLAY_CFG 0>,
+				<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_DISPLAY1_CFG 0>,
+				<&nspb_noc MASTER_CDSP_PROC 0 &mc_virt SLAVE_EBI1 0>,
+				<&gpdsp_anoc MASTER_DSP0 0 &config_noc SLAVE_CLK_CTL 0>,
+				<&gpdsp_anoc MASTER_DSP1 0 &config_noc SLAVE_CLK_CTL 0>,
+				<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_CAMERA_CFG 0>,
+				<&mmss_noc MASTER_CAMNOC_HF 0 &mc_virt SLAVE_EBI1 0>,
+				<&mmss_noc MASTER_CAMNOC_SF 0 &mc_virt SLAVE_EBI1 0>,
+				<&mmss_noc MASTER_CAMNOC_ICP 0 &mc_virt SLAVE_EBI1 0>;
+		power-domains = <&rpmhpd SA8775P_NSP0>,
+				<&rpmhpd SA8775P_NSP1>;
+	};
+
+	ipcc_computeL1: mailbox@488000 {
+		compatible = "qcom,sa8775p-ipcc", "qcom,ipcc";
+		reg = <0x0 0x488000 0x0 0x1000>;
+		interrupts = <GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-controller;
+		#interrupt-cells = <3>;
+		#mbox-cells = <2>;
+	};
+
+	mem_dump {
+		compatible = "qcom,mem-dump";
+		memory-region = <&dump_mem>;
+
+		c0_scandump: c0_scandump {
+			qcom,dump-size = <0x40000>;
+			qcom,dump-id = <0x130>;
+		};
+
+		c100_scandump: c100_scandump {
+			qcom,dump-size = <0x40000>;
+			qcom,dump-id = <0x131>;
+		};
+
+		c200_scandump: c200_scandump {
+			qcom,dump-size = <0x40000>;
+			qcom,dump-id = <0x132>;
+		};
+
+		c300_scandump: c300_scandump {
+			qcom,dump-size = <0x40000>;
+			qcom,dump-id = <0x133>;
+		};
+
+		c10000_scandump: c10000_scandump {
+			qcom,dump-size = <0x40000>;
+			qcom,dump-id = <0x134>;
+		};
+
+		c10100_scandump: c10100_scandump {
+			qcom,dump-size = <0x40000>;
+			qcom,dump-id = <0x135>;
+		};
+
+		c10200_scandump: c10200_scandump {
+			qcom,dump-size = <0x40000>;
+			qcom,dump-id = <0x136>;
+		};
+
+		c10300_scandump: c10300_scandump {
+			qcom,dump-size = <0x40000>;
+			qcom,dump-id = <0x137>;
+		};
+
+		cpuss_reg: cpuss_reg {
+			qcom,dump-size = <0x20000>;
+			qcom,dump-id = <0xef>;
+		};
+
+		etf_reg {
+			qcom,dump-size = <0x1000>;
+			qcom,dump-id = <0x101>;
+		};
+
+		etf_swao {
+			qcom,dump-size = <0x8400>;
+			qcom,dump-id = <0xf1>;
+		};
+
+		etfswao_reg {
+			qcom,dump-size = <0x1000>;
+			qcom,dump-id = <0x102>;
+		};
+
+		etr_reg {
+			qcom,dump-size = <0x1000>;
+			qcom,dump-id = <0x100>;
+		};
+
+		fcm {
+			qcom,dump-size = <0x8400>;
+			qcom,dump-id = <0xee>;
+		};
+
+		l1_dcache0 {
+			qcom,dump-size = <0x12100>;
+			qcom,dump-id = <0x80>;
+		};
+
+		l1_dcache100 {
+			qcom,dump-size = <0x12100>;
+			qcom,dump-id = <0x81>;
+		};
+
+		l1_dcache200 {
+			qcom,dump-size = <0x12100>;
+			qcom,dump-id = <0x82>;
+		};
+
+		l1_dcache300 {
+			qcom,dump-size = <0x12100>;
+			qcom,dump-id = <0x83>;
+		};
+
+		l1_dcache10000 {
+			qcom,dump-size = <0x12100>;
+			qcom,dump-id = <0x84>;
+		};
+
+		l1_dcache10100 {
+			qcom,dump-size = <0x12100>;
+			qcom,dump-id = <0x85>;
+		};
+
+		l1_dcache10200 {
+			qcom,dump-size = <0x12100>;
+			qcom,dump-id = <0x86>;
+		};
+
+		l1_dcache10300 {
+			qcom,dump-size = <0x12100>;
+			qcom,dump-id = <0x87>;
+		};
+
+		l1_dtlb10000 {
+			qcom,dump-size = <0x300>;
+			qcom,dump-id = <0x44>;
+		};
+
+		l1_dtlb10100 {
+			qcom,dump-size = <0x300>;
+			qcom,dump-id = <0x45>;
+		};
+
+		l1_dtlb10200 {
+			qcom,dump-size = <0x300>;
+			qcom,dump-id = <0x46>;
+		};
+
+		l1_dtlb10300 {
+			qcom,dump-size = <0x300>;
+			qcom,dump-id = <0x47>;
+		};
+
+		l1_icache0 {
+			qcom,dump-size = <0x26100>;
+			qcom,dump-id = <0x60>;
+		};
+
+		l1_icache100 {
+			qcom,dump-size = <0x26100>;
+			qcom,dump-id = <0x61>;
+		};
+
+		l1_icache200 {
+			qcom,dump-size = <0x26100>;
+			qcom,dump-id = <0x62>;
+		};
+
+		l1_icache300 {
+			qcom,dump-size = <0x26100>;
+			qcom,dump-id = <0x63>;
+		};
+
+		l1_icache10000 {
+			qcom,dump-size = <0x26100>;
+			qcom,dump-id = <0x64>;
+		};
+
+		l1_icache10100 {
+			qcom,dump-size = <0x26100>;
+			qcom,dump-id = <0x65>;
+		};
+
+		l1_icache10200 {
+			qcom,dump-size = <0x26100>;
+			qcom,dump-id = <0x66>;
+		};
+
+		l1_icache10300 {
+			qcom,dump-size = <0x26100>;
+			qcom,dump-id = <0x67>;
+		};
+
+		l1_itlb10000 {
+			qcom,dump-size = <0x300>;
+			qcom,dump-id = <0x24>;
+		};
+
+		l1_itlb10100 {
+			qcom,dump-size = <0x300>;
+			qcom,dump-id = <0x25>;
+		};
+
+		l1_itlb10200 {
+			qcom,dump-size = <0x300>;
+			qcom,dump-id = <0x26>;
+		};
+
+		l1_itlb10300 {
+			qcom,dump-size = <0x300>;
+			qcom,dump-id = <0x27>;
+		};
+
+		l2_cache10000 {
+			qcom,dump-size = <0x90100>;
+			qcom,dump-id = <0xc4>;
+		};
+
+		l2_cache10100 {
+			qcom,dump-size = <0x90100>;
+			qcom,dump-id = <0xc5>;
+		};
+
+		l2_cache10200 {
+			qcom,dump-size = <0x90100>;
+			qcom,dump-id = <0xc6>;
+		};
+
+		l2_cache10300 {
+			qcom,dump-size = <0x90100>;
+			qcom,dump-id = <0xc7>;
+		};
+
+		l2_tlb0 {
+			qcom,dump-size = <0x6100>;
+			qcom,dump-id = <0x120>;
+		};
+
+		l2_tlb100 {
+			qcom,dump-size = <0x6100>;
+			qcom,dump-id = <0x121>;
+		};
+
+		l2_tlb200 {
+			qcom,dump-size = <0x6100>;
+			qcom,dump-id = <0x122>;
+		};
+
+		l2_tlb300 {
+			qcom,dump-size = <0x6100>;
+			qcom,dump-id = <0x123>;
+		};
+
+		l2_tlb10000 {
+			qcom,dump-size = <0x6100>;
+			qcom,dump-id = <0x124>;
+		};
+
+		l2_tlb10100 {
+			qcom,dump-size = <0x6100>;
+			qcom,dump-id = <0x125>;
+		};
+
+		l2_tlb10200 {
+			qcom,dump-size = <0x6100>;
+			qcom,dump-id = <0x126>;
+		};
+
+		l2_tlb10300 {
+			qcom,dump-size = <0x6100>;
+			qcom,dump-id = <0x127>;
+		};
+
+		misc_data {
+			qcom,dump-size = <0x1000>;
+			qcom,dump-id = <0xe8>;
+		};
+
+		pmic {
+			qcom,dump-size = <0x80000>;
+			qcom,dump-id = <0xe4>;
+		};
+
+		rpmh {
+			qcom,dump-size = <0x2000000>;
+			qcom,dump-id = <0xec>;
+		};
+
+		rpm_sw {
+			qcom,dump-size = <0x28000>;
+			qcom,dump-id = <0xea>;
+		};
+
+		tmc_etf {
+			qcom,dump-size = <0x10000>;
+			qcom,dump-id = <0xf0>;
+		};
+
+	};
+
+	mini_dump_mode {
+		compatible = "qcom,minidump";
+		status = "ok";
+	};
+
+	qcom-smem {
+		compatible = "qcom,smem";
+		memory-region = <&smem_mem>;
+		hwlocks = <&tcsr_mutex 3>;
+		status = "okay";
+	};
+
+	scm_user_intf_device {
+		compatible = "qcom,scm-user-intf";
+		scm_dev = "scm";
+		status = "ok";
+	};
+
+	kryo_erp: erp {
+	compatible = "arm,arm64-kryo-cpu-erp";
+	interrupts = <GIC_PPI 0 IRQ_TYPE_LEVEL_LOW>,
+			<GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>;
+	interrupt-names = "l1-l2-faultirq",
+				"l3-c0-scu-faultirq",
+				"l3-c1-scu-faultirq";
+	};
+};
+
+&{/firmware} {
+	scm {
+		qcom,dload-mode = <&tcsr 0x13000>;
+	};
+};
+
+&{/reserved-memory} {
+	#address-cells = <2>;
+	#size-cells = <2>;
+	ranges;
+
+	dump_mem: mem_dump_region {
+		alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;
+		compatible = "shared-dma-pool";
+		reusable;
+		size = <0 0x3000000>;
+	};
+
+	kaslr_off_reg: kasr_off_reg@90880000 {
+		reg = <0 0x90880000 0 0x10>;
+		no-map;
+	};
+
+	sail_mailbox_mem: sail_mailbox_region@90d80000 {
+		no-map;
+		reg = <0x0 0x90d80000 0x0 0x80000>;
+	};
+
+	sail_ota_mem: sail_ota_region@0x90e00000 {
+		no-map;
+		reg = <0x0 0x90e00000 0x0 0x300000>;
+	};
+};
