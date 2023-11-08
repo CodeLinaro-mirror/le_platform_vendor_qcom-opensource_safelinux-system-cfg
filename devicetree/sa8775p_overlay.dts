@@ -481,4 +481,9 @@
 		no-map;
 		reg = <0x0 0x90e00000 0x0 0x300000>;
 	};
+
+	audio_mdf_mem: audio_mdf_region@ae000000 {
+		no-map;
+		reg = <0x0 0xae000000 0x0 0x1000000>;
+	};
 };
