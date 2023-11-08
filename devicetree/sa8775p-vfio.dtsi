@@ -4,6 +4,11 @@
 */
 
 &soc {
+	audio_tlmm@0 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&sec_tdm_sck_active &sec_tdm_ws_active &sec_tdm_din_active &sec_tdm_dout_active &tert_tdm_sck_active &tert_tdm_ws_active &tert_tdm_din_active &tert_tdm_dout_active &hs0_i2s_sck_active &hs0_i2s_ws_active &hs0_i2s_data0_active &hs0_i2s_data1_active &hs1_i2s_sck_active &hs1_i2s_ws_active &hs1_i2s_data0_active &hs1_i2s_data1_active &hs2_i2s_sck_active &hs2_i2s_ws_active &hs2_i2s_data0_active &hs2_i2s_data1_active &audio_internal_mclk1_active>;
+	};
 	umd_glink@780000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x00780000 0x0 0x10000>,
