@@ -12,6 +12,7 @@ Summary: External/out of tree device tree overlay.
 License: GPLv2
 Source0: %{name}-%{version}.tar.gz
 
+BuildRequires: git
 Requires: kernel-automotive-core-uname-r = %{kversion}
 
 %description
