@@ -53,6 +53,7 @@
 	qtee_shmbridge {
 		compatible = "qcom,tee-shared-memory-bridge";
 		qcom,support-hypervisor;
+		memory-region = <&cma>;
 	};
 
 	qcom_smcinvoke {
@@ -534,7 +535,7 @@
 	};
 
         /* global autoconfigured region for contiguous allocations */
-        linux,cma {
+        cma: linux,cma {
                 compatible = "shared-dma-pool";
                 alloc-ranges = <0x0 0x00000000 0x0 0xdfffffff>;
                 reusable;
