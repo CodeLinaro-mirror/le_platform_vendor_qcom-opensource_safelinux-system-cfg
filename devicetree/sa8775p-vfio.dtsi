@@ -335,8 +335,25 @@
 			<GIC_SPI 567 IRQ_TYPE_EDGE_RISING>,
 			<GIC_SPI 566 IRQ_TYPE_EDGE_RISING>,
 			<GIC_SPI 366 IRQ_TYPE_EDGE_RISING>;
-		iommus = <&apps_smmu 0x860 0x0400>,
-			<&apps_smmu 0x3400 0x0020>;
+		iommus = <&apps_smmu 0x3400 0x0020>;
+		dma-coherent;
+	};
+
+	vfio_cam_ipe_non_secure_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x800 0x0400>;
+		dma-coherent;
+	};
+	
+	vfio_cam_cdm_non_secure_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x860 0x0400>;
+		dma-coherent;
+	};
+	
+	vfio_cam_icp_non_secure_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x840 0x0480>;
 		dma-coherent;
 	};
 
@@ -390,6 +407,30 @@
 		compatible = "qcom,apps-pinctlr";
 		pinctrl-names = "default";
 		pinctrl-0 = <&fsync3_default>;
+	};
+
+	vfio_cam_lock0@0 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&cam_lock0_default>;
+	};
+
+	vfio_cam_lock1@1 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&cam_lock1_default>;
+	};
+
+	vfio_cam_lock2@2 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&cam_lock2_default>;
+	};
+
+	vfio_cam_lock3@3 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&cam_lock3_default>;
 	};
 
 

@@ -823,4 +823,56 @@
 		};
 	};
 
+	cam_lock0_default: cam_lock0_default {
+		mux {
+			pins = "gpio76";
+			function = "gpio";
+		};
+
+		config {
+			pins = "gpio76";
+			bias-disable;  /* NO PULL */
+			drive-strength = <2>; /* 2 MA */
+		};
+	};
+
+	cam_lock1_default: cam_lock1_default {
+		mux {
+			pins = "gpio77";
+			function = "gpio";
+		};
+
+		config {
+			pins = "gpio77";
+			bias-disable;  /* NO PULL */
+			drive-strength = <2>; /* 2 MA */
+		};
+	};
+
+	cam_lock2_default: cam_lock2_default {
+		mux {
+			pins = "gpio78";
+			function = "gpio";
+		};
+
+		config {
+			pins = "gpio78";
+			bias-disable;  /* NO PULL */
+			drive-strength = <2>; /* 2 MA */
+		};
+	};
+
+	cam_lock3_default: cam_lock3_default {
+		mux {
+			pins = "gpio79";
+			function = "gpio";
+		};
+
+		config {
+			pins = "gpio79";
+			bias-disable;  /* NO PULL */
+			drive-strength = <2>; /* 2 MA */
+		};
+	};
+
 };
