@@ -23,6 +23,7 @@ echo "vfio_platform" > "%{buildroot}%{_modulesloaddir}/vfio.conf"
 echo "kryo_arm64_edac" > "%{buildroot}%{_modulesloaddir}/edac.conf"
 echo "kiumd_kgsl" > "%{buildroot}%{_modulesloaddir}/kgsl.conf"
 echo "uinput" > "%{buildroot}%{_modulesloaddir}/vmm_pwr_key.conf"
+echo "dump_boot_log" > "%{buildroot}%{_modulesloaddir}/dump.conf"
 
 %files
 %{_modulesloaddir}/i2cdev.conf
@@ -31,3 +32,4 @@ echo "uinput" > "%{buildroot}%{_modulesloaddir}/vmm_pwr_key.conf"
 %{_modulesloaddir}/edac.conf
 %{_modulesloaddir}/kgsl.conf
 %{_modulesloaddir}/vmm_pwr_key.conf
+%{_modulesloaddir}/dump.conf
