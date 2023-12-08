@@ -268,7 +268,6 @@
 
 &ethernet0 {
 	phy-mode = "sgmii";
-	phy-handle = <&sgmii_phy0>;
 
 	pinctrl-0 = <&ethernet0_default>;
 	pinctrl-names = "default";
@@ -278,30 +277,6 @@
 	snps,ps-speed = <1000>;
 
 	status = "okay";
-
-	mdio {
-		compatible = "snps,dwmac-mdio";
-		#address-cells = <1>;
-		#size-cells = <0>;
-
-		sgmii_phy0: phy@8 {
-			compatible = "ethernet-phy-id0141.0dd4";
-			reg = <0x8>;
-			device_type = "ethernet-phy";
-			reset-gpios = <&pmm8654au_2_gpios 8 GPIO_ACTIVE_LOW>;
-			reset-assert-us = <11000>;
-			reset-deassert-us = <70000>;
-		};
-
-		sgmii_phy1: phy@a {
-			compatible = "ethernet-phy-id0141.0dd4";
-			reg = <0xa>;
-			device_type = "ethernet-phy";
-			reset-gpios = <&pmm8654au_2_gpios 9 GPIO_ACTIVE_LOW>;
-			reset-assert-us = <11000>;
-			reset-deassert-us = <70000>;
-		};
-	};
 
 	mtl_rx_setup: rx-queues-config {
 		snps,rx-queues-to-use = <4>;
@@ -365,7 +340,6 @@
 
 &ethernet1 {
 	phy-mode = "sgmii";
-	phy-handle = <&sgmii_phy1>;
 
 	snps,mtl-rx-config = <&mtl_rx_setup1>;
 	snps,mtl-tx-config = <&mtl_tx_setup1>;
