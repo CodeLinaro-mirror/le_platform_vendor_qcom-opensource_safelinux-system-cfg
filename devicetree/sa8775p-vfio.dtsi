@@ -497,6 +497,8 @@
 
 	vfio_gmu {
 		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x01fc0000 0x0 0x38000>;
+		reg-names = "tcsr_tcsr_reg";
 		iommus = <&adreno_smmu 0x5 0xc00>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
