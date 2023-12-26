@@ -336,6 +336,12 @@
 			snps,low_credit = <0xffc18000>;
 		};
 	};
+
+	fixed-link {
+		status = "okay";
+		speed = <1000>;
+		full-duplex;
+	};
 };
 
 &ethernet1 {
@@ -405,6 +411,13 @@
 			snps,low_credit = <0xffc18000>;
 		};
 	};
+
+        fixed-link {
+                status = "okay";
+                speed = <1000>;
+                full-duplex;
+        };
+
 };
 
 &i2c11 {
