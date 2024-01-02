@@ -3,7 +3,7 @@
 # IP description
 # IPv-4
 
-DEVICE="eth1"
+DEVICE="eth0"
 BOOTPROTO="static"
 ONBOOT="yes"
 TYPE="Ethernet"
