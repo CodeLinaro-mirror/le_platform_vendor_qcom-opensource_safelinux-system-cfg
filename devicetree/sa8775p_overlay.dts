@@ -62,14 +62,6 @@
 	};
 };
 
-&scmi63 {
-	status = "okay";
-};
-
-&scmi63_dvfs {
-	status = "okay";
-};
-
 &soc {
 	qupv3_id_0: geniqup@9c0000 {
 		status = "okay";
@@ -548,15 +540,6 @@
 	interrupt-names = "l1-l2-faultirq",
 				"l3-c0-scu-faultirq",
 				"l3-c1-scu-faultirq";
-	};
-
-	test_scmi {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi63_dvfs 1>;
-		power-domain-names = "perf";
-
-		qcom,dev-name = "test_scmi";
 	};
 };
 
