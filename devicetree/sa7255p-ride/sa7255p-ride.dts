@@ -6,6 +6,7 @@
 /dts-v1/;
 
 #include "sa7255p.dtsi"
+#include "sa7255p-vfio.dtsi"
 / {
 	model = "Qualcomm SA7255P Ride";
 	compatible = "qcom,sa7255p";

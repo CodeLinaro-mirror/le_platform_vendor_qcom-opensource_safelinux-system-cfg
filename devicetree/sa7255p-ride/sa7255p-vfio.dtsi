@@ -1,0 +1,12 @@
+//SPDX-License-Identifier: BSD-3-Clause
+/*
+* Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+*/
+
+&soc {
+	vfio_timer@17c23000 {
+		compatible = "qcom,vfio-platform";
+		interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
+		reg = <0x0 0x17c23000 0x0 0x1000>;
+	};
+};
