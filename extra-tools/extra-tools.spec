@@ -6,7 +6,7 @@ License: BSD-3-Clause-Clear
 URL: https://www.codelinaro.org/
 Source0: %{name}-%{version}.tar.gz
 
-Requires: ethtool iperf3 iproute-tc
+Requires: ethtool iperf3 iproute-tc tcpdump
 Requires: stress-ng libtirpc perf sysstat
 
 %description
