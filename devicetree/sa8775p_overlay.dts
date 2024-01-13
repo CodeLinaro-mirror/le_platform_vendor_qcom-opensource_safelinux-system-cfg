@@ -53,6 +53,7 @@
 	qtee_shmbridge {
 		compatible = "qcom,tee-shared-memory-bridge";
 		qcom,support-hypervisor;
+		memory-region = <&cma>;
 	};
 
 	qcom_smcinvoke {
@@ -188,6 +189,46 @@
 	mem_dump {
 		compatible = "qcom,mem-dump";
 		memory-region = <&dump_mem>;
+
+		c0_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x0>;
+		};
+
+		c100_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x1>;
+		};
+
+		c200_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x2>;
+		};
+
+		c300_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x3>;
+		};
+
+		c400_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x4>;
+		};
+
+		c500_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x5>;
+		};
+
+		c600_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x6>;
+		};
+
+		c700_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x7>;
+		};
 
 		c0_scandump: c0_scandump {
 			qcom,dump-size = <0x40000>;
@@ -534,7 +575,7 @@
 	};
 
         /* global autoconfigured region for contiguous allocations */
-        linux,cma {
+        cma: linux,cma {
                 compatible = "shared-dma-pool";
                 alloc-ranges = <0x0 0x00000000 0x0 0xdfffffff>;
                 reusable;
@@ -555,6 +596,6 @@
 
 	mproc_umdpil_mem: mproc_umdpil_region@adc00000 {
 		no-map;
-		reg = <0x0 0xadc00000 0x0 0x1300000>;
-    };
+		reg = <0x0 0xadc00000 0x0 0x500000>;
+        };
 };
