@@ -452,8 +452,10 @@
 	};
 
 	chosen {
-		bootargs = "rw root=/dev/vda rdinit=/bin/bash earlyprintk=serial,ttyAMA0 console=ttyAMA0 firmware_class.path=/firmware";
+		bootargs = "rw root=/dev/vda earlyprintk=serial,ttyAMA0 console=ttyAMA0 firmware_class.path=/firmware";
 		stdout-path = "/pl011@40000000";
+		linux,initrd-start = <0xbd153000>;
+		linux,initrd-end =  <0xbeafef94>;
 		kaslr-seed = <0x0 0x0>;
 	};
 
