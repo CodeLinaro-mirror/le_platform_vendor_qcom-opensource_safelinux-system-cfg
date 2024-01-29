@@ -924,6 +924,12 @@
 		};
 	};
 
+	scm_user_intf_device {
+		compatible = "qcom,scm-user-intf";
+		scm_dev = "scm";
+		status = "ok";
+	};
+
 	ipcc: mailbox@408000 {
 		compatible = "qcom,sa8775p-ipcc", "qcom,ipcc";
 		reg = <0x0 0x408000 0x0 0x1000>;
