@@ -1,0 +1,10 @@
+# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+# IP description
+# IPv-4
+
+DEVICE="eth0"
+BOOTPROTO="static"
+ONBOOT="yes"
+TYPE="Ethernet"
+BRIDGE="br0"

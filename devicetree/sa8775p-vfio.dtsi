@@ -4,6 +4,11 @@
 */
 
 &soc {
+	audio_tlmm@0 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&sec_tdm_sck_active &sec_tdm_ws_active &sec_tdm_din_active &sec_tdm_dout_active &tert_tdm_sck_active &tert_tdm_ws_active &tert_tdm_din_active &tert_tdm_dout_active &hs0_i2s_sck_active &hs0_i2s_ws_active &hs0_i2s_data0_active &hs0_i2s_data1_active &hs1_i2s_sck_active &hs1_i2s_ws_active &hs1_i2s_data0_active &hs1_i2s_data1_active &hs2_i2s_sck_active &hs2_i2s_ws_active &hs2_i2s_data0_active &hs2_i2s_data1_active &audio_internal_mclk1_active>;
+	};
 	umd_glink@780000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x00780000 0x0 0x10000>,
@@ -27,7 +32,7 @@
 			<0x0 0x90900000 0x0 0x200000>,
 			<0x0 0x00780000 0x0 0x10000>,
 			<0x0 0x146d8000 0x0 0x1000>,
-			<0x0 0xadc00000 0x0 0x1400000>,
+			<0x0 0xadc00000 0x0 0x500000>,
 			<0x0 0x95c00000 0x0 0x1e00000>,
 			<0x0 0x9b800000 0x0 0x1e00000>,
 			<0x0 0x9fc00000 0x0 0x700000>,
@@ -51,12 +56,28 @@
 		iommus = <&apps_smmu 0x2A00 0x0>;
 		dma-coherent;
 	};
+
 	//Add LLCC node for vfio probe.
 	umd_llcc@9200000 {
 		compatible = "qcom,vfio-platform";
-		reg = <0x9200000 0x86A000>,
-	    <0x1fc8088 0x4>;
+		reg = <0x0 0x009200000 0x0 0x86A000>,
+			<0x0 0x1fc8000 0x0 0x1000>,
+			<0x0 0x90900000 0x0 0x200000>,
+			<0x0 0x00780000 0x0 0x10000>;
+		interrupts = <GIC_SPI 580 IRQ_TYPE_LEVEL_HIGH>;
 		iommus = <&apps_smmu 0x2E00 0x0>;
+		dma-coherent;
+	};
+
+	umd_audio_hlos@408000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x00408000 0x0 0x1000>,
+			<0x0 0x90900000 0x0 0x200000>,
+			<0x0 0x00780000 0x0 0x10000>;
+		interrupts-extended = <&ipcc IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_TZ IRQ_TYPE_EDGE_RISING>, /* Send DATA */
+							<&ipcc IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_PING IRQ_TYPE_EDGE_RISING>; /* Send ACK */
+		iommus = <&apps_smmu 0x3920 0x0>;
+		dma-coherent;
 	};
 
 	subsystem_ramdump_util@90900000 {
@@ -330,8 +351,25 @@
 			<GIC_SPI 567 IRQ_TYPE_EDGE_RISING>,
 			<GIC_SPI 566 IRQ_TYPE_EDGE_RISING>,
 			<GIC_SPI 366 IRQ_TYPE_EDGE_RISING>;
-		iommus = <&apps_smmu 0x860 0x0400>,
-			<&apps_smmu 0x3400 0x0020>;
+		iommus = <&apps_smmu 0x3400 0x0020>;
+		dma-coherent;
+	};
+
+	vfio_cam_ipe_non_secure_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x800 0x0400>;
+		dma-coherent;
+	};
+	
+	vfio_cam_cdm_non_secure_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x860 0x0400>;
+		dma-coherent;
+	};
+	
+	vfio_cam_icp_non_secure_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x840 0x0480>;
 		dma-coherent;
 	};
 
@@ -385,6 +423,30 @@
 		compatible = "qcom,apps-pinctlr";
 		pinctrl-names = "default";
 		pinctrl-0 = <&fsync3_default>;
+	};
+
+	vfio_cam_lock0@0 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&cam_lock0_default>;
+	};
+
+	vfio_cam_lock1@1 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&cam_lock1_default>;
+	};
+
+	vfio_cam_lock2@2 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&cam_lock2_default>;
+	};
+
+	vfio_cam_lock3@3 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&cam_lock3_default>;
 	};
 
 

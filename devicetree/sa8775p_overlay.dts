@@ -17,6 +17,7 @@
 #include "sa8775p-pinctrl.dtsi"
 #include "sa8775p-vfio.dtsi"
 #include "sa8775p-vms.dtsi"
+#include "sa8775p-scmi.dtsi"
 
 / {
 	model = "Qualcomm SA8775P Ride";
@@ -28,6 +29,10 @@
 	#address-cells = <2>;
 	#size-cells = <2>;
 
+	aliases {
+		serial1 = "/soc@0/geniqup@9c0000/serial@990000";
+	};
+
 	kaslr_store {
 		compatible = "qcom,kaslr-off-store";
 		reg = <0 0x90880000 0 0x10>;
@@ -37,9 +42,52 @@
 		compatible = "syscon";
 		reg = <0x0 0x1fc0000 0x0 0x30000>;
 	};
+
+	qcom_tzlog: tz-log@146d8720 {
+		compatible = "qcom,tz-log";
+		reg = <0 0x146d8720 0 0x3000>;
+		qcom,hyplog-enabled;
+		hyplog-address-offset = <0x410>;
+		hyplog-size-offset = <0x414>;
+	};
+
+	qtee_shmbridge {
+		compatible = "qcom,tee-shared-memory-bridge";
+		qcom,support-hypervisor;
+		memory-region = <&cma>;
+	};
+
+	qcom_smcinvoke {
+		compatible = "qcom,smcinvoke";
+	};
 };
 
 &soc {
+	qupv3_id_0: geniqup@9c0000 {
+		status = "okay";
+		uart4: serial@990000 {
+			compatible = "qcom,geni-uart";
+			reg = <0x0 0x990000 0x0 0x4000>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			interrupts = <GIC_SPI 531 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&gcc GCC_QUPV3_WRAP0_S4_CLK>;
+			clock-names = "se";
+			interconnects = <&clk_virt MASTER_QUP_CORE_0 0
+					 &clk_virt SLAVE_QUP_CORE_0 0>,
+					<&gem_noc MASTER_APPSS_PROC 0
+					 &config_noc SLAVE_QUP_0 0>,
+					<&aggre2_noc MASTER_QUP_0 0
+					 &mc_virt SLAVE_EBI1 0>;
+			interconnect-names = "qup-core", "qup-config", "qup-memory";
+			power-domains = <&rpmhpd SA8775P_CX>;
+			pinctrl-0 = <&qupv3_se4_2uart_active>;
+			pinctrl-1 = <&qupv3_se4_2uart_sleep>;
+			pinctrl-names = "default", "sleep";
+			status = "okay";
+		};
+	};
+
 	camcc: clock-controller@ade0000 {
 		compatible = "qcom,sa8775p-camcc";
 		reg = <0x0 0xade0000 0x0 0x20000>;
@@ -142,6 +190,46 @@
 	mem_dump {
 		compatible = "qcom,mem-dump";
 		memory-region = <&dump_mem>;
+
+		c0_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x0>;
+		};
+
+		c100_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x1>;
+		};
+
+		c200_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x2>;
+		};
+
+		c300_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x3>;
+		};
+
+		c400_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x4>;
+		};
+
+		c500_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x5>;
+		};
+
+		c600_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x6>;
+		};
+
+		c700_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x7>;
+		};
 
 		c0_scandump: c0_scandump {
 			qcom,dump-size = <0x40000>;
@@ -438,6 +526,12 @@
 		status = "ok";
 	};
 
+	kiumd {
+		compatible = "qcom,kiumd";
+		qcom,dev-name = "kiumd";
+		status = "ok";
+	};
+
 	kryo_erp: erp {
 	compatible = "arm,arm64-kryo-cpu-erp";
 	interrupts = <GIC_PPI 0 IRQ_TYPE_LEVEL_LOW>,
@@ -481,4 +575,34 @@
 		no-map;
 		reg = <0x0 0x90e00000 0x0 0x300000>;
 	};
+
+	audio_mdf_mem: audio_mdf_region@ae000000 {
+		no-map;
+		reg = <0x0 0xae000000 0x0 0x1000000>;
+	};
+
+        /* global autoconfigured region for contiguous allocations */
+        cma: linux,cma {
+                compatible = "shared-dma-pool";
+                alloc-ranges = <0x0 0x00000000 0x0 0xdfffffff>;
+                reusable;
+                alignment = <0x0 0x400000>;
+                size = <0x0 0x2000000>;
+                linux,cma-default;
+        };
+
+	tz-start-count {
+		reg = <0x0 0x146d87f8 0x0 0x8>;
+		no-map;
+	};
+
+	tz-end-count {
+		reg = <0x0 0x146d87dc 0x0 0x8>;
+		no-map;
+	};
+
+	mproc_umdpil_mem: mproc_umdpil_region@adc00000 {
+		no-map;
+		reg = <0x0 0xadc00000 0x0 0x500000>;
+        };
 };

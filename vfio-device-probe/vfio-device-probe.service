@@ -3,7 +3,7 @@
 
 [Unit]
 Description=My Shell Script
-After=systemd-modules-load
+After=systemd-modules-load.service
 
 [Service]
 Type=oneshot
