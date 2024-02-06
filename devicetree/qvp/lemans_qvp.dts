@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
- * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
  */
 
  /dts-v1/;
@@ -8,8 +8,8 @@
 #include <dt-bindings/interrupt-controller/arm-gic.h>
 
 / {
-	model = "Qualcomm Technologies, Inc. Lemans Virtual Platform";
-	compatible = "qcom,lemans";
+	model = "Qualcomm Technologies, Inc. SA8775P Virtual Platform";
+	compatible = "qcom,sa8775p";
 	qcom,board-id = <0x10029 0>;
 	qcom,msm-id = <532 0x10000>, <533 0x10000>;
 
@@ -919,7 +919,7 @@
 	};
 
 	ipcc: mailbox@408000 {
-		compatible = "qcom,lemans-ipcc", "qcom,ipcc";
+		compatible = "qcom,sa8775p-ipcc", "qcom,ipcc";
 		reg = <0x408000 0x1000>;
 		interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_HIGH>;
 		interrupt-controller;
