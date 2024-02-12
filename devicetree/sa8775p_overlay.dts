@@ -17,6 +17,7 @@
 #include "sa8775p-pinctrl.dtsi"
 #include "sa8775p-vfio.dtsi"
 #include "sa8775p-vms.dtsi"
+#include "sa8775p-scmi.dtsi"
 
 / {
 	model = "Qualcomm SA8775P Ride";
@@ -525,6 +526,12 @@
 		status = "ok";
 	};
 
+	kiumd {
+		compatible = "qcom,kiumd";
+		qcom,dev-name = "kiumd";
+		status = "ok";
+	};
+
 	kryo_erp: erp {
 	compatible = "arm,arm64-kryo-cpu-erp";
 	interrupts = <GIC_PPI 0 IRQ_TYPE_LEVEL_LOW>,
@@ -596,6 +603,6 @@
 
 	mproc_umdpil_mem: mproc_umdpil_region@adc00000 {
 		no-map;
-		reg = <0x0 0xadc00000 0x0 0x500000>;
+		reg = <0x0 0xadc00000 0x0 0x300000>;
         };
 };

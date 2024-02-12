@@ -6,10 +6,13 @@ BuildArch: noarch
 License: BSD-3-Clause-Clear
 Source0: %{name}-%{version}.tar.gz
 
-BuildRequires: systemd-rpm-macros
+BuildRequires: systemd-rpm-macros dracut
 
 %description
 Adding conf file to Autoload DLKMs during bootup.
+
+%global dracut_modules_dir /usr/lib/dracut/modules.d
+%global dracut_module_destdir %{dracut_modules_dir}/99qcom-kernel-modules
 
 %prep
 %setup -qn %{name}
@@ -24,8 +27,13 @@ echo "kryo_arm64_edac" > "%{buildroot}%{_modulesloaddir}/edac.conf"
 echo "kiumd_kgsl" > "%{buildroot}%{_modulesloaddir}/kgsl.conf"
 echo "uinput" > "%{buildroot}%{_modulesloaddir}/vmm_pwr_key.conf"
 echo "dump_boot_log" > "%{buildroot}%{_modulesloaddir}/dump.conf"
+echo "mhi_ep_net" > "%{buildroot}%{_modulesloaddir}/mhi_ep_net.conf"
+mkdir -p %{buildroot}%{dracut_module_destdir}
+install -DpZm 0644 dracut/module-setup.sh %{buildroot}%{dracut_module_destdir}
 
 %files
+%dir %{dracut_module_destdir}
+%{dracut_module_destdir}/module-setup.sh
 %{_modulesloaddir}/i2cdev.conf
 %{_modulesloaddir}/vfio.conf
 %{_modprobedir}/vfio.conf
@@ -33,3 +41,4 @@ echo "dump_boot_log" > "%{buildroot}%{_modulesloaddir}/dump.conf"
 %{_modulesloaddir}/kgsl.conf
 %{_modulesloaddir}/vmm_pwr_key.conf
 %{_modulesloaddir}/dump.conf
+%{_modulesloaddir}/mhi_ep_net.conf
