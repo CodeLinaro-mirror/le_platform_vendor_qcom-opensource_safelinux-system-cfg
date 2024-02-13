@@ -37,11 +37,15 @@ cat %{_builddir}/%{name}/centos-stream-9/arch/arm64/boot/dts/qcom/sa8775p-ride.d
             %{_builddir}/%{name}/sa8650p-ride/sa8650p-ride.dtb \
             %{_builddir}/%{name}/sa8255p-ride/sa8255p-ride.dtb \
             > ${RPM_BUILD_ROOT}/lib/modules/%{kversion}/dtb/qcom/sa8775p-ride.dtb.overlay
+cp %{_builddir}/%{name}/sa8775p-qvp/sa8775p-qvp.dtb ${RPM_BUILD_ROOT}/lib/modules/%{kversion}/dtb/qcom/sa8775p-qvp.dtb
 
 %files
 /lib/modules/%{kversion}/dtb/qcom/sa8775p-ride.dtb.overlay
+/lib/modules/%{kversion}/dtb/qcom/sa8775p-qvp.dtb
 
 %changelog
+* Tue Feb 13 2024 Jayanta Saren <quic_jsaren@quicinc.com> 1.0
+- Add support for sa8775-qvp dtb
 * Wed Dec 06 2023 Ninad Naik <quic_ninanaik@quicinc.com> 1.0
 - Add support for sa8255p-ride dtb
 * Fri Nov 24 2023 Ninad Naik <quic_ninanaik@quicinc.com> 1.0
