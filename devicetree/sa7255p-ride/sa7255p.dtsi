@@ -5,7 +5,11 @@
 
 #include <dt-bindings/interrupt-controller/arm-gic.h>
 #include <dt-bindings/clock/qcom,rpmh.h>
+#include <dt-bindings/clock/qcom,camcc-sa8775p.h>
+#include <dt-bindings/clock/qcom,sa7255p-dispcc.h>
 #include <dt-bindings/clock/qcom,sa7255p-gcc.h>
+#include <dt-bindings/clock/qcom,sa8775p-gpucc.h>
+#include <dt-bindings/clock/qcom,videocc-sa8775p.h>
 #include <dt-bindings/interconnect/qcom,sa7255p-rpmh.h>
 #include <dt-bindings/interconnect/qcom,icc.h>
 #include <dt-bindings/power/qcom-rpmpd.h>
@@ -518,6 +522,70 @@
 			 <0>,
 			 <0>;
 		power-domains = <&rpmhpd SA7255P_CX>;
+	};
+
+	gpucc: clock-controller@3d90000 {
+		compatible = "qcom,sa7255p-gpucc";
+		reg = <0x0 0x03d90000 0x0 0xa000>;
+		clocks = <&rpmhcc RPMH_CXO_CLK>,
+			 <&gcc GCC_GPU_GPLL0_CLK_SRC>,
+			 <&gcc GCC_GPU_GPLL0_DIV_CLK_SRC>;
+		clock-names = "bi_tcxo",
+			      "gcc_gpu_gpll0_clk_src",
+			      "gcc_gpu_gpll0_div_clk_src";
+		#clock-cells = <1>;
+		#reset-cells = <1>;
+		#power-domain-cells = <1>;
+	};
+
+	videocc: clock-controller@abf0000 {
+		compatible = "qcom,sa8775p-videocc";
+		reg = <0x0 0xabf0000 0x0 0x10000>;
+		clocks = <&gcc GCC_VIDEO_AHB_CLK>,
+			 <&rpmhcc RPMH_CXO_CLK>,
+			 <&rpmhcc RPMH_CXO_CLK_A>,
+			 <&sleep_clk>;
+		power-domains = <&rpmhpd SA7255P_MMCX>;
+		required-opps = <&rpmhpd_opp_nom>;
+		#clock-cells = <1>;
+		#reset-cells = <1>;
+		#power-domain-cells = <1>;
+	};
+
+	camcc: clock-controller@ade0000 {
+		compatible = "qcom,sa7255p-camcc";
+		reg = <0x0 0xade0000 0x0 0x20000>;
+		clocks = <&gcc GCC_CAMERA_AHB_CLK>,
+			 <&rpmhcc RPMH_CXO_CLK>,
+			 <&rpmhcc RPMH_CXO_CLK_A>,
+			 <&sleep_clk>;
+		power-domains = <&rpmhpd SA7255P_MMCX>;
+		required-opps = <&rpmhpd_opp_nom>;
+		#clock-cells = <1>;
+		#reset-cells = <1>;
+		#power-domain-cells = <1>;
+	};
+
+	dispcc: clock-controller@af00000 {
+		compatible = "qcom,sa7255p-dispcc";
+		reg = <0x0 0xaf00000 0x0 0x20000>;
+		clocks = <&gcc GCC_DISP_AHB_CLK>,
+			 <&rpmhcc RPMH_CXO_CLK>,
+			 <&rpmhcc RPMH_CXO_CLK_A>,
+			 <&sleep_clk>,
+			 <0>,
+			 <0>,
+			 <0>,
+			 <0>,
+			 <0>,
+			 <0>,
+			 <0>,
+			 <0>;
+		power-domains = <&rpmhpd SA7255P_MMCX>;
+		required-opps = <&rpmhpd_opp_nom>;
+		#clock-cells = <1>;
+		#reset-cells = <1>;
+		#power-domain-cells = <1>;
 	};
 
 	qupv3_id_0: geniqup@9c0000 {
