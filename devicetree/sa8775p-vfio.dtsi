@@ -89,7 +89,7 @@
 			<0x0 0x99900000 0x0 0x1e00000>,
 			<0x0 0x95c00000 0x0 0x1e00000>;
 
-		iommus = <&adreno_smmu 0x407 0x0>;
+		iommus = <&adreno_smmu 0x407 0xc00>;
 		dma-coherent;
 	};
 
@@ -309,7 +309,7 @@
 		compatible = "qcom,vfio-platform";
 		interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
 		reg = <0x0 0x17c23000 0x0 0x1000>;
-		iommus = <&adreno_smmu 0x7 0x0>;
+		iommus = <&adreno_smmu 0x7 0xc00>;
 		qcom,iommu-dma-addr-pool = <0x0 0x60002000 0x0 0x1FFFE000>;
 	};
 
@@ -512,7 +512,7 @@
 	vfio_kgsl_secure {
 		compatible = "qcom,vfio-platform";
 		// switch to secure CB once ready
-		iommus = <&adreno_smmu 0x7 0xc00>;
+		iommus = <&adreno_smmu 0x2 0xc00>;
 		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0x7FFF0000>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
