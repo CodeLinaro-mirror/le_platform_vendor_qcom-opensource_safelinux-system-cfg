@@ -27,4 +27,61 @@
                 qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
                 dma-coherent;
         };
+
+	vfio_kgsl@3d00000 {
+		name = "vfio_kgsl";
+		compatible = "qcom,kiumd-platform";
+
+		reg = <0x0 0x03d00000 0x0 0x6a000>,
+			<0x0 0x03d6a000 0x0 0x96000>,
+			<0x0 0x0b210000 0x0 0x400000>,
+			<0x0 0x00780000 0x0 0x7000>,
+			<0x0 0x01fc8000 0x0 0x1000>,
+			<0x0 0x01fc0000 0x0 0x30000>;
+		reg-names = "gpu_reg", "gmu_reg",
+			"rpmh_pdc", "security_control_core",
+			"tcsr_hwver_reg", "tcsr_tcsr_reg";
+
+		interrupts = <0 300 IRQ_TYPE_LEVEL_HIGH>,
+			<0 304 IRQ_TYPE_LEVEL_HIGH>,
+			<0 305 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-names = "kgsl_3d0_irq", "kgsl_hfi_irq",
+				"kgsl_gmu_irq";
+
+		iommus = <&adreno_smmu 0x0 0xc00>;
+		qcom,iommu-dma = "disabled";
+		dma-coherent;
+	};
+
+	vfio_gmu {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x01fc0000 0x0 0x38000>;
+		reg-names = "tcsr_tcsr_reg";
+		iommus = <&adreno_smmu 0x5 0xc00>;
+		qcom,iommu-dma = "disabled";
+		dma-coherent;
+	};
+
+	vfio_gmu_db {
+		compatible = "qcom,vfio-platform";
+		iommus = <&adreno_smmu 0x4 0xc00>;
+		qcom,iommu-dma = "disabled";
+		dma-coherent;
+	};
+
+	vfio_kgsl_secure {
+		compatible = "qcom,vfio-platform";
+		// switch to secure CB once ready
+		iommus = <&adreno_smmu 0x7 0xc00>;
+		qcom,iommu-dma-addr-pool = <0x0 0x7FFF0000>;
+		qcom,iommu-dma = "disabled";
+		dma-coherent;
+	};
+
+	vfio_kgsl_lpac {
+		compatible = "qcom,kiumd-platform";
+		iommus = <&adreno_smmu 0x1 0xc00>;
+		qcom,iommu-dma = "disabled";
+		dma-coherent;
+	};
 };
