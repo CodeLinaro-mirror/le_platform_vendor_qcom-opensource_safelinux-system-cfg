@@ -15,6 +15,8 @@
 / {
 	model = "Qualcomm SA7255P Ride";
 	compatible = "qcom,sa7255p";
+	qcom,msm-id = <606 0x10000>;
+	qcom,board-id = <0x00010019 0>, <0x01010019 1>;
 
 	aliases {
 		serial0 = &uart7;
