@@ -1907,5 +1907,13 @@
 				<GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH>,
 				<GIC_SPI 640 IRQ_TYPE_LEVEL_HIGH>;
 	};
+
+	watchdog@17c10000 {
+		compatible = "qcom,kpss-wdt";
+		reg = <0x0 0x17c10000 0x0 0x1000>;
+		clocks = <&sleep_clk>;
+		interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>;
+	};
+
 };
 
