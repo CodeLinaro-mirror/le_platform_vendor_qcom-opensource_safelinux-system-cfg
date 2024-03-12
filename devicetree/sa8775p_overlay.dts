@@ -544,7 +544,7 @@
 };
 
 &{/firmware} {
-	scm {
+	qcom_scm {
 		qcom,dload-mode = <&tcsr 0x13000>;
 	};
 };
