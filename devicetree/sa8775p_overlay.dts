@@ -35,7 +35,7 @@
 
 	kaslr_store {
 		compatible = "qcom,kaslr-off-store";
-		reg = <0 0x90880000 0 0x10>;
+		reg = <0x0 0x146d86d0 0x0 0xc>;
 	};
 
 	tcsr: syscon@1fc0000 {
@@ -559,11 +559,6 @@
 		compatible = "shared-dma-pool";
 		reusable;
 		size = <0 0x3000000>;
-	};
-
-	kaslr_off_reg: kasr_off_reg@90880000 {
-		reg = <0 0x90880000 0 0x10>;
-		no-map;
 	};
 
 	sail_mailbox_mem: sail_mailbox_region@90d80000 {
