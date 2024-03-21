@@ -443,13 +443,13 @@
 		iommus = <&apps_smmu 0x800 0x0400>;
 		dma-coherent;
 	};
-	
+
 	vfio_cam_cdm_non_secure_cb {
 		compatible = "qcom,vfio-platform";
 		iommus = <&apps_smmu 0x860 0x0400>;
 		dma-coherent;
 	};
-	
+
 	vfio_cam_icp_non_secure_cb {
 		compatible = "qcom,vfio-platform";
 		iommus = <&apps_smmu 0x840 0x0480>;
@@ -595,9 +595,8 @@
 
 	vfio_kgsl_secure {
 		compatible = "qcom,vfio-platform";
-		// switch to secure CB once ready
 		iommus = <&adreno_smmu 0x2 0xc00>;
-		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0x7FFF0000>;
+		qcom,iommu-dma-addr-pool = <0x0 0xC0000000 0x0 0x3FFFF000>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
 	};
