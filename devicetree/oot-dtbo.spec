@@ -1,6 +1,8 @@
 # If kversion isn't defined on the rpmbuild line, define it here.
 %{!?kversion: %define kversion %(uname -r)}
 
+%{!?with_oot_debug: %define with_oot_debug 0}
+
 %define kmod_name oot-dtbo
 %define debug_package %{nil}
 
@@ -30,18 +32,32 @@ compatibility criteria.
 make
 
 %install
-mkdir -p ${RPM_BUILD_ROOT}/lib/modules/%{kversion}/dtb/qcom/
+%if %{with_oot_debug}
+install_dtbo_path=${RPM_BUILD_ROOT}/lib/modules/%{kversion}+debug
+%else
+install_dtbo_path=${RPM_BUILD_ROOT}/lib/modules/%{kversion}
+%endif
+mkdir -p ${install_dtbo_path}/dtb/qcom/
 cat %{_builddir}/%{name}/centos-stream-9/arch/arm64/boot/dts/qcom/sa8775p-ride.dtb.overlay \
             %{_builddir}/%{name}/sa8770p-ride/sa8770p-ride.dtb \
             %{_builddir}/%{name}/sa8775p-ride-mx/sa8775p-ride-mx.dtb \
             %{_builddir}/%{name}/sa8650p-ride/sa8650p-ride.dtb \
             %{_builddir}/%{name}/sa8255p-ride/sa8255p-ride.dtb \
-            > ${RPM_BUILD_ROOT}/lib/modules/%{kversion}/dtb/qcom/sa8775p-ride.dtb.overlay
+            > ${install_dtbo_path}/dtb/qcom/sa8775p-ride.dtb.overlay
+cp %{_builddir}/%{name}/sa8775p-qvp/sa8775p-qvp.dtb ${install_dtbo_path}/dtb/qcom/sa8775p-qvp.dtb
 
 %files
-/lib/modules/%{kversion}/dtb/qcom/sa8775p-ride.dtb.overlay
+%if %{with_oot_debug}
+%define kernel_module_path /lib/modules/%{kversion}+debug
+%else
+%define kernel_module_path /lib/modules/%{kversion}
+%endif
+%{kernel_module_path}/dtb/qcom/sa8775p-ride.dtb.overlay
+%{kernel_module_path}/dtb/qcom/sa8775p-qvp.dtb
 
 %changelog
+* Tue Feb 13 2024 Jayanta Saren <quic_jsaren@quicinc.com> 1.0
+- Add support for sa8775-qvp dtb
 * Wed Dec 06 2023 Ninad Naik <quic_ninanaik@quicinc.com> 1.0
 - Add support for sa8255p-ride dtb
 * Fri Nov 24 2023 Ninad Naik <quic_ninanaik@quicinc.com> 1.0

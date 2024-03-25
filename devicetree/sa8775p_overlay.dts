@@ -35,7 +35,7 @@
 
 	kaslr_store {
 		compatible = "qcom,kaslr-off-store";
-		reg = <0 0x90880000 0 0x10>;
+		reg = <0x0 0x146d86d0 0x0 0xc>;
 	};
 
 	tcsr: syscon@1fc0000 {
@@ -561,11 +561,6 @@
 		size = <0 0x3000000>;
 	};
 
-	kaslr_off_reg: kasr_off_reg@90880000 {
-		reg = <0 0x90880000 0 0x10>;
-		no-map;
-	};
-
 	sail_mailbox_mem: sail_mailbox_region@90d80000 {
 		no-map;
 		reg = <0x0 0x90d80000 0x0 0x80000>;
@@ -603,6 +598,6 @@
 
 	mproc_umdpil_mem: mproc_umdpil_region@adc00000 {
 		no-map;
-		reg = <0x0 0xadc00000 0x0 0x500000>;
+		reg = <0x0 0xadc00000 0x0 0x300000>;
         };
 };
