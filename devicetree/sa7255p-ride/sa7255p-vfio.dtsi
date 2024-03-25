@@ -305,4 +305,100 @@
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
 	};
+
+	vfio_titan_base@ac00000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0xac00000 0x0 0x1e0000>;
+		interrupts = <GIC_SPI 463 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 459 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 460 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 271 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 651 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 477 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 478 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 479 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 469 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 360 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 761 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 760 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 605 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 465 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 467 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 563 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 562 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 468 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 359 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 759 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 758 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 604 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 565 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 564 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 545 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 546 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 547 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 470 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 471 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 543 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 544 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 567 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 566 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 366 IRQ_TYPE_EDGE_RISING>;
+		iommus = <&apps_smmu 0x2400 0x0020>;
+		dma-coherent;
+	};
+
+	vfio_cam_ipe_non_secure_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x800 0x0400>;
+		dma-coherent;
+	};
+
+	vfio_cam_cdm_non_secure_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x860 0x0400>;
+		dma-coherent;
+	};
+
+	vfio_cam_icp_non_secure_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x840 0x0480>;
+		dma-coherent;
+	};
+
+	vfio_cci0@0 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default","default";
+		pinctrl-0 = <&cci0_sda_default &cci0_scl_default>;
+	};
+
+	vfio_cci1@1 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default","default";
+		pinctrl-0 = <&cci2_sda_default &cci2_scl_default>;
+	};
+
+	vfio_cci2@2 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default","default";
+		pinctrl-0 = <&cci4_sda_default &cci4_scl_default>;
+	};
+
+	vfio_fsync0@0 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&fsync0_default>;
+	};
+
+	vfio_fsync1@1 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&fsync1_default>;
+	};
+
+	vfio_fsync2@2 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&fsync2_default>;
+	};
+
 };
