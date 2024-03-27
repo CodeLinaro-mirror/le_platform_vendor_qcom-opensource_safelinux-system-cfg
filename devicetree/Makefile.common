@@ -20,6 +20,7 @@ TECHPACK_INCLUDE += $(KDIR)/include
 TECHPACK_INCLUDE += $(KDIR)/arch/$(ARCH)/boot/dts/qcom
 TECHPACK_INCLUDE += $(TECHPACK_BINDING_DIR)
 TECHPACK_INCLUDE += $(TECHPACK_BINDING_DIR)/oot-dt-bindings
+TECHPACK_INCLUDE += $(TECHPACK_BINDING_DIR)/sa7255p-ride
 
 all: fail-if-no-kdir dtbos merge_dtbs.sh
 	./merge_dtbs.sh $(KDIR) oot $(DTB_MERGE_OUT)

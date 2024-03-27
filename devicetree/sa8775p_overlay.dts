@@ -544,7 +544,7 @@
 };
 
 &{/firmware} {
-	scm {
+	qcom_scm {
 		qcom,dload-mode = <&tcsr 0x13000>;
 	};
 };
@@ -596,8 +596,8 @@
 		no-map;
 	};
 
-	mproc_umdpil_mem: mproc_umdpil_region@adc00000 {
+	mproc_umdpil_mem: mproc_umdpil_region@a0500000 {
 		no-map;
-		reg = <0x0 0xadc00000 0x0 0x300000>;
+		reg = <0x0 0xa0500000 0x0 0x300000>;
         };
 };

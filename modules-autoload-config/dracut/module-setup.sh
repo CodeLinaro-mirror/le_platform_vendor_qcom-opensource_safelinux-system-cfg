@@ -49,6 +49,11 @@ SA8775_INITRAMFS_DRIVERS=" \
     qcom-spmi-pmic \
     nvmem_qcom-spmi-sdam \
     qcom-spmi-temp-alarm \
+    virtio_blk \
+    virtio_mmio \
+    virtio_net \
+    failover \
+    net_failover \
 "
 
     instmods ${SA8775_INITRAMFS_DRIVERS}

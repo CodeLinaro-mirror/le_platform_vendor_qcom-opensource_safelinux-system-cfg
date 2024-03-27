@@ -1955,4 +1955,13 @@
 	       compatible = "syscon";
 	       reg = <0x0 0x1fc0000 0x0 0x30000>;
 	};
+
+	ipcc: mailbox@408000 {
+		compatible = "qcom,sa7255p-ipcc", "qcom,ipcc";
+		reg = <0x0 0x00408000 0x0 0x1000>;
+		interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-controller;
+		#interrupt-cells = <3>;
+		#mbox-cells = <2>;
+	};
 };

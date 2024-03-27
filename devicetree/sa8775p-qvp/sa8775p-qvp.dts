@@ -304,24 +304,26 @@
 		compatible = "qemu,platform", "simple-bus";
 	};
 
-	virtio_mmio@160d0000 {
+	/* virtio block for rootfs */
+	virtio_blk_1:virtio_mmio@1d84000 {
 		dma-coherent;
-		interrupts = <GIC_SPI 0x2e IRQ_TYPE_LEVEL_HIGH>;
-		reg = <0x0 0x160d0000 0x0 0x2000>;
+		interrupts = <GIC_SPI 236 IRQ_TYPE_LEVEL_HIGH>;
+		reg = <0x0 0x1d84000 0x0 0x2000>;
 		compatible = "virtio,mmio";
 	};
 
-	virtio_mmio@160d2000 {
+	/* virtio block for v-disk */
+	virtio_blk_2:virtio_mmio@1d88000 {
 		dma-coherent;
-		interrupts = <GIC_SPI 0x2f IRQ_TYPE_LEVEL_HIGH>;
-		reg = <0x0 0x160d2000 0x0 0x2000>;
+		interrupts = <GIC_SPI 238 IRQ_TYPE_LEVEL_HIGH>;
+		reg = <0x0 0x1d88000 0x0 0x2000>;
 		compatible = "virtio,mmio";
 	};
 
-	virtio_mmio@16120000 {
+	virtio_net:virtio_mmio@23000000 {
 		dma-coherent;
-		interrupts = < GIC_SPI 0x2d IRQ_TYPE_LEVEL_HIGH>;
-		reg = <0x0 0x16120000 0x0 0x10000>;
+		interrupts = < GIC_SPI 558 IRQ_TYPE_LEVEL_HIGH>;
+		reg = <0x0 0x23000000 0x0 0x10000>;
 		compatible = "virtio,mmio";
 	};
 

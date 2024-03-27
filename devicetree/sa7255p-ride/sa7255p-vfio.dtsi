@@ -18,4 +18,13 @@
 		qcom,dev-name = "kiumd";
 		status = "ok";
 	};
+
+        vfio_dpu_00@ae00000 {
+                compatible = "qcom,vfio-platform";
+                interrupts = <0 92 IRQ_TYPE_LEVEL_HIGH>;
+                reg = <0x0 0xae00000 0x0 0x200000>;
+                iommus = <&apps_smmu 0x1000 0x402>;
+                qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
+                dma-coherent;
+        };
 };

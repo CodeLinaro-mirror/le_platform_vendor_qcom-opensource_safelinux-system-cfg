@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ */
+
+/dts-v1/;
+
+#include "sa7255p.dtsi"
+/ {
+	model = "Qualcomm SA8620P Ride";
+	compatible = "qcom,sa8620p";
+	qcom,msm-id = <605 0x10000>;
+	qcom,board-id = <0x00010019 0>, <0x01010019 1>;
+
+        cpus {
+                /delete-node/ cpu@10000;
+                /delete-node/ cpu@10100;
+                /delete-node/ cpu@10200;
+                /delete-node/ cpu@10300;
+
+                cpu-map {
+                        /delete-node/ cluster2;
+                };
+        };
+
+};
+
