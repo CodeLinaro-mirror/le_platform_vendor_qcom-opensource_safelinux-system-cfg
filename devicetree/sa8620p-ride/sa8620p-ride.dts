@@ -9,14 +9,23 @@
 #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
 
 #include "sa7255p.dtsi"
-#include "sa7255p-vfio.dtsi"
 #include "sa7255p-pmics.dtsi"
-
 / {
-	model = "Qualcomm SA7255P Ride";
-	compatible = "qcom,sa7255p";
-	qcom,msm-id = <606 0x10000>;
+	model = "Qualcomm SA8620P Ride";
+	compatible = "qcom,sa8620p";
+	qcom,msm-id = <605 0x10000>;
 	qcom,board-id = <0x00010019 0>, <0x01010019 1>;
+
+        cpus {
+                /delete-node/ cpu@10000;
+                /delete-node/ cpu@10100;
+                /delete-node/ cpu@10200;
+                /delete-node/ cpu@10300;
+
+                cpu-map {
+                        /delete-node/ cluster2;
+                };
+        };
 
 	aliases {
 		serial0 = &uart7;
@@ -35,20 +44,6 @@
 	regulators-0 {
 		compatible = "qcom,pmm7255au-rpmh-regulators";
 		qcom,pmic-id = "a";
-
-		vreg_s4a: smps4 {
-			regulator-name = "vreg_s4a";
-			regulator-min-microvolt = <1800000>;
-			regulator-max-microvolt = <1800000>;
-			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-		};
-
-		vreg_s9a: smps9 {
-			regulator-name = "vreg_s9a";
-			regulator-min-microvolt = <1352000>;
-			regulator-max-microvolt = <1352000>;
-			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-		};
 
 		vreg_l3a: ldo3 {
 			regulator-name = "vreg_l3a";
@@ -132,6 +127,13 @@
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
+		vreg_s9c: smps9 {
+			regulator-name = "vreg_s9c";
+			regulator-min-microvolt = <1352000>;
+			regulator-max-microvolt = <1352000>;
+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+		};
+
 		vreg_l1c: ldo1 {
 			regulator-name = "vreg_l1c";
 			regulator-min-microvolt = <300000>;
@@ -156,16 +158,6 @@
 			regulator-name = "vreg_l4c";
 			regulator-min-microvolt = <1200000>;
 			regulator-max-microvolt = <1200000>;
-			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-			regulator-allow-set-load;
-			regulator-allowed-modes = <RPMH_REGULATOR_MODE_LPM
-						   RPMH_REGULATOR_MODE_HPM>;
-		};
-
-		vreg_l6c: ldo6 {
-			regulator-name = "vreg_l6c";
-			regulator-min-microvolt = <1800000>;
-			regulator-max-microvolt = <1800000>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 			regulator-allow-set-load;
 			regulator-allowed-modes = <RPMH_REGULATOR_MODE_LPM
@@ -303,8 +295,6 @@
 	vcc-max-microamp = <1100000>;
 	vccq-supply = <&vreg_l4c>;
 	vccq-max-microamp = <1200000>;
-	vccq2-supply = <&vreg_s4a>;
-	vccq2-max-microamp = <800000>;
 	status = "okay";
 };
 
