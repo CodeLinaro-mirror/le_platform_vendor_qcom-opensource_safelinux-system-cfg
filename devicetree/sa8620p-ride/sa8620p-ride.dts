@@ -10,6 +10,7 @@
 
 #include "sa7255p.dtsi"
 #include "sa7255p-pmics.dtsi"
+#include "sa7255p-vfio.dtsi"
 / {
 	model = "Qualcomm SA8620P Ride";
 	compatible = "qcom,sa8620p";
