@@ -1,47 +1,25 @@
 #!/bin/sh
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
-if [ -f /sys/devices/soc0/machine ]; then
-	target=$(cat /sys/devices/soc0/machine)
-fi
-echo "$target"
+
+# shellcheck disable=SC1090
+
 echo "3d00000.vfio_kgsl" > /sys/bus/platform/drivers/kiumd_kgsl/unbind
 echo "soc@0:vfio_kgsl_lpac" > /sys/bus/platform/drivers/kiumd_kgsl/unbind
 
-case "$target" in
-        *"SA7255P"* |*"SA8620P"*)
-	DEVS="ac00000.vfio_titan_base ab00000.vfio_eva aa00000.vfio_vidc ae00000.vfio_dpu_00
-		22000000.vfio_dpu_10 780000.umd_glink 408000.umd_pil
-		1.cdsp0_cb 2.cdsp0_cb 3.cdsp0_cb 4.cdsp0_cb
-		2.adsp_cb 3.adsp_cb 4.adsp_cb 1.gpdsp0_cb 3.gpdsp0_cb
-		1.vfio_audio 2.vfio_audio_gpdsp0_cb
-		soc@0:vfio_cam_ipe_non_secure_cb soc@0:vfio_cam_cdm_non_secure_cb
-		soc@0:vfio_cam_icp_non_secure_cb 3d00000.vfio_kgsl 1fc0000.vfio_gmu
-		soc@0:vfio_gmu_db soc@0:vfio_kgsl_secure soc@0:vfio_kgsl_lpac
-		soc@0:vfio_vidc_non_secure_pixel_cb 90d80000.sail-mailbox
-		90e00000.sail-mailbox-ota 17c23000.vfio_timer 26092000.umd_nsp_drv"
-	;;
-esac
-case "$target" in
-        *"SA8255P"* |*"SA8775P"* |*"SA8650P"*)
-	DEVS="17c23000.vfio_timer ac00000.vfio_titan_base ab00000.vfio_eva aa00000.vfio_vidc
-		ae00000.vfio_dpu_00 22000000.vfio_dpu_10 780000.umd_glink 408000.umd_pil
-		408000.umd_audio_hlos 90900000.subsystem_ramdump_util 1.cdsp0_cb 2.cdsp0_cb
-		3.cdsp0_cb 4.cdsp0_cb 1.cdsp1_cb 2.cdsp1_cb 3.cdsp1_cb 4.cdsp1_cb 2.adsp_cb
-		3.adsp_cb 4.adsp_cb 1.gpdsp0_cb 1.gpdsp1_cb 3.gpdsp0_cb 3.gpdsp1_cb
-		soc@0:vfio_cam_ipe_non_secure_cb soc@0:vfio_cam_cdm_non_secure_cb
-		soc@0:vfio_cam_icp_non_secure_cb 3d00000.vfio_kgsl 1fc0000.vfio_gmu
-		soc@0:vfio_gmu_db soc@0:vfio_kgsl_secure soc@0:vfio_kgsl_lpac
-		soc@0:vfio_vidc_non_secure_pixel_cb 1.vfio_audio 2.vfio_audio_gpdsp0_cb
-		2.vfio_audio_gpdsp1_cb 90d80000.sail-mailbox 90e00000.sail-mailbox-ota
-		90d00000.safety-ddr 9200000.umd_llcc 40005000.vfio_pcie0_hdma
-		60005000.vfio_pcie1_hdma d0040000.umd_firmware_vm 26092000.umd_nsp_drv
-		628000.apss-stl"
-	;;
-esac
+# Assume only one conf file is present in /usr/lib/vfio-bind.d
+# This conf file includes list of devices to bind to vfio-platform
+conf_file=$(find /usr/lib/vfio-bind.d -name "*.conf")
+if expr "X$conf_file" : 'X.*[[:space:]]' >/dev/null; then
+    # space inside conf_file var means multiple conf files were found
+    # currently only supporting one conf file per target
+    exit 1
+fi
+
+. "$conf_file"
+
 for DEV in $DEVS; do
-	echo "vfio-platform" > /sys/bus/platform/devices/$DEV/driver_override
-	echo $DEV > /sys/bus/platform/drivers/vfio-platform/bind
+	echo "vfio-platform" > /sys/bus/platform/devices/"$DEV"/driver_override
+	echo "$DEV" > /sys/bus/platform/drivers/vfio-platform/bind
 done
 exit 0
-

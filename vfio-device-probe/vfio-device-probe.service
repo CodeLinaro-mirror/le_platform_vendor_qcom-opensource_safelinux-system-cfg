@@ -3,8 +3,7 @@
 
 [Unit]
 Description=Bind devices to vfio-platform
-Requires=systemd-modules-load.service systemd-hostnamed.service
-After=systemd-modules-load.service systemd-hostnamed.service
+After=systemd-modules-load.service
 DefaultDependencies=no
 Conflicts=shutdown.target
 Before=shutdown.target
