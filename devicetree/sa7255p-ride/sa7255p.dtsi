@@ -1683,6 +1683,126 @@
 			interrupt-controller;
 			#interrupt-cells = <2>;
 			gpio-ranges = <&tlmm 0 0 133>;
+
+			cci0_sda_default: cci0_sda_default {
+				mux {
+					/* CLK, DATA */
+					pins = "gpio57";
+					function = "cci_i2c_sda";
+				};
+				config {
+					pins = "gpio57";
+					bias-pull-up; /* PULL UP*/
+					drive-strength = <2>; /* 2 MA */
+				};
+			};
+
+			cci0_scl_default: cci0_scl_default {
+				mux {
+					/* CLK, DATA */
+					pins = "gpio58";
+					function = "cci_i2c_scl";
+				};
+				config {
+					pins = "gpio58";
+					bias-pull-up; /* PULL UP*/
+					drive-strength = <2>; /* 2 MA */
+				};
+			};
+
+			cci2_sda_default: cci2_sda_default {
+				mux {
+					/* CLK, DATA */
+					pins = "gpio59";
+					function = "cci_i2c_sda";
+				};
+				config {
+					pins = "gpio59";
+					bias-pull-up; /* PULL UP*/
+					drive-strength = <2>; /* 2 MA */
+				};
+			};
+
+			cci2_scl_default: cci2_scl_default {
+				mux {
+					/* CLK, DATA */
+					pins = "gpio60";
+					function = "cci_i2c_scl";
+				};
+				config {
+					pins = "gpio60";
+					bias-pull-up; /* PULL UP*/
+					drive-strength = <2>; /* 2 MA */
+				};
+			};
+
+			cci4_sda_default: cci4_sda_default {
+				mux {
+					/* CLK, DATA */
+					pins = "gpio61";
+					function = "cci_i2c_sda";
+				};
+				config {
+					pins = "gpio61";
+					bias-pull-up; /* PULL UP*/
+					drive-strength = <2>; /* 2 MA */
+				};
+			};
+
+			cci4_scl_default: cci4_scl_default {
+				mux {
+					/* CLK, DATA */
+					pins = "gpio62";
+					function = "cci_i2c_scl";
+				};
+				config {
+					pins = "gpio62";
+					bias-pull-up; /* PULL UP*/
+					drive-strength = <2>; /* 2 MA */
+				};
+			};
+
+			fsync0_default: fsync0_default {
+				mux {
+					/* CLK, DATA */
+					pins = "gpio63";
+					function = "cci_timer0";
+				};
+
+				config {
+					pins = "gpio63";
+					bias-pull-up; /* PULL UP*/
+					drive-strength = <2>; /* 2 MA */
+				};
+			};
+
+			fsync1_default: fsync1_default {
+				mux {
+					/* CLK, DATA */
+					pins = "gpio64";
+					function = "cci_timer1";
+				};
+
+				config {
+					pins = "gpio64";
+					bias-pull-up; /* PULL UP*/
+					drive-strength = <2>; /* 2 MA */
+				};
+			};
+
+			fsync2_default: fsync2_default {
+				mux {
+					/* CLK, DATA */
+					pins = "gpio65";
+					function = "cci_timer2";
+				};
+
+				config {
+					pins = "gpio65";
+					bias-pull-up; /* PULL UP*/
+					drive-strength = <2>; /* 2 MA */
+				};
+			};
 		};
 
 		apps_smmu: iommu@15000000 {
