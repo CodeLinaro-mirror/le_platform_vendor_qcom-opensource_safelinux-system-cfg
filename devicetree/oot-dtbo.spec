@@ -43,6 +43,7 @@ cat %{_builddir}/%{name}/centos-stream-9/arch/arm64/boot/dts/qcom/sa8775p-ride.d
             %{_builddir}/%{name}/sa8775p-ride-mx/sa8775p-ride-mx.dtb \
             %{_builddir}/%{name}/sa8650p-ride/sa8650p-ride.dtb \
             %{_builddir}/%{name}/sa8255p-ride/sa8255p-ride.dtb \
+            %{_builddir}/%{name}/centos-stream-9/arch/arm64/boot/dts/qcom/sa8775p-ride_pcie_ep.dtb.overlay \
             > ${install_dtbo_path}/dtb/qcom/sa8775p-ride.dtb.overlay
 cp %{_builddir}/%{name}/sa8775p-qvp/sa8775p-qvp.dtb ${install_dtbo_path}/dtb/qcom/sa8775p-qvp.dtb
 
