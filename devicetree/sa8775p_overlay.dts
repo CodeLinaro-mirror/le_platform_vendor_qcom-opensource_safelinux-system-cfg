@@ -62,6 +62,14 @@
 	};
 };
 
+&pcie0 {
+	iommus = <&pcie_smmu 0x00 0x7f>;
+};
+
+&pcie1 {
+	iommus = <&pcie_smmu 0x80 0x7f>;
+};
+
 &soc {
 	qupv3_id_0: geniqup@9c0000 {
 		status = "okay";
