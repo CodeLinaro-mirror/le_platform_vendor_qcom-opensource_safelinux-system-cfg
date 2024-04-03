@@ -14,6 +14,8 @@ then
 	exit 1
 fi
 
+# This regex in file name is supposed to differentiate b/w pcie_ep DTBs and regular ones
+PCIE_EP_DTBO_REGEX="pcie_ep"
 ARCH="${ARCH:=arm64}"
 KDIR=$1
 DTBO_DIR=$2
@@ -74,7 +76,14 @@ merge_dtbos()
 
 	base_name=$(basename $base_dtb)
 	base_dts_name=$(echo "$base_name" | sed -e 's/\.[^.]*$//')
-	out_file="${base_dts_name}.dtb.overlay"
+	#out_file="${base_dts_name}.dtb.overlay"
+	# Since base DTB is same, choose a different name if its a pcie_ep usecase, avoid overwriting
+
+	if echo $dtbo_files | grep -q ${PCIE_EP_DTBO_REGEX}; then
+		out_file="${base_dts_name}_${PCIE_EP_DTBO_REGEX}.dtb.overlay"
+	else
+		out_file="${base_dts_name}.dtb.overlay"
+	fi
 
 	if [ "$matched_dtbos" != ""  ]
 	then
@@ -94,11 +103,18 @@ main()
 
 	#refresh the dtb list
 	dtb_files=$(find ${KDIR}/arch/arm64/boot/dts/qcom -name "*.dtb")
-	dtbo_files=$(find $DTBO_DIR -name "*.dtbo")
+#	dtbo_files=$(find $DTBO_DIR -name "*.dtbo")
+	dtbo_files_regular=$(find $DTBO_DIR -name "*.dtbo" | grep -v "${PCIE_EP_DTBO_REGEX}")
+	dtbo_files_pcie_ep=$(find $DTBO_DIR -name "*.dtbo" | grep "${PCIE_EP_DTBO_REGEX}")
 
 	for file in $dtb_files
 	do
-		merge_dtbos $file "${dtbo_files[@]}"
+		#merge_dtbos $file "${dtbo_files[@]}"
+		# For same Base DTB we can have a pcie_ep and regular DTBO
+		# # At the same time, we can have more than 1 overlay of each type (pcie_ep or regular ones)
+		# Hence segregate, and generate 2 types of DTBs, if match happens
+		merge_dtbos $file "${dtbo_files_regular[@]}"
+		merge_dtbos $file "${dtbo_files_pcie_ep[@]}"
 	done
 }
 
