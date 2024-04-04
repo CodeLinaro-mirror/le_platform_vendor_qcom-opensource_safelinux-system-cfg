@@ -8,6 +8,7 @@ Source0: %{name}-%{version}.tar.gz
 
 Requires: ethtool iperf3 iproute-tc tcpdump
 Requires: stress-ng libtirpc perf sysstat
+Requires: libtracefs libtracecmd trace-cmd rtla
 
 %description
 %{name} - %{summary} - meta package that pulls in many extra tools RPMs
