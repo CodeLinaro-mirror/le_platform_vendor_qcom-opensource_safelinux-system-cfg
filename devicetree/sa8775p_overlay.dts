@@ -677,3 +677,17 @@
 		reg = <0x0 0xa0500000 0x0 0x300000>;
         };
 };
+
+&pcie0 {
+
+	iommus = <&pcie_smmu 0x0000 0x1>;
+
+	status = "okay";
+};
+
+&pcie1 {
+
+	iommus = <&pcie_smmu 0x0080 0x7f>;
+
+	status = "okay";
+};
