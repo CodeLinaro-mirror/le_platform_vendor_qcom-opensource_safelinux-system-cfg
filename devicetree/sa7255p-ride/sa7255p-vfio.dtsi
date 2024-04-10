@@ -45,6 +45,7 @@
 			<&apps_smmu 0x2181 0>,
 			<&apps_smmu 0x2581 0>;
 		dma-coherent;
+		status = "disabled";
 	};
 
 	cdsp0_cb@2 {
@@ -61,6 +62,7 @@
 			<&apps_smmu 0x2182 0>,
 			<&apps_smmu 0x2582 0>;
 		dma-coherent;
+		status = "disabled";
 	};
 
 	cdsp0_cb@3 {
@@ -77,6 +79,7 @@
 			<&apps_smmu 0x2183 0>,
 			<&apps_smmu 0x2583 0>;
 		dma-coherent;
+		status = "disabled";
 	};
 
 	cdsp0_cb@4 {
@@ -93,6 +96,7 @@
 			<&apps_smmu 0x2184 0>,
 			<&apps_smmu 0x2584 0>;
 		dma-coherent;
+		status = "disabled";
 	};
 
 	cdsp1_cb@1 {
@@ -109,6 +113,7 @@
 			<&apps_smmu 0x29E1 0>,
 			<&apps_smmu 0x2DE1 0>;
 		dma-coherent;
+		status = "disabled";
 	};
 
 	cdsp1_cb@2 {
@@ -125,6 +130,7 @@
 			<&apps_smmu 0x2982 0>,
 			<&apps_smmu 0x2D82 0>;
 		dma-coherent;
+		status = "disabled";
 	};
 
 	cdsp1_cb@3 {
@@ -141,6 +147,7 @@
 			<&apps_smmu 0x2983 0>,
 			<&apps_smmu 0x2D83 0>;
 		dma-coherent;
+		status = "disabled";
 	};
 
 	cdsp1_cb@4 {
@@ -157,6 +164,7 @@
 			<&apps_smmu 0x2984 0>,
 			<&apps_smmu 0x2D84 0>;
 		dma-coherent;
+		status = "disabled";
 	};
 
 	adsp_cb@2 {
@@ -164,6 +172,7 @@
 		reg = <0x0 0x2 0x0 0x0>;
 		iommus = <&apps_smmu 0x3003 0x0>;
 		dma-coherent;
+		status = "disabled";
 	};
 
 	adsp_cb@3 {
@@ -171,6 +180,7 @@
 		reg = <0x0 0x3 0x0 0x0>;
 		iommus = <&apps_smmu 0x3004 0x0>;
 		dma-coherent;
+		status = "disabled";
 	};
 
 	adsp_cb@4 {
@@ -178,6 +188,7 @@
 		reg = <0x0 0x4 0x0 0x0>;
 		iommus = <&apps_smmu 0x3005 0x0>;
 		dma-coherent;
+		status = "disabled";
 	};
 
 	gpdsp0_cb@1 {
@@ -185,6 +196,7 @@
 		reg = <0x0 0x1 0x0 0x0>;
 		iommus = <&apps_smmu 0x38A1 0>;
 		dma-coherent;
+		status = "disabled";
 	};
 
 	gpdsp0_cb@3 {
@@ -192,6 +204,7 @@
 		reg = <0x0 0x3 0x0 0x0>;
 		iommus = <&apps_smmu 0x38A3 0>;
 		dma-coherent;
+		status = "disabled";
 	};
 
 	gpdsp1_cb@1 {
@@ -199,6 +212,7 @@
 		reg = <0x0 0x1 0x0 0x0>;
 		iommus = <&apps_smmu 0x38C1 0>;
 		dma-coherent;
+		status = "disabled";
 	};
 
 	gpdsp1_cb@3 {
@@ -206,6 +220,7 @@
 		reg = <0x0 0x3 0x0 0x0>;
 		iommus = <&apps_smmu 0x38C3 0>;
 		dma-coherent;
+		status = "disabled";
 	};
 
 	tcsr_mutex_block: syscon@1f40000 {
