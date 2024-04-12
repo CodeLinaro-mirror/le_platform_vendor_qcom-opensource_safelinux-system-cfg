@@ -4,6 +4,13 @@
 */
 
 &soc {
+
+	audio_tlmm@0 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&sec_tdm_sck_active &sec_tdm_ws_active &sec_tdm_din_active &sec_tdm_dout_active &tert_tdm_sck_active &tert_tdm_ws_active &tert_tdm_din_active &tert_tdm_dout_active &hs0_i2s_sck_active &hs0_i2s_ws_active &hs0_i2s_data0_active &hs0_i2s_data1_active &audio_internal_mclk1_active>;
+	};
+
 	umd_pil@408000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x00408000 0x0 0x1000>,
@@ -416,6 +423,27 @@
 		compatible = "qcom,vfio-platform";
 		iommus = <&apps_smmu 0x0887 0x0400>;
 		qcom,iommu-dma-addr-pool = <0x0 0x00100000 0x0 0xdff00000>;
+		dma-coherent;
+	};
+
+	vfio_audio@1 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x1 0x0 0x0>;
+		iommus = <&apps_smmu 0x2001 0x0>;
+		dma-coherent;
+        };
+
+	vfio_audio_gpdsp0_cb@2 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x2 0x0 0x0>;
+		iommus = <&apps_smmu 0x28A2 0x0>;
+		dma-coherent;
+	};
+
+	vfio_audio_gpdsp1_cb@2 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x2 0x0 0x0>;
+		iommus = <&apps_smmu 0x28C2 0x0>;
 		dma-coherent;
 	};
 };
