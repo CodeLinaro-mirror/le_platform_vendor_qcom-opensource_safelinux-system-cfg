@@ -197,7 +197,7 @@
 	};
 
 	firmware {
-		scm {
+		qcom_scm {
 			compatible = "qcom,scm";
 			qcom,dload-mode = <&tcsr 0x13000>;
 		};
@@ -2654,6 +2654,10 @@
 	kaslr_store {
 		compatible = "qcom,kaslr-off-store";
 		reg = <0x0 0x146d86d0 0x0 0xc>;
+	};
+
+	mini_dump_mode {
+		compatible = "qcom,minidump";
 	};
 };
 
