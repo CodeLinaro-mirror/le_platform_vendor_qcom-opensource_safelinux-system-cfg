@@ -32,7 +32,7 @@
 			<0x0 0x90900000 0x0 0x200000>,
 			<0x0 0x00780000 0x0 0x10000>,
 			<0x0 0x146d8000 0x0 0x1000>,
-			<0x0 0xadc00000 0x0 0x300000>,
+			<0x0 0xa0500000 0x0 0x300000>,
 			<0x0 0x95c00000 0x0 0x1e00000>,
 			<0x0 0x9b800000 0x0 0x1e00000>,
 			<0x0 0x9fc00000 0x0 0x700000>,
@@ -89,7 +89,7 @@
 			<0x0 0x99900000 0x0 0x1e00000>,
 			<0x0 0x95c00000 0x0 0x1e00000>;
 
-		iommus = <&adreno_smmu 0x407 0x0>;
+		iommus = <&adreno_smmu 0x407 0xc00>;
 		dma-coherent;
 	};
 
@@ -309,7 +309,7 @@
 		compatible = "qcom,vfio-platform";
 		interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
 		reg = <0x0 0x17c23000 0x0 0x1000>;
-		iommus = <&adreno_smmu 0x7 0x0>;
+		iommus = <&adreno_smmu 0x7 0xc00>;
 		qcom,iommu-dma-addr-pool = <0x0 0x60002000 0x0 0x1FFFE000>;
 	};
 
@@ -514,7 +514,7 @@
 	vfio_kgsl_secure {
 		compatible = "qcom,vfio-platform";
 		// switch to secure CB once ready
-		iommus = <&adreno_smmu 0x7 0xc00>;
+		iommus = <&adreno_smmu 0x2 0xc00>;
 		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0x7FFF0000>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
@@ -597,4 +597,37 @@
 		iommus = <&apps_smmu 0x38C2 0x0>;
 		dma-coherent;
 	};
+
+	vfio_pcie0_hdma@40005000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x40005000 0x0 0x2000>;
+		interrupts = <GIC_SPI 631 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 632 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 633 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 634 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 635 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 472 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 473 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&pcie_smmu 0x0 0x0001>;
+		iommu-map = <0x0 &pcie_smmu 0x0000 0x1>,
+			<0x100 &pcie_smmu 0x0001 0x1>;
+		dma-coherent;
+	};
+
+        vfio_pcie1_hdma@60005000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x60005000 0x0 0x2000>;
+		interrupts = <GIC_SPI 475 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 476 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 601 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 602 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 603 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&pcie_smmu 0x0080 0x1>;
+		iommu-map = <0x0 &pcie_smmu 0x0080 0x1>,
+			<0x100 &pcie_smmu 0x0081 0x1>;
+		dma-coherent;
+	};
+
 };
