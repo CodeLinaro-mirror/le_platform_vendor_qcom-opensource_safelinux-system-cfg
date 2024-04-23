@@ -203,6 +203,24 @@
 		};
 	};
 
+	qcom_tzlog: tz-log@146d8720 {
+		compatible = "qcom,tz-log";
+		reg = <0x0 0x146d8720 0x0 0x3000>;
+		qcom,hyplog-enabled;
+		hyplog-address-offset = <0x410>;
+		hyplog-size-offset = <0x414>;
+	};
+
+	qtee_shmbridge {
+		compatible = "qcom,tee-shared-memory-bridge";
+		qcom,support-hypervisor;
+		memory-region = <&cma>;
+	};
+
+	qcom_smcinvoke {
+		compatible = "qcom,smcinvoke";
+	};
+
 	aggre1_noc: interconnect-aggre1-noc {
 		compatible = "qcom,sa7255p-aggre1_noc";
 		#interconnect-cells = <2>;
@@ -480,7 +498,7 @@
 		};
 
 		/* global autoconfigured region for contiguous allocations */
-		system_cma: linux,cma {
+		cma: linux,cma {
 			compatible = "shared-dma-pool";
 			alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;
 			reusable;
