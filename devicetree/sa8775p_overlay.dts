@@ -17,7 +17,6 @@
 #include "sa8775p-pinctrl.dtsi"
 #include "sa8775p-vfio.dtsi"
 #include "sa8775p-vms.dtsi"
-#include "sa8775p-scmi.dtsi"
 
 / {
 	model = "Qualcomm SA8775P Ride";
