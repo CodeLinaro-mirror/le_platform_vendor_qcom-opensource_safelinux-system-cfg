@@ -43,20 +43,22 @@ make
 %install
 install_dtbo_path=${RPM_BUILD_ROOT}/lib/modules/%{kversion_with_debug}
 mkdir -p ${install_dtbo_path}/dtb/qcom/
-cat %{_builddir}/%{name}/centos-stream-9/arch/arm64/boot/dts/qcom/sa8775p-ride.dtb.overlay \
+cat %{_builddir}/%{name}/centos-stream-9/arch/arm64/boot/dts/qcom/sa8775p-ride-fw-managed.dtb.overlay \
             %{_builddir}/%{name}/sa8770p-ride/sa8770p-ride.dtb \
             %{_builddir}/%{name}/sa8775p-ride-mx/sa8775p-ride-mx.dtb \
             %{_builddir}/%{name}/sa8650p-ride/sa8650p-ride.dtb \
             %{_builddir}/%{name}/sa8255p-ride/sa8255p-ride.dtb \
-            > ${install_dtbo_path}/dtb/qcom/sa8775p-ride.dtb.overlay
+            > ${install_dtbo_path}/dtb/qcom/sa8775p-ride-fw-managed.dtb.overlay
 cp %{_builddir}/%{name}/sa8775p-qvp/sa8775p-qvp.dtb ${install_dtbo_path}/dtb/qcom/sa8775p-qvp.dtb
 
 %files
 %define kernel_module_path /lib/modules/%{kversion_with_debug}
-%{kernel_module_path}/dtb/qcom/sa8775p-ride.dtb.overlay
+%{kernel_module_path}/dtb/qcom/sa8775p-ride-fw-managed.dtb.overlay
 %{kernel_module_path}/dtb/qcom/sa8775p-qvp.dtb
 
 %changelog
+* Tue Apr 30 2024 Nikunj Kela <quic_nkela@quicinc.com> 1.0
+- switch to fw-managed variant for SA8775p
 * Tue Feb 13 2024 Jayanta Saren <quic_jsaren@quicinc.com> 1.0
 - Add support for sa8775-qvp dtb
 * Wed Dec 06 2023 Ninad Naik <quic_ninanaik@quicinc.com> 1.0
