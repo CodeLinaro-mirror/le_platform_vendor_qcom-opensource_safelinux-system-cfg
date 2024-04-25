@@ -477,11 +477,4 @@
 		iommus = <&apps_smmu 0x28A2 0x0>;
 		dma-coherent;
 	};
-
-	vfio_audio_gpdsp1_cb@2 {
-		compatible = "qcom,vfio-platform";
-		reg = <0x0 0x2 0x0 0x0>;
-		iommus = <&apps_smmu 0x28C2 0x0>;
-		dma-coherent;
-	};
 };
