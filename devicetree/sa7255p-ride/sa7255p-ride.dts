@@ -10,6 +10,7 @@
 
 #include "sa7255p.dtsi"
 #include "sa7255p-vfio.dtsi"
+#include "sa7255p-vms.dtsi"
 #include "sa7255p-pmics.dtsi"
 
 / {
