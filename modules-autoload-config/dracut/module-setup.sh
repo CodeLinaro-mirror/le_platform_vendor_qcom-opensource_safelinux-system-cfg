@@ -17,16 +17,6 @@ installkernel() {
 # list of kernel modules to load during initramfs boot
 # Necessary drivers for bringing up console and UFS based RootFS$
 SA8775_INITRAMFS_DRIVERS=" \
-    camcc-sa8775p \
-    dispcc0-sa8775p \
-    dispcc1-sa8775p \
-    gpucc-sa8775p \
-    videocc-sa8775p \
-    spmi-pmic-arb \
-    pinctrl-spmi-gpio \
-    pinctrl-spmi-mpp \
-    nvmem_qcom-spmi-sdam \
-    qcom-spmi-temp-alarm \
     virtio_mmio \
     virtio_net \
     failover \
