@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: GPL-2.0-only
 /*
-* Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+* Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 */
 
 &soc {
@@ -571,7 +571,7 @@
 		      <0x0 0xabb0000 0x0 0x2000>,    //CVP_IRIS_WRAPPER_PHYS_ADDR
 		      <0x0 0xabc2000 0x0 0x1000>,    //CVP_TZ0_PHYS_ADDR
 		      <0x0 0xabc3000 0x0 0x1000>,    //CVP_TZ1_PHYS_ADDR
-		      <0x0 0xabd0000 0x0 0x1000>,    //CVP_IRIS_CPU_NOC_PHYS_ADDR <0xabd0080 0x480>
+		      <0x0 0xabd0000 0x0 0x2000>,    //CVP_IRIS_CPU_NOC_PHYS_ADDR <0xabd0080 0x1f80>
 		      <0x0 0x110000  0x0 0x1e0000>,  //GCC_CLK_CTL_REG_PHYS_ADDR
 		      <0x0 0xab04000 0x0 0x1000>,    //CVP_FDU0_CVP_FDU_PHYS_ADDR <0xab04000 0x400>
 		      <0x0 0xab04000 0x0 0x1000>,    //CVP_MPU0_CVP_MPU_PHYS_ADDR <0xab04400 0x400>
