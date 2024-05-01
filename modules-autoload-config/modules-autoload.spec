@@ -28,6 +28,9 @@ echo "kiumd_kgsl" > "%{buildroot}%{_modulesloaddir}/kgsl.conf"
 echo "uinput" > "%{buildroot}%{_modulesloaddir}/vmm_pwr_key.conf"
 echo "dump_boot_log" > "%{buildroot}%{_modulesloaddir}/dump.conf"
 echo "mhi_ep_net" > "%{buildroot}%{_modulesloaddir}/mhi_ep_net.conf"
+echo "socinfo" > "%{buildroot}%{_modulesloaddir}/socinfo.conf"
+echo "smem" > "%{buildroot}%{_modulesloaddir}/smem.conf"
+echo "qcom_hwspinlock" > "%{buildroot}%{_modulesloaddir}/qcom_hwspinlock.conf"
 mkdir -p %{buildroot}%{dracut_module_destdir}
 install -DpZm 0644 dracut/module-setup.sh %{buildroot}%{dracut_module_destdir}
 
@@ -42,3 +45,6 @@ install -DpZm 0644 dracut/module-setup.sh %{buildroot}%{dracut_module_destdir}
 %{_modulesloaddir}/vmm_pwr_key.conf
 %{_modulesloaddir}/dump.conf
 %{_modulesloaddir}/mhi_ep_net.conf
+%{_modulesloaddir}/socinfo.conf
+%{_modulesloaddir}/smem.conf
+%{_modulesloaddir}/qcom_hwspinlock.conf
