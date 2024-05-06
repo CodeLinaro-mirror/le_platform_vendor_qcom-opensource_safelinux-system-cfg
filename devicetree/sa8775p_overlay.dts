@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
  * Copyright (c) 2023, Linaro Limited
  */
 
@@ -600,18 +600,4 @@
 		no-map;
 		reg = <0x0 0xa0500000 0x0 0x300000>;
         };
-};
-
-&pcie0 {
-
-	iommus = <&pcie_smmu 0x0000 0x1>;
-
-	status = "okay";
-};
-
-&pcie1 {
-
-	iommus = <&pcie_smmu 0x0080 0x7f>;
-
-	status = "okay";
 };
