@@ -21,6 +21,7 @@ Adding conf file to Autoload DLKMs during bootup.
 mkdir -p  %{buildroot}%{_modulesloaddir}
 mkdir -p  %{buildroot}%{_modprobedir}
 cp i2cdev.conf "%{buildroot}%{_modulesloaddir}"
+cp spidev.conf "%{buildroot}%{_modulesloaddir}"
 echo "options vfio_platform reset_required=0" > "%{buildroot}%{_modprobedir}/vfio.conf"
 echo "vfio_platform" > "%{buildroot}%{_modulesloaddir}/vfio.conf"
 echo "kryo_arm64_edac" > "%{buildroot}%{_modulesloaddir}/edac.conf"
@@ -38,6 +39,7 @@ install -DpZm 0644 dracut/module-setup.sh %{buildroot}%{dracut_module_destdir}
 %dir %{dracut_module_destdir}
 %{dracut_module_destdir}/module-setup.sh
 %{_modulesloaddir}/i2cdev.conf
+%{_modulesloaddir}/spidev.conf
 %{_modulesloaddir}/vfio.conf
 %{_modprobedir}/vfio.conf
 %{_modulesloaddir}/edac.conf
