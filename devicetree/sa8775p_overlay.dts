@@ -609,6 +609,11 @@
 		status = "ok";
 	};
 
+	dload_mode {
+		compatible = "qcom,dload-mode";
+		status = "ok";
+	};
+
 	kiumd {
 		compatible = "qcom,kiumd";
 		qcom,dev-name = "kiumd";
