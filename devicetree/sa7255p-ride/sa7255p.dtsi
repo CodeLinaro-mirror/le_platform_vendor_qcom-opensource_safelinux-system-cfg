@@ -1565,9 +1565,9 @@
 		memtimer: timer@17c20000 {
 			#address-cells = <1>;
 			#size-cells = <1>;
-			ranges;
+			ranges = <0x0 0x0 0x0 0x20000000>;
 			compatible = "arm,armv7-timer-mem";
-			reg = <0x17c20000 0x1000>;
+			reg = <0x0 0x17c20000 0x0 0x1000>;
 			clock-frequency = <19200000>;
 
 			frame@17c21000 {
