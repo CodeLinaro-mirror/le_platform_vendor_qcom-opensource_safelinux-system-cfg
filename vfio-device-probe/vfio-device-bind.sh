@@ -12,6 +12,9 @@ case "$target" in
         *"SA7255P"* |*"SA8620P"*)
 	DEVS="ac00000.vfio_titan_base ab00000.vfio_eva aa00000.vfio_vidc ae00000.vfio_dpu_00
 		22000000.vfio_dpu_10 780000.umd_glink 408000.umd_pil
+		1.cdsp0_cb 2.cdsp0_cb 3.cdsp0_cb 4.cdsp0_cb
+		2.adsp_cb 3.adsp_cb 4.adsp_cb 1.gpdsp0_cb 3.gpdsp0_cb
+		1.vfio_audio 2.vfio_audio_gpdsp0_cb
 		soc@0:vfio_cam_ipe_non_secure_cb soc@0:vfio_cam_cdm_non_secure_cb
 		soc@0:vfio_cam_icp_non_secure_cb 3d00000.vfio_kgsl 1fc0000.vfio_gmu
 		soc@0:vfio_gmu_db soc@0:vfio_kgsl_secure soc@0:vfio_kgsl_lpac
