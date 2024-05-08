@@ -22,6 +22,7 @@ SA8775_INITRAMFS_DRIVERS=" \
     dispcc1-sa8775p \
     gpucc-sa8775p \
     videocc-sa8775p \
+    spmi-pmic-arb \
     pinctrl-spmi-gpio \
     pinctrl-spmi-mpp \
     nvmem_qcom-spmi-sdam \
