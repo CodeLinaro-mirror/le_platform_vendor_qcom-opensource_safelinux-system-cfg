@@ -990,6 +990,12 @@
 		status = "ok";
 	};
 
+	kiumd {
+		compatible = "qcom,kiumd";
+		qcom,dev-name = "kiumd";
+		status = "ok";
+	};
+
 	ipcc: mailbox@408000 {
 		compatible = "qcom,sa8775p-ipcc", "qcom,ipcc";
 		reg = <0x0 0x408000 0x0 0x1000>;
