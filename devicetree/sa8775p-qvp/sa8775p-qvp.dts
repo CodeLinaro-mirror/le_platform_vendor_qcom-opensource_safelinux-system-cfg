@@ -457,8 +457,8 @@
 	chosen {
 		bootargs = "rw root=/dev/vda earlyprintk=serial,ttyAMA0 console=ttyAMA0 firmware_class.path=/firmware";
 		stdout-path = "/pl011@40000000";
-		linux,initrd-start = <0xbd151000>;
-		linux,initrd-end =  <0xbef00000>;
+		linux,initrd-start = <0xbdc3a000>;
+		linux,initrd-end =  <0xbeb00000>;
 		kaslr-seed = <0x0 0x0>;
 	};
 
