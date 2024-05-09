@@ -445,59 +445,59 @@
 	};
 	cpus {
 		#size-cells = <0x0>;
-		#address-cells = <0x1>;
+		#address-cells = <0x2>;
 
 		cpu@0 {
-			reg = <0x0>;
+			reg = <0x0 0x0>;
 			enable-method = "psci";
 			compatible = "arm,cortex-a57";
 			device_type = "cpu";
 		};
 
-		cpu@1 {
-			reg = <0x1>;
+		cpu@100 {
+			reg = <0x0 0x100>;
 			enable-method = "psci";
 			compatible = "arm,cortex-a57";
 			device_type = "cpu";
 		};
 
-		cpu@2 {
-			reg = <0x2>;
+		cpu@200 {
+			reg = <0x0 0x200>;
 			enable-method = "psci";
 			compatible = "arm,cortex-a57";
 			device_type = "cpu";
 		};
 
-		cpu@3 {
-			reg = <0x3>;
+		cpu@300 {
+			reg = <0x0 0x300>;
 			enable-method = "psci";
 			compatible = "arm,cortex-a57";
 			device_type = "cpu";
 		};
 
-		cpu@4 {
-			reg = <0x4>;
+		cpu@10000 {
+			reg = <0x0 0x10000>;
 			enable-method = "psci";
 			compatible = "arm,cortex-a57";
 			device_type = "cpu";
 		};
 
-		cpu@5 {
-			reg = <0x5>;
+		cpu@10100 {
+			reg = <0x0 0x10100>;
 			enable-method = "psci";
 			compatible = "arm,cortex-a57";
 			device_type = "cpu";
 		};
 
-		cpu@6 {
-			reg = <0x6>;
+		cpu@10200 {
+			reg = <0x0 0x10200>;
 			enable-method = "psci";
 			compatible = "arm,cortex-a57";
 			device_type = "cpu";
 		};
 
-		cpu@7 {
-			reg = <0x7>;
+		cpu@10300 {
+			reg = <0x0 0x10300>;
 			enable-method = "psci";
 			compatible = "arm,cortex-a57";
 			device_type = "cpu";
