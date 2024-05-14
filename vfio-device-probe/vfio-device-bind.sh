@@ -32,7 +32,8 @@ case "$target" in
 		soc@0:vfio_vidc_non_secure_pixel_cb 1.vfio_audio 2.vfio_audio_gpdsp0_cb
 		2.vfio_audio_gpdsp1_cb 90d80000.sail-mailbox 90e00000.sail-mailbox-ota
 		90d00000.safety-ddr 9200000.umd_llcc 40005000.vfio_pcie0_hdma
-		60005000.vfio_pcie1_hdma d0040000.umd_firmware_vm 26092000.umd_nsp_drv"
+		60005000.vfio_pcie1_hdma d0040000.umd_firmware_vm 26092000.umd_nsp_drv
+		628000.apss-stl"
 	;;
 esac
 for DEV in $DEVS; do
