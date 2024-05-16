@@ -302,7 +302,10 @@
 			<0x0 0x01FF8000 0x0 0x1000>,
 			<0x0 0x01FFA000 0x0 0x1000>;
 		iommus = <&apps_smmu 0x3903 0x0>;
-		interrupts-extended = <&ipcc_computeL1 IPCC_CLIENT_SAIL2 0x1 IRQ_TYPE_EDGE_RISING>;
+		interrupts-extended = <&ipcc_computeL1 IPCC_CLIENT_SAIL0 0x1 IRQ_TYPE_EDGE_RISING>,
+				      <&ipcc_computeL1 IPCC_CLIENT_SAIL1 0x1 IRQ_TYPE_EDGE_RISING>,
+				      <&ipcc_computeL1 IPCC_CLIENT_SAIL2 0x1 IRQ_TYPE_EDGE_RISING>,
+				      <&ipcc_computeL1 IPCC_CLIENT_SAIL3 0x1 IRQ_TYPE_EDGE_RISING>;
 		dma-coherent;
 	};
 
