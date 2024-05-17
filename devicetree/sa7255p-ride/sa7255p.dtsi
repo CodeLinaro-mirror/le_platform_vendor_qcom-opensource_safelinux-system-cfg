@@ -2834,5 +2834,10 @@
 					"l3-c0-scu-faultirq",
 					"l3-c1-scu-faultirq";
 	};
+
+	dload_mode {
+		compatible = "qcom,dload-mode";
+	};
+
 };
 
