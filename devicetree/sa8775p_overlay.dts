@@ -629,6 +629,11 @@
 				"l3-c0-scu-faultirq",
 				"l3-c1-scu-faultirq";
 	};
+	ddr_bwprofiler {
+			compatible = "qcom,ddr_bwprofiler";
+			clocks = <&aoss_qmp>;
+			clock-names = "qdss_clk";
+	};
 };
 
 &{/firmware} {
