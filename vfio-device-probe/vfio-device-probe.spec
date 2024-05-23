@@ -10,6 +10,8 @@ Requires: systemd
 BuildRequires: systemd systemd-rpm-macros
 %{?systemd_requires}
 
+%global _vfiobinddir /usr/lib/vfio-bind.d/
+
 %description
 This rpm contians vfio systemd service file and bind script.
 
@@ -21,6 +23,7 @@ mkdir -p %{buildroot}%{_bindir}
 mkdir -p %{buildroot}%{_unitdir}
 install -m 777 vfio-device-bind.sh %{buildroot}%{_bindir}
 install -D -m 777 vfio-device-probe.service %{buildroot}%{_unitdir}
+install -DpZm 0644 sa8775_dev.conf %{buildroot}%{_vfiobinddir}/sa8775_dev.conf
 
 %post
 systemctl enable vfio-device-probe.service
@@ -29,3 +32,4 @@ systemctl enable vfio-device-probe.service
 %files
 %{_bindir}/vfio-device-bind.sh
 %{_unitdir}/vfio-device-probe.service
+%{_vfiobinddir}/sa8775_dev.conf
