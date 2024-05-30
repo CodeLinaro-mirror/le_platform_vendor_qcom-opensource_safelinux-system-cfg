@@ -16,7 +16,7 @@ case "$target" in
 		soc@0:vfio_cam_icp_non_secure_cb 3d00000.vfio_kgsl 1fc0000.vfio_gmu
 		soc@0:vfio_gmu_db soc@0:vfio_kgsl_secure soc@0:vfio_kgsl_lpac
 		soc@0:vfio_vidc_non_secure_pixel_cb 90d80000.sail-mailbox
-		90e00000.sail-mailbox-ota 17c23000.vfio_timer"
+		90e00000.sail-mailbox-ota 17c23000.vfio_timer 26092000.umd_nsp_drv"
 	;;
 esac
 case "$target" in
@@ -32,7 +32,7 @@ case "$target" in
 		soc@0:vfio_vidc_non_secure_pixel_cb 1.vfio_audio 2.vfio_audio_gpdsp0_cb
 		2.vfio_audio_gpdsp1_cb 90d80000.sail-mailbox 90e00000.sail-mailbox-ota
 		90d00000.safety-ddr 9200000.umd_llcc 40005000.vfio_pcie0_hdma
-		60005000.vfio_pcie1_hdma"
+		60005000.vfio_pcie1_hdma d0040000.umd_firmware_vm 26092000.umd_nsp_drv"
 	;;
 esac
 for DEV in $DEVS; do

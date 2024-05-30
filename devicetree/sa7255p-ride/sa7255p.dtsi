@@ -197,10 +197,28 @@
 	};
 
 	firmware {
-		scm {
+		qcom_scm {
 			compatible = "qcom,scm";
 			qcom,dload-mode = <&tcsr 0x13000>;
 		};
+	};
+
+	qcom_tzlog: tz-log@146d8720 {
+		compatible = "qcom,tz-log";
+		reg = <0x0 0x146d8720 0x0 0x3000>;
+		qcom,hyplog-enabled;
+		hyplog-address-offset = <0x410>;
+		hyplog-size-offset = <0x414>;
+	};
+
+	qtee_shmbridge {
+		compatible = "qcom,tee-shared-memory-bridge";
+		qcom,support-hypervisor;
+		memory-region = <&cma>;
+	};
+
+	qcom_smcinvoke {
+		compatible = "qcom,smcinvoke";
 	};
 
 	aggre1_noc: interconnect-aggre1-noc {
@@ -333,12 +351,17 @@
 
 		reserved_mem: reserved_region@908f0000 {
 			no-map;
-			reg = <0x0 0x908f0000 0x0 0xf000>;
+			reg = <0x0 0x908f0000 0x0 0xe000>;
 		};
 
-		secdata_apss_mem: secdata_apss_region@908ff000 {
+		secdata_apss_mem: secdata_apss_region@908fe000 {
 			no-map;
-			reg = <0x0 0x908ff000 0x0 0x1000>;
+			reg = <0x0 0x908fe000 0x0 0x2000>;
+		};
+
+		secboot_emulation_mem: secboot_emulation_region@908fe000 {
+			no-map;
+			reg = <0x0 0x908fe000 0x0 0x1000>;
 		};
 
 		smem_mem: smem@90900000 {
@@ -348,10 +371,6 @@
 			hwlocks = <&tcsr_mutex 3>;
 		};
 
-		cpucp_fw_mem: cpucp_fw_region@90b00000 {
-			no-map;
-			reg = <0x0 0x90b00000 0x0 0x100000>;
-		};
 
 		tz_sail_mailbox_mem: tz_sail_mailbox_region@90c00000 {
 			no-map;
@@ -448,44 +467,51 @@
 			reg = <0x0 0xc0b00000 0x0 0x400000>;
 		};
 
-		tz_stat_mem: tz_stat_region@d0000000 {
-			no-map;
-			reg = <0x0 0xd0000000 0x0 0x100000>;
-		};
-
 		tags_mem: tags_region@d0100000 {
 			no-map;
 			reg = <0x0 0xd0100000 0x0 0x800000>;
 		};
 
-		qtee_mem: qtee_region@d0900000 {
+		qtee_mem: qtee_region@d1300000 {
 			no-map;
-			reg = <0x0 0xd0900000 0x0 0x500000>;
+			reg = <0x0 0xd1300000 0x0 0x500000>;
 		};
 
-		deep_sleep_back_up_mem: deep_sleep_back_up_region@d0e00000 {
+		deep_sleep_back_up_mem: deep_sleep_back_up_region@d1800000 {
 			no-map;
-			reg = <0x0 0xd0e00000 0x0 0x100000>;
+			reg = <0x0 0xd1800000 0x0 0x100000>;
 		};
 
-		trusted_apps_mem: trusted_apps_region@d0f00000 {
+		trusted_apps_mem: trusted_apps_region@d1900000 {
 			no-map;
-			reg = <0x0 0xd0f00000 0x0 0x1800000>;
+			reg = <0x0 0xd1900000 0x0 0x1900000>;
 		};
 
-		eec_mem: eec_region@f8000000 {
+		tz_stat_mem: tz_stat_region@db100000 {
 			no-map;
-			reg = <0x0 0xf8000000 0x0 0x8000000>;
+			reg = <0x0 0xdb100000 0x0 0x100000>;
+		};
+
+		cpucp_fw_mem: cpucp_fw_region@db200000 {
+			no-map;
+			reg = <0x0 0xdb200000 0x0 0x100000>;
 		};
 
 		/* global autoconfigured region for contiguous allocations */
-		system_cma: linux,cma {
+		cma: linux,cma {
 			compatible = "shared-dma-pool";
 			alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;
 			reusable;
 			alignment = <0x0 0x400000>;
 			size = <0x0 0x2000000>;
 			linux,cma-default;
+		};
+
+		dump_mem: mem_dump_region {
+			alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;
+			compatible = "shared-dma-pool";
+			reusable;
+			size = <0x0 0x3000000>;
 		};
 	};
 
@@ -1539,9 +1565,9 @@
 		memtimer: timer@17c20000 {
 			#address-cells = <1>;
 			#size-cells = <1>;
-			ranges;
+			ranges = <0x0 0x0 0x0 0x20000000>;
 			compatible = "arm,armv7-timer-mem";
-			reg = <0x17c20000 0x1000>;
+			reg = <0x0 0x17c20000 0x0 0x1000>;
 			clock-frequency = <19200000>;
 
 			frame@17c21000 {
@@ -1683,6 +1709,392 @@
 			interrupt-controller;
 			#interrupt-cells = <2>;
 			gpio-ranges = <&tlmm 0 0 133>;
+
+			sec_tdm_sck {
+				sec_tdm_sck_sleep: sec_tdm_sck_sleep {
+					mux {
+						pins = "gpio98";
+						function = "gpio";
+					};
+
+					config {
+						pins = "gpio98";
+						drive-strength = <2>;   /* 2 mA */
+						bias-pull-down;         /* PULL DOWN */
+						input-enable;
+					};
+				};
+
+				sec_tdm_sck_active: sec_tdm_sck_active {
+					mux {
+						pins = "gpio98";
+						function = "mi2s1_sck";
+					};
+
+					config {
+						pins = "gpio98";
+						drive-strength = <8>;   /* 8 mA */
+						bias-disable;           /* NO PULL */
+						output-high;
+					};
+				};
+			};
+
+			sec_tdm_ws {
+				sec_tdm_ws_sleep: sec_tdm_ws_sleep {
+					mux {
+						pins = "gpio99";
+						function = "gpio";
+					};
+
+					config {
+						pins = "gpio99";
+						drive-strength = <2>;   /* 2 mA */
+						bias-pull-down;         /* PULL DOWN */
+						input-enable;
+					};
+				};
+
+				sec_tdm_ws_active: sec_tdm_ws_active {
+					mux {
+						pins = "gpio99";
+						function = "mi2s1_ws";
+					};
+
+					config {
+						pins = "gpio99";
+						drive-strength = <8>;   /* 8 mA */
+						bias-disable;           /* NO PULL */
+						output-high;
+					};
+				};
+			};
+
+			sec_tdm_din {
+				sec_tdm_din_sleep: sec_tdm_din_sleep {
+					mux {
+						pins = "gpio100";
+						function = "gpio";
+					};
+
+					config {
+						pins = "gpio100";
+						drive-strength = <2>;   /* 2 mA */
+						bias-pull-down;         /* PULL DOWN */
+						input-enable;
+					};
+				};
+
+				sec_tdm_din_active: sec_tdm_din_active {
+					mux {
+						pins = "gpio100";
+						function = "mi2s1_data0";
+					};
+
+					config {
+						pins = "gpio100";
+						drive-strength = <8>;   /* 8 mA */
+						bias-disable;           /* NO PULL */
+					};
+				};
+			};
+
+			sec_tdm_dout {
+				sec_tdm_dout_sleep: sec_tdm_dout_sleep {
+					mux {
+						pins = "gpio101";
+						function = "gpio";
+					};
+
+					config {
+						pins = "gpio101";
+						drive-strength = <2>;   /* 2 mA */
+						bias-pull-down;         /* PULL DOWN */
+						input-enable;
+					};
+				};
+
+				sec_tdm_dout_active: sec_tdm_dout_active {
+					mux {
+						pins = "gpio101";
+						function = "mi2s1_data1";
+					};
+
+					config {
+						pins = "gpio101";
+						drive-strength = <8>;   /* 8 mA */
+						bias-disable;           /* NO PULL */
+						output-high;
+					};
+				};
+			};
+
+			tert_tdm_sck {
+				tert_tdm_sck_sleep: tert_tdm_sck_sleep {
+					mux {
+						pins = "gpio102";
+						function = "gpio";
+					};
+
+					config {
+						pins = "gpio102";
+						drive-strength = <2>;   /* 2 mA */
+						bias-pull-down;         /* PULL DOWN */
+						input-enable;
+					};
+				};
+
+				tert_tdm_sck_active: tert_tdm_sck_active {
+					mux {
+						pins = "gpio102";
+						function = "mi2s2_sck";
+					};
+
+					config {
+						pins = "gpio102";
+						drive-strength = <8>;   /* 8 mA */
+						bias-disable;           /* NO PULL */
+						output-high;
+					};
+				};
+			};
+
+			tert_tdm_ws {
+				tert_tdm_ws_sleep: tert_tdm_ws_sleep {
+					mux {
+						pins = "gpio103";
+						function = "gpio";
+					};
+
+					config {
+						pins = "gpio103";
+						drive-strength = <2>;   /* 2 mA */
+						bias-pull-down;         /* PULL DOWN */
+						input-enable;
+					};
+				};
+
+				tert_tdm_ws_active: tert_tdm_ws_active {
+					mux {
+						pins = "gpio103";
+						function = "mi2s2_ws";
+					};
+
+					config {
+						pins = "gpio103";
+						drive-strength = <8>;   /* 8 mA */
+						bias-disable;           /* NO PULL */
+						output-high;
+					};
+				};
+			};
+
+			tert_tdm_din {
+				tert_tdm_din_sleep: tert_tdm_din_sleep {
+					mux {
+						pins = "gpio104";
+						function = "gpio";
+					};
+
+					config {
+						pins = "gpio104";
+						drive-strength = <2>;   /* 2 mA */
+						bias-pull-down;         /* PULL DOWN */
+						input-enable;
+					};
+				};
+
+				tert_tdm_din_active: tert_tdm_din_active {
+					mux {
+						pins = "gpio104";
+						function = "mi2s2_data0";
+					};
+
+					config {
+						pins = "gpio104";
+						drive-strength = <8>;   /* 8 mA */
+						bias-disable;           /* NO PULL */
+					};
+				};
+			};
+
+			tert_tdm_dout {
+				tert_tdm_dout_sleep: tert_tdm_dout_sleep {
+					mux {
+						pins = "gpio105";
+						function = "gpio";
+					};
+
+					config {
+						pins = "gpio105";
+						drive-strength = <2>;   /* 2 mA */
+						bias-pull-down;         /* PULL DOWN */
+						input-enable;
+					};
+				};
+
+				tert_tdm_dout_active: tert_tdm_dout_active {
+					mux {
+						pins = "gpio105";
+						function = "mi2s2_data1";
+					};
+
+					config {
+						pins = "gpio105";
+						drive-strength = <8>;   /* 8 mA */
+						bias-disable;           /* NO PULL */
+						output-high;
+					};
+				};
+			};
+
+			hs0_i2s_sck {
+				hs0_i2s_sck_sleep: hs0_i2s_sck_sleep {
+					mux {
+						pins = "gpio106";
+						function = "gpio";
+					};
+
+					config {
+						pins = "gpio106";
+						drive-strength = <2>;   /* 2 mA */
+						bias-pull-down;         /* PULL DOWN */
+						input-enable;
+					};
+				};
+
+				hs0_i2s_sck_active: hs0_i2s_sck_active {
+					mux {
+						pins = "gpio106";
+						function = "hs0_mi2s";
+					};
+
+					config {
+						pins = "gpio106";
+						drive-strength = <8>;   /* 8 mA */
+						bias-disable;           /* NO PULL */
+						output-high;
+					};
+				};
+			};
+
+			hs0_i2s_ws {
+				hs0_i2s_ws_sleep: hs0_i2s_ws_sleep {
+					mux {
+						pins = "gpio107";
+						function = "gpio";
+					};
+
+					config {
+						pins = "gpio107";
+						drive-strength = <2>;   /* 2 mA */
+						bias-pull-down;         /* PULL DOWN */
+						input-enable;
+					};
+				};
+
+				hs0_i2s_ws_active: hs0_i2s_ws_active {
+					mux {
+						pins = "gpio107";
+						function = "hs0_mi2s";
+					};
+
+					config {
+						pins = "gpio107";
+						drive-strength = <8>;   /* 8 mA */
+						bias-disable;           /* NO PULL */
+						output-high;
+					};
+				};
+			};
+
+			hs0_i2s_data0 {
+				hs0_i2s_data0_sleep: hs0_i2s_data0_sleep {
+					mux {
+						pins = "gpio108";
+						function = "gpio";
+					};
+
+					config {
+						pins = "gpio108";
+						drive-strength = <2>;   /* 2 mA */
+						bias-pull-down;         /* PULL DOWN */
+						input-enable;
+					};
+				};
+
+				hs0_i2s_data0_active: hs0_i2s_data0_active {
+					mux {
+						pins = "gpio108";
+						function = "hs0_mi2s";
+					};
+
+					config {
+						pins = "gpio108";
+						drive-strength = <8>;   /* 8 mA */
+						bias-disable;           /* NO PULL */
+					};
+				};
+			};
+
+			hs0_i2s_data1 {
+				hs0_i2s_data1_sleep: hs0_i2s_data1_sleep {
+					mux {
+						pins = "gpio109";
+						function = "gpio";
+					};
+
+					config {
+						pins = "gpio109";
+						drive-strength = <2>;   /* 2 mA */
+						bias-pull-down;         /* PULL DOWN */
+						input-enable;
+					};
+				};
+
+				hs0_i2s_data1_active: hs0_i2s_data1_active {
+					mux {
+						pins = "gpio109";
+						function = "hs0_mi2s";
+					};
+
+					config {
+						pins = "gpio109";
+						drive-strength = <8>;   /* 8 mA */
+						bias-disable;           /* NO PULL */
+						output-high;
+					};
+				};
+			};
+
+			audio_internal_mclk1 {
+				audio_internal_mclk1_sleep: audio_internal_mclk1_sleep {
+					mux {
+						pins = "gpio97";
+						function = "gpio";
+					};
+
+					config {
+						pins = "gpio97";
+						drive-strength = <2>;   /* 2 mA */
+						bias-pull-down;         /* PULL DOWN */
+					};
+				};
+
+				audio_internal_mclk1_active: audio_internal_mclk1_active {
+					mux {
+						pins = "gpio97";
+						function = "mi2s_mclk0";
+					};
+
+					config {
+						pins = "gpio97";
+						drive-strength = <8>;   /* 8 mA */
+						bias-disable;           /* NO PULL */
+						output-high;
+					};
+				};
+			};
 
 			cci0_sda_default: cci0_sda_default {
 				mux {
@@ -2253,6 +2665,344 @@
 			interrupt-controller;
 			#interrupt-cells = <3>;
 			#mbox-cells = <2>;
+		};
+
+		ipcc_computeL1: mailbox@488000 {
+			compatible = "qcom,sa7255p-ipcc", "qcom,ipcc";
+			reg = <0x0 0x488000 0x0 0x1000>;
+			interrupts = <GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-controller;
+			#interrupt-cells = <3>;
+			#mbox-cells = <2>;
+	        };
+	};
+
+	kaslr_store {
+		compatible = "qcom,kaslr-off-store";
+		reg = <0x0 0x146d86d0 0x0 0xc>;
+	};
+
+	mini_dump_mode {
+		compatible = "qcom,minidump";
+	};
+
+	mem_dump {
+		compatible = "qcom,mem-dump";
+		memory-region = <&dump_mem>;
+
+		c0_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x0>;
+		};
+
+		c100_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x1>;
+		};
+
+		c200_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x2>;
+		};
+
+		c300_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x3>;
+		};
+
+		c400_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x4>;
+		};
+
+		c500_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x5>;
+		};
+
+		c600_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x6>;
+		};
+
+		c700_context {
+			qcom,dump-size = <0x800>;
+			qcom,dump-id = <0x7>;
+		};
+
+		c0_scandump: c0_scandump {
+			qcom,dump-size = <0x40000>;
+			qcom,dump-id = <0x130>;
+		};
+
+		c100_scandump: c100_scandump {
+			qcom,dump-size = <0x40000>;
+			qcom,dump-id = <0x131>;
+		};
+
+		c200_scandump: c200_scandump {
+			qcom,dump-size = <0x40000>;
+			qcom,dump-id = <0x132>;
+		};
+
+		c300_scandump: c300_scandump {
+			qcom,dump-size = <0x40000>;
+			qcom,dump-id = <0x133>;
+		};
+
+		c10000_scandump: c10000_scandump {
+			qcom,dump-size = <0x40000>;
+			qcom,dump-id = <0x134>;
+		};
+
+		c10100_scandump: c10100_scandump {
+			qcom,dump-size = <0x40000>;
+			qcom,dump-id = <0x135>;
+		};
+
+		c10200_scandump: c10200_scandump {
+			qcom,dump-size = <0x40000>;
+			qcom,dump-id = <0x136>;
+		};
+
+		c10300_scandump: c10300_scandump {
+			qcom,dump-size = <0x40000>;
+			qcom,dump-id = <0x137>;
+		};
+
+		cpuss_reg: cpuss_reg {
+			qcom,dump-size = <0x20000>;
+			qcom,dump-id = <0xef>;
+		};
+
+		etf_reg {
+			qcom,dump-size = <0x1000>;
+			qcom,dump-id = <0x101>;
+		};
+
+		etf_swao {
+			qcom,dump-size = <0x8400>;
+			qcom,dump-id = <0xf1>;
+		};
+
+		etfswao_reg {
+			qcom,dump-size = <0x1000>;
+			qcom,dump-id = <0x102>;
+		};
+
+		etr_reg {
+			qcom,dump-size = <0x1000>;
+			qcom,dump-id = <0x100>;
+		};
+
+		fcm {
+			qcom,dump-size = <0x8400>;
+			qcom,dump-id = <0xee>;
+		};
+
+		l1_dcache0 {
+			qcom,dump-size = <0x12100>;
+			qcom,dump-id = <0x80>;
+		};
+
+		l1_dcache100 {
+			qcom,dump-size = <0x12100>;
+			qcom,dump-id = <0x81>;
+		};
+
+		l1_dcache200 {
+			qcom,dump-size = <0x12100>;
+			qcom,dump-id = <0x82>;
+		};
+
+		l1_dcache300 {
+			qcom,dump-size = <0x12100>;
+			qcom,dump-id = <0x83>;
+		};
+
+		l1_dcache10000 {
+			qcom,dump-size = <0x12100>;
+			qcom,dump-id = <0x84>;
+		};
+
+		l1_dcache10100 {
+			qcom,dump-size = <0x12100>;
+			qcom,dump-id = <0x85>;
+		};
+
+		l1_dcache10200 {
+			qcom,dump-size = <0x12100>;
+			qcom,dump-id = <0x86>;
+		};
+
+		l1_dcache10300 {
+			qcom,dump-size = <0x12100>;
+			qcom,dump-id = <0x87>;
+		};
+
+		l1_dtlb10000 {
+			qcom,dump-size = <0x300>;
+			qcom,dump-id = <0x44>;
+		};
+
+		l1_dtlb10100 {
+			qcom,dump-size = <0x300>;
+			qcom,dump-id = <0x45>;
+		};
+
+		l1_dtlb10200 {
+			qcom,dump-size = <0x300>;
+			qcom,dump-id = <0x46>;
+		};
+
+		l1_dtlb10300 {
+			qcom,dump-size = <0x300>;
+			qcom,dump-id = <0x47>;
+		};
+
+		l1_icache0 {
+			qcom,dump-size = <0x26100>;
+			qcom,dump-id = <0x60>;
+		};
+
+		l1_icache100 {
+			qcom,dump-size = <0x26100>;
+			qcom,dump-id = <0x61>;
+		};
+
+		l1_icache200 {
+			qcom,dump-size = <0x26100>;
+			qcom,dump-id = <0x62>;
+		};
+
+		l1_icache300 {
+			qcom,dump-size = <0x26100>;
+			qcom,dump-id = <0x63>;
+		};
+
+		l1_icache10000 {
+			qcom,dump-size = <0x26100>;
+			qcom,dump-id = <0x64>;
+		};
+
+		l1_icache10100 {
+			qcom,dump-size = <0x26100>;
+			qcom,dump-id = <0x65>;
+		};
+
+		l1_icache10200 {
+			qcom,dump-size = <0x26100>;
+			qcom,dump-id = <0x66>;
+		};
+
+		l1_icache10300 {
+			qcom,dump-size = <0x26100>;
+			qcom,dump-id = <0x67>;
+		};
+
+		l1_itlb10000 {
+			qcom,dump-size = <0x300>;
+			qcom,dump-id = <0x24>;
+		};
+
+		l1_itlb10100 {
+			qcom,dump-size = <0x300>;
+			qcom,dump-id = <0x25>;
+		};
+
+		l1_itlb10200 {
+			qcom,dump-size = <0x300>;
+			qcom,dump-id = <0x26>;
+		};
+
+		l1_itlb10300 {
+			qcom,dump-size = <0x300>;
+			qcom,dump-id = <0x27>;
+		};
+
+		l2_cache10000 {
+			qcom,dump-size = <0x90100>;
+			qcom,dump-id = <0xc4>;
+		};
+
+		l2_cache10100 {
+			qcom,dump-size = <0x90100>;
+			qcom,dump-id = <0xc5>;
+		};
+
+		l2_cache10200 {
+			qcom,dump-size = <0x90100>;
+			qcom,dump-id = <0xc6>;
+		};
+
+		l2_cache10300 {
+			qcom,dump-size = <0x90100>;
+			qcom,dump-id = <0xc7>;
+		};
+
+		l2_tlb0 {
+			qcom,dump-size = <0x6100>;
+			qcom,dump-id = <0x120>;
+		};
+
+		l2_tlb100 {
+			qcom,dump-size = <0x6100>;
+			qcom,dump-id = <0x121>;
+		};
+
+		l2_tlb200 {
+			qcom,dump-size = <0x6100>;
+			qcom,dump-id = <0x122>;
+		};
+
+		l2_tlb300 {
+			qcom,dump-size = <0x6100>;
+			qcom,dump-id = <0x123>;
+		};
+
+		l2_tlb10000 {
+			qcom,dump-size = <0x6100>;
+			qcom,dump-id = <0x124>;
+		};
+
+		l2_tlb10100 {
+			qcom,dump-size = <0x6100>;
+			qcom,dump-id = <0x125>;
+		};
+
+		l2_tlb10200 {
+			qcom,dump-size = <0x6100>;
+			qcom,dump-id = <0x126>;
+		};
+
+		l2_tlb10300 {
+			qcom,dump-size = <0x6100>;
+			qcom,dump-id = <0x127>;
+		};
+
+		misc_data {
+			qcom,dump-size = <0x1000>;
+			qcom,dump-id = <0xe8>;
+		};
+
+		pmic {
+			qcom,dump-size = <0x80000>;
+			qcom,dump-id = <0xe4>;
+		};
+
+		rpmh {
+			qcom,dump-size = <0x2000000>;
+			qcom,dump-id = <0xec>;
+		};
+
+		rpm_sw {
+			qcom,dump-size = <0x28000>;
+			qcom,dump-id = <0xea>;
+		};
+
+		tmc_etf {
+			qcom,dump-size = <0x10000>;
+			qcom,dump-id = <0xf0>;
 		};
 	};
 };
