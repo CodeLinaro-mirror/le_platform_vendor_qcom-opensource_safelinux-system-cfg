@@ -1735,7 +1735,7 @@
 						pins = "gpio98";
 						drive-strength = <8>;   /* 8 mA */
 						bias-disable;           /* NO PULL */
-						output-high;
+						input-enable;
 					};
 				};
 			};
