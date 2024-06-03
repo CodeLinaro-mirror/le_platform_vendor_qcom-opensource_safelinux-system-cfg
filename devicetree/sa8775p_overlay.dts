@@ -9,6 +9,8 @@
 
 #include <dt-bindings/interrupt-controller/irq.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/gpio/gpio.h>
 #include <oot-dt-bindings/qcom-ipcc.h>
 #include "sa8775p-pinctrl.dtsi"
 #include "sa8775p-vfio.dtsi"
@@ -50,6 +52,28 @@
 
 	qcom_smcinvoke {
 		compatible = "qcom,smcinvoke";
+	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+
+		key_sleep {
+			label = "sleep";
+			linux,code = <KEY_SLEEP>;
+			gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
+			linux,input-type = <1>;
+			debounce-interval = <0>;
+			wakeup-source;
+		};
+
+		key_power {
+			label = "power";
+			linux,code = <KEY_POWER>;
+			gpios = <&tlmm 59 GPIO_ACTIVE_HIGH>;
+			linux,input-type = <1>;
+			debounce-interval = <0>;
+			wakeup-source;
+		};
 	};
 };
 
