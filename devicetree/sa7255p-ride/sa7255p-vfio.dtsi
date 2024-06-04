@@ -186,7 +186,7 @@
 		compatible = "qcom,vfio-platform";
 		interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
 		reg = <0x0 0x17c23000 0x0 0x1000>;
-		iommus = <&adreno_smmu 0x7 0x0>;
+		iommus = <&apps_smmu 0x4c0 0x00>;
 		dma-coherent;
 		qcom,iommu-dma-addr-pool = <0x0 0x60002000 0x0 0x1FFFE000>;
 	};
