@@ -203,6 +203,11 @@
 		};
 	};
 
+	rng: rng@10d2000 {
+		compatible = "qcom,sa7255p-trng", "qcom,trng";
+		reg = <0x0 0x010d2000 0x0 0x1000>;
+	};
+
 	qcom_tzlog: tz-log@146d8720 {
 		compatible = "qcom,tz-log";
 		reg = <0x0 0x146d8720 0x0 0x3000>;
