@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
  * Copyright (c) 2023, Linaro Limited
  */
 
@@ -17,7 +17,6 @@
 #include "sa8775p-pinctrl.dtsi"
 #include "sa8775p-vfio.dtsi"
 #include "sa8775p-vms.dtsi"
-#include "sa8775p-scmi.dtsi"
 
 / {
 	model = "Qualcomm SA8775P Ride";
@@ -62,6 +61,27 @@
 	};
 };
 
+&pcie0 {
+	iommus = <&pcie_smmu 0x00 0x7f>;
+};
+
+&pcie1 {
+	iommus = <&pcie_smmu 0x80 0x7f>;
+};
+
+&spi16 {
+	spidevmaster@0 {
+		/* FIXME: Replace below compatible once we have proper dt-bindings
+		 * for the NXPs Mercury Audio DSP SAF4000EL/101(ES).
+		 */
+		compatible = "micron,spi-authenta";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+		spi-cpha;
+		status = "okay";
+	};
+};
+
 &soc {
 	qupv3_id_0: geniqup@9c0000 {
 		status = "okay";
@@ -85,6 +105,82 @@
 			pinctrl-1 = <&qupv3_se4_2uart_sleep>;
 			pinctrl-names = "default", "sleep";
 			status = "okay";
+		};
+	};
+
+	hsi2s: hsi2s@3B40000 {
+		compatible = "qcom,sa8775-hsi2s", "qcom,hsi2s";
+		reg = <0x0 0x3B40000 0x0 0x29000>,
+			<0x0 0x3942000 0x0 0x6000>;
+		reg-names = "lpa_if", "lpass_core_cc_hs_if";
+		interrupts = <GIC_SPI 719 IRQ_TYPE_LEVEL_HIGH>;
+		number-of-rate-detectors = <2>;
+		rate-detector-interfaces = <0 1>;
+		number-of-interfaces = <2>;
+		qcom,smmu-version = <2>;
+		qcom,smmu-enabled;
+		iommus = <&apps_smmu 0x303C 0x1>,
+			<&apps_smmu 0x303A 0x4>,
+			<&apps_smmu 0x303B 0x0>;
+		qcom,iommu-dma-addr-pool = <0x0 0xFFFFFFFF>;
+		dma-coherent;
+
+		sdr0: qcom,hs0_i2s {
+			compatible = "qcom,hsi2s-interface";
+			minor-number = <0>;
+			pinctrl-names = "default", "sleep";
+			pinctrl-0 = <&hs0_i2s_sck_active
+					&hs0_i2s_ws_active &hs0_i2s_data0_active
+					&hs0_i2s_data1_active>;
+			pinctrl-1 = <&hs0_i2s_sck_sleep
+					&hs0_i2s_ws_sleep &hs0_i2s_data0_sleep
+					&hs0_i2s_data1_sleep>;
+			bit-clock-hz = <12288000>;
+			data-buffer-ms = <10>;
+			bit-depth = <32>;
+			spkr-channel-count = <2>;
+			mic-channel-count = <2>;
+			pcm-rate = <2>;
+			pcm-sync-src = <0>;
+			aux-mode = <0>;
+			rpcm-width = <1>;
+			tpcm-width = <1>;
+			enable-tdm = <1>;
+			tdm-rate = <32>;
+			tdm-rpcm-width = <16>;
+			tdm-tpcm-width = <16>;
+			tdm-sync-delay = <2>;
+			tdm-inv-sync = <0>;
+			pcm-lane-config = <1>;
+		};
+
+		sdr1: qcom,hs1_i2s {
+			compatible = "qcom,hsi2s-interface";
+			minor-number = <1>;
+			pinctrl-names = "default", "sleep";
+			pinctrl-0 = <&hs1_i2s_sck_active
+					&hs1_i2s_ws_active &hs1_i2s_data0_active
+					&hs1_i2s_data1_active>;
+			pinctrl-1 = <&hs1_i2s_sck_sleep
+					&hs1_i2s_ws_sleep &hs1_i2s_data0_sleep
+					&hs1_i2s_data1_sleep>;
+			bit-clock-hz = <12288000>;
+			data-buffer-ms = <10>;
+			bit-depth = <32>;
+			spkr-channel-count = <2>;
+			mic-channel-count = <2>;
+			pcm-rate = <2>;
+			pcm-sync-src = <0>;
+			aux-mode = <0>;
+			rpcm-width = <1>;
+			tpcm-width = <1>;
+			enable-tdm = <1>;
+			tdm-rate = <32>;
+			tdm-rpcm-width = <16>;
+			tdm-tpcm-width = <16>;
+			tdm-sync-delay = <2>;
+			tdm-inv-sync = <0>;
+			pcm-lane-config = <1>;
 		};
 	};
 
@@ -526,6 +622,11 @@
 		status = "ok";
 	};
 
+	dload_mode {
+		compatible = "qcom,dload-mode";
+		status = "ok";
+	};
+
 	kiumd {
 		compatible = "qcom,kiumd";
 		qcom,dev-name = "kiumd";
@@ -540,6 +641,11 @@
 	interrupt-names = "l1-l2-faultirq",
 				"l3-c0-scu-faultirq",
 				"l3-c1-scu-faultirq";
+	};
+	ddr_bwprofiler {
+			compatible = "qcom,ddr_bwprofiler";
+			clocks = <&aoss_qmp>;
+			clock-names = "qdss_clk";
 	};
 };
 

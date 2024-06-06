@@ -4,6 +4,184 @@
 */
 
 &soc {
+
+	audio_tlmm@0 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&sec_tdm_sck_active &sec_tdm_ws_active &sec_tdm_din_active &sec_tdm_dout_active &tert_tdm_sck_active &tert_tdm_ws_active &tert_tdm_din_active &tert_tdm_dout_active &hs0_i2s_sck_active &hs0_i2s_ws_active &hs0_i2s_data0_active &hs0_i2s_data1_active &audio_internal_mclk1_active>;
+	};
+
+	umd_glink@780000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x00780000 0x0 0x10000>,
+			<0x0 0x90900000 0x0 0x200000>,
+			<0x0 0x00408000 0x0 0x1000>;
+
+		interrupts-extended =
+		<&ipcc IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>,
+		<&ipcc IPCC_CLIENT_CDSP IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>,
+		<&ipcc IPCC_CLIENT_NSP1  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>,
+		<&ipcc IPCC_CLIENT_SLPI  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>,
+		<&ipcc IPCC_CLIENT_GPDSP0  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>,
+		<&ipcc IPCC_CLIENT_GPDSP1  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>;
+
+		iommus = <&apps_smmu 0x580 0x0>;
+		dma-coherent;
+	};
+
+	umd_pil@408000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x00408000 0x0 0x1000>,
+			<0x0 0x90900000 0x0 0x200000>,
+			<0x0 0x00780000 0x0 0x10000>,
+			<0x0 0x146d8000 0x0 0x1000>,
+			<0x0 0xe640b000 0x0 0x1400000>,
+			<0x0 0x95c00000 0x0 0x1e00000>,
+			<0x0 0x99980000 0x0 0x1e00000>,
+			<0x0 0x9be82000 0x0 0x700000>,
+			<0x0 0x9d700000 0x0 0x1e00000>,
+			<0x0 0x97b00000 0x0 0x1e00000>,
+			<0x0 0x99900000 0x0 0x1e00000>,
+			<0x0 0x9B780000 0x0 0x2000>;
+		interrupts-extended =
+		<&ipcc IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
+		<&ipcc IPCC_CLIENT_CDSP  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
+		<&ipcc IPCC_CLIENT_NSP1  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
+		<&ipcc IPCC_CLIENT_SLPI  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
+		<&ipcc IPCC_CLIENT_GPDSP0  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
+		<&ipcc IPCC_CLIENT_GPDSP1  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
+		<&intc GIC_SPI 486 IRQ_TYPE_LEVEL_HIGH>,
+		<&intc GIC_SPI 578 IRQ_TYPE_LEVEL_HIGH>,
+		<&intc GIC_SPI 887 IRQ_TYPE_LEVEL_HIGH>,
+		<&intc GIC_SPI 768 IRQ_TYPE_LEVEL_HIGH>,
+		<&intc GIC_SPI 624 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&apps_smmu 0x0 0x0>;
+		dma-coherent;
+	};
+
+	cdsp0_cb@1 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x1 0x0 0x0>;
+		iommus = <&apps_smmu 0x19C1 0>,
+			<&apps_smmu 0x1DC1 0>,
+			<&apps_smmu 0x1961 0>,
+			<&apps_smmu 0x1D61 0>,
+			<&apps_smmu 0x1981 0>,
+			<&apps_smmu 0x1D81 0>;
+		dma-coherent;
+	};
+
+	cdsp0_cb@2 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x2 0x0 0x0>;
+		iommus = <&apps_smmu 0x19C2 0>,
+			<&apps_smmu 0x1DC2 0>,
+			<&apps_smmu 0x1962 0>,
+			<&apps_smmu 0x1D62 0>,
+			<&apps_smmu 0x1982 0>,
+			<&apps_smmu 0x1D82 0>;
+		dma-coherent;
+	};
+
+	cdsp0_cb@3 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x3 0x0 0x0>;
+		iommus = <&apps_smmu 0x19C3 0>,
+			<&apps_smmu 0x1DC3 0>,
+			<&apps_smmu 0x1963 0>,
+			<&apps_smmu 0x1D63 0>,
+			<&apps_smmu 0x1983 0>,
+			<&apps_smmu 0x1D83 0>;
+		dma-coherent;
+	};
+
+	cdsp0_cb@4 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x4 0x0 0x0>;
+		iommus = <&apps_smmu 0x19C4 0>,
+			<&apps_smmu 0x1DC4 0>,
+			<&apps_smmu 0x1964 0>,
+			<&apps_smmu 0x1D64 0>,
+			<&apps_smmu 0x1984 0>,
+			<&apps_smmu 0x1D84 0>;
+		dma-coherent;
+	};
+
+	adsp_cb@2 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x2 0x0 0x0>;
+		iommus = <&apps_smmu 0x2003 0x0>;
+		dma-coherent;
+	};
+
+	adsp_cb@3 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x3 0x0 0x0>;
+		iommus = <&apps_smmu 0x2004 0x0>;
+		dma-coherent;
+	};
+
+	adsp_cb@4 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x4 0x0 0x0>;
+		iommus = <&apps_smmu 0x2005 0x0>;
+		dma-coherent;
+	};
+
+	gpdsp0_cb@1 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x1 0x0 0x0>;
+		iommus = <&apps_smmu 0x28A1 0>;
+		dma-coherent;
+	};
+
+	gpdsp0_cb@3 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x3 0x0 0x0>;
+		iommus = <&apps_smmu 0x28A3 0>;
+		dma-coherent;
+	};
+
+	tcsr_mutex_block: syscon@1f40000 {
+		compatible = "syscon";
+		reg = <0x1f40000 0x20000>;
+	};
+
+	smem: qcom,smem {
+		compatible = "qcom,smem";
+		memory-region = <&smem_mem>;
+		hwlocks = <&tcsr_mutex 3>;
+	};
+
+	scm_user_intf_device {
+		compatible = "qcom,scm-user-intf";
+		scm_dev = "scm";
+		status = "ok";
+	};
+
+	sail-mailbox@90d80000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x90d80000 0x0 0x80000>,
+			<0x0 0x1FFE000 0x0 0x1000>,
+			<0x0 0x17C00000 0x0 0x1000>,
+			<0x0 0x00488000 0x0 0x1000>;
+		interrupts-extended = <&ipcc_computeL1 IPCC_CLIENT_SAIL0 0x2 IRQ_TYPE_EDGE_RISING>,
+				<&ipcc_computeL1 IPCC_CLIENT_SAIL0 0x3 IRQ_TYPE_EDGE_RISING>,
+				<&ipcc_computeL1 IPCC_CLIENT_SAIL0 0x4 IRQ_TYPE_EDGE_RISING>,
+				<&ipcc_computeL1 IPCC_CLIENT_SAIL0 0x5 IRQ_TYPE_EDGE_RISING>,
+				<&ipcc_computeL1 IPCC_CLIENT_SAIL0 0x6 IRQ_TYPE_EDGE_RISING>,
+				<&ipcc_computeL1 IPCC_CLIENT_SAIL0 0x7 IRQ_TYPE_EDGE_RISING>;
+		iommus = <&apps_smmu 0x2900 0x00>;
+		dma-coherent;
+	};
+
+	sail-mailbox-ota@90e00000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x90e00000 0x0 0x300000>;
+		iommus = <&apps_smmu 0x2901 0x00>;
+		dma-coherent;
+	};
+
 	vfio_timer@17c23000 {
 		compatible = "qcom,vfio-platform";
 		interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
@@ -27,4 +205,188 @@
                 qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
                 dma-coherent;
         };
+
+	vfio_kgsl@3d00000 {
+		name = "vfio_kgsl";
+		compatible = "qcom,kiumd-platform";
+
+		reg = <0x0 0x03d00000 0x0 0x6a000>,
+			<0x0 0x03d6a000 0x0 0x96000>,
+			<0x0 0x0b210000 0x0 0x400000>,
+			<0x0 0x00780000 0x0 0x7000>,
+			<0x0 0x01fc8000 0x0 0x1000>,
+			<0x0 0x01fc0000 0x0 0x30000>;
+		reg-names = "gpu_reg", "gmu_reg",
+			"rpmh_pdc", "security_control_core",
+			"tcsr_hwver_reg", "tcsr_tcsr_reg";
+
+		interrupts = <0 300 IRQ_TYPE_LEVEL_HIGH>,
+			<0 304 IRQ_TYPE_LEVEL_HIGH>,
+			<0 305 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-names = "kgsl_3d0_irq", "kgsl_hfi_irq",
+				"kgsl_gmu_irq";
+
+		iommus = <&adreno_smmu 0x0 0xc00>;
+		qcom,iommu-dma = "disabled";
+		dma-coherent;
+	};
+
+	vfio_gmu {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x01fc0000 0x0 0x38000>;
+		reg-names = "tcsr_tcsr_reg";
+		iommus = <&adreno_smmu 0x5 0xc00>;
+		qcom,iommu-dma = "disabled";
+		dma-coherent;
+	};
+
+	vfio_gmu_db {
+		compatible = "qcom,vfio-platform";
+		iommus = <&adreno_smmu 0x4 0xc00>;
+		qcom,iommu-dma = "disabled";
+		dma-coherent;
+	};
+
+	vfio_kgsl_secure {
+		compatible = "qcom,vfio-platform";
+		// switch to secure CB once ready
+		iommus = <&adreno_smmu 0x7 0xc00>;
+		qcom,iommu-dma-addr-pool = <0x0 0x7FFF0000>;
+		qcom,iommu-dma = "disabled";
+		dma-coherent;
+	};
+
+	vfio_kgsl_lpac {
+		compatible = "qcom,kiumd-platform";
+		iommus = <&adreno_smmu 0x1 0xc00>;
+		qcom,iommu-dma = "disabled";
+		dma-coherent;
+	};
+
+	vfio_titan_base@ac00000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0xac00000 0x0 0x1e0000>;
+		interrupts = <GIC_SPI 463 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 459 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 460 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 271 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 651 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 477 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 478 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 479 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 469 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 360 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 761 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 760 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 605 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 465 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 467 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 563 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 562 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 468 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 359 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 759 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 758 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 604 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 565 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 564 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 545 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 546 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 547 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 470 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 471 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 543 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 544 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 567 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 566 IRQ_TYPE_EDGE_RISING>,
+						<GIC_SPI 366 IRQ_TYPE_EDGE_RISING>;
+		iommus = <&apps_smmu 0x2400 0x0020>;
+		dma-coherent;
+	};
+
+	vfio_cam_ipe_non_secure_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x800 0x0400>;
+		dma-coherent;
+	};
+
+	vfio_cam_cdm_non_secure_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x860 0x0400>;
+		dma-coherent;
+	};
+
+	vfio_cam_icp_non_secure_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x840 0x0480>;
+		dma-coherent;
+	};
+
+	vfio_cci0@0 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default","default";
+		pinctrl-0 = <&cci0_sda_default &cci0_scl_default>;
+	};
+
+	vfio_cci1@1 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default","default";
+		pinctrl-0 = <&cci2_sda_default &cci2_scl_default>;
+	};
+
+	vfio_cci2@2 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default","default";
+		pinctrl-0 = <&cci4_sda_default &cci4_scl_default>;
+	};
+
+	vfio_fsync0@0 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&fsync0_default>;
+	};
+
+	vfio_fsync1@1 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&fsync1_default>;
+	};
+
+	vfio_fsync2@2 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&fsync2_default>;
+	};
+
+	vfio_vidc@aa00000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x0aa00000 0x0 0xF0000>;
+		interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
+
+		/* MMU: non_secure_cb */
+		iommus = <&apps_smmu 0x0880 0x0400>;
+		qcom,iommu-dma-addr-pool = <0x0 0x25800000 0x0 0xba800000>;
+		dma-coherent;
+	};
+
+	vfio_vidc_non_secure_pixel_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x0887 0x0400>;
+		qcom,iommu-dma-addr-pool = <0x0 0x00100000 0x0 0xdff00000>;
+		dma-coherent;
+	};
+
+	vfio_audio@1 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x2 0x0 0x0>;
+		iommus = <&apps_smmu 0x2001 0x0>;
+		dma-coherent;
+        };
+
+	vfio_audio_gpdsp0_cb@2 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x2 0x0 0x0>;
+		iommus = <&apps_smmu 0x28A2 0x0>;
+		dma-coherent;
+	};
 };

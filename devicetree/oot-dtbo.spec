@@ -6,6 +6,14 @@
 %define kmod_name oot-dtbo
 %define debug_package %{nil}
 
+%if %{with_oot_debug}
+    %define kpackage kernel-automotive-debug
+    %define kversion_with_debug %{kversion}+debug
+%else
+    %define kpackage kernel-automotive
+    %define kversion_with_debug %{kversion}
+%endif
+
 Name: kernel-module-%{kmod_name}
 Version: 1.0
 Release:        1%{?dist}
@@ -15,7 +23,8 @@ License: GPLv2
 Source0: %{name}-%{version}.tar.gz
 
 BuildRequires: git
-Requires: kernel-automotive-core-uname-r = %{kversion}
+Requires: %{kpackage}-core-uname-r = %{kversion_with_debug}
+
 
 %description
 For building device tree overlays for external modules.
@@ -32,26 +41,19 @@ compatibility criteria.
 make
 
 %install
-%if %{with_oot_debug}
-install_dtbo_path=${RPM_BUILD_ROOT}/lib/modules/%{kversion}+debug
-%else
-install_dtbo_path=${RPM_BUILD_ROOT}/lib/modules/%{kversion}
-%endif
+install_dtbo_path=${RPM_BUILD_ROOT}/lib/modules/%{kversion_with_debug}
 mkdir -p ${install_dtbo_path}/dtb/qcom/
 cat %{_builddir}/%{name}/centos-stream-9/arch/arm64/boot/dts/qcom/sa8775p-ride.dtb.overlay \
             %{_builddir}/%{name}/sa8770p-ride/sa8770p-ride.dtb \
             %{_builddir}/%{name}/sa8775p-ride-mx/sa8775p-ride-mx.dtb \
             %{_builddir}/%{name}/sa8650p-ride/sa8650p-ride.dtb \
             %{_builddir}/%{name}/sa8255p-ride/sa8255p-ride.dtb \
+            %{_builddir}/%{name}/centos-stream-9/arch/arm64/boot/dts/qcom/sa8775p-ride_pcie_ep.dtb.overlay \
             > ${install_dtbo_path}/dtb/qcom/sa8775p-ride.dtb.overlay
 cp %{_builddir}/%{name}/sa8775p-qvp/sa8775p-qvp.dtb ${install_dtbo_path}/dtb/qcom/sa8775p-qvp.dtb
 
 %files
-%if %{with_oot_debug}
-%define kernel_module_path /lib/modules/%{kversion}+debug
-%else
-%define kernel_module_path /lib/modules/%{kversion}
-%endif
+%define kernel_module_path /lib/modules/%{kversion_with_debug}
 %{kernel_module_path}/dtb/qcom/sa8775p-ride.dtb.overlay
 %{kernel_module_path}/dtb/qcom/sa8775p-qvp.dtb
 

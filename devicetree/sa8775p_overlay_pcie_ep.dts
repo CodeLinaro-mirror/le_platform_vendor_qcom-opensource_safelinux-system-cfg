@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ */
+
+#include "sa8775p_overlay.dts"
+
+&{/} {
+	model = "Qualcomm SA8775P Star SIP with PCIE configured in EP Mode";
+	compatible = "qcom,sa8775p-ride", "qcom,sa8775p";
+	qcom,msm-id = <534 0x10000>, <533 0x10000>;
+	qcom,board-id = <0x10019 0x3>, <0x25 0x3>;
+};
+
+&pcie1 {
+       status = "disabled";
+};
+
+
+&pcie1_ep {
+       status = "okay";
+};
+

@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: GPL-2.0-only
 /*
-* Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+* Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 */
 
 &soc {
@@ -9,6 +9,14 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&sec_tdm_sck_active &sec_tdm_ws_active &sec_tdm_din_active &sec_tdm_dout_active &tert_tdm_sck_active &tert_tdm_ws_active &tert_tdm_din_active &tert_tdm_dout_active &hs0_i2s_sck_active &hs0_i2s_ws_active &hs0_i2s_data0_active &hs0_i2s_data1_active &hs1_i2s_sck_active &hs1_i2s_ws_active &hs1_i2s_data0_active &hs1_i2s_data1_active &hs2_i2s_sck_active &hs2_i2s_ws_active &hs2_i2s_data0_active &hs2_i2s_data1_active &audio_internal_mclk1_active>;
 	};
+
+	umd_firmware_vm@d0040000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0xd0040000 0x0 0x10000>;
+		iommus = <&apps_smmu 0x3080 0x0>;
+		dma-coherent;
+	};
+
 	umd_glink@780000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x00780000 0x0 0x10000>,
@@ -23,6 +31,22 @@
 				<&ipcc IPCC_CLIENT_GPDSP1  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>;
 
 		iommus = <&apps_smmu 0x5E0 0x0>;
+		dma-coherent;
+	};
+
+	umd_nsp_drv@26092000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x26092000 0x0 0x1000>,
+			<0x0 0x2A092000 0x0 0x1000>,
+			<0x0 0x2634B000 0x0 0x1000>,
+			<0x0 0x2A34B000 0x0 0x1000>,
+			<0x0 0x26350000 0x0 0x1000>,
+			<0x0 0x2A350000 0x0 0x1000>;
+		interrupts-extended = <&intc GIC_SPI 867 IRQ_TYPE_LEVEL_HIGH>,
+			<&intc GIC_SPI 454 IRQ_TYPE_LEVEL_HIGH>,
+			<&intc GIC_SPI 578 IRQ_TYPE_LEVEL_HIGH>,
+			<&intc GIC_SPI 798 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&apps_smmu 0x0D20 0x0>;
 		dma-coherent;
 	};
 
@@ -49,7 +73,7 @@
 				<&ipcc IPCC_CLIENT_GPDSP1  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
 				<&intc GIC_SPI 486 IRQ_TYPE_LEVEL_HIGH>,
 				<&intc GIC_SPI 578 IRQ_TYPE_LEVEL_HIGH>,
-				<&intc GIC_SPI 887 IRQ_TYPE_LEVEL_HIGH>,
+				<&intc GIC_SPI 798 IRQ_TYPE_LEVEL_HIGH>,
 				<&intc GIC_SPI 768 IRQ_TYPE_LEVEL_HIGH>,
 				<&intc GIC_SPI 624 IRQ_TYPE_LEVEL_HIGH>;
 
@@ -278,7 +302,41 @@
 			<0x0 0x01FF8000 0x0 0x1000>,
 			<0x0 0x01FFA000 0x0 0x1000>;
 		iommus = <&apps_smmu 0x3903 0x0>;
-		interrupts-extended = <&ipcc_computeL1 IPCC_CLIENT_SAIL2 0x1 IRQ_TYPE_EDGE_RISING>;
+		interrupts-extended = <&ipcc_computeL1 IPCC_CLIENT_SAIL0 0x1 IRQ_TYPE_EDGE_RISING>,
+				      <&ipcc_computeL1 IPCC_CLIENT_SAIL1 0x1 IRQ_TYPE_EDGE_RISING>,
+				      <&ipcc_computeL1 IPCC_CLIENT_SAIL2 0x1 IRQ_TYPE_EDGE_RISING>,
+				      <&ipcc_computeL1 IPCC_CLIENT_SAIL3 0x1 IRQ_TYPE_EDGE_RISING>;
+		dma-coherent;
+	};
+
+	apss_stl: apss-stl@628000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x628000 0x0 0x1000>,
+			<0x0 0x62c000 0x0 0x1000>,
+			<0x0 0x630000 0x0 0x1000>,
+			<0x0 0x63a000 0x0 0x1000>,
+			<0x0 0x63e000 0x0 0x1000>,
+			<0x0 0x3d9a000 0x0 0x1000>,
+			<0x0 0x18290000 0x0 0x1000>,
+			<0x0 0x18292000 0x0 0x1000>,
+			<0x0 0x18294000 0x0 0x1000>,
+			<0x0 0x18296000 0x0 0x1000>,
+			<0x0 0x18390000 0x0 0x1000>,
+			<0x0 0x183a0000 0x0 0x1000>,
+			<0x0 0x18420000 0x0 0x1000>,
+			<0x0 0x18421000 0x0 0x1000>,
+			<0x0 0x18422000 0x0 0x1000>,
+			<0x0 0x18423000 0x0 0x1000>,
+			<0x0 0x17C21000 0x0 0x1000>;
+		iommus = <&apps_smmu 0x3902 0x0>;
+		dma-coherent;
+	};
+
+	nsp_sysmon@90900000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x90900000 0x0 0x200000>,
+			<0x0 0x00780000 0x0 0x10000>;
+		iommus = <&apps_smmu 0x1020 0x0>;
 		dma-coherent;
 	};
 
@@ -563,7 +621,7 @@
 		      <0x0 0xabb0000 0x0 0x2000>,    //CVP_IRIS_WRAPPER_PHYS_ADDR
 		      <0x0 0xabc2000 0x0 0x1000>,    //CVP_TZ0_PHYS_ADDR
 		      <0x0 0xabc3000 0x0 0x1000>,    //CVP_TZ1_PHYS_ADDR
-		      <0x0 0xabd0000 0x0 0x1000>,    //CVP_IRIS_CPU_NOC_PHYS_ADDR <0xabd0080 0x480>
+		      <0x0 0xabd0000 0x0 0x2000>,    //CVP_IRIS_CPU_NOC_PHYS_ADDR <0xabd0080 0x1f80>
 		      <0x0 0x110000  0x0 0x1e0000>,  //GCC_CLK_CTL_REG_PHYS_ADDR
 		      <0x0 0xab04000 0x0 0x1000>,    //CVP_FDU0_CVP_FDU_PHYS_ADDR <0xab04000 0x400>
 		      <0x0 0xab04000 0x0 0x1000>,    //CVP_MPU0_CVP_MPU_PHYS_ADDR <0xab04400 0x400>
@@ -597,4 +655,37 @@
 		iommus = <&apps_smmu 0x38C2 0x0>;
 		dma-coherent;
 	};
+
+	vfio_pcie0_hdma@40005000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x40005000 0x0 0x2000>;
+		interrupts = <GIC_SPI 631 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 632 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 633 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 634 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 635 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 472 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 473 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&pcie_smmu 0x0 0x0001>;
+		iommu-map = <0x0 &pcie_smmu 0x0000 0x1>,
+			<0x100 &pcie_smmu 0x0001 0x1>;
+		dma-coherent;
+	};
+
+        vfio_pcie1_hdma@60005000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x60005000 0x0 0x2000>;
+		interrupts = <GIC_SPI 475 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 476 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 601 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 602 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 603 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&pcie_smmu 0x0080 0x1>;
+		iommu-map = <0x0 &pcie_smmu 0x0080 0x1>,
+			<0x100 &pcie_smmu 0x0081 0x1>;
+		dma-coherent;
+	};
+
 };
