@@ -680,6 +680,20 @@
 		qcom,dev-name = "test_scmi_power";
 	};
 
+	qfprom_pte: qfprom@780158 {
+		compatible = "qcom,qfprom";
+		reg = <0x0 0x00780158 0x0 0x4>;
+		#address-cells = <2>;
+		#size-cells = <2>;
+	};
+
+	qfprom_tcsr: qfprom@1FFF018 {
+		compatible = "qcom,qfprom";
+		reg = <0x0 0x1FFF018 0x0 0x4>;
+		#address-cells = <2>;
+		#size-cells = <2>;
+	};
+
 	watchdog@17c10000 {
 		interrupts = <GIC_SPI 0 IRQ_TYPE_EDGE_RISING>;
 	};
