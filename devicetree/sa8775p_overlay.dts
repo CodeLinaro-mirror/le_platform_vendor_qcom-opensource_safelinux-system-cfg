@@ -83,6 +83,7 @@
 
 &pcie0 {
 	iommus = <&pcie_smmu 0x00 0x7f>;
+	status = "disabled";
 };
 
 &pcie1 {
@@ -715,6 +716,15 @@
 		power-domain-names = "power", "perf";
 
 		qcom,dev-name = "scmi_uart17";
+	};
+
+	scmi_pcie0 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi5_pd 0>;
+		power-domain-names = "power";
+
+		qcom,dev-name = "scmi_pcie0";
 	};
 
 	qfprom_pte: qfprom@780158 {
