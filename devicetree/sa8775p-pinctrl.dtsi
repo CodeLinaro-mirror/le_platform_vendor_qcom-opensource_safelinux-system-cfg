@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
-* Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+* Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 */
 
 &tlmm {
@@ -231,7 +231,7 @@
 		tert_tdm_dout_active: tert_tdm_dout_active {
 			mux {
 				pins = "gpio113";
-				function = "mi2s2_data1";
+				function = "audio_ref_clk";
 			};
 
 			config {
