@@ -681,4 +681,13 @@
 		iommus = <&apps_smmu 0x38C2 0x0>;
 		dma-coherent;
 	};
+
+	vfio_ptp_umd@0x23047000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x23047000 0x0 0x1000>,
+			<0x0 0x17c23000 0x0 0x1000>;
+		iommus = <&apps_smmu 0x1820 0x0>;
+		memory-region = <&gptp_timedata_mem>;
+		dma-coherent;
+	};
 };

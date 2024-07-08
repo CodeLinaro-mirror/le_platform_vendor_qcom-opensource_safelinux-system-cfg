@@ -14,7 +14,7 @@
 #include <oot-dt-bindings/qcom-ipcc.h>
 #include "sa8775p-pinctrl.dtsi"
 #include "sa8775p-vfio.dtsi"
-#include "sa8775p-vms.dtsi"
+
 
 / {
 	model = "Qualcomm Technologies, Inc. SA8775P Ride Firmware Managed";
@@ -816,4 +816,12 @@
 		no-map;
 		reg = <0x0 0x95700000 0x0 0x500000>;
         };
+
+	gptp_timedata_mem: gptp_timedata_region@acfff000 {
+		no-map;
+		reg = <0x0 0xACFFF000 0x0 0x1000>;
+	};
 };
+
+#include "sa8775p-vms.dtsi"
+

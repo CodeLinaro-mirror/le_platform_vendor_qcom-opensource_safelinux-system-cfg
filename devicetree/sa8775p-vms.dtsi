@@ -5,6 +5,11 @@
 
 #include <oot-dt-bindings/qcom-shmem.h>
 
+&gptp_timedata_mem {
+	qcom,is-shared;
+	gunyah-label = <0x61>;
+};
+
 &soc {
 	auto_vm: qcom,auto_vm@b40000000 {
 		reg = <0xb 0x40000000 0x0 0x3000000>;
@@ -265,7 +270,7 @@
 		qcom,firmware-name = "autoghgvm";
 		qcom,firmware-index = <0>;
 		memory-region = <&auto_vm_0_mem_0 &auto_vm_0_mem_1 &auto_vm_0_mem_2 &auto_vm_0_mem_3 &auto_vm_0_mem_4 &auto_vm_0_mem_5 &auto_vm_0_mem_6>;
-		shared-regions = <&glink_cma_mem>;
+		shared-regions = <&glink_cma_mem &gptp_timedata_mem>;
 		enable-gvm-dump;
 		virtio-backends = <&auto_vm_be0
 				&auto_vm_be1
