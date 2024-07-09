@@ -609,6 +609,12 @@
 			#power-domain-cells = <1>;
 		};
 
+		dummy_proxy_votes: dummy-proxy-votes {
+			compatible = "qcom,sa7255p-dummy";
+			power-domains = <&rpmhpd SA7255P_NSP0>,
+					<&rpmhpd SA7255P_NSP1>;
+		};
+
 		qupv3_id_0: geniqup@9c0000 {
 			compatible = "qcom,geni-se-qup";
 			reg = <0x0 0x9c0000 0x0 0x2000>;
