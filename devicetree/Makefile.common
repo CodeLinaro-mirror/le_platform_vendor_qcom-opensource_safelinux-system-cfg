@@ -43,7 +43,6 @@ dtbos: dtbs
 	rm -rf oot
 	mkdir oot
 	cp *.dtbo oot
-	cp *.dts oot
 
 .PHONY: clean
 clean:
