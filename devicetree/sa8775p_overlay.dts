@@ -776,8 +776,8 @@
 		no-map;
 	};
 
-	mproc_umdpil_mem: mproc_umdpil_region@a0500000 {
+	mproc_umdpil_mem: mproc_umdpil_region@95700000 {
 		no-map;
-		reg = <0x0 0xa0500000 0x0 0x300000>;
+		reg = <0x0 0x95700000 0x0 0x500000>;
         };
 };
