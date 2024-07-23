@@ -821,6 +821,92 @@
 	};
 };
 
+&soc {
+	hab: qcom,hab {
+		compatible = "qcom,hab";
+		vmid = <0>;
+
+		mmidgrp100: mmidgrp100 {
+			grp-start-id = <100>;
+			role = "be";
+			remote-vmids = <2 3>;
+		};
+
+		mmidgrp200: mmidgrp200 {
+			grp-start-id = <200>;
+			role = "be";
+			remote-vmids = <2 3>;
+		};
+
+		mmidgrp300: mmidgrp300 {
+			grp-start-id = <300>;
+			role = "be";
+			remote-vmids = <2 3>;
+		};
+
+		mmidgrp400: mmidgrp400 {
+			grp-start-id = <400>;
+			role = "be";
+			remote-vmids = <2 3>;
+		};
+
+		mmidgrp500: mmidgrp500 {
+			grp-start-id = <500>;
+			role = "be";
+			remote-vmids = <2 3>;
+		};
+
+		mmidgrp600: mmidgrp600 {
+			grp-start-id = <600>;
+			role = "be";
+			remote-vmids = <2 3>;
+		};
+
+		mmidgrp700: mmidgrp700 {
+			grp-start-id = <700>;
+			role = "be";
+			remote-vmids = <2 3>;
+			kernel_only;
+		};
+
+		mmidgrp900: mmidgrp900 {
+			grp-start-id = <900>;
+			role = "be";
+			remote-vmids = <2 3>;
+		};
+
+		mmidgrp1000: mmidgrp1000 {
+			grp-start-id = <1000>;
+			role = "be";
+			remote-vmids = <2 3>;
+		};
+
+		mmidgrp1100: mmidgrp1100 {
+			grp-start-id = <1100>;
+			role = "be";
+			remote-vmids = <2 3>;
+		};
+
+		mmidgrp1200: mmidgrp1200 {
+			grp-start-id = <1200>;
+			role = "be";
+			remote-vmids = <2 3>;
+		};
+
+		mmidgrp1400: mmidgrp1400 {
+			grp-start-id = <1400>;
+			role = "be";
+			remote-vmids = <2 3>;
+		};
+
+		mmidgrp1500: mmidgrp1500 {
+			grp-start-id = <1500>;
+			role = "be";
+			remote-vmids = <2 3>;
+		};
+	};
+};
+
 &{/firmware} {
 	qcom_scm {
 		qcom,dload-mode = <&tcsr 0x13000>;
