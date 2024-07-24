@@ -9,9 +9,9 @@ IRQ_NUM_MIN_FOR_BALANCING=32
 # if irq no. is greater than or equal to 32 &
 # ban all IRQ's below 32
 if [ "$IRQ_NUM" -lt "$IRQ_NUM_MIN_FOR_BALANCING" ]; then
-	echo "ban = true"
+	echo "ban=true"
 else
-	echo "balance_level = core"
+	echo "balance_level=core"
 fi
 
 # Stop further script processing
