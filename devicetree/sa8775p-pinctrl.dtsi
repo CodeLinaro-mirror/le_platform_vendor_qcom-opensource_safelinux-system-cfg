@@ -864,6 +864,7 @@
 			pins = "gpio68";
 			bias-pull-up; /* PULL UP*/
 			drive-strength = <2>; /* 2 MA */
+			output-enable;
 		};
 	};
 
@@ -878,6 +879,7 @@
 			pins = "gpio69";
 			bias-pull-up; /* PULL UP*/
 			drive-strength = <2>; /* 2 MA */
+			output-enable;
 		};
 	};
 
@@ -892,6 +894,7 @@
 			pins = "gpio70";
 			bias-pull-up; /* PULL UP*/
 			drive-strength = <2>; /* 2 MA */
+			output-enable;
 		};
 	};
 
@@ -906,6 +909,7 @@
 			pins = "gpio71";
 			bias-pull-up; /* PULL UP*/
 			drive-strength = <2>; /* 2 MA */
+			output-enable;
 		};
 	};
 
