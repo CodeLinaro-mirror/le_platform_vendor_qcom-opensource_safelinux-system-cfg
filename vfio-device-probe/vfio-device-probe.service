@@ -16,6 +16,7 @@ Group=root
 TimeoutStartSec=0
 Restart=on-failure
 ExecStart=/usr/bin/vfio-device-bind.sh
+ExecStartPost=/usr/bin/sleep 2
 
 [Install]
 WantedBy=multi-user.target
