@@ -22,6 +22,8 @@ TECHPACK_INCLUDE += $(TECHPACK_BINDING_DIR)
 TECHPACK_INCLUDE += $(TECHPACK_BINDING_DIR)/oot-dt-bindings
 TECHPACK_INCLUDE += $(TECHPACK_BINDING_DIR)/sa7255p-ride
 
+SUB_TECH_BUILD:=$(wildcard techpacks/*/build.sh)
+
 all: fail-if-no-kdir dtbos merge_dtbs.sh
 	./merge_dtbs.sh $(KDIR) oot $(DTB_MERGE_OUT)
 
@@ -43,7 +45,7 @@ dtbos: dtbs
 	rm -rf oot
 	mkdir oot
 	cp *.dtbo oot
-	cp *.dts oot
+	@for sub_build in $(SUB_TECH_BUILD); do ./"$${sub_build}"; done
 
 .PHONY: clean
 clean:
