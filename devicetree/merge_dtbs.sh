@@ -59,6 +59,7 @@ merge_dtbos()
 	done
 
 	matched_dtbos=$(echo "$matched_dtbos" | xargs)
+        readarray -t matched_dtbos_list <<< "$matched_dtbos"
 	base_name=$(basename "$base_dtb")
 	base_dts_name="${base_name//.dtb/}"
 	out_file="${base_dts_name}.dtb.overlay"
@@ -67,7 +68,7 @@ merge_dtbos()
 	then
 		# execute the command in verbose mode(-v)
 		if ! "${KDIR}"/scripts/dtc/fdtoverlay -i "$base_dtb" -o \
-			"${OUT_DIR}"/"${out_file}" -v "$matched_dtbos"; then
+			"${OUT_DIR}"/"${out_file}" -v "${matched_dtbos_list[@]}"; then
                         exit 1
 		fi
 	fi
