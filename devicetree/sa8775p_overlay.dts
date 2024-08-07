@@ -77,8 +77,13 @@
 	};
 };
 
+&uart17 {
+	status = "disabled";
+};
+
 &pcie0 {
 	iommus = <&pcie_smmu 0x00 0x7f>;
+	status = "disabled";
 };
 
 &pcie1 {
@@ -123,6 +128,10 @@
 };
 
 &scmi22 {
+	status = "okay";
+};
+
+&scmi24 {
 	status = "okay";
 };
 
@@ -704,6 +713,33 @@
 		qcom,dev-name = "test_scmi_power";
 	};
 
+	scmi_uart17 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi11_pd 17>, <&scmi11_dvfs 17>;
+		power-domain-names = "power", "perf";
+
+		qcom,dev-name = "scmi_uart17";
+	};
+
+	scmi_pcie0 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi5_pd 0>;
+		power-domain-names = "power";
+
+		qcom,dev-name = "scmi_pcie0";
+	};
+
+	scmi_wlan {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi24_pd 0>, <&scmi24_pd 1>;
+		power-domain-names = "power_regulator", "power_gpio";
+
+		qcom,dev-name = "scmi_wlan";
+	};
+
 	qfprom_pte: qfprom@780158 {
 		compatible = "qcom,qfprom";
 		reg = <0x0 0x00780158 0x0 0x4>;
@@ -776,8 +812,8 @@
 		no-map;
 	};
 
-	mproc_umdpil_mem: mproc_umdpil_region@a0500000 {
+	mproc_umdpil_mem: mproc_umdpil_region@95700000 {
 		no-map;
-		reg = <0x0 0xa0500000 0x0 0x300000>;
+		reg = <0x0 0x95700000 0x0 0x500000>;
         };
 };
