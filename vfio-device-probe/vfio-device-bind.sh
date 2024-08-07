@@ -25,4 +25,9 @@ for DEV in $DEVS; do
 	echo "vfio-platform" > /sys/bus/platform/devices/"$DEV"/driver_override
 	echo "$DEV" > /sys/bus/platform/drivers/vfio-platform/bind
 done
+
+if env selinuxenabled && [ -x "$(command -v restorecon)" ]; then
+    restorecon -vFR /dev
+fi
+
 exit 0
