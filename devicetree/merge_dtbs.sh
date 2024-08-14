@@ -59,7 +59,7 @@ merge_dtbos()
 	done
 
 	matched_dtbos=$(echo "$matched_dtbos" | xargs)
-        readarray -t matched_dtbos_list <<< "$matched_dtbos"
+	IFS=' ' read -ra matched_dtbos_list <<< "$matched_dtbos"
 	base_name=$(basename "$base_dtb")
 	base_dts_name="${base_name//.dtb/}"
 	out_file="${base_dts_name}.dtb.overlay"
