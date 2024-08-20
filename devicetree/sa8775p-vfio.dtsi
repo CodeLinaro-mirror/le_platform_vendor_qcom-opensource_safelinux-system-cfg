@@ -97,17 +97,6 @@
 		dma-coherent;
 	};
 
-	umd_audio_hlos@408000 {
-		compatible = "qcom,vfio-platform";
-		reg = <0x0 0x00408000 0x0 0x1000>,
-			<0x0 0x90900000 0x0 0x200000>,
-			<0x0 0x00780000 0x0 0x10000>;
-		interrupts-extended = <&ipcc IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_TZ IRQ_TYPE_EDGE_RISING>, /* Send DATA */
-							<&ipcc IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_PING IRQ_TYPE_EDGE_RISING>; /* Send ACK */
-		iommus = <&apps_smmu 0x3920 0x0>;
-		dma-coherent;
-	};
-
 	subsystem_ramdump_util@90900000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x90900000 0x0 0x200000>,
