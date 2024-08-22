@@ -25,9 +25,6 @@ TECHPACK_INCLUDE += $(TECHPACK_BINDING_DIR)/sa7255p-ride
 SUB_TECH_BUILD:=$(wildcard techpacks/*/build.sh)
 
 all: fail-if-no-kdir dtbs dtbos merge_dtbs.sh
-	rm -rf oot
-	mkdir oot
-	cp *.dtbo oot
 	./merge_dtbs.sh $(KDIR) oot $(DTB_MERGE_OUT)
 
 fail-if-no-kdir:
@@ -45,6 +42,9 @@ dtbs : defconfig
 dtbos:
 	$(MAKE) -C $(KDIR) ARCH=$(ARCH) dtstree=$(TECHPACK_DTSTREE) \
 		DTC_INCLUDE="$(TECHPACK_INCLUDE)" DTC_FLAGS="-@" dtbs
+	rm -rf oot
+	mkdir oot
+	cp *.dtbo oot
 	@for sub_build in $(SUB_TECH_BUILD); do ./"$${sub_build}"; done
 
 .PHONY: clean
