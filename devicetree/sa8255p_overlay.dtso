@@ -33,6 +33,7 @@
 		compatible = "qcom,tz-log";
 		reg = <0 0x146d8720 0 0x3000>;
 		qcom,hyplog-enabled;
+		qcom,support-hypervisor;
 		hyplog-address-offset = <0x410>;
 		hyplog-size-offset = <0x414>;
 	};
