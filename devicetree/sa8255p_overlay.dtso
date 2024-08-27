@@ -45,6 +45,7 @@
 
 	qcom_smcinvoke {
 		compatible = "qcom,smcinvoke";
+		qcom,support-hypervisor;
 	};
 
 	gpio-keys {
