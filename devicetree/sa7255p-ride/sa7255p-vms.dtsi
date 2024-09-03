@@ -244,9 +244,9 @@
 		gunyah-label = <0x12>;
 	};
 
-	auto_vm_0_mem_0: auto_vm_0_mem_0@d7000000 {
+	auto_vm_0_mem_0: auto_vm_0_mem_0@e0000000 {
 		no-map;
-		reg = <0x0 0xd7000000 0x0 0x20000000>;/*512M*/
+		reg = <0x0 0xe0000000 0x0 0x10000000>;/*256M*/
 	};
 
 	auto_vm_0_mem_1: auto_vm_0_mem_1@a80000000 {

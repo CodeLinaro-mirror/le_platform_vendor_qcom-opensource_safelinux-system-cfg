@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
-* Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+* Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 */
 
 &tlmm {
@@ -231,7 +231,7 @@
 		tert_tdm_dout_active: tert_tdm_dout_active {
 			mux {
 				pins = "gpio113";
-				function = "mi2s2_data1";
+				function = "audio_ref_clk";
 			};
 
 			config {
@@ -629,111 +629,225 @@
 		};
 	};
 
-	cci0_default: cci0_default {
+	cci0_sda_default: cci0_sda_default {
 		mux {
 			/* CLK, DATA */
-			pins = "gpio60","gpio61";
-			function = "cci_i2c";
+			pins = "gpio60";
+			function = "cci_i2c_sda0";
 		};
+
 		config {
-			pins = "gpio60","gpio61";
+			pins = "gpio60";
 			bias-pull-up; /* PULL UP*/
 			drive-strength = <2>; /* 2 MA */
 		};
 	};
 
-	cci1_default: cci1_default {
+	cci0_scl_default: cci0_scl_default {
 		mux {
 			/* CLK, DATA */
-			pins = "gpio52","gpio53";
-			function = "cci_i2c";
+			pins = "gpio61";
+			function = "cci_i2c_scl0";
 		};
 
 		config {
-			pins = "gpio52","gpio53";
+			pins = "gpio61";
 			bias-pull-up; /* PULL UP*/
 			drive-strength = <2>; /* 2 MA */
 		};
 	};
 
-	cci2_default: cci2_default {
+	cci1_sda_default: cci1_sda_default {
 		mux {
 			/* CLK, DATA */
-			pins = "gpio62","gpio63";
-			function = "cci_i2c";
+			pins = "gpio52";
+			function = "cci_i2c_sda1";
 		};
+
 		config {
-			pins = "gpio62","gpio63";
+			pins = "gpio52";
 			bias-pull-up; /* PULL UP*/
 			drive-strength = <2>; /* 2 MA */
 		};
 	};
 
-	cci3_default: cci3_default {
+	cci1_scl_default: cci1_scl_default {
 		mux {
 			/* CLK, DATA */
-			pins = "gpio54","gpio55";
-			function = "cci_i2c";
+			pins = "gpio53";
+			function = "cci_i2c_scl1";
 		};
 
 		config {
-			pins = "gpio54","gpio55";
+			pins = "gpio53";
 			bias-pull-up; /* PULL UP*/
 			drive-strength = <2>; /* 2 MA */
 		};
 	};
 
-	cci4_default: cci4_default {
+	cci2_sda_default: cci2_sda_default {
 		mux {
 			/* CLK, DATA */
-			pins = "gpio64","gpio65";
-			function = "cci_i2c";
+			pins = "gpio62";
+			function = "cci_i2c_sda2";
 		};
 
 		config {
-			pins = "gpio64","gpio65";
+			pins = "gpio62";
 			bias-pull-up; /* PULL UP*/
 			drive-strength = <2>; /* 2 MA */
 		};
 	};
 
-	cci5_default: cci5_default {
+	cci2_scl_default: cci2_scl_default {
 		mux {
 			/* CLK, DATA */
-			pins = "gpio56","gpio57";
-			function = "cci_i2c";
+			pins = "gpio63";
+			function = "cci_i2c_scl2";
 		};
 
 		config {
-			pins = "gpio56","gpio57";
+			pins = "gpio63";
 			bias-pull-up; /* PULL UP*/
 			drive-strength = <2>; /* 2 MA */
 		};
 	};
 
-	cci6_default: cci6_default {
+	cci3_sda_default: cci3_sda_default {
 		mux {
 			/* CLK, DATA */
-			pins = "gpio66","gpio67";
-			function = "cci_i2c";
+			pins = "gpio54";
+			function = "cci_i2c_sda3";
 		};
 
 		config {
-			pins = "gpio66","gpio67";
+			pins = "gpio54";
 			bias-pull-up; /* PULL UP*/
 			drive-strength = <2>; /* 2 MA */
 		};
 	};
 
-	cci7_default: cci7_default {
+	cci3_scl_default: cci3_scl_default {
 		mux {
 			/* CLK, DATA */
-			pins = "gpio58","gpio59";
-			function = "cci_i2c";
+			pins = "gpio55";
+			function = "cci_i2c_scl3";
 		};
 
-	config {
-			pins = "gpio58","gpio59";
+		config {
+			pins = "gpio55";
+			bias-pull-up; /* PULL UP*/
+			drive-strength = <2>; /* 2 MA */
+		};
+	};
+
+	cci4_sda_default: cci4_sda_default {
+		mux {
+			/* CLK, DATA */
+			pins = "gpio64";
+			function = "cci_i2c_sda4";
+		};
+
+		config {
+			pins = "gpio64";
+			bias-pull-up; /* PULL UP*/
+			drive-strength = <2>; /* 2 MA */
+		};
+	};
+
+	cci4_scl_default: cci4_scl_default {
+		mux {
+			/* CLK, DATA */
+			pins = "gpio65";
+			function = "cci_i2c_scl4";
+		};
+
+		config {
+			pins = "gpio65";
+			bias-pull-up; /* PULL UP*/
+			drive-strength = <2>; /* 2 MA */
+		};
+	};
+
+	cci5_sda_default: cci5_sda_default {
+		mux {
+			/* CLK, DATA */
+			pins = "gpio56";
+			function = "cci_i2c_sda5";
+		};
+
+		config {
+			pins = "gpio56";
+			bias-pull-up; /* PULL UP*/
+			drive-strength = <2>; /* 2 MA */
+		};
+	};
+
+	cci5_scl_default: cci5_scl_default {
+		mux {
+			/* CLK, DATA */
+			pins = "gpio57";
+			function = "cci_i2c_scl5";
+		};
+
+		config {
+			pins = "gpio57";
+			bias-pull-up; /* PULL UP*/
+			drive-strength = <2>; /* 2 MA */
+		};
+	};
+
+	cci6_sda_default: cci6_sda_default {
+		mux {
+			/* CLK, DATA */
+			pins = "gpio66";
+			function = "cci_i2c_sda6";
+		};
+
+		config {
+			pins = "gpio66";
+			bias-pull-up; /* PULL UP*/
+			drive-strength = <2>; /* 2 MA */
+		};
+	};
+
+	cci6_scl_default: cci6_scl_default {
+		mux {
+			/* CLK, DATA */
+			pins = "gpio67";
+			function = "cci_i2c_scl6";
+		};
+
+		config {
+			pins = "gpio67";
+			bias-pull-up; /* PULL UP*/
+			drive-strength = <2>; /* 2 MA */
+		};
+	};
+
+	cci7_sda_default: cci7_sda_default {
+		mux {
+			/* CLK, DATA */
+			pins = "gpio58";
+			function = "cci_i2c_sda7";
+		};
+
+		config {
+			pins = "gpio58";
+			bias-pull-up; /* PULL UP*/
+			drive-strength = <2>; /* 2 MA */
+		};
+	};
+
+	cci7_scl_default: cci7_scl_default {
+		mux {
+			/* CLK, DATA */
+			pins = "gpio59";
+			function = "cci_i2c_scl7";
+		};
+
+		config {
+			pins = "gpio59";
 			bias-pull-up; /* PULL UP*/
 			drive-strength = <2>; /* 2 MA */
 		};

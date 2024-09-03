@@ -7,30 +7,24 @@
 /dts-v1/;
 /plugin/;
 
-#include <dt-bindings/clock/qcom,rpmh.h>
-#include <dt-bindings/clock/qcom,sa8775p-gcc.h>
-#include <dt-bindings/interconnect/qcom,sa8775p-rpmh.h>
 #include <dt-bindings/interrupt-controller/irq.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
-#include <dt-bindings/power/qcom-rpmpd.h>
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/gpio/gpio.h>
 #include <oot-dt-bindings/qcom-ipcc.h>
 #include "sa8775p-pinctrl.dtsi"
 #include "sa8775p-vfio.dtsi"
-#include "sa8775p-vms.dtsi"
+
 
 / {
-	model = "Qualcomm SA8775P Ride";
-	compatible = "qcom,sa8775p-ride", "qcom,sa8775p";
+	model = "Qualcomm Technologies, Inc. SA8775P Ride Firmware Managed";
+	compatible = "qcom,sa8775p-ride-fw-managed";
 };
 
 
 &{/} {
 	#address-cells = <2>;
 	#size-cells = <2>;
-
-	aliases {
-		serial1 = "/soc@0/geniqup@9c0000/serial@990000";
-	};
 
 	kaslr_store {
 		compatible = "qcom,kaslr-off-store";
@@ -59,10 +53,37 @@
 	qcom_smcinvoke {
 		compatible = "qcom,smcinvoke";
 	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+
+		key_sleep {
+			label = "sleep";
+			linux,code = <KEY_SLEEP>;
+			gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
+			linux,input-type = <1>;
+			debounce-interval = <0>;
+			wakeup-source;
+		};
+
+		key_power {
+			label = "power";
+			linux,code = <KEY_POWER>;
+			gpios = <&tlmm 59 GPIO_ACTIVE_HIGH>;
+			linux,input-type = <1>;
+			debounce-interval = <0>;
+			wakeup-source;
+		};
+	};
+};
+
+&uart17 {
+	status = "disabled";
 };
 
 &pcie0 {
 	iommus = <&pcie_smmu 0x00 0x7f>;
+	status = "disabled";
 };
 
 &pcie1 {
@@ -82,32 +103,43 @@
 	};
 };
 
-&soc {
-	qupv3_id_0: geniqup@9c0000 {
-		status = "okay";
-		uart4: serial@990000 {
-			compatible = "qcom,geni-uart";
-			reg = <0x0 0x990000 0x0 0x4000>;
-			#address-cells = <1>;
-			#size-cells = <0>;
-			interrupts = <GIC_SPI 531 IRQ_TYPE_LEVEL_HIGH>;
-			clocks = <&gcc GCC_QUPV3_WRAP0_S4_CLK>;
-			clock-names = "se";
-			interconnects = <&clk_virt MASTER_QUP_CORE_0 0
-					 &clk_virt SLAVE_QUP_CORE_0 0>,
-					<&gem_noc MASTER_APPSS_PROC 0
-					 &config_noc SLAVE_QUP_0 0>,
-					<&aggre2_noc MASTER_QUP_0 0
-					 &mc_virt SLAVE_EBI1 0>;
-			interconnect-names = "qup-core", "qup-config", "qup-memory";
-			power-domains = <&rpmhpd SA8775P_CX>;
-			pinctrl-0 = <&qupv3_se4_2uart_active>;
-			pinctrl-1 = <&qupv3_se4_2uart_sleep>;
-			pinctrl-names = "default", "sleep";
-			status = "okay";
-		};
-	};
+&scmi16 {
+	status = "okay";
+};
 
+&scmi17 {
+	status = "okay";
+};
+
+&scmi18 {
+	status = "okay";
+};
+
+&scmi19 {
+	status = "okay";
+};
+
+&scmi20 {
+	status = "okay";
+};
+
+&scmi21 {
+	status = "okay";
+};
+
+&scmi22 {
+	status = "okay";
+};
+
+&scmi24 {
+	status = "okay";
+};
+
+&scmi63 {
+	status = "okay";
+};
+
+&soc {
 	hsi2s: hsi2s@3B40000 {
 		compatible = "qcom,sa8775-hsi2s", "qcom,hsi2s";
 		reg = <0x0 0x3B40000 0x0 0x29000>,
@@ -184,97 +216,7 @@
 		};
 	};
 
-	camcc: clock-controller@ade0000 {
-		compatible = "qcom,sa8775p-camcc";
-		reg = <0x0 0xade0000 0x0 0x20000>;
-		clocks = <&gcc GCC_CAMERA_AHB_CLK>,
-				<&rpmhcc RPMH_CXO_CLK>,
-				<&rpmhcc RPMH_CXO_CLK_A>,
-				<&sleep_clk>;
-		power-domains = <&rpmhpd SA8775P_MMCX>;
-		required-opps = <&rpmhpd_opp_nom>;
-		#clock-cells = <1>;
-		#reset-cells = <1>;
-		#power-domain-cells = <1>;
-	};
-
-	dispcc0: clock-controller@af00000 {
-		compatible = "qcom,sa8775p-dispcc0";
-		reg = <0x0 0xaf00000 0x0 0x20000>;
-		clocks = <&gcc GCC_DISP_AHB_CLK>,
-				<&rpmhcc RPMH_CXO_CLK>,
-				<&rpmhcc RPMH_CXO_CLK_A>,
-				<&sleep_clk>,
-				<0>,
-				<0>,
-				<0>,
-				<0>,
-				<0>,
-				<0>,
-				<0>,
-				<0>;
-		power-domains = <&rpmhpd SA8775P_MMCX>;
-		#clock-cells = <1>;
-		#reset-cells = <1>;
-		#power-domain-cells = <1>;
-	};
-
-	dispcc1: clock-controller@22100000 {
-		compatible = "qcom,sa8775p-dispcc1";
-		reg = <0x0 0x22100000 0x0 0x20000>;
-		clocks = <&gcc GCC_DISP_AHB_CLK>,
-				<&rpmhcc RPMH_CXO_CLK>,
-				<&rpmhcc RPMH_CXO_CLK_A>,
-				<&sleep_clk>,
-				<0>,
-				<0>,
-				<0>,
-				<0>,
-				<0>,
-				<0>,
-				<0>,
-				<0>;
-		power-domains = <&rpmhpd SA8775P_MMCX>;
-		#clock-cells = <1>;
-		#reset-cells = <1>;
-		#power-domain-cells = <1>;
-	};
-
-	videocc: clock-controller@abf0000 {
-		compatible = "qcom,sa8775p-videocc";
-		reg = <0x0 0xabf0000 0x0 0x10000>;
-		clocks = <&gcc GCC_VIDEO_AHB_CLK>,
-				<&rpmhcc RPMH_CXO_CLK>,
-				<&rpmhcc RPMH_CXO_CLK_A>,
-				<&sleep_clk>;
-		power-domains = <&rpmhpd SA8775P_MMCX>;
-		#clock-cells = <1>;
-		#reset-cells = <1>;
-		#power-domain-cells = <1>;
-	};
-
-	dummy_icc: dummy-icc {
-		compatible = "qcom,sa8775p-dummy";
-		interconnects = <&nspa_noc MASTER_CDSP_PROC 0 &mc_virt SLAVE_EBI1 0>,
-				<&mmss_noc MASTER_MDP0 0 &gem_noc SLAVE_LLCC 0>,
-				<&mmss_noc MASTER_MDP1 0 &gem_noc SLAVE_LLCC 0>,
-				<&mc_virt MASTER_LLCC 0 &mc_virt SLAVE_EBI1 0>,
-				<&mmss_noc MASTER_MDP_CORE1_0 0 &gem_noc SLAVE_LLCC 0>,
-				<&mmss_noc MASTER_MDP_CORE1_1 0 &gem_noc SLAVE_LLCC 0>,
-				<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_DISPLAY_CFG 0>,
-				<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_DISPLAY1_CFG 0>,
-				<&nspb_noc MASTER_CDSP_PROC 0 &mc_virt SLAVE_EBI1 0>,
-				<&gpdsp_anoc MASTER_DSP0 0 &config_noc SLAVE_CLK_CTL 0>,
-				<&gpdsp_anoc MASTER_DSP1 0 &config_noc SLAVE_CLK_CTL 0>,
-				<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_CAMERA_CFG 0>,
-				<&mmss_noc MASTER_CAMNOC_HF 0 &mc_virt SLAVE_EBI1 0>,
-				<&mmss_noc MASTER_CAMNOC_SF 0 &mc_virt SLAVE_EBI1 0>,
-				<&mmss_noc MASTER_CAMNOC_ICP 0 &mc_virt SLAVE_EBI1 0>;
-		power-domains = <&rpmhpd SA8775P_NSP0>,
-				<&rpmhpd SA8775P_NSP1>;
-	};
-
-	ipcc_computeL1: mailbox@488000 {
+	ipcc1: mailbox@488000 {
 		compatible = "qcom,sa8775p-ipcc", "qcom,ipcc";
 		reg = <0x0 0x488000 0x0 0x1000>;
 		interrupts = <GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>;
@@ -642,10 +584,178 @@
 				"l3-c0-scu-faultirq",
 				"l3-c1-scu-faultirq";
 	};
+
 	ddr_bwprofiler {
 			compatible = "qcom,ddr_bwprofiler";
 			clocks = <&aoss_qmp>;
 			clock-names = "qdss_clk";
+	};
+
+	scmi_mdss0 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi16_dvfs 0>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_mdss0";
+	};
+
+	scmi_mdss1 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi17_dvfs 0>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_mdss1";
+	};
+
+	scmi_gfx {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi18_dvfs 0>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_gfx";
+	};
+
+	scmi_nsp0 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi19_dvfs 0>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_nsp0";
+	};
+
+	scmi_nsp1 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi19_dvfs 1>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_nsp1";
+	};
+
+	scmi_gpdsp0 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi19_dvfs 2>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_gpdsp0";
+	};
+
+	scmi_gpdsp1 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi19_dvfs 3>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_gpdsp1";
+	};
+
+	scmi_video {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi20_dvfs 0>, <&scmi20_dvfs 1>;
+		power-domain-names = "perf_video_clk", "perf_video_bw";
+
+		resets = <&scmi20_rst 0>;
+		reset-names = "reset_video";
+
+		qcom,dev-name = "scmi_video";
+	};
+
+	scmi_camera {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi21_dvfs 0>;
+		power-domain-names = "perf_camera";
+
+		qcom,dev-name = "scmi_camera";
+	};
+
+	scmi_eva {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi22_dvfs 0>, <&scmi22_dvfs 1>;
+		power-domain-names = "perf_eva_clk", "perf_eva_bw";
+
+		qcom,dev-name = "scmi_eva";
+	};
+
+	test_scmi {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi63_pd 2> , <&scmi63_dvfs 2>;
+		power-domain-names = "power", "perf";
+
+		resets = <&scmi63_rst 0>;
+		reset-names = "core";
+
+		qcom,dev-name = "test_scmi";
+	};
+
+	test_scmi_perf {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi63_dvfs 1>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "test_scmi_perf";
+	};
+
+	test_scmi_power {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi63_pd 1>;
+
+		qcom,dev-name = "test_scmi_power";
+	};
+
+	scmi_uart17 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi11_pd 17>, <&scmi11_dvfs 17>;
+		power-domain-names = "power", "perf";
+
+		qcom,dev-name = "scmi_uart17";
+	};
+
+	scmi_pcie0 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi5_pd 0>;
+		power-domain-names = "power";
+
+		qcom,dev-name = "scmi_pcie0";
+	};
+
+	scmi_wlan {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi24_pd 0>, <&scmi24_pd 1>;
+		power-domain-names = "power_regulator", "power_gpio";
+
+		qcom,dev-name = "scmi_wlan";
+	};
+
+	qfprom_pte: qfprom@780158 {
+		compatible = "qcom,qfprom";
+		reg = <0x0 0x00780158 0x0 0x4>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+	};
+
+	qfprom_tcsr: qfprom@1FFF018 {
+		compatible = "qcom,qfprom";
+		reg = <0x0 0x1FFF018 0x0 0x4>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+	};
+
+	watchdog@17c10000 {
+		interrupts = <GIC_SPI 0 IRQ_TYPE_EDGE_RISING>;
 	};
 };
 
@@ -702,8 +812,16 @@
 		no-map;
 	};
 
-	mproc_umdpil_mem: mproc_umdpil_region@a0500000 {
+	mproc_umdpil_mem: mproc_umdpil_region@95700000 {
 		no-map;
-		reg = <0x0 0xa0500000 0x0 0x300000>;
+		reg = <0x0 0x95700000 0x0 0x500000>;
         };
+
+	gptp_timedata_mem: gptp_timedata_region@acfff000 {
+		no-map;
+		reg = <0x0 0xACFFF000 0x0 0x1000>;
+	};
 };
+
+#include "sa8775p-vms.dtsi"
+
