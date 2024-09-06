@@ -3,9 +3,6 @@
  * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
  */
 
-/dts-v1/;
-/plugin/;
-
 #include <dt-bindings/interrupt-controller/irq.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
 #include <dt-bindings/input/input.h>
@@ -14,13 +11,10 @@
 #include "sa8775p-pinctrl.dtsi"
 #include "sa8775p-vfio.dtsi"
 
-
 / {
 	model = "Qualcomm Technologies, Inc. SA8255P Ride";
 	compatible = "qcom,sa8255p-ride","qcom,sa8255p";
-};
 
-&{/} {
 	#address-cells = <2>;
 	#size-cells = <2>;
 
@@ -31,7 +25,7 @@
 
 	qcom_tzlog: tz-log@146d8720 {
 		compatible = "qcom,tz-log";
-		reg = <0 0x146d8720 0 0x3000>;
+		reg = <0x0 0x146d8720 0x0 0x3000>;
 		qcom,hyplog-enabled;
 		qcom,support-hypervisor;
 		hyplog-address-offset = <0x410>;
@@ -68,6 +62,39 @@
 			linux,input-type = <1>;
 			debounce-interval = <0>;
 			wakeup-source;
+		};
+	};
+
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		dump_mem: mem_dump_region {
+			alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;
+			compatible = "shared-dma-pool";
+			reusable;
+			size = <0 0x3000000>;
+		};
+
+		tz-start-count {
+			reg = <0x0 0x146d87f8 0x0 0x8>;
+			no-map;
+		};
+
+		tz-end-count {
+			reg = <0x0 0x146d87dc 0x0 0x8>;
+			no-map;
+		};
+
+		mproc_umdpil_mem: mproc_umdpil_region@a0500000 {
+			no-map;
+			reg = <0x0 0xa0500000 0x0 0x300000>;
+		};
+
+		gptp_timedata_mem: gptp_timedata_region@acfff000 {
+			no-map;
+			reg = <0x0 0xacfff000 0x0 0x1000>;
 		};
 	};
 };
@@ -1613,39 +1640,4 @@
 		};
 	};
 };
-
-&{/reserved-memory} {
-	#address-cells = <2>;
-	#size-cells = <2>;
-	ranges;
-
-	dump_mem: mem_dump_region {
-		alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;
-		compatible = "shared-dma-pool";
-		reusable;
-		size = <0 0x3000000>;
-	};
-
-	tz-start-count {
-		reg = <0x0 0x146d87f8 0x0 0x8>;
-		no-map;
-	};
-
-	tz-end-count {
-		reg = <0x0 0x146d87dc 0x0 0x8>;
-		no-map;
-	};
-
-	mproc_umdpil_mem: mproc_umdpil_region@a0500000 {
-		no-map;
-		reg = <0x0 0xa0500000 0x0 0x300000>;
-	};
-
-	gptp_timedata_mem: gptp_timedata_region@acfff000 {
-		no-map;
-		reg = <0x0 0xacfff000 0x0 0x1000>;
-	};
-};
-
-#include "sa8775p-vms.dtsi"
 
