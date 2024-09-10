@@ -10,6 +10,8 @@ dtb-y += sa8650p-ride/sa8650p-ride.dtb
 dtb-y += sa8255p-ride/sa8255p-ride.dtb
 dtb-$(CONFIG_ARCH_SA7255) += sa7255p-ride/sa7255p-ride_rh.dtb
 dtb-$(CONFIG_ARCH_SA7255) += sa8620p-ride/sa8620p-ride_rh.dtb
+else
+dtb-y += sa8620p-ride/sa8620p-ride.dtb
 endif
 
 #include common target file
