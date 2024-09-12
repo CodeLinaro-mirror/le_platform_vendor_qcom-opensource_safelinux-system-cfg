@@ -182,6 +182,23 @@
 		dma-coherent;
 	};
 
+	safety_ddr: safety-ddr@0x90d00000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x90d00000 0x0 0x80000>,
+			<0x0 0x00488000 0x0 0x1000>,
+			<0x0 0x908c0000 0x0 0x1000>,
+			<0x0 0x01FF8000 0x0 0x1000>,
+			<0x0 0x01FFA000 0x0 0x1000>,
+			<0x0 0xDB1DA000 0x0 0x2000>,
+			<0x0 0xDB1DB000 0x0 0x1000>;
+		iommus = <&apps_smmu 0x2903 0x0>;
+		interrupts-extended = <&ipcc_computeL1 IPCC_CLIENT_SAIL0 0x1 IRQ_TYPE_EDGE_RISING>,
+				<&ipcc_computeL1 IPCC_CLIENT_SAIL1 0x1 IRQ_TYPE_EDGE_RISING>,
+				<&ipcc_computeL1 IPCC_CLIENT_SAIL2 0x1 IRQ_TYPE_EDGE_RISING>,
+				<&ipcc_computeL1 IPCC_CLIENT_SAIL3 0x1 IRQ_TYPE_EDGE_RISING>;
+		dma-coherent;
+	};
+
 	vfio_timer@17c23000 {
 		compatible = "qcom,vfio-platform";
 		interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
