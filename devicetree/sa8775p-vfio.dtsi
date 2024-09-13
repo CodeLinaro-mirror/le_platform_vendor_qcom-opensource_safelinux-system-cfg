@@ -523,6 +523,17 @@
 		pinctrl-0 = <&cam_lock3_default>;
 	};
 
+	vfio_dpu00_hpd0@0 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&edp0_hpd_ctrl>;
+	};
+
+	vfio_dpu00_hpd1@1 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&edp1_hpd_ctrl>;
+	};
 
 	vfio_dpu_00@ae00000 {
 		compatible = "qcom,vfio-platform";
@@ -531,6 +542,18 @@
 		iommus = <&apps_smmu 0x1000 0x402>;
 		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
 		dma-coherent;
+	};
+
+	vfio_dpu_10_hpd3@3 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&edp2_hpd_ctrl>;
+	};
+
+	vfio_dpu_10_hpd4@4 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&edp3_hpd_ctrl>;
 	};
 
 	vfio_dpu_10@22000000 {
