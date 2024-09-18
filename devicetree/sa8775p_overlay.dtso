@@ -92,6 +92,18 @@
 	status = "disabled";
 };
 
+&usb_2 {
+	status = "disabled";
+};
+
+&usb_2_dwc3 {
+	status = "disabled";
+};
+
+&usb_2_hsphy {
+	status = "disabled";
+};
+
 &pcie1 {
 	iommus = <&pcie_smmu 0x80 0x7f>;
 };
@@ -107,6 +119,14 @@
 		spi-cpha;
 		status = "okay";
 	};
+};
+
+&scmi2 {
+	status = "okay";
+};
+
+&scmi14 {
+	status = "okay";
 };
 
 &scmi16 {
@@ -762,6 +782,24 @@
 		power-domain-names = "power";
 
 		qcom,dev-name = "scmi_bluetooth";
+	};
+
+	scmi_usb2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi2_pd 0>, <&scmi2_pd 1>;
+		power-domain-names = "usb_transfer", "usb_core";
+
+		qcom,dev-name = "scmi_usb2";
+	};
+
+	scmi_usb2_phy2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi14_pd 0>, <&scmi14_pd 1>;
+		power-domain-names = "usb_transfer", "usb_core";
+
+		qcom,dev-name = "scmi_usb2_phy2";
 	};
 
 	qfprom_pte: qfprom@780158 {
