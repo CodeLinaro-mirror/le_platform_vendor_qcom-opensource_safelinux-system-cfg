@@ -570,13 +570,14 @@
 		name = "vfio_kgsl";
 		compatible = "qcom,kiumd-platform";
 
-		reg = <0x0 0x03d00000 0x0 0x69000>,
+		reg = <0x0 0x1 0x0 0x0>,
+			<0x0 0x03d00000 0x0 0x69000>,
 			<0x0 0x03d69000 0x0 0x97000>,
 			<0x0 0x0b210000 0x0 0x400000>,
 			<0x0 0x00780000 0x0 0x7000>,
 			<0x0 0x01fc8000 0x0 0x1000>,
 			<0x0 0x01fc0000 0x0 0x30000>;
-		reg-names = "gpu_reg", "gmu_reg",
+		reg-names = "dummy", "gpu_reg", "gmu_reg",
 			"rpmh_pdc", "security_control_core",
 			"tcsr_hwver_reg", "tcsr_tcsr_reg";
 
@@ -593,8 +594,9 @@
 
 	vfio_gmu {
 		compatible = "qcom,vfio-platform";
-		reg = <0x0 0x01fc0000 0x0 0x38000>;
-		reg-names = "tcsr_tcsr_reg";
+		reg = <0x0 0x1 0x0 0x0>,
+			<0x0 0x01fc0000 0x0 0x38000>;
+		reg-names = "dummy", "tcsr_tcsr_reg";
 		iommus = <&adreno_smmu 0x5 0xc00>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
@@ -602,6 +604,7 @@
 
 	vfio_gmu_db {
 		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x1 0x0 0x0>;
 		iommus = <&adreno_smmu 0x4 0xc00>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
@@ -609,6 +612,8 @@
 
 	vfio_kgsl_secure {
 		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x1 0x0 0x0>;
+		// switch to secure CB once ready
 		iommus = <&adreno_smmu 0x2 0xc00>;
 		qcom,iommu-dma-addr-pool = <0x0 0xC0000000 0x0 0x3FFFF000>;
 		qcom,iommu-dma = "disabled";
@@ -617,6 +622,7 @@
 
 	vfio_kgsl_lpac {
 		compatible = "qcom,kiumd-platform";
+		reg = <0x0 0x1 0x0 0x0>;
 		iommus = <&adreno_smmu 0x1 0xc00>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
