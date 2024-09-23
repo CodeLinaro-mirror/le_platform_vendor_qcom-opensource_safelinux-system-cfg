@@ -323,7 +323,7 @@
 
 	glink_cma_mem: glink_cma_mem@908c7000 {
 		no-map;
-		reg = <0x0 0x908c7000 0x0 0x9000>;
+		reg = <0x0 0x908c7000 0x0 0x12000>;
 		qcom,dst-vmids = <AC_VM_CDSP_Q6_ELF>;
 		qcom,dst-perms = <QCOM_PERM_RWX>;
 		gunyah-label = <0x60>;
