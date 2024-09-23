@@ -45,7 +45,7 @@ install_dtbo_path=${RPM_BUILD_ROOT}/lib/modules/%{kversion_with_debug}
 mkdir -p ${install_dtbo_path}/dtb/qcom/
 cat %{_builddir}/%{name}/centos-stream-9/arch/arm64/boot/dts/qcom/sa8775p-ride-fw-managed.dtb.overlay \
             %{_builddir}/%{name}/sa8770p-ride/sa8770p-ride.dtb \
-            %{_builddir}/%{name}/sa8775p-ride-mx/sa8775p-ride-mx.dtb \
+            %{_builddir}/%{name}/sa8775p-ride-mx/sa8775p-ride-mx_rh.dtb \
             %{_builddir}/%{name}/sa8650p-ride/sa8650p-ride.dtb \
             %{_builddir}/%{name}/sa8255p-ride/sa8255p-ride.dtb \
             > ${install_dtbo_path}/dtb/qcom/sa8775p-ride-fw-managed.dtb.overlay
