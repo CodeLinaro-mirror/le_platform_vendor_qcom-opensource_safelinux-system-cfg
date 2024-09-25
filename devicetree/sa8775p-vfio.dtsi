@@ -434,13 +434,13 @@
 		iommus = <&apps_smmu 0x800 0x0400>;
 		dma-coherent;
 	};
-	
+
 	vfio_cam_cdm_non_secure_cb {
 		compatible = "qcom,vfio-platform";
 		iommus = <&apps_smmu 0x860 0x0400>;
 		dma-coherent;
 	};
-	
+
 	vfio_cam_icp_non_secure_cb {
 		compatible = "qcom,vfio-platform";
 		iommus = <&apps_smmu 0x840 0x0480>;
@@ -449,30 +449,30 @@
 
 	vfio_cci0@0 {
 		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&cci0_default>;
-		pinctrl-1 = <&cci1_default>;
+		pinctrl-names = "default","default";
+		pinctrl-0 = <&cci0_sda_default &cci0_scl_default>;
+		pinctrl-1 = <&cci1_sda_default &cci1_scl_default>;
 	};
 
 	vfio_cci1@1 {
 		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&cci2_default>;
-		pinctrl-1 = <&cci3_default>;
+		pinctrl-names = "default","default";
+		pinctrl-0 = <&cci2_sda_default &cci2_scl_default>;
+		pinctrl-1 = <&cci3_sda_default &cci3_scl_default>;
 	};
 
 	vfio_cci2@2 {
 		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&cci4_default>;
-		pinctrl-1 = <&cci5_default>;
+		pinctrl-names = "default","default";
+		pinctrl-0 = <&cci4_sda_default &cci4_scl_default>;
+		pinctrl-1 = <&cci5_sda_default &cci5_scl_default>;
 	};
 
 	vfio_cci3@3 {
 		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&cci6_default>;
-		pinctrl-1 = <&cci7_default>;
+		pinctrl-names = "default","default";
+		pinctrl-0 = <&cci6_sda_default &cci6_scl_default>;
+		pinctrl-1 = <&cci7_sda_default &cci7_scl_default>;
 	};
 
 	vfio_fsync0@0 {
@@ -523,6 +523,17 @@
 		pinctrl-0 = <&cam_lock3_default>;
 	};
 
+	vfio_dpu00_hpd0@0 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&edp0_hpd_ctrl>;
+	};
+
+	vfio_dpu00_hpd1@1 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&edp1_hpd_ctrl>;
+	};
 
 	vfio_dpu_00@ae00000 {
 		compatible = "qcom,vfio-platform";
@@ -531,6 +542,18 @@
 		iommus = <&apps_smmu 0x1000 0x402>;
 		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
 		dma-coherent;
+	};
+
+	vfio_dpu_10_hpd3@3 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&edp2_hpd_ctrl>;
+	};
+
+	vfio_dpu_10_hpd4@4 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&edp3_hpd_ctrl>;
 	};
 
 	vfio_dpu_10@22000000 {
@@ -547,13 +570,14 @@
 		name = "vfio_kgsl";
 		compatible = "qcom,kiumd-platform";
 
-		reg = <0x0 0x03d00000 0x0 0x69000>,
+		reg = <0x0 0x1 0x0 0x0>,
+			<0x0 0x03d00000 0x0 0x69000>,
 			<0x0 0x03d69000 0x0 0x97000>,
 			<0x0 0x0b210000 0x0 0x400000>,
 			<0x0 0x00780000 0x0 0x7000>,
 			<0x0 0x01fc8000 0x0 0x1000>,
 			<0x0 0x01fc0000 0x0 0x30000>;
-		reg-names = "gpu_reg", "gmu_reg",
+		reg-names = "dummy", "gpu_reg", "gmu_reg",
 			"rpmh_pdc", "security_control_core",
 			"tcsr_hwver_reg", "tcsr_tcsr_reg";
 
@@ -570,8 +594,9 @@
 
 	vfio_gmu {
 		compatible = "qcom,vfio-platform";
-		reg = <0x0 0x01fc0000 0x0 0x38000>;
-		reg-names = "tcsr_tcsr_reg";
+		reg = <0x0 0x1 0x0 0x0>,
+			<0x0 0x01fc0000 0x0 0x38000>;
+		reg-names = "dummy", "tcsr_tcsr_reg";
 		iommus = <&adreno_smmu 0x5 0xc00>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
@@ -579,6 +604,7 @@
 
 	vfio_gmu_db {
 		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x1 0x0 0x0>;
 		iommus = <&adreno_smmu 0x4 0xc00>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
@@ -586,15 +612,17 @@
 
 	vfio_kgsl_secure {
 		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x1 0x0 0x0>;
 		// switch to secure CB once ready
 		iommus = <&adreno_smmu 0x2 0xc00>;
-		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0x7FFF0000>;
+		qcom,iommu-dma-addr-pool = <0x0 0xC0000000 0x0 0x3FFFF000>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
 	};
 
 	vfio_kgsl_lpac {
 		compatible = "qcom,kiumd-platform";
+		reg = <0x0 0x1 0x0 0x0>;
 		iommus = <&adreno_smmu 0x1 0xc00>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
