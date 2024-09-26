@@ -14,8 +14,7 @@
 #include <oot-dt-bindings/qcom-ipcc.h>
 #include "sa8775p-pinctrl.dtsi"
 #include "sa8775p-vfio.dtsi"
-#include "sa8775p-vms.dtsi"
-#include "sa8775p-vm-lv.dtsi"
+
 
 / {
 	model = "Qualcomm Technologies, Inc. SA8775P Ride Firmware Managed";
@@ -76,6 +75,12 @@
 			wakeup-source;
 		};
 	};
+};
+
+&cpufreq_hw {
+	interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>,
+		     <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
+	interrupt-names = "dcvsh-irq-0", "dcvsh-irq-1";
 };
 
 &uart17 {
@@ -217,7 +222,7 @@
 		};
 	};
 
-	ipcc_computeL1: mailbox@488000 {
+	ipcc1: mailbox@488000 {
 		compatible = "qcom,sa8775p-ipcc", "qcom,ipcc";
 		reg = <0x0 0x488000 0x0 0x1000>;
 		interrupts = <GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>;
@@ -565,6 +570,11 @@
 		status = "ok";
 	};
 
+	scm_user_intf_sec_device {
+		compatible = "qcom,scm-user-intf-sec";
+		status = "ok";
+	};
+
 	dload_mode {
 		compatible = "qcom,dload-mode";
 		status = "ok";
@@ -726,8 +736,8 @@
 	scmi_pcie0 {
 		compatible = "qcom,uscmi";
 
-		power-domains = <&scmi5_pd 0>, <&scmi63_pd 0>;
-		power-domain-names = "power", "dummy";
+		power-domains = <&scmi5_pd 0>;
+		power-domain-names = "power";
 
 		qcom,dev-name = "scmi_pcie0";
 	};
@@ -744,15 +754,15 @@
 	qfprom_pte: qfprom@780158 {
 		compatible = "qcom,qfprom";
 		reg = <0x0 0x00780158 0x0 0x4>;
-		#address-cells = <2>;
-		#size-cells = <2>;
+		#address-cells = <1>;
+		#size-cells = <1>;
 	};
 
 	qfprom_tcsr: qfprom@1FFF018 {
 		compatible = "qcom,qfprom";
 		reg = <0x0 0x1FFF018 0x0 0x4>;
-		#address-cells = <2>;
-		#size-cells = <2>;
+		#address-cells = <1>;
+		#size-cells = <1>;
 	};
 
 	watchdog@17c10000 {
@@ -817,4 +827,12 @@
 		no-map;
 		reg = <0x0 0x95700000 0x0 0x500000>;
         };
+
+	gptp_timedata_mem: gptp_timedata_region@acfff000 {
+		no-map;
+		reg = <0x0 0xACFFF000 0x0 0x1000>;
+	};
 };
+
+#include "sa8775p-vms.dtsi"
+
