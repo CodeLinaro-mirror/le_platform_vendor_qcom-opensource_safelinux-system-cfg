@@ -238,15 +238,15 @@
 		gunyah-label = <0x21>;
 	};
 
-	auto_vm_0_swiotlb: auto_vm_0_swiotlb@d5400000 {
+	auto_vm_0_swiotlb: auto_vm_0_swiotlb@b41000000 {
 		no-map;
-		reg = <0x0 0xd5400000 0x0 0x1000000>;
+		reg = <0xb 0x41000000 0x0 0x2000000>;
 		gunyah-label = <0x12>;
 	};
 
 	auto_vm_0_mem_0: auto_vm_0_mem_0@e0000000 {
 		no-map;
-		reg = <0x0 0xe0000000 0x0 0x10000000>;/*256M*/
+		reg = <0x0 0xe0000000 0x0 0x19000000>;/*400M*/
 	};
 
 	auto_vm_0_mem_1: auto_vm_0_mem_1@a80000000 {
@@ -264,9 +264,9 @@
 		reg = <0xb 0x00000000 0x0 0x40000000>;/*1G*/
 	};
 
-	auto_vm_0_mem_4: auto_vm_0_mem_4@b40000000 {
+	auto_vm_0_mem_4: auto_vm_0_mem_4@b43000000 {
 		no-map;
-		reg = <0xb 0x40000000 0x0 0x40000000>;/*1G*/
+		reg = <0xb 0x43000000 0x0 0x3D000000>;/*976M*/
 	};
 
 	auto_vm_0_mem_5: auto_vm_0_mem_5@b80000000 {
