@@ -289,6 +289,33 @@
 		#size-cells = <2>;
 		ranges = <0 0 0 0 0x10 0>;
 
+		scmi_mdss0 {
+			compatible = "qcom,uscmi";
+
+			power-domains = <&scmi16_dvfs 0>;
+			power-domain-names = "perf";
+
+			qcom,dev-name = "scmi_mdss0";
+		};
+
+		scmi_gfx {
+			compatible = "qcom,uscmi";
+
+			power-domains = <&scmi18_dvfs 0>;
+			power-domain-names = "perf";
+
+			qcom,dev-name = "scmi_gfx";
+		};
+
+		scmi_camera {
+			compatible = "qcom,uscmi";
+
+			power-domains = <&scmi21_dvfs 0>;
+			power-domain-names = "perf_camera";
+
+			qcom,dev-name = "scmi_camera";
+		};
+
 		qupv3_id_0: geniqup@9c0000 {
 			compatible = "qcom,sa7255p-geni-se-qup";
 			reg = <0x0 0x9c0000 0x0 0x2000>;
