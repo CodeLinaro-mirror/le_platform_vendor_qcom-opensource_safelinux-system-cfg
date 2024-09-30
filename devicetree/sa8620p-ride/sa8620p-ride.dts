@@ -104,6 +104,18 @@
 	status = "okay";
 };
 
+&scmi16 {
+	status = "okay";
+};
+
+&scmi18 {
+	status = "okay";
+};
+
+&scmi21 {
+	status = "okay";
+};
+
 &sleep_clk {
 	clock-frequency = <32000>;
 };
