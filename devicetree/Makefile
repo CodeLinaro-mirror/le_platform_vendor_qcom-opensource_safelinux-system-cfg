@@ -15,6 +15,7 @@ else
 dtb-y += sa8620p-ride/sa8620p-ride.dtb
 dtb-y += sa8775p_overlay.dtbo
 dtb-y += sa8775p-ride-mx/sa8775p-ride-mx.dtb
+dtb-y += sa7255p-ride/sa7255p_overlay.dtbo
 endif
 
 #include common target file
