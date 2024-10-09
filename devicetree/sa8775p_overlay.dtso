@@ -141,6 +141,10 @@
 	status = "okay";
 };
 
+&scmi25 {
+	status = "okay";
+};
+
 &scmi63 {
 	status = "okay";
 };
@@ -749,6 +753,15 @@
 		power-domain-names = "power_regulator", "power_gpio";
 
 		qcom,dev-name = "scmi_wlan";
+	};
+
+	scmi_bluetooth {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi25_pd 0>;
+		power-domain-names = "power";
+
+		qcom,dev-name = "scmi_bluetooth";
 	};
 
 	qfprom_pte: qfprom@780158 {
