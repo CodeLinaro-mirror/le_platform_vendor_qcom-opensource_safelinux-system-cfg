@@ -86,6 +86,16 @@
 	status = "okay";
 };
 
+&scmi15 {
+	status = "okay";
+};
+
+&adreno_smmu {
+	power-domains = <&scmi15_pd 0>;
+
+	status = "okay";
+};
+
 &sleep_clk {
 	clock-frequency = <32000>;
 };
