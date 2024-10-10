@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ */
+
+#include "sa8775p_overlay_rh.dtso"
+
+&{/} {
+	model = "Qualcomm Technologies, Inc. SA8775P Ride v3 Firmware Managed";
+	qcom,board-id = <0x01020025 0>;
+};
+
+&ethernet0 {
+	phy-mode = "OCSGMII";
+};
+
+&ethernet1 {
+	phy-mode = "OCSGMII";
+};
+
+&sgmii_phy0 {
+	compatible = "ethernet-phy-id31c3.1c33";
+};
+
+&sgmii_phy1 {
+	compatible = "ethernet-phy-id31c3.1c33";
+	reg = <0x0>;
+};

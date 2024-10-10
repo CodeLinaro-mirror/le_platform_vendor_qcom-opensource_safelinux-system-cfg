@@ -4,6 +4,7 @@ dtb-y += sa8775p-qvp/sa8775p-qvp.dtb
 ifneq ($(QCLINUX_BUILD), true)
 # RH Kernel Case
 dtb-y += sa8775p_overlay_rh.dtbo
+dtb-y += sa8775p-v3_overlay_rh.dtbo
 dtb-y += sa8770p-ride/sa8770p-ride.dtb
 dtb-y += sa8775p-ride-mx/sa8775p-ride-mx_rh.dtb
 dtb-y += sa8650p-ride/sa8650p-ride.dtb
