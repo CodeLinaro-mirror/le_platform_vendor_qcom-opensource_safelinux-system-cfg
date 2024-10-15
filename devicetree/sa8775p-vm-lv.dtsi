@@ -1,0 +1,267 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+* Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+*/
+
+&soc {
+	auto_vm1: qcom,auto_vm1@d00000000 {
+		reg = <0xd 0x00000000 0x0 0x2000000>; /*32MB*/
+		vm_name = "autoghgvmlv";
+		shared-buffers = <&auto_vm1_vblk0_ring
+				&auto_vm1_vblk1_ring
+				&auto_vm1_vblk2_ring
+				&auto_vm1_vblk3_ring
+				&auto_vm1_vblk4_ring
+				&auto_vm1_vnet0_ring
+				&auto_vm1_vnet1_ring
+				&auto_vm1_vhab0_ring
+				&auto_vm1_vhab1_ring
+				&auto_vm1_vhab2_ring
+				&auto_vm1_vhab3_ring
+				&auto_vm1_vhab4_ring
+				&auto_vm1_vhab5_ring
+				&auto_vm1_input0_ring
+				&auto_vm1_input1_ring
+				&auto_vm1_vconsole_ring
+				&auto_vm1_resv_ring
+				&auto_vm1_swiotlb>;
+	};
+
+	auto_vm1_be0: auto_vm1_be0@50 {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x50>;
+	};
+
+	auto_vm1_be1: auto_vm1_be1@51 {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x51>;
+	};
+
+	auto_vm1_be2: auto_vm1_be2@52 {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x52>;
+	};
+
+	auto_vm1_be3: auto_vm1_be3@53 {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x53>;
+		qcom,batch_events;
+	};
+
+	auto_vm1_be4: auto_vm1_be4@54 {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x54>;
+	};
+
+	auto_vm1_be5: auto_vm1_be5@55 {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x55>;
+	};
+
+	auto_vm1_be6: auto_vm1_be6@56 {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x56>;
+	};
+
+	auto_vm1_be7: auto_vm1_be7@57 {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x57>;
+	};
+
+	auto_vm1_be8: auto_vm1_be8@58 {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x58>;
+	};
+
+	auto_vm1_be9: auto_vm1_be9@59 {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x59>;
+	};
+
+	auto_vm1_be10: auto_vm1_be10@5A {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x5A>;
+	};
+
+	auto_vm1_be11: auto_vm1_be11@5B {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x5B>;
+	};
+
+	auto_vm1_be12: auto_vm1_be12@5C {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x5C>;
+	};
+
+	auto_vm1_be13: auto_vm1_be13@5D {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x5D>;
+	};
+
+	auto_vm1_be14: auto_vm1_be14@5E {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x5E>;
+	};
+
+	auto_vm1_be15: auto_vm1_be14@5F {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x5F>;
+	};
+
+	auto_vm1_be16: auto_vm1_be14@60 {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x60>;
+	};
+
+	auto_vm_1: gh-secure-vm-loader@1 {
+		compatible = "qcom,gh-secure-vm-loader";
+		qcom,pas-id = <45>;
+		qcom,vmid = <53>;
+		qcom,firmware-name = "autoghgvmlv";
+		qcom,firmware-index = <0>;
+		memory-region = <&auto_vm_1_mem_0 &auto_vm_1_mem_1>;
+		virtio-backends = <&auto_vm1_be0
+				&auto_vm1_be1
+				&auto_vm1_be2
+				&auto_vm1_be3
+				&auto_vm1_be4
+				&auto_vm1_be5
+				&auto_vm1_be6
+				&auto_vm1_be7
+				&auto_vm1_be8
+				&auto_vm1_be9
+				&auto_vm1_be10
+				&auto_vm1_be11
+				&auto_vm1_be12
+				&auto_vm1_be13
+				&auto_vm1_be14
+				&auto_vm1_be15
+				&auto_vm1_be16>;
+        enable-gvm-dump;
+	};
+};
+
+
+&{/reserved-memory} {
+	#address-cells = <2>;
+	#size-cells = <2>;
+	ranges;
+
+	auto_vm1_vblk0_ring: auto_vm1_vblk0_ring@d00000000 {
+		no-map;
+		reg = <0xd 0x00000000 0x0 0x4000>;
+		gunyah-label = <0x50>;
+	};
+
+	auto_vm1_vblk1_ring: auto_vm1_vblk1_ring@d00004000 {
+		no-map;
+		reg = <0xd 0x00004000 0x0 0x4000>;
+		gunyah-label = <0x51>;
+	};
+
+	auto_vm1_vblk2_ring: auto_vm1_vblk2_ring@d00008000 {
+		no-map;
+		reg = <0xd 0x00008000 0x0 0x4000>;
+		gunyah-label = <0x52>;
+	};
+
+	auto_vm1_vblk3_ring: auto_vm1_vblk3_ring@d0000c000 {
+		no-map;
+		reg = <0xd 0x0000c000 0x0 0x4000>;
+		gunyah-label = <0x53>;
+	};
+
+	auto_vm1_vblk4_ring: auto_vm1_vblk4_ring@d00010000 {
+		no-map;
+		reg = <0xd 0x00010000 0x0 0x4000>;
+		gunyah-label = <0x54>;
+	};
+
+	auto_vm1_vnet0_ring: auto_vm1_vnet0_ring@d00014000 {
+		no-map;
+		reg = <0xd 0x00014000 0x0 0x8000>;
+		gunyah-label = <0x55>;
+	};
+
+	auto_vm1_vnet1_ring: auto_vm1_vnet1_ring@d0001c000 {
+		no-map;
+		reg = <0xd 0x0001C000 0x0 0x8000>;
+		gunyah-label = <0x56>;
+	};
+
+	auto_vm1_vhab0_ring: auto_vm1_vhab0_ring@d00024000 {
+		no-map;
+		reg = <0xd 0x00024000 0x0 0x10000>;
+		gunyah-label = <0x57>;
+	};
+
+	auto_vm1_vhab1_ring: auto_vm1_vhab1_ring@d00034000 {
+		no-map;
+		reg = <0xd 0x00034000 0x0 0x10000>;
+		gunyah-label = <0x58>;
+	};
+
+	auto_vm1_vhab2_ring: auto_vm1_vhab2_ring@d00044000 {
+		no-map;
+		reg = <0xd 0x00044000 0x0 0x40000>;
+		gunyah-label = <0x59>;
+	};
+
+	auto_vm1_vhab3_ring: auto_vm1_vhab3_ring@d00084000 {
+		no-map;
+		reg = <0xd 0x00084000 0x0 0x50000>;
+		gunyah-label = <0x5A>;
+	};
+
+	auto_vm1_vhab4_ring: auto_vm1_vhab4_ring@d000D4000 {
+		no-map;
+		reg = <0xd 0x000D4000 0x0 0x30000>;
+		gunyah-label = <0x5B>;
+	};
+
+	auto_vm1_vhab5_ring: auto_vm1_vhab5_ring@d00104000 {
+		no-map;
+		reg = <0xd 0x00104000 0x0 0x30000>;
+		gunyah-label = <0x5C>;
+	};
+
+	auto_vm1_input0_ring: auto_vm1_input0_ring@d00134000 {
+		no-map;
+		reg = <0xd 0x00134000 0x0 0x4000>;
+		gunyah-label = <0x5D>;
+	};
+
+	auto_vm1_input1_ring: auto_vm1_input1_ring@d00138000 {
+		no-map;
+		reg = <0xd 0x00138000 0x0 0x4000>;
+		gunyah-label = <0x5E>;
+	};
+
+	auto_vm1_vconsole_ring: auto_vm1_vconsole_ring@d0013C000 {
+		no-map;
+		reg = <0xd 0x0013C000 0x0 0x4000>;
+		gunyah-label = <0x5F>;
+	};
+
+	auto_vm1_resv_ring: auto_vm1_resv_ring@d00140000 {
+		no-map;
+		reg = <0xd 0x00140000 0x0 0xFC0000>;
+		gunyah-label = <0x60>;
+	};
+
+	auto_vm1_swiotlb: auto_vm1_swiotlb@d01100000 {
+		no-map;
+		reg = <0xd 0x01100000 0x0 0xF00000>;
+		gunyah-label = <0x61>;
+	};
+
+	auto_vm_1_mem_0: auto_vm_1_mem_0@a1000000 {
+		no-map;
+		reg = <0x0 0xA1000000 0x0 0xBFF0000>; /*191MB*/
+	};
+
+	auto_vm_1_mem_1: auto_vm_1_mem_1@d03000000 {
+		no-map;
+		reg = <0xd 0x03000000 0x0 0xfd000000>;
+	};
+};
