@@ -281,6 +281,11 @@
 			size = <0x0 0x2000000>;
 			linux,cma-default;
 		};
+
+		mproc_umdpil_mem: mproc_umdpil_region@95700000 {
+			no-map;
+			reg = <0x0 0x95700000 0x0 0x500000>;
+		};
 	};
 
 	soc: soc@0 {
@@ -305,6 +310,15 @@
 			power-domain-names = "perf";
 
 			qcom,dev-name = "scmi_gfx";
+		};
+
+		scmi_nsp0 {
+			compatible = "qcom,uscmi";
+
+			power-domains = <&scmi19_dvfs 0>;
+			power-domain-names = "perf";
+
+			qcom,dev-name = "scmi_nsp0";
 		};
 
 		scmi_camera {
