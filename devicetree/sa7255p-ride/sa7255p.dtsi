@@ -575,7 +575,7 @@
 		};
 
 		videocc: clock-controller@abf0000 {
-			compatible = "qcom,sa8775p-videocc";
+			compatible = "qcom,sa7255p-videocc";
 			reg = <0x0 0xabf0000 0x0 0x10000>;
 			clocks = <&gcc GCC_VIDEO_AHB_CLK>,
 				 <&rpmhcc RPMH_CXO_CLK>,
