@@ -34,7 +34,20 @@
 	status = "okay";
 };
 
+&scmi25 {
+	status = "okay";
+};
+
 &soc {
+	scmi_bluetooth {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi25_pd 0>;
+		power-domain-names = "power";
+
+		qcom,dev-name = "scmi_bluetooth";
+	};
+
 	scmi_usb2 {
 		compatible = "qcom,uscmi";
 
