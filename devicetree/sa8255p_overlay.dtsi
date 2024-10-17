@@ -1698,5 +1698,14 @@
 			};
 		};
 	};
+
+	qcom,dma-heaps {
+		compatible = "qcom,dma-heaps";
+		status = "okay";
+	};
+
+	qcom,secure-buffer {
+		compatible = "qcom,secure-buffer";
+	};
 };
 
