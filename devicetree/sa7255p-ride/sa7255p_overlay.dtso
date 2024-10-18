@@ -6,6 +6,14 @@
 /dts-v1/;
 /plugin/;
 
+#include <dt-bindings/interrupt-controller/irq.h>
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/gpio/gpio.h>
+#include <oot-dt-bindings/qcom-ipcc.h>
+#include "sa7255p-pinctrl.dtsi"
+#include "sa7255p-vfio.dtsi"
+
 / {
 	model = "Qualcomm Technologies, Inc. SA7255P Ride";
 	compatible = "qcom,sa7255p-ride","qcom,sa7255p";
