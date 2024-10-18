@@ -725,8 +725,8 @@
 	scmi_pcie0 {
 		compatible = "qcom,uscmi";
 
-		power-domains = <&scmi5_pd 0>;
-		power-domain-names = "power";
+		power-domains = <&scmi5_pd 0>, <&scmi63_pd 0>;
+		power-domain-names = "power", "dummy";
 
 		qcom,dev-name = "scmi_pcie0";
 	};
