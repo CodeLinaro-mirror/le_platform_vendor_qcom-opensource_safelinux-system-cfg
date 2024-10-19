@@ -14,7 +14,9 @@
 / {
 	model = "Qualcomm Technologies, Inc. SA8255P Ride";
 	compatible = "qcom,sa8255p-ride","qcom,sa8255p";
+};
 
+&{/} {
 	#address-cells = <2>;
 	#size-cells = <2>;
 
