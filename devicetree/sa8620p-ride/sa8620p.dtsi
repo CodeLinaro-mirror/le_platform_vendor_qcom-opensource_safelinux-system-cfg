@@ -1217,7 +1217,7 @@
 			reg-names = "stmmaceth", "rgmii";
 
 			interrupts = <GIC_SPI 946 IRQ_TYPE_LEVEL_HIGH>,
-				<GIC_SPI 783 IRQ_TYPE_LEVEL_HIGH>;
+				<GIC_SPI 782 IRQ_TYPE_LEVEL_HIGH>;
 			interrupt-names = "macirq", "sfty";
 
 			iommus = <&apps_smmu 0x120 0xf>;
