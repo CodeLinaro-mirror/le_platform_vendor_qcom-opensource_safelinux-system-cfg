@@ -31,6 +31,10 @@
 	status = "okay";
 };
 
+&scmi19 {
+	status = "okay";
+};
+
 &scmi21 {
 	status = "okay";
 };
@@ -50,6 +54,24 @@
 		qcom,dev-name = "scmi_gfx";
 	};
 
+	scmi_nsp0 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi19_dvfs 0>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_nsp0";
+	};
+
+	scmi_gpdsp0 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi19_dvfs 2>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_gpdsp0";
+	};
+
 	scmi_camera {
 		compatible = "qcom,uscmi";
 		power-domains = <&scmi21_dvfs 0>;
@@ -58,3 +80,13 @@
 	};
 };
 
+&{/reserved-memory} {
+	#address-cells = <2>;
+	#size-cells = <2>;
+	ranges;
+
+	mproc_umdpil_mem: mproc_umdpil_region@95700000 {
+		no-map;
+		reg = <0x0 0x95700000 0x0 0x500000>;
+	};
+};
