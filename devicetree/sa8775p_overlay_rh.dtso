@@ -23,6 +23,8 @@
 
 
 &{/} {
+	qcom,msm-id = <534 0x20000>;
+	qcom,board-id = <0x01010025 0>;
 	#address-cells = <2>;
 	#size-cells = <2>;
 
