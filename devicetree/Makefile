@@ -18,6 +18,7 @@ dtb-y += sa8775p_overlay.dtbo
 dtb-y += sa8650p-ride/sa8650p_overlay.dtbo
 dtb-y += sa8775p-ride-mx/sa8775p-ride-mx.dtb
 dtb-y += sa7255p-ride/sa7255p_overlay.dtbo
+dtb-y += sa8775p-v3_overlay.dtbo
 endif
 
 #include common target file

@@ -12,5 +12,7 @@
 
 &{/} {
 	model = "Qualcomm Technologies, Inc. SA8775P Ride";
+	qcom,msm-id = <534 0x20000>;
+	qcom,board-id = <0x01010025 0>;
 };
 
