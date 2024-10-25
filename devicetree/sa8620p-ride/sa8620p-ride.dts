@@ -43,7 +43,7 @@
 	clock-frequency = <400000>;
 	power-domains = <&scmi9_pd 15>;
 
-	status = "disabled";
+	status = "okay";
 };
 
 &qupv3_id_0 {
@@ -127,8 +127,18 @@
 &spi10 {
 	power-domains = <&scmi10_pd 10>, <&scmi10_dvfs 10>;
 	power-domain-names = "power", "perf";
-
 	status = "okay";
+
+	spidevmaster@0 {
+		/* FIXME: Replace below compatible once we have proper dt-bindings
+		 * for the NXPs Mercury Audio DSP SAF4000EL/101(ES).
+		 */
+		compatible = "micron,spi-authenta";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+		spi-cpha;
+		status = "okay";
+	};
 };
 
 &uart7 {
