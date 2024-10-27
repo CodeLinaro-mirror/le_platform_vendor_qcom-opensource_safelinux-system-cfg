@@ -29,6 +29,19 @@
 		dma-coherent;
 	};
 
+	umd_nsp_drv@26092000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x26092000 0x0 0x1000>,
+			<0x0 0x2634B000 0x0 0x1000>,
+			<0x0 0x26350000 0x0 0x1000>;
+		interrupts = <GIC_SPI 867 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 454 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 578 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 798 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&apps_smmu 0x04E0 0x0>;
+		dma-coherent;
+	};
+
 	umd_pil@408000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x00408000 0x0 0x1000>,
@@ -182,6 +195,25 @@
 		dma-coherent;
 	};
 
+	safety_ddr: safety-ddr@0x90d00000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x90d00000 0x0 0x80000>,
+			<0x0 0x00488000 0x0 0x1000>,
+			<0x0 0x908c0000 0x0 0x1000>,
+			<0x0 0x01FF8000 0x0 0x1000>,
+			<0x0 0x01FFA000 0x0 0x1000>,
+			<0x0 0xDB1DA000 0x0 0x2000>,
+			<0x0 0xDB1DB000 0x0 0x1000>,
+			<0x0 0x17D00000 0x0 0x1000>,
+			<0x0 0x090BD000 0x0 0x1000>;
+		iommus = <&apps_smmu 0x2903 0x0>;
+		interrupts-extended = <&ipcc1 IPCC_CLIENT_SAIL0 0x1 IRQ_TYPE_EDGE_RISING>,
+				<&ipcc1 IPCC_CLIENT_SAIL1 0x1 IRQ_TYPE_EDGE_RISING>,
+				<&ipcc1 IPCC_CLIENT_SAIL2 0x1 IRQ_TYPE_EDGE_RISING>,
+				<&ipcc1 IPCC_CLIENT_SAIL3 0x1 IRQ_TYPE_EDGE_RISING>;
+		dma-coherent;
+	};
+
 	vfio_timer@17c23000 {
 		compatible = "qcom,vfio-platform";
 		interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
@@ -210,13 +242,14 @@
 		name = "vfio_kgsl";
 		compatible = "qcom,kiumd-platform";
 
-		reg = <0x0 0x03d00000 0x0 0x6a000>,
+		reg = <0x0 0x1 0x0 0x0>,
+			<0x0 0x03d00000 0x0 0x6a000>,
 			<0x0 0x03d6a000 0x0 0x96000>,
 			<0x0 0x0b210000 0x0 0x400000>,
 			<0x0 0x00780000 0x0 0x7000>,
 			<0x0 0x01fc8000 0x0 0x1000>,
 			<0x0 0x01fc0000 0x0 0x30000>;
-		reg-names = "gpu_reg", "gmu_reg",
+		reg-names = "dummy", "gpu_reg", "gmu_reg",
 			"rpmh_pdc", "security_control_core",
 			"tcsr_hwver_reg", "tcsr_tcsr_reg";
 
@@ -233,8 +266,9 @@
 
 	vfio_gmu {
 		compatible = "qcom,vfio-platform";
-		reg = <0x0 0x01fc0000 0x0 0x38000>;
-		reg-names = "tcsr_tcsr_reg";
+		reg = <0x0 0x1 0x0 0x0>,
+			<0x0 0x01fc0000 0x0 0x38000>;
+		reg-names = "dummy", "tcsr_tcsr_reg";
 		iommus = <&adreno_smmu 0x5 0xc00>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
@@ -242,6 +276,7 @@
 
 	vfio_gmu_db {
 		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x1 0x0 0x0>;
 		iommus = <&adreno_smmu 0x4 0xc00>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
@@ -249,6 +284,7 @@
 
 	vfio_kgsl_secure {
 		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x1 0x0 0x0>;
 		// switch to secure CB once ready
 		iommus = <&adreno_smmu 0x7 0xc00>;
 		qcom,iommu-dma-addr-pool = <0x0 0x7FFF0000>;
@@ -258,6 +294,7 @@
 
 	vfio_kgsl_lpac {
 		compatible = "qcom,kiumd-platform";
+		reg = <0x0 0x1 0x0 0x0>;
 		iommus = <&adreno_smmu 0x1 0xc00>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;

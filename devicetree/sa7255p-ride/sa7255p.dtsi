@@ -482,6 +482,11 @@
 			reg = <0x0 0xd0100000 0x0 0x800000>;
 		};
 
+		pimem_vault_1_mem: pimem_vault_1_region@d0900000 {
+			no-map;
+			reg = <0x0 0xd0900000 0x0 0xa00000>;
+		};
+
 		qtee_mem: qtee_region@d1300000 {
 			no-map;
 			reg = <0x0 0xd1300000 0x0 0x500000>;
@@ -495,6 +500,11 @@
 		trusted_apps_mem: trusted_apps_region@d1900000 {
 			no-map;
 			reg = <0x0 0xd1900000 0x0 0x1900000>;
+		};
+
+		pimem_vault_2_mem: pimem_vault_2_region@d3200000 {
+			no-map;
+			reg = <0x0 0xd3200000 0x0 0x100000>;
 		};
 
 		tz_stat_mem: tz_stat_region@db100000 {
@@ -565,7 +575,7 @@
 		};
 
 		videocc: clock-controller@abf0000 {
-			compatible = "qcom,sa8775p-videocc";
+			compatible = "qcom,sa7255p-videocc";
 			reg = <0x0 0xabf0000 0x0 0x10000>;
 			clocks = <&gcc GCC_VIDEO_AHB_CLK>,
 				 <&rpmhcc RPMH_CXO_CLK>,
@@ -1420,6 +1430,8 @@
 				iommus = <&apps_smmu 0x080 0x0>;
 				phys = <&usb_0_hsphy>, <&usb_0_qmpphy>;
 				phy-names = "usb2-phy", "usb3-phy";
+				snps,dis-u1-entry-quirk;
+				snps,dis-u2-entry-quirk;
 			};
 		};
 
@@ -1487,6 +1499,15 @@
 		psci {
 			compatible = "arm,psci-1.0";
 			method = "smc";
+		};
+
+		serdes0: phy@8909000 {
+			compatible = "qcom,sa7255p-dwmac-sgmii-phy";
+			reg = <0x0 0x08909000 0x0 0xe10>;
+			clocks = <&gcc GCC_SGMI_CLKREF_EN>;
+			clock-names = "sgmi_ref";
+			#phy-cells = <0>;
+			status = "disabled";
 		};
 
 		pdc: interrupt-controller@b220000 {
@@ -1725,6 +1746,7 @@
 			interrupt-controller;
 			#interrupt-cells = <2>;
 			gpio-ranges = <&tlmm 0 0 133>;
+			wakeup-parent = <&pdc>;
 
 			sec_tdm_sck {
 				sec_tdm_sck_sleep: sec_tdm_sck_sleep {
@@ -2510,6 +2532,54 @@
 			#interrupt-cells = <3>;
 			#mbox-cells = <2>;
 		};
+
+		ethernet0: ethernet@23040000 {
+			compatible = "qcom,sa7255p-ethqos";
+			reg = <0x0 0x23040000 0x0 0x10000>,
+				<0x0 0x23056000 0x0 0x100>;
+			reg-names = "stmmaceth", "rgmii";
+
+			interrupts = <GIC_SPI 946 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 783 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-names = "macirq", "sfty";
+
+			clocks = <&gcc GCC_EMAC0_AXI_CLK>,
+				 <&gcc GCC_EMAC0_SLV_AHB_CLK>,
+				 <&gcc GCC_EMAC0_PTP_CLK>,
+				 <&gcc GCC_EMAC0_PHY_AUX_CLK>;
+			clock-names = "stmmaceth",
+				"pclk",
+				"ptp_ref",
+				"phyaux";
+			power-domains = <&gcc EMAC0_GDSC>;
+
+			phys = <&serdes0>;
+			phy-names = "serdes";
+
+			iommus = <&apps_smmu 0x120 0xf>;
+			dma-coherent;
+
+			snps,tso;
+			snps,pbl = <32>;
+			rx-fifo-depth = <16384>;
+			tx-fifo-depth = <20480>;
+
+			status = "disabled";
+		};
+
+		qfprom_pte: qfprom@780158 {
+			compatible = "qcom,qfprom";
+			reg = <0x0 0x00780158 0x0 0x4>;
+			#address-cells = <2>;
+			#size-cells = <2>;
+		};
+
+		qfprom_tcsr: qfprom@1FFF018 {
+			compatible = "qcom,qfprom";
+			reg = <0x0 0x1FFF018 0x0 0x4>;
+			#address-cells = <2>;
+			#size-cells = <2>;
+		};
 	};
 
 	kaslr_store {
@@ -2854,6 +2924,5 @@
 	dload_mode {
 		compatible = "qcom,dload-mode";
 	};
-
 };
 

@@ -32,6 +32,12 @@
 	};
 };
 
+&cpufreq_hw {
+	interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>,
+		     <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
+	interrupt-names = "dcvsh-irq-0", "dcvsh-irq-1";
+};
+
 &soc {
 	dummy_icc: dummy-icc {
 		compatible = "qcom,sa8775p-dummy";

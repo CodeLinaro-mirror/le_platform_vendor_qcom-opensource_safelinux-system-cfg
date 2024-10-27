@@ -14,9 +14,18 @@ This rpm install network script for to set static ip.
 
 %install
 mkdir -p "$RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/network-scripts/"
-cp ifcfg-eth0 "$RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/network-scripts/"
-cp ifcfg-br0 "$RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/network-scripts/"
+cp ifcfg-eth0   "$RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/network-scripts/"
+cp ifcfg-br0    "$RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/network-scripts/"
+cp ifcfg-br0.4  "$RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/network-scripts/"
+cp ifcfg-eth1   "$RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/network-scripts/"
+cp ifcfg-br1    "$RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/network-scripts/"
+cp ifcfg-br1.10 "$RPM_BUILD_ROOT/%{_sysconfdir}/sysconfig/network-scripts/"
 
 %files
 %{_sysconfdir}/sysconfig/network-scripts/ifcfg-eth0
 %{_sysconfdir}/sysconfig/network-scripts/ifcfg-br0
+%{_sysconfdir}/sysconfig/network-scripts/ifcfg-br0.4
+%{_sysconfdir}/sysconfig/network-scripts/ifcfg-eth1
+%{_sysconfdir}/sysconfig/network-scripts/ifcfg-br1
+%{_sysconfdir}/sysconfig/network-scripts/ifcfg-br1.10
+
