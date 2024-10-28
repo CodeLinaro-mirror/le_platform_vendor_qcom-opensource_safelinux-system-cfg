@@ -29,6 +29,19 @@
 		dma-coherent;
 	};
 
+	umd_nsp_drv@26092000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x26092000 0x0 0x1000>,
+			<0x0 0x2634B000 0x0 0x1000>,
+			<0x0 0x26350000 0x0 0x1000>;
+		interrupts = <GIC_SPI 867 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 454 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 578 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 798 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&apps_smmu 0x04E0 0x0>;
+		dma-coherent;
+	};
+
 	umd_pil@408000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x00408000 0x0 0x1000>,
