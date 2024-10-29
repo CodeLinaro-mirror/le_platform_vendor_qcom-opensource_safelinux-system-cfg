@@ -26,6 +26,7 @@ dtb-y += sa8775p-v3_overlay.dtbo
 dtb-y += sa8255p-ride/sa8255p_overlay.dtbo
 dtb-y += sa8255p-ride/sa8255p-v3_overlay.dtbo
 dtb-y += sa8775p_overlay_pcie_ep.dtbo
+dtb-y += sa8255p-qvp/sa8255p-qvp.dtb
 endif
 
 #include common target file
