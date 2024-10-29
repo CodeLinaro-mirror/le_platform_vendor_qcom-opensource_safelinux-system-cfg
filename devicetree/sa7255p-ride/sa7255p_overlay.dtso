@@ -14,6 +14,7 @@
 #include "sa7255p-pinctrl.dtsi"
 #include "sa7255p-vfio.dtsi"
 #include "sa7255p-vms.dtsi"
+#include "sa7255p-vms-lv.dtsi"
 
 / {
 	model = "Qualcomm Technologies, Inc. SA7255P Ride";
