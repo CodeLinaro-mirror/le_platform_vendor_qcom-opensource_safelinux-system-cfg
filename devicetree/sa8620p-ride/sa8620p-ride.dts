@@ -122,6 +122,10 @@
 	status = "okay";
 };
 
+&scmi22 {
+	status = "okay";
+};
+
 &sleep_clk {
 	clock-frequency = <32000>;
 };
