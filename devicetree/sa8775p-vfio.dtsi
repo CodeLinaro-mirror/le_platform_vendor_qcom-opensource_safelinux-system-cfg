@@ -110,6 +110,13 @@
 		dma-coherent;
 	};
 
+	gemnoc@9100000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x9100000 0x0 0xF7000>;
+		iommus = <&apps_smmu 0x03C0 0x0>;
+		dma-coherent;
+	};
+
 	cdsp0_cb@1 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x1 0x0 0x0>;
