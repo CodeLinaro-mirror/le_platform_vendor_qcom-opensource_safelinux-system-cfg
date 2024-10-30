@@ -342,6 +342,15 @@
 			qcom,dev-name = "scmi_camera";
 		};
 
+		scmi_eva {
+			compatible = "qcom,uscmi";
+
+			power-domains = <&scmi22_dvfs 0>, <&scmi22_dvfs 1>;
+			power-domain-names = "perf_eva_clk", "perf_eva_bw";
+
+			qcom,dev-name = "scmi_eva";
+		};
+
 		qupv3_id_0: geniqup@9c0000 {
 			compatible = "qcom,sa7255p-geni-se-qup";
 			reg = <0x0 0x9c0000 0x0 0x2000>;
