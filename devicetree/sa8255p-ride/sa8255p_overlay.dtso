@@ -7,8 +7,55 @@
 /plugin/;
 
 #include "sa8255p_overlay.dtsi"
+#include "sa8775p-vms.dtsi"
 
 &{/} {
 	model = "Qualcomm Technologies, Inc. SA8255P Ride";
 	qcom,msm-id = <532 0x10000>, <532 0x20000>;
+};
+
+
+&mmidgrp100 {
+	/delete-property/ remote-vmids;
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp200 {
+	/delete-property/ remote-vmids;
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp300 {
+	/delete-property/ remote-vmids;
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp400 {
+	/delete-property/ remote-vmids;
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp500 {
+	/delete-property/ remote-vmids;
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp600 {
+	/delete-property/ remote-vmids;
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp1400 {
+	/delete-property/ remote-vmids;
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp1500 {
+	/delete-property/ remote-vmids;
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp1600 {
+	/delete-property/ remote-vmids;
+	remote-vmids = <2 3>;
 };
