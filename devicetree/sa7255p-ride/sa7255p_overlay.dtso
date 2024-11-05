@@ -97,6 +97,11 @@
 		power-domain-names = "perf_camera";
 		qcom,dev-name = "scmi_camera";
 	};
+
+	rng: rng@10d2000 {
+		compatible = "qcom,sa7255p-trng", "qcom,trng";
+		reg = <0x0 0x010d2000 0x0 0x1000>;
+	};
 };
 
 &{/reserved-memory} {
