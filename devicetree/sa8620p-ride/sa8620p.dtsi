@@ -1262,6 +1262,13 @@
 			#interrupt-cells = <3>;
 			#mbox-cells = <2>;
 		};
+
+		watchdog@17c10000 {
+			compatible = "qcom,apss-wdt-sa7255p", "qcom,kpss-wdt";
+			reg = <0x0 0x17c10000 0x0 0x1000>;
+			clocks = <&sleep_clk>;
+			interrupts = <GIC_SPI 0 IRQ_TYPE_EDGE_RISING>;
+		};
 	};
 
 	thermal-zones {
