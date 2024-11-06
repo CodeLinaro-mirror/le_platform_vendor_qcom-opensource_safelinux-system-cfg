@@ -180,9 +180,6 @@
 };
 
 &soc {
-	/* FIXME : To be removed once we fix ipcc for sa8775p */
-	ipcc: ipcc0: mailbox@408000 {};
-
 	hsi2s: hsi2s@3B40000 {
 		compatible = "qcom,sa8775-hsi2s", "qcom,hsi2s";
 		reg = <0x0 0x3B40000 0x0 0x29000>,

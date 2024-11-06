@@ -13,7 +13,7 @@
 #include <dt-bindings/gpio/gpio.h>
 #include <oot-dt-bindings/qcom-ipcc.h>
 #include "sa8775p-pinctrl.dtsi"
-#include "sa8775p-vfio.dtsi"
+#include "sa8775p-vfio_rh.dtsi"
 
 
 / {
