@@ -54,6 +54,10 @@
 	status = "okay";
 };
 
+&scmi20 {
+	status = "okay";
+};
+
 &scmi21 {
 	status = "okay";
 };
@@ -89,6 +93,18 @@
 		power-domain-names = "perf";
 
 		qcom,dev-name = "scmi_gpdsp0";
+	};
+
+	scmi_video {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi20_dvfs 0>, <&scmi20_dvfs 1>;
+		power-domain-names = "perf_video_clk", "perf_video_bw";
+
+		resets = <&scmi20_rst 0>;
+		reset-names = "reset_video";
+
+		qcom,dev-name = "scmi_video";
 	};
 
 	scmi_camera {
