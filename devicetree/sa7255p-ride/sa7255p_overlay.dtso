@@ -99,6 +99,19 @@
 	};
 };
 
+&spi10 {
+	spidevmaster@0 {
+		/* FIXME: Replace below compatible once we have proper dt-bindings
+		 * for the NXPs Mercury Audio DSP SAF4000EL/101(ES).
+		 */
+		compatible = "micron,spi-authenta";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+		spi-cpha;
+		status = "okay";
+	};
+};
+
 &{/reserved-memory} {
 	#address-cells = <2>;
 	#size-cells = <2>;
