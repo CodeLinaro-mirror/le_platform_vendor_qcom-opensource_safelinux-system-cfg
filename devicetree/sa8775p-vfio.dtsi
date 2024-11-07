@@ -567,6 +567,16 @@
 		pinctrl-0 = <&edp3_hpd_ctrl>;
 	};
 
+	vfio_dpu_01_secure {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x1001 0x400>,
+				<&apps_smmu 0x1401 0x400>;
+		qcom,iommu-dma-addr-pool = <0x0 0x00020000 0x0 0xfffe0000>;
+		qcom,iommu-vmid = <0xa>;
+		qcom,secure-context-bank;
+		dma-coherent;
+	};
+
 	vfio_dpu_10@22000000 {
 		compatible = "qcom,vfio-platform";
 		interrupts = <0 865 IRQ_TYPE_LEVEL_HIGH>;
@@ -574,6 +584,16 @@
 			<0x0 0x786000 0x0 0x1000>;
 		iommus = <&apps_smmu 0x1800 0x402>;
 		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
+		dma-coherent;
+	};
+
+	vfio_dpu_11_secure {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x1801 0x400>,
+				<&apps_smmu 0x1c01 0x400>;
+		qcom,iommu-dma-addr-pool = <0x0 0x00020000 0x0 0xfffe0000>;
+		qcom,iommu-vmid = <0xa>;
+		qcom,secure-context-bank;
 		dma-coherent;
 	};
 
