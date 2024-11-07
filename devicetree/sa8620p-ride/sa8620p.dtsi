@@ -321,6 +321,18 @@
 			qcom,dev-name = "scmi_nsp0";
 		};
 
+		scmi_video {
+			compatible = "qcom,uscmi";
+
+			power-domains = <&scmi20_dvfs 0>, <&scmi20_dvfs 1>;
+			power-domain-names = "perf_video_clk", "perf_video_bw";
+
+			resets = <&scmi20_rst 0>;
+			reset-names = "reset_video";
+
+			qcom,dev-name = "scmi_video";
+		};
+
 		scmi_camera {
 			compatible = "qcom,uscmi";
 
