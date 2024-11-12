@@ -6,7 +6,7 @@
 #include "sa8775p_overlay.dtso"
 
 &{/} {
-	model = "Qualcomm Technologies, Inc. SA8775P Ride";
+	model = "Qualcomm Technologies, Inc. SA8775P Ride V3";
 	qcom,board-id = <0x01020025 0>;
 };
 
