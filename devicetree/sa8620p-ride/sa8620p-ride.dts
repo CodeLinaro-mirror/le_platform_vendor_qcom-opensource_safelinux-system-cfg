@@ -127,6 +127,10 @@
 	status = "okay";
 };
 
+&scmi20 {
+	status = "okay";
+};
+
 &adreno_smmu {
 	power-domains = <&scmi15_pd 0>;
 
