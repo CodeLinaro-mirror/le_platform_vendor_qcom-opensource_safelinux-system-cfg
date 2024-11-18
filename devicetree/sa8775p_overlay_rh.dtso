@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) 2023, Linaro Limited
  */
 
 /dts-v1/;
@@ -16,17 +17,26 @@
 
 
 / {
-	model = "Qualcomm Technologies, Inc. SA8255P Ride";
-	compatible = "qcom,sa8255p-ride","qcom,sa8255p";
+	model = "Qualcomm Technologies, Inc. SA8775P Ride Firmware Managed";
+	compatible = "qcom,sa8775p-ride-fw-managed";
 };
 
+
 &{/} {
+	qcom,msm-id = <532 0x10000>, <533 0x10000>, <534 0x10000>, <534 0x20000>;
+	qcom,board-id = <0x10025 0>, <0x1010025 1>;
+
 	#address-cells = <2>;
 	#size-cells = <2>;
 
 	kaslr_store {
 		compatible = "qcom,kaslr-off-store";
 		reg = <0x0 0x146d86d0 0x0 0xc>;
+	};
+
+	tcsr: syscon@1fc0000 {
+		compatible = "syscon";
+		reg = <0x0 0x1fc0000 0x0 0x30000>;
 	};
 
 	qcom_tzlog: tz-log@146d8720 {
@@ -45,7 +55,6 @@
 
 	qcom_smcinvoke {
 		compatible = "qcom,smcinvoke";
-		qcom,support-hypervisor;
 	};
 
 	gpio-keys {
@@ -71,8 +80,35 @@
 	};
 };
 
-&ipcc1 {
-	status = "okay";
+&cpufreq_hw {
+	interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>,
+		     <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
+	interrupt-names = "dcvsh-irq-0", "dcvsh-irq-1";
+};
+
+&uart17 {
+	status = "disabled";
+};
+
+&pcie0 {
+	iommus = <&pcie_smmu 0x00 0x7f>;
+	status = "disabled";
+};
+
+&usb_2 {
+	status = "disabled";
+};
+
+&usb_2_dwc3 {
+	status = "disabled";
+};
+
+&usb_2_hsphy {
+	status = "disabled";
+};
+
+&pcie1 {
+	iommus = <&pcie_smmu 0x80 0x7f>;
 };
 
 &spi16 {
@@ -86,6 +122,14 @@
 		spi-cpha;
 		status = "okay";
 	};
+};
+
+&scmi2 {
+	status = "okay";
+};
+
+&scmi14 {
+	status = "okay";
 };
 
 &scmi16 {
@@ -120,14 +164,15 @@
 	status = "okay";
 };
 
+&scmi25 {
+	status = "okay";
+};
+
 &scmi63 {
 	status = "okay";
 };
 
 &soc {
-	/* FIXME : To be removed once we fix ipcc for sa8775p */
-	ipcc: ipcc0: mailbox@408000 {};
-
 	hsi2s: hsi2s@3B40000 {
 		compatible = "qcom,sa8775-hsi2s", "qcom,hsi2s";
 		reg = <0x0 0x3B40000 0x0 0x29000>,
@@ -202,6 +247,15 @@
 			tdm-inv-sync = <0>;
 			pcm-lane-config = <1>;
 		};
+	};
+
+	ipcc1: mailbox@488000 {
+		compatible = "qcom,sa8775p-ipcc", "qcom,ipcc";
+		reg = <0x0 0x488000 0x0 0x1000>;
+		interrupts = <GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-controller;
+		#interrupt-cells = <3>;
+		#mbox-cells = <2>;
 	};
 
 	mem_dump {
@@ -530,9 +584,21 @@
 		status = "ok";
 	};
 
+	qcom-smem {
+		compatible = "qcom,smem";
+		memory-region = <&smem_mem>;
+		hwlocks = <&tcsr_mutex 3>;
+		status = "okay";
+	};
+
 	scm_user_intf_device {
 		compatible = "qcom,scm-user-intf";
 		scm_dev = "scm";
+		status = "ok";
+	};
+
+	scm_user_intf_sec_device {
+		compatible = "qcom,scm-user-intf-sec";
 		status = "ok";
 	};
 
@@ -697,8 +763,8 @@
 	scmi_pcie0 {
 		compatible = "qcom,uscmi";
 
-		power-domains = <&scmi5_pd 0>;
-		power-domain-names = "power";
+		power-domains = <&scmi5_pd 0>, <&scmi63_pd 0>;
+		power-domain-names = "power", "dummy";
 
 		qcom,dev-name = "scmi_pcie0";
 	};
@@ -710,6 +776,33 @@
 		power-domain-names = "power_regulator", "power_gpio";
 
 		qcom,dev-name = "scmi_wlan";
+	};
+
+	scmi_bluetooth {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi25_pd 0>;
+		power-domain-names = "power";
+
+		qcom,dev-name = "scmi_bluetooth";
+	};
+
+	scmi_usb2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi2_pd 0>, <&scmi2_pd 1>;
+		power-domain-names = "usb_transfer", "usb_core";
+
+		qcom,dev-name = "scmi_usb2";
+	};
+
+	scmi_usb2_phy2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi14_pd 0>, <&scmi14_pd 1>;
+		power-domain-names = "usb_transfer", "usb_core";
+
+		qcom,dev-name = "scmi_usb2_phy2";
 	};
 
 	qfprom_pte: qfprom@780158 {
@@ -725,6 +818,16 @@
 		#address-cells = <1>;
 		#size-cells = <1>;
 	};
+
+	watchdog@17c10000 {
+		interrupts = <GIC_SPI 0 IRQ_TYPE_EDGE_RISING>;
+	};
+};
+
+&{/firmware} {
+	qcom_scm {
+		qcom,dload-mode = <&tcsr 0x13000>;
+	};
 };
 
 &{/reserved-memory} {
@@ -739,6 +842,31 @@
 		size = <0 0x3000000>;
 	};
 
+	sail_mailbox_mem: sail_mailbox_region@90d80000 {
+		no-map;
+		reg = <0x0 0x90d80000 0x0 0x80000>;
+	};
+
+	sail_ota_mem: sail_ota_region@0x90e00000 {
+		no-map;
+		reg = <0x0 0x90e00000 0x0 0x300000>;
+	};
+
+	audio_mdf_mem: audio_mdf_region@ae000000 {
+		no-map;
+		reg = <0x0 0xae000000 0x0 0x1000000>;
+	};
+
+        /* global autoconfigured region for contiguous allocations */
+        cma: linux,cma {
+                compatible = "shared-dma-pool";
+                alloc-ranges = <0x0 0x00000000 0x0 0xdfffffff>;
+                reusable;
+                alignment = <0x0 0x400000>;
+                size = <0x0 0x2000000>;
+                linux,cma-default;
+        };
+
 	tz-start-count {
 		reg = <0x0 0x146d87f8 0x0 0x8>;
 		no-map;
@@ -749,14 +877,14 @@
 		no-map;
 	};
 
-	mproc_umdpil_mem: mproc_umdpil_region@a0500000 {
+	mproc_umdpil_mem: mproc_umdpil_region@95700000 {
 		no-map;
-		reg = <0x0 0xa0500000 0x0 0x300000>;
-	};
+		reg = <0x0 0x95700000 0x0 0x500000>;
+        };
 
 	gptp_timedata_mem: gptp_timedata_region@acfff000 {
 		no-map;
-		reg = <0x0 0xacfff000 0x0 0x1000>;
+		reg = <0x0 0xACFFF000 0x0 0x1000>;
 	};
 };
 

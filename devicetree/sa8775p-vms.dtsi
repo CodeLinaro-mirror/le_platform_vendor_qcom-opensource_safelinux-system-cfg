@@ -45,6 +45,9 @@
 				&auto_vm_vhab3_ring
 				&auto_vm_vhab4_ring
 				&auto_vm_vhab5_ring
+				&auto_vm_vhab6_ring
+				&auto_vm_vhab7_ring
+				&auto_vm_vhab8_ring
 				&auto_vm_input0_ring
 				&auto_vm_input1_ring
 				&auto_vm_vconsole_ring
@@ -54,9 +57,6 @@
 				&auto_vm_frpc_ring
 				&auto_vm_i2c0_ring
 				&auto_vm_ssr_ring
-				&auto_vm_vhab6_ring
-				&auto_vm_vhab7_ring
-				&auto_vm_vhab8_ring
 				&auto_vm_resv_ring
 				&auto_vm_swiotlb>;
 	};
@@ -335,6 +335,37 @@
 				&auto_vm_be42
 				&auto_vm_be43>;
 	};
+
+	qcom,test-dbl-tuivm {
+		compatible = "qcom,gh-dbl";
+		qcom,label = <0x4>;
+	};
+
+	qcom,test-dbl-oemvm {
+		compatible = "qcom,gh-dbl";
+		qcom,label = <0x5>;
+	};
+
+	qcom,test-msgq-tuivm {
+		compatible = "qcom,gh-msgq-test";
+		gunyah-label = <4>;
+		qcom,primary;
+	};
+
+	qcom,test-msgq-oemvm {
+		compatible = "qcom,gh-msgq-test";
+		gunyah-label = <5>;
+		qcom,primary;
+	};
+
+	qcom,gh-qtimer@17C25000 {
+		compatible = "qcom,gh-qtmr";
+		reg = <0x0 0x17C25000 0x0 0x1000>;
+		reg-names = "qtmr-base";
+		interrupts = <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-names = "qcom,qtmr-intr";
+		qcom,primary;
+	};
 };
 
 &{/reserved-memory} {
@@ -344,7 +375,7 @@
 
 	glink_cma_mem: glink_cma_mem@908c7000 {
 		no-map;
-		reg = <0x0 0x908c7000 0x0 0x9000>;
+		reg = <0x0 0x908c7000 0x0 0x12000>;
 		qcom,dst-vmids = <AC_VM_CDSP_Q6_ELF>;
 		qcom,dst-perms = <QCOM_PERM_RWX>;
 		gunyah-label = <0x60>;
@@ -655,3 +686,65 @@
 		reg = <0xE 0x00000000 0x0 0xC0000000>;
 	};
 };
+
+&soc {
+	hab: qcom,hab {
+		compatible = "qcom,hab";
+		vmid = <0>;
+
+		mmidgrp100: mmidgrp100 {
+			grp-start-id = <100>;
+			role = "be";
+			remote-vmids = <2>;
+		};
+
+		mmidgrp200: mmidgrp200 {
+			grp-start-id = <200>;
+			role = "be";
+			remote-vmids = <2>;
+		};
+
+		mmidgrp300: mmidgrp300 {
+			grp-start-id = <300>;
+			role = "be";
+			remote-vmids = <2>;
+		};
+
+		mmidgrp400: mmidgrp400 {
+			grp-start-id = <400>;
+			role = "be";
+			remote-vmids = <2>;
+		};
+
+		mmidgrp500: mmidgrp500 {
+			grp-start-id = <500>;
+			role = "be";
+			remote-vmids = <2>;
+		};
+
+		mmidgrp600: mmidgrp600 {
+			grp-start-id = <600>;
+			role = "be";
+			remote-vmids = <2>;
+		};
+
+		mmidgrp1400: mmidgrp1400 {
+			grp-start-id = <1400>;
+			role = "be";
+			remote-vmids = <2>;
+		};
+
+		mmidgrp1500: mmidgrp1500 {
+			grp-start-id = <1500>;
+			role = "be";
+			remote-vmids = <2>;
+		};
+
+		mmidgrp1600: mmidgrp1600 {
+			grp-start-id = <1600>;
+			role = "be";
+			remote-vmids = <2>;
+		};
+	};
+};
+

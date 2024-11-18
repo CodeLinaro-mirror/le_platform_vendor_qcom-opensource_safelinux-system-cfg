@@ -4,11 +4,18 @@
 
 # shellcheck disable=SC1090
 
-echo "3d00000.vfio_kgsl" > /sys/bus/platform/drivers/kiumd_kgsl/unbind
-echo "soc@0:vfio_kgsl_lpac" > /sys/bus/platform/drivers/kiumd_kgsl/unbind
+KGSL_OVERRIDE_DIR="/sys/bus/platform/devices/1.vfio_kgsl_lpac/driver_override"
 
-echo "vfio-platform" > /sys/bus/platform/devices/soc@0:vfio_kgsl_lpac/driver_override
-echo "soc@0:vfio_kgsl_lpac" > /sys/bus/platform/drivers/vfio-platform/bind
+if [ "$(grep -c "vfio-platform" "$KGSL_OVERRIDE_DIR")" -ne '0' ];then
+    echo "vfio-device-bind.sh already run in early-ramdisk-init"
+    exit 0
+fi
+
+echo "1.vfio_kgsl" > /sys/bus/platform/drivers/kiumd_kgsl/unbind
+echo "1.vfio_kgsl_lpac" > /sys/bus/platform/drivers/kiumd_kgsl/unbind
+
+echo "vfio-platform" > $KGSL_OVERRIDE_DIR
+echo "1.vfio_kgsl_lpac" > /sys/bus/platform/drivers/vfio-platform/bind
 
 # Assume only one conf file is present in /usr/lib/vfio-bind.d
 # This conf file includes list of devices to bind to vfio-platform
