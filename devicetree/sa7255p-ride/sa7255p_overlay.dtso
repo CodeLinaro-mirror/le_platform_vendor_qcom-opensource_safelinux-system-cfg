@@ -1,0 +1,94 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ */
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/interrupt-controller/irq.h>
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/gpio/gpio.h>
+#include <oot-dt-bindings/qcom-ipcc.h>
+#include "sa7255p-pinctrl.dtsi"
+#include "sa7255p-vfio.dtsi"
+#include "sa7255p-vms.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. SA7255P Ride";
+	compatible = "qcom,sa7255p-ride","qcom,sa7255p";
+};
+
+&{/} {
+
+};
+
+&scmi16 {
+	status = "okay";
+};
+
+&scmi18 {
+	status = "okay";
+};
+
+&scmi19 {
+	status = "okay";
+};
+
+&scmi21 {
+	status = "okay";
+};
+
+&soc {
+	scmi_mdss0 {
+		compatible = "qcom,uscmi";
+		power-domains = <&scmi16_dvfs 0>;
+		power-domain-names = "perf";
+		qcom,dev-name = "scmi_mdss0";
+	};
+
+	scmi_gfx {
+		compatible = "qcom,uscmi";
+		power-domains = <&scmi18_dvfs 0>;
+		power-domain-names = "perf";
+		qcom,dev-name = "scmi_gfx";
+	};
+
+	scmi_nsp0 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi19_dvfs 0>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_nsp0";
+	};
+
+	scmi_gpdsp0 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi19_dvfs 2>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_gpdsp0";
+	};
+
+	scmi_camera {
+		compatible = "qcom,uscmi";
+		power-domains = <&scmi21_dvfs 0>;
+		power-domain-names = "perf_camera";
+		qcom,dev-name = "scmi_camera";
+	};
+};
+
+&{/reserved-memory} {
+	#address-cells = <2>;
+	#size-cells = <2>;
+	ranges;
+
+	mproc_umdpil_mem: mproc_umdpil_region@95700000 {
+		no-map;
+		reg = <0x0 0x95700000 0x0 0x500000>;
+	};
+};
+

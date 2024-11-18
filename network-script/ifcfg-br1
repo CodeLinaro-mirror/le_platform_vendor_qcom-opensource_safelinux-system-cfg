@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# IP description
+# IPv-4
+
+DEVICE="br1"
+TYPE="Bridge"
+BOOTPROTO="static"
+ONBOOT="yes"
+IPADDR=192.168.6.1
+NETMASK=255.255.255.0
+GATEWAY=192.168.6.255

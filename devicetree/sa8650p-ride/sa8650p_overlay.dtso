@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ */
+
+/dts-v1/;
+/plugin/;
+
+#include "sa8255p_overlay.dtsi"
+
+&{/} {
+	model = "Qualcomm Technologies, Inc. SA8650P Ride";
+	qcom,msm-id = <533 0x10000>, <533 0x20000>;
+};
