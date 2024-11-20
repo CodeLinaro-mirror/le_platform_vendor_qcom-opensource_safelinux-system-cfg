@@ -321,6 +321,18 @@
 			qcom,dev-name = "scmi_nsp0";
 		};
 
+		scmi_video {
+			compatible = "qcom,uscmi";
+
+			power-domains = <&scmi20_dvfs 0>, <&scmi20_dvfs 1>;
+			power-domain-names = "perf_video_clk", "perf_video_bw";
+
+			resets = <&scmi20_rst 0>;
+			reset-names = "reset_video";
+
+			qcom,dev-name = "scmi_video";
+		};
+
 		scmi_camera {
 			compatible = "qcom,uscmi";
 
@@ -713,6 +725,11 @@
 				interrupts = <GIC_SPI 830 IRQ_TYPE_LEVEL_HIGH>;
 				status = "disabled";
 			};
+		};
+
+		rng: rng@10d2000 {
+			compatible = "qcom,sa8620p-trng", "qcom,trng";
+			reg = <0x0 0x010d2000 0x0 0x1000>;
 		};
 
 		ufs_mem_hc: ufs@1d84000 {
@@ -1261,6 +1278,13 @@
 			interrupt-controller;
 			#interrupt-cells = <3>;
 			#mbox-cells = <2>;
+		};
+
+		watchdog@17c10000 {
+			compatible = "qcom,apss-wdt-sa7255p", "qcom,kpss-wdt";
+			reg = <0x0 0x17c10000 0x0 0x1000>;
+			clocks = <&sleep_clk>;
+			interrupts = <GIC_SPI 0 IRQ_TYPE_EDGE_RISING>;
 		};
 	};
 

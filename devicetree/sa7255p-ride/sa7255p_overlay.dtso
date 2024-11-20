@@ -21,7 +21,25 @@
 };
 
 &{/} {
+	qcom_tzlog: tz-log@146d8720 {
+		compatible = "qcom,tz-log";
+		reg = <0 0x146d8720 0 0x3000>;
+		qcom,hyplog-enabled;
+		qcom,support-hypervisor;
+		hyplog-address-offset = <0x410>;
+		hyplog-size-offset = <0x414>;
+	};
 
+	qtee_shmbridge {
+		compatible = "qcom,tee-shared-memory-bridge";
+		qcom,support-hypervisor;
+		memory-region = <&cma>;
+	};
+
+	qcom_smcinvoke {
+		compatible = "qcom,smcinvoke";
+		qcom,support-hypervisor;
+	};
 };
 
 &scmi16 {
@@ -33,6 +51,10 @@
 };
 
 &scmi19 {
+	status = "okay";
+};
+
+&scmi20 {
 	status = "okay";
 };
 
@@ -73,11 +95,41 @@
 		qcom,dev-name = "scmi_gpdsp0";
 	};
 
+	scmi_video {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi20_dvfs 0>, <&scmi20_dvfs 1>;
+		power-domain-names = "perf_video_clk", "perf_video_bw";
+
+		resets = <&scmi20_rst 0>;
+		reset-names = "reset_video";
+
+		qcom,dev-name = "scmi_video";
+	};
+
 	scmi_camera {
 		compatible = "qcom,uscmi";
 		power-domains = <&scmi21_dvfs 0>;
 		power-domain-names = "perf_camera";
 		qcom,dev-name = "scmi_camera";
+	};
+
+	rng: rng@10d2000 {
+		compatible = "qcom,sa7255p-trng", "qcom,trng";
+		reg = <0x0 0x010d2000 0x0 0x1000>;
+	};
+};
+
+&spi10 {
+	spidevmaster@0 {
+		/* FIXME: Replace below compatible once we have proper dt-bindings
+		 * for the NXPs Mercury Audio DSP SAF4000EL/101(ES).
+		 */
+		compatible = "micron,spi-authenta";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+		spi-cpha;
+		status = "okay";
 	};
 };
 

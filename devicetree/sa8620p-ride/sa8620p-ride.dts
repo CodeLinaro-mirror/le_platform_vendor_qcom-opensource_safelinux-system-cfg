@@ -34,6 +34,29 @@
 	};
 };
 
+&{/} {
+	qcom_tzlog: tz-log@146d8720 {
+		compatible = "qcom,tz-log";
+		reg = <0x0 0x146d8720 0x0 0x3000>;
+		qcom,hyplog-enabled;
+		qcom,support-hypervisor;
+		hyplog-address-offset = <0x410>;
+		hyplog-size-offset = <0x414>;
+        };
+
+	qtee_shmbridge {
+		compatible = "qcom,tee-shared-memory-bridge";
+		qcom,support-hypervisor;
+		memory-region = <&cma>;
+        };
+
+	qcom_smcinvoke {
+		compatible = "qcom,smcinvoke";
+		qcom,support-hypervisor;
+	};
+
+};
+
 &i2c8 {
 	clock-frequency = <400000>;
 	power-domains = <&scmi9_pd 8>;
@@ -45,7 +68,7 @@
 	clock-frequency = <400000>;
 	power-domains = <&scmi9_pd 15>;
 
-	status = "disabled";
+	status = "okay";
 };
 
 &qupv3_id_0 {
@@ -104,6 +127,10 @@
 	status = "okay";
 };
 
+&scmi20 {
+	status = "okay";
+};
+
 &adreno_smmu {
 	power-domains = <&scmi15_pd 0>;
 
@@ -129,8 +156,18 @@
 &spi10 {
 	power-domains = <&scmi10_pd 10>, <&scmi10_dvfs 10>;
 	power-domain-names = "power", "perf";
-
 	status = "okay";
+
+	spidevmaster@0 {
+		/* FIXME: Replace below compatible once we have proper dt-bindings
+		 * for the NXPs Mercury Audio DSP SAF4000EL/101(ES).
+		 */
+		compatible = "micron,spi-authenta";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+		spi-cpha;
+		status = "okay";
+	};
 };
 
 &uart7 {
