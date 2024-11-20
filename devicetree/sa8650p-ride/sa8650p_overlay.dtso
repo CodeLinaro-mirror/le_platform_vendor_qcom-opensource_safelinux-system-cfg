@@ -9,6 +9,6 @@
 #include "sa8255p_overlay.dtsi"
 
 &{/} {
-        model = "Qualcomm Technologies, Inc. SA8650P Ride";
+	model = "Qualcomm Technologies, Inc. SA8650P Ride";
+	qcom,msm-id = <533 0x10000>, <533 0x20000>;
 };
-

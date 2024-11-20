@@ -16,6 +16,8 @@
 / {
 	model = "Qualcomm Technologies, Inc. SA8620P Ride";
 	compatible = "qcom,sa8620p-ride","qcom,sa8620p";
+	qcom,msm-id = <605 0x10000>;
+	qcom,board-id = <0x10019 0>, <0x1010019 1>;
 
 	aliases {
 		ethernet0 = &ethernet0;
@@ -30,12 +32,6 @@
 	chosen {
 		stdout-path = "serial0:115200n8";
 	};
-};
-
-&adreno_smmu {
-	power-domains = <&scmi15_pd 0>;
-
-	status = "okay";
 };
 
 &i2c8 {
@@ -104,15 +100,21 @@
 	status = "okay";
 };
 
+&scmi19 {
+	status = "okay";
+};
+
+&adreno_smmu {
+	power-domains = <&scmi15_pd 0>;
+
+	status = "okay";
+};
+
 &scmi16 {
 	status = "okay";
 };
 
 &scmi18 {
-	status = "okay";
-};
-
-&scmi19 {
 	status = "okay";
 };
 

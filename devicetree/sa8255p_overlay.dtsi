@@ -3,9 +3,6 @@
  * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
  */
 
-/dts-v1/;
-/plugin/;
-
 #include <dt-bindings/interrupt-controller/irq.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
 #include <dt-bindings/input/input.h>
@@ -20,6 +17,7 @@
 };
 
 &{/} {
+	qcom,board-id = <0x10019 0>, <0x1010019 1>, <0x10025 0>, <0x1010025 1>;
 	#address-cells = <2>;
 	#size-cells = <2>;
 
@@ -108,6 +106,18 @@
 	status = "okay";
 };
 
+&usb_2 {
+	status = "disabled";
+};
+
+&usb_2_dwc3 {
+	status = "disabled";
+};
+
+&usb_2_hsphy {
+	status = "disabled";
+};
+
 &spi16 {
 	spidevmaster@0 {
 		/* FIXME: Replace below compatible once we have proper dt-bindings
@@ -119,6 +129,14 @@
 		spi-cpha;
 		status = "okay";
 	};
+};
+
+&scmi2 {
+	status = "okay";
+};
+
+&scmi14 {
+	status = "okay";
 };
 
 &scmi16 {
@@ -150,6 +168,10 @@
 };
 
 &scmi24 {
+	status = "okay";
+};
+
+&scmi25 {
 	status = "okay";
 };
 
@@ -743,6 +765,33 @@
 		power-domain-names = "power_regulator", "power_gpio";
 
 		qcom,dev-name = "scmi_wlan";
+	};
+
+	scmi_bluetooth {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi25_pd 0>;
+		power-domain-names = "power";
+
+		qcom,dev-name = "scmi_bluetooth";
+	};
+
+	scmi_usb2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi2_pd 0>, <&scmi2_pd 1>;
+		power-domain-names = "usb_transfer", "usb_core";
+
+		qcom,dev-name = "scmi_usb2";
+	};
+
+	scmi_usb2_phy2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi14_pd 0>, <&scmi14_pd 1>;
+		power-domain-names = "usb_transfer", "usb_core";
+
+		qcom,dev-name = "scmi_usb2_phy2";
 	};
 
 	qfprom_pte: qfprom@780158 {
