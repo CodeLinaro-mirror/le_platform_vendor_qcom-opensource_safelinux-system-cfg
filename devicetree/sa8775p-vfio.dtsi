@@ -932,9 +932,10 @@
 	vfio_kgsl_secure {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x1 0x0 0x0>;
-		// switch to secure CB once ready
 		iommus = <&adreno_smmu 0x2 0xc00>;
 		qcom,iommu-dma-addr-pool = <0x0 0xC0000000 0x0 0x3FFFF000>;
+		qcom,iommu-vmid = <0xA>; // VMID_CP_PIXEL
+		qcom,secure-context-bank;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
 	};
