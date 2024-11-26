@@ -112,6 +112,7 @@
 		scm {
 			compatible = "qcom,scm-sa7255p", "qcom,scm";
 			memory-region = <&tz_ffi_mem>;
+			qcom,dload-mode = <&tcsr 0x13000>;
 		};
 	};
 
@@ -1295,6 +1296,19 @@
 			interrupt-names = "l1-l2-faultirq",
 						"l3-c0-scu-faultirq",
 						"l3-c1-scu-faultirq";
+		};
+
+		mini_dump_mode {
+			compatible = "qcom,minidump";
+		};
+
+		dload_mode {
+			compatible = "qcom,dload-mode";
+		};
+
+		kaslr_store {
+			compatible = "qcom,kaslr-off-store";
+			reg = <0x0 0x146d86d0 0x0 0xc>;
 		};
 	};
 
