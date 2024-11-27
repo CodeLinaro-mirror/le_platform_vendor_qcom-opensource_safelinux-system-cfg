@@ -2076,4 +2076,13 @@
 		clock-frequency = <19200000>;
         };
 
+	qcom,dma-heaps {
+		compatible = "qcom,dma-heaps";
+		status = "okay";
+	};
+
+	qcom,secure-buffer {
+		compatible = "qcom,secure-buffer";
+	};
+
 };
