@@ -99,6 +99,11 @@
 			no-map;
 			reg = <0x0 0xacfff000 0x0 0x1000>;
 		};
+
+		vidc_fw_mem: vidc_fw_region@9FC00000 {
+			reg = <0x0 0x9FC00000 0x0 0x700000>;
+			no-map;
+		};
 	};
 };
 
