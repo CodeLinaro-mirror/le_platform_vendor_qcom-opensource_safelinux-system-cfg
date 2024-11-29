@@ -95,11 +95,6 @@
 			no-map;
 		};
 
-		mproc_umdpil_mem: mproc_umdpil_region@95700000 {
-			no-map;
-			reg = <0x0 0x95700000 0x0 0x500000>;
-		};
-
 		gptp_timedata_mem: gptp_timedata_region@acfff000 {
 			no-map;
 			reg = <0x0 0xacfff000 0x0 0x1000>;

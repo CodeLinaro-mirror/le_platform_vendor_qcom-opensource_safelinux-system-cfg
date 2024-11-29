@@ -58,19 +58,19 @@
 
 	umd_pil@408000 {
 		compatible = "qcom,vfio-platform";
+		memory-region = <&mproc_umdpil_mem>,
+						<&pil_adsp_mem>,
+						<&pil_cdsp0_mem>,
+						<&pil_video_mem>,
+						<&pil_cdsp1_mem>,
+						<&pil_gdsp0_mem>,
+						<&pil_gdsp1_mem>,
+						<&pil_gpu_mem>,
+						<&pil_camera_mem>;
 		reg = <0x0 0x00408000 0x0 0x1000>,
 			<0x0 0x90900000 0x0 0x200000>,
 			<0x0 0x00780000 0x0 0x10000>,
-			<0x0 0x146d8000 0x0 0x1000>,
-			<0x0 0x95700000 0x0 0x500000>,
-			<0x0 0x95c00000 0x0 0x1e00000>,
-			<0x0 0x9b800000 0x0 0x1e00000>,
-			<0x0 0x9fc00000 0x0 0x700000>,
-			<0x0 0x9d700000 0x0 0x1e00000>,
-			<0x0 0x97b00000 0x0 0x1e00000>,
-			<0x0 0x99900000 0x0 0x1e00000>,
-			<0x0 0x9D600000 0x0 0x800000>,
-			<0x0 0x95200000 0x0 0x800000>;
+			<0x0 0x146d8000 0x0 0x1000>;
 
 		interrupts-extended = <&ipcc0 IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
 				<&ipcc0 IPCC_CLIENT_CDSP  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
@@ -1133,4 +1133,55 @@
 		dma-coherent;
 	};
 
+};
+
+&{/reserved-memory} {
+	#address-cells = <2>;
+	#size-cells = <2>;
+	ranges;
+
+	mproc_umdpil_mem: mproc_umdpil_region@95700000 {
+		no-map;
+		reg = <0x0 0x95700000 0x0 0x500000>;
+	};
+
+	pil_adsp_mem: pil_adsp_region@95c00000 {
+		no-map;
+		reg = <0x0 0x95c00000 0x0 0x1e00000>;
+	};
+
+	pil_gdsp0_mem: pil_gdsp0_region@97b00000 {
+		no-map;
+		reg = <0x0 0x97b00000 0x0 0x1e00000>;
+	};
+
+	pil_gdsp1_mem: pil_gdsp1_region@99900000 {
+		no-map;
+		reg = <0x0 0x99900000 0x0 0x1e00000>;
+	};
+
+	pil_cdsp0_mem: pil_cdsp0_region@9b800000 {
+		no-map;
+		reg = <0x0 0x9b800000 0x0 0x1e00000>;
+	};
+
+	pil_gpu_mem: pil_gpu_region@9d600000 {
+		no-map;
+		reg = <0x0 0x9d600000 0x0 0x2000>;
+	};
+
+	pil_cdsp1_mem: pil_cdsp1_region@9d700000 {
+		no-map;
+		reg = <0x0 0x9d700000 0x0 0x1e00000>;
+	};
+
+	pil_video_mem: pil_video_region@9fc00000 {
+		no-map;
+		reg = <0x0 0x9fc00000 0x0 0x700000>;
+	};
+
+	pil_camera_mem: pil-camera@95200000 {
+		reg = <0x0 0x95200000 0x0 0x700000>;
+		no-map;
+	};
 };
