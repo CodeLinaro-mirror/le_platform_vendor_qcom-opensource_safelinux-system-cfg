@@ -26,6 +26,11 @@
 		reg = <0x0 0x146d86d0 0x0 0xc>;
 	};
 
+	dload_type {
+	       compatible = "qcom,msm-imem-dload-type";
+	       reg = <0x0 0x146d801c 0x0 0x4>;
+	};
+
 	qcom_tzlog: tz-log@146d8720 {
 		compatible = "qcom,tz-log";
 		reg = <0x0 0x146d8720 0x0 0x3000>;
