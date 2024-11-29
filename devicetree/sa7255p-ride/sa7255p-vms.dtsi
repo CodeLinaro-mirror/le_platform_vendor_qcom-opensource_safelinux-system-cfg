@@ -575,6 +575,6 @@
 
 	auto_vm_0_mem_6: auto_vm_0_mem_6@bc0000000 {
 		no-map;
-		reg = <0xb 0xc0000000 0x0 0x40000000>;/*1G*/
+		reg = <0xb 0xc0000000 0x0 0x3EC00000>;/*1004M*/
 	};
 };
