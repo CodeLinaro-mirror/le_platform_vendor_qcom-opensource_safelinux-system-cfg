@@ -151,6 +151,16 @@
 			no-map;
 		};
 
+		tz-start-count {
+			reg = <0x0 0x146d87f8 0x0 0x8>;
+			no-map;
+		};
+
+		tz-end-count {
+			reg = <0x0 0x146d87dc 0x0 0x8>;
+			no-map;
+		};
+
 		ddr_training_checksum: ddr-training-checksum@908c0000 {
 			reg = <0x0 0x908c0000 0x0 0x1000>;
 			no-map;
