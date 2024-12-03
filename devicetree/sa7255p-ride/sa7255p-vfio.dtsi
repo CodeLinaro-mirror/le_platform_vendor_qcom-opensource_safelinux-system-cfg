@@ -172,6 +172,14 @@
 		status = "ok";
 	};
 
+	nsp_sysmon@90900000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x90900000 0x0 0x200000>,
+			<0x0 0x00780000 0x0 0x10000>;
+		iommus = <&apps_smmu 0x04A0 0x0>;
+		dma-coherent;
+	};
+
 	sail-mailbox@90d80000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x90d80000 0x0 0x80000>,
