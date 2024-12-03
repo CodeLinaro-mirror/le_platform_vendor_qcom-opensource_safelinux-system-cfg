@@ -50,6 +50,10 @@
 	status = "okay";
 };
 
+&scmi11 {
+	status = "okay";
+};
+
 &scmi16 {
 	status = "okay";
 };
@@ -67,6 +71,18 @@
 };
 
 &scmi21 {
+	status = "okay";
+};
+
+&scmi24 {
+	status = "okay";
+};
+
+&scmi25 {
+	status = "okay";
+};
+
+&scmi63 {
 	status = "okay";
 };
 
@@ -145,6 +161,42 @@
 		power-domains = <&scmi21_dvfs 0>;
 		power-domain-names = "perf_camera";
 		qcom,dev-name = "scmi_camera";
+	};
+
+	scmi_uart2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi11_pd 2>, <&scmi11_dvfs 2>;
+		power-domain-names = "power", "perf";
+
+		qcom,dev-name = "scmi_uart2";
+	};
+
+	scmi_pcie0 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi5_pd 0>, <&scmi63_pd 0>;
+		power-domain-names = "power", "dummy";
+
+		qcom,dev-name = "scmi_pcie0";
+	};
+
+	scmi_bluetooth {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi25_pd 0>;
+		power-domain-names = "power";
+
+		qcom,dev-name = "scmi_bluetooth";
+	};
+
+	scmi_wlan {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi24_pd 0>, <&scmi24_pd 1>;
+		power-domain-names = "power_regulator", "power_gpio";
+
+		qcom,dev-name = "scmi_wlan";
 	};
 
 	rng: rng@10d2000 {
