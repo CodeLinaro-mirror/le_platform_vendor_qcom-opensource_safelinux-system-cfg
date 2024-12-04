@@ -55,6 +55,10 @@
 
 };
 
+&gpll0_board_clk {
+	clock-frequency = <300000000>;
+};
+
 &i2c8 {
 	clock-frequency = <400000>;
 	power-domains = <&scmi9_pd 8>;
