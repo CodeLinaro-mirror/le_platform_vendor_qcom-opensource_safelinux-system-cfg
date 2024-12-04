@@ -1070,4 +1070,21 @@
 		memory-region = <&gptp_timedata_mem>;
 		dma-coherent;
 	};
+
+	vfio_pcie1_hdma@60005000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x60005000 0x0 0x2000>;
+		interrupts = <GIC_SPI 475 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 476 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 601 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 602 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 603 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&pcie_smmu 0x0080 0x1>;
+		iommu-map = <0x0 &pcie_smmu 0x0080 0x1>,
+			<0x100 &pcie_smmu 0x0081 0x1>;
+		dma-coherent;
+	};
+
 };
