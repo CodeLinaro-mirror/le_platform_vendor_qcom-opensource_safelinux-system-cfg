@@ -70,6 +70,12 @@
 	status = "okay";
 };
 
+&{/firmware} {
+        qcom_scm {
+                qcom,dload-mode = <&tcsr 0x13000>;
+        };
+};
+
 &soc {
 	ethernet0: ethernet@23040000 {
 			compatible = "qcom,sa8620p-ethqos";
@@ -144,6 +150,19 @@
 	rng: rng@10d2000 {
 		compatible = "qcom,sa7255p-trng", "qcom,trng";
 		reg = <0x0 0x010d2000 0x0 0x1000>;
+	};
+
+	mini_dump_mode {
+		compatible = "qcom,minidump";
+	};
+
+	dload_mode {
+		compatible = "qcom,dload-mode";
+	};
+
+	kaslr_store {
+		compatible = "qcom,kaslr-off-store";
+		reg = <0x0 0x146d86d0 0x0 0xc>;
 	};
 };
 
