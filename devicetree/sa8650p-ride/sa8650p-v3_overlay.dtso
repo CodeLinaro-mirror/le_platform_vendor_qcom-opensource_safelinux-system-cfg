@@ -10,3 +10,19 @@
 	qcom,board-id = <0x01020025 0>;
 };
 
+&ethernet0 {
+	phy-mode = "2500base-x";
+};
+
+&ethernet1 {
+	phy-mode = "2500base-x";
+};
+
+&sgmii_phy0 {
+	compatible = "ethernet-phy-id31c3.1c33";
+};
+
+&sgmii_phy1 {
+	compatible = "ethernet-phy-id31c3.1c33";
+	reg = <0x0>;
+};
