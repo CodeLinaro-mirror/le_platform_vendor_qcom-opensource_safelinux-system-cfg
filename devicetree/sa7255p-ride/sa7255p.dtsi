@@ -1285,6 +1285,22 @@
 			};
 		};
 
+		 aoss_qmp: power-management@c300000 {
+			compatible = "qcom,aoss-qmp";
+			reg = <0x0 0x0c300000 0x0 0x400>;
+			interrupts-extended = <&ipcc0 IPCC_CLIENT_AOP
+						IPCC_MPROC_SIGNAL_GLINK_QMP
+						IRQ_TYPE_EDGE_RISING>;
+			mboxes = <&ipcc0 IPCC_CLIENT_AOP IPCC_MPROC_SIGNAL_GLINK_QMP>;
+			#clock-cells = <0>;
+		};
+
+		ddr_bwprofiler {
+			compatible = "qcom,ddr_bwprofiler";
+			clocks = <&aoss_qmp>;
+			clock-names = "qdss_clk";
+		};
+
 		ufs_mem_hc: ufs@1d84000 {
 			compatible = "qcom,sa7255p-ufshc", "qcom,ufshc", "jedec,ufs-2.0";
 			reg = <0x0 0x01d84000 0x0 0x3000>;
@@ -2923,6 +2939,15 @@
 
 	dload_mode {
 		compatible = "qcom,dload-mode";
+	};
+
+	qcom,dma-heaps {
+		compatible = "qcom,dma-heaps";
+		status = "okay";
+	};
+
+	qcom,secure-buffer {
+		compatible = "qcom,secure-buffer";
 	};
 };
 

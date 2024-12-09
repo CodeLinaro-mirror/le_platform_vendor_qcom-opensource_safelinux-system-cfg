@@ -15,11 +15,17 @@ dtb-y += sa8775p_overlay_pcie_ep_rh.dtbo
 else
 # QCLinux Kernel Case
 dtb-y += sa8620p-ride/sa8620p-ride.dtb
+dtb-y += sa8620p-ride/sa8620p-ride-v3.dtb
 dtb-y += sa8775p_overlay.dtbo
 dtb-y += sa8650p-ride/sa8650p_overlay.dtbo
+dtb-y += sa8650p-ride/sa8650p-v3_overlay.dtbo
 dtb-y += sa8775p-ride-mx/sa8775p-ride-mx.dtb
 dtb-y += sa7255p-ride/sa7255p_overlay.dtbo
+dtb-y += sa7255p-ride/sa7255p-v3_overlay.dtbo
 dtb-y += sa8775p-v3_overlay.dtbo
+dtb-y += sa8255p-ride/sa8255p_overlay.dtbo
+dtb-y += sa8255p-ride/sa8255p-v3_overlay.dtbo
+dtb-y += sa8775p_overlay_pcie_ep.dtbo
 endif
 
 #include common target file

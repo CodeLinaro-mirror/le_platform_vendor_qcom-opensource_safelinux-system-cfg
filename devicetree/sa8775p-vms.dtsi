@@ -686,3 +686,65 @@
 		reg = <0xE 0x00000000 0x0 0xC0000000>;
 	};
 };
+
+&soc {
+	hab: qcom,hab {
+		compatible = "qcom,hab";
+		vmid = <0>;
+
+		mmidgrp100: mmidgrp100 {
+			grp-start-id = <100>;
+			role = "be";
+			remote-vmids = <2>;
+		};
+
+		mmidgrp200: mmidgrp200 {
+			grp-start-id = <200>;
+			role = "be";
+			remote-vmids = <2>;
+		};
+
+		mmidgrp300: mmidgrp300 {
+			grp-start-id = <300>;
+			role = "be";
+			remote-vmids = <2>;
+		};
+
+		mmidgrp400: mmidgrp400 {
+			grp-start-id = <400>;
+			role = "be";
+			remote-vmids = <2>;
+		};
+
+		mmidgrp500: mmidgrp500 {
+			grp-start-id = <500>;
+			role = "be";
+			remote-vmids = <2>;
+		};
+
+		mmidgrp600: mmidgrp600 {
+			grp-start-id = <600>;
+			role = "be";
+			remote-vmids = <2>;
+		};
+
+		mmidgrp1400: mmidgrp1400 {
+			grp-start-id = <1400>;
+			role = "be";
+			remote-vmids = <2>;
+		};
+
+		mmidgrp1500: mmidgrp1500 {
+			grp-start-id = <1500>;
+			role = "be";
+			remote-vmids = <2>;
+		};
+
+		mmidgrp1600: mmidgrp1600 {
+			grp-start-id = <1600>;
+			role = "be";
+			remote-vmids = <2>;
+		};
+	};
+};
+

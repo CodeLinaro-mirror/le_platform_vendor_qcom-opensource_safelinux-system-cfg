@@ -21,6 +21,19 @@
 			compatible = "fixed-clock";
 			#clock-cells = <0>;
 		};
+
+		gpll0_board_clk: gpll0-board-clk {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+		};
+
+		bi_tcxo_div2: bi-tcxo-div2-clk {
+			compatible = "fixed-factor-clock";
+			clocks = <&xo_board_clk>;
+			clock-mult = <1>;
+			clock-div = <2>;
+			#clock-cells = <0>;
+		};
 	};
 
 	cpus {
@@ -32,6 +45,7 @@
 			compatible = "qcom,kryo";
 			reg = <0x0 0x0>;
 			enable-method = "psci";
+			qcom,freq-domain = <&cpufreq_hw 0>;
 			next-level-cache = <&L2_0>;
 			L2_0: l2-cache {
 			      compatible = "arm,arch-cache";
@@ -50,6 +64,7 @@
 			compatible = "qcom,kryo";
 			reg = <0x0 0x100>;
 			enable-method = "psci";
+			qcom,freq-domain = <&cpufreq_hw 0>;
 			next-level-cache = <&L2_1>;
 			L2_1: l2-cache {
 			      compatible = "arm,arch-cache";
@@ -63,6 +78,7 @@
 			compatible = "qcom,kryo";
 			reg = <0x0 0x200>;
 			enable-method = "psci";
+			qcom,freq-domain = <&cpufreq_hw 1>;
 			next-level-cache = <&L2_2>;
 			L2_2: l2-cache {
 			      compatible = "arm,arch-cache";
@@ -76,6 +92,7 @@
 			compatible = "qcom,kryo";
 			reg = <0x0 0x300>;
 			enable-method = "psci";
+			qcom,freq-domain = <&cpufreq_hw 1>;
 			next-level-cache = <&L2_3>;
 			L2_3: l2-cache {
 			      compatible = "arm,arch-cache";
@@ -109,7 +126,7 @@
 	};
 
 	firmware: firmware {
-		scm {
+		qcom_scm {
 			compatible = "qcom,scm-sa7255p", "qcom,scm";
 			memory-region = <&tz_ffi_mem>;
 		};
@@ -147,6 +164,16 @@
 
 		uefi_log: uefi-log@908b0000 {
 			reg = <0x0 0x908b0000 0x0 0x10000>;
+			no-map;
+		};
+
+		tz-start-count {
+			reg = <0x0 0x146d87f8 0x0 0x8>;
+			no-map;
+		};
+
+		tz-end-count {
+			reg = <0x0 0x146d87dc 0x0 0x8>;
 			no-map;
 		};
 
@@ -281,6 +308,11 @@
 			size = <0x0 0x2000000>;
 			linux,cma-default;
 		};
+
+		mproc_umdpil_mem: mproc_umdpil_region@95700000 {
+			no-map;
+			reg = <0x0 0x95700000 0x0 0x500000>;
+		};
 	};
 
 	soc: soc@0 {
@@ -288,6 +320,13 @@
 		#address-cells = <2>;
 		#size-cells = <2>;
 		ranges = <0 0 0 0 0x10 0>;
+
+		dcc: dma@40ff000 {
+			compatible = "qcom,dcc-v3", "qcom,dcc";
+			reg = <0x0 0x040ff000 0x0 0x1000>,
+			      <0x0 0x040b8800 0x0 0x6000>;
+			qcom,dcc-offset = <0x38800>;
+		};
 
 		scmi_mdss0 {
 			compatible = "qcom,uscmi";
@@ -307,6 +346,27 @@
 			qcom,dev-name = "scmi_gfx";
 		};
 
+		scmi_nsp0 {
+			compatible = "qcom,uscmi";
+
+			power-domains = <&scmi19_dvfs 0>;
+			power-domain-names = "perf";
+
+			qcom,dev-name = "scmi_nsp0";
+		};
+
+		scmi_video {
+			compatible = "qcom,uscmi";
+
+			power-domains = <&scmi20_dvfs 0>, <&scmi20_dvfs 1>;
+			power-domain-names = "perf_video_clk", "perf_video_bw";
+
+			resets = <&scmi20_rst 0>;
+			reset-names = "reset_video";
+
+			qcom,dev-name = "scmi_video";
+		};
+
 		scmi_camera {
 			compatible = "qcom,uscmi";
 
@@ -314,6 +374,15 @@
 			power-domain-names = "perf_camera";
 
 			qcom,dev-name = "scmi_camera";
+		};
+
+		scmi_eva {
+			compatible = "qcom,uscmi";
+
+			power-domains = <&scmi22_dvfs 0>, <&scmi22_dvfs 1>;
+			power-domain-names = "perf_eva_clk", "perf_eva_bw";
+
+			qcom,dev-name = "scmi_eva";
 		};
 
 		qupv3_id_0: geniqup@9c0000 {
@@ -699,6 +768,27 @@
 				interrupts = <GIC_SPI 830 IRQ_TYPE_LEVEL_HIGH>;
 				status = "disabled";
 			};
+		};
+
+		rng: rng@10d2000 {
+			compatible = "qcom,sa8620p-trng", "qcom,trng";
+			reg = <0x0 0x010d2000 0x0 0x1000>;
+		};
+
+		aoss_qmp: power-management@c300000 {
+			compatible = "qcom,aoss-qmp";
+			reg = <0x0 0x0c300000 0x0 0x400>;
+			interrupts-extended = <&ipcc0 IPCC_CLIENT_AOP
+					IPCC_MPROC_SIGNAL_GLINK_QMP
+					IRQ_TYPE_EDGE_RISING>;
+			mboxes = <&ipcc0 IPCC_CLIENT_AOP IPCC_MPROC_SIGNAL_GLINK_QMP>;
+			#clock-cells = <0>;
+		};
+
+		ddr_bwprofiler {
+			compatible = "qcom,ddr_bwprofiler";
+			clocks = <&aoss_qmp>;
+			clock-names = "qdss_clk";
 		};
 
 		ufs_mem_hc: ufs@1d84000 {
@@ -1210,6 +1300,22 @@
 			};
 		};
 
+		cpufreq_hw: cpufreq-hw@18591000 {
+			compatible = "qcom,cpufreq-epss",
+				     "qcom,qcs8300-cpufreq-epss";
+			reg = <0x0 0x18591000 0x0 0x1000>,
+			      <0x0 0x18594000 0x0 0x1000>;
+			reg-names = "freq-domain0", "freq-domain1";
+			interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-names = "dcvsh-irq-0", "dcvsh-irq-1";
+
+			clocks = <&bi_tcxo_div2>, <&gpll0_board_clk>;
+			clock-names = "xo", "alternate";
+
+			#freq-domain-cells = <1>;
+		};
+
 		ethernet0: ethernet@23040000 {
 			compatible = "qcom,sa8620p-ethqos";
 			reg = <0x0 0x23040000 0x0 0x10000>,
@@ -1247,6 +1353,100 @@
 			interrupt-controller;
 			#interrupt-cells = <3>;
 			#mbox-cells = <2>;
+		};
+
+		watchdog@17c10000 {
+			compatible = "qcom,apss-wdt-sa7255p", "qcom,kpss-wdt";
+			reg = <0x0 0x17c10000 0x0 0x1000>;
+			clocks = <&sleep_clk>;
+			interrupts = <GIC_SPI 0 IRQ_TYPE_EDGE_RISING>;
+		};
+
+		kryo_erp: erp {
+			compatible = "arm,arm64-kryo-cpu-erp";
+			interrupts = <GIC_PPI 0 IRQ_TYPE_LEVEL_LOW>,
+					<GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>,
+					<GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-names = "l1-l2-faultirq",
+						"l3-c0-scu-faultirq",
+						"l3-c1-scu-faultirq";
+		};
+
+		pcie0: pci@400000000 {
+			compatible = "qcom,pcie-ecam-rc";
+			reg = <0x4 0x00000000 0x0 0x10000000>;
+
+			device_type = "pci";
+
+			#address-cells = <3>;
+			#size-cells = <2>;
+
+			ranges = <0x01000000 0x0 0x40000000 0x0 0x40000000 0x0 0x100000>,
+				 <0x02000000 0x0 0x40100000 0x0 0x40100000 0x0 0x1ff00000>,
+				 <0x43000000 0x4 0x10100000 0x4 0x10100000 0x0 0x100000>;
+			bus-range = <0x00 0xff>;
+
+			dma-coherent;
+
+			linux,pci-domain = <0>;
+
+			interrupts = <GIC_SPI 307 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 308 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 309 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 312 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 313 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 314 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 374 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 375 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-parent = <&intc>;
+
+			iommus = <&pcie_smmu 0x00 0x7f>;
+			iommu-map = <0x0 &pcie_smmu 0x0000 0x1>,
+				    <0x100 &pcie_smmu 0x0001 0x1>,
+				    <0x200 &pcie_smmu 0x0002 0x1>,
+				    <0x300 &pcie_smmu 0x0003 0x1>;
+
+			status = "disabled";
+		};
+
+		pcie1: pci@600000000 {
+			compatible = "qcom,pcie-ecam-rc";
+			reg = <0x6 0x00000000 0x0 0x10000000>;
+
+			device_type = "pci";
+
+			#address-cells = <3>;
+			#size-cells = <2>;
+
+			ranges = <0x01000000 0x0 0x60000000 0x0 0x60000000 0x0 0x100000>,
+				 <0x02000000 0x0 0x60100000 0x0 0x60100000 0x0 0x1ff00000>,
+				 <0x43000000 0x6 0x10100000 0x6 0x10100000 0x0 0x100000>;
+			bus-range = <0x00 0xff>;
+
+			dma-coherent;
+
+			linux,pci-domain = <1>;
+
+			interrupts = <GIC_SPI 519 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 141 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 142 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 143 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 145 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 146 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-parent = <&intc>;
+
+			iommus = <&pcie_smmu 0x80 0x7f>;
+			iommu-map = <0x0 &pcie_smmu 0x0080 0x1>,
+				    <0x100 &pcie_smmu 0x0081 0x1>,
+				    <0x200 &pcie_smmu 0x0082 0x1>,
+				    <0x208 &pcie_smmu 0x0083 0x1>,
+				    <0x210 &pcie_smmu 0x0084 0x1>,
+				    <0x300 &pcie_smmu 0x0085 0x1>,
+				    <0xab00 &pcie_smmu 0x0086 0x1>;
+
+			status = "disabled";
 		};
 	};
 
@@ -2028,5 +2228,14 @@
 			     <GIC_PPI 12 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>;
 		clock-frequency = <19200000>;
         };
+
+	qcom,dma-heaps {
+		compatible = "qcom,dma-heaps";
+		status = "okay";
+	};
+
+	qcom,secure-buffer {
+		compatible = "qcom,secure-buffer";
+	};
 
 };

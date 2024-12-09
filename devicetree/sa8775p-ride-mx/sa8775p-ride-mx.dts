@@ -16,7 +16,7 @@
 	model = "Qualcomm Technologies, Inc. SA8775P Ride MX";
 	compatible = "qcom,sa8775p-ride", "qcom,sa8775p";
 	qcom,msm-id = <533 0x10000>, <534 0x20000>;
-	qcom,board-id = <0x25 0x4>, <0x02010025 0x2>;
+	qcom,board-id = <0x4010025 4>, <0x2010025 2>;
 
 	aliases {
 		ethernet0 = &ethernet0;

@@ -1,0 +1,366 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ */
+
+/dts-v1/;
+
+#include <dt-bindings/gpio/gpio.h>
+#include <oot-dt-bindings/qcom-ipcc.h>
+
+#include "sa8620p.dtsi"
+#include "sa8620p-scmi.dtsi"
+#include "sa7255p-vfio.dtsi"
+#include "sa8620p-pinctrl.dtsi"
+
+/ {
+	compatible = "qcom,sa8620p-ride","qcom,sa8620p";
+	qcom,msm-id = <605 0x10000>;
+
+	aliases {
+		ethernet0 = &ethernet0;
+		i2c8 = &i2c8;
+		i2c15 = &i2c15;
+		serial0 = &uart7;
+		spi10 = &spi10;
+		scmichannels = &scmichannels;
+		ufshc1 = &ufs_mem_hc;
+	};
+
+	chosen {
+		stdout-path = "serial0:115200n8";
+	};
+};
+
+&{/} {
+	qcom_tzlog: tz-log@146d8720 {
+		compatible = "qcom,tz-log";
+		reg = <0x0 0x146d8720 0x0 0x3000>;
+		qcom,hyplog-enabled;
+		qcom,support-hypervisor;
+		hyplog-address-offset = <0x410>;
+		hyplog-size-offset = <0x414>;
+        };
+
+	qtee_shmbridge {
+		compatible = "qcom,tee-shared-memory-bridge";
+		qcom,support-hypervisor;
+		memory-region = <&cma>;
+        };
+
+	qcom_smcinvoke {
+		compatible = "qcom,smcinvoke";
+		qcom,support-hypervisor;
+	};
+
+};
+
+&gpll0_board_clk {
+	clock-frequency = <300000000>;
+};
+
+&i2c8 {
+	clock-frequency = <400000>;
+	power-domains = <&scmi9_pd 8>;
+
+	status = "okay";
+};
+
+&i2c15 {
+	clock-frequency = <400000>;
+	power-domains = <&scmi9_pd 15>;
+
+	status = "okay";
+};
+
+&pcie0 {
+	power-domains = <&scmi5_pd 0>;
+	power-domain-names = "power";
+	status = "okay";
+};
+
+&pcie1 {
+	power-domains = <&scmi6_pd 0>;
+	power-domain-names = "power";
+	status = "okay";
+};
+
+&qupv3_id_0 {
+	status = "okay";
+};
+
+&qupv3_id_1 {
+	status = "okay";
+};
+
+&qupv3_id_3 {
+	status = "okay";
+};
+
+&scmi0 {
+	status = "okay";
+};
+
+&scmi2 {
+	status = "okay";
+};
+
+&scmi3 {
+	status = "okay";
+};
+
+&scmi5 {
+	status = "okay";
+};
+
+&scmi6 {
+	status = "okay";
+};
+
+&scmi7 {
+	status = "okay";
+};
+
+&scmi9 {
+	status = "okay";
+};
+
+&scmi10 {
+	status = "okay";
+};
+
+&scmi11 {
+	status = "okay";
+};
+
+&scmi12 {
+	status = "okay";
+};
+
+&scmi14 {
+	status = "okay";
+};
+
+&scmi15 {
+	status = "okay";
+};
+
+&scmi19 {
+	status = "okay";
+};
+
+&scmi20 {
+	status = "okay";
+};
+
+&adreno_smmu {
+	power-domains = <&scmi15_pd 0>;
+
+	status = "okay";
+};
+
+&scmi16 {
+	status = "okay";
+};
+
+&scmi18 {
+	status = "okay";
+};
+
+&scmi21 {
+	status = "okay";
+};
+
+&scmi22 {
+	status = "okay";
+};
+
+&sleep_clk {
+	clock-frequency = <32000>;
+};
+
+&spi10 {
+	power-domains = <&scmi10_pd 10>, <&scmi10_dvfs 10>;
+	power-domain-names = "power", "perf";
+	status = "okay";
+
+	spidevmaster@0 {
+		/* FIXME: Replace below compatible once we have proper dt-bindings
+		 * for the NXPs Mercury Audio DSP SAF4000EL/101(ES).
+		 */
+		compatible = "micron,spi-authenta";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+		spi-cpha;
+		status = "okay";
+	};
+};
+
+&uart7 {
+	power-domains = <&scmi11_pd 7>, <&scmi11_dvfs 7>;
+	power-domain-names = "power", "perf";
+	status = "okay";
+};
+
+&ufs_mem_hc {
+	reset-gpios = <&tlmm 133 GPIO_ACTIVE_LOW>;
+	power-domains = <&scmi3_pd 0>;
+	status = "okay";
+};
+
+&usb_0 {
+	power-domains = <&scmi0_pd 0>, <&scmi0_pd 1>;
+	power-domain-names = "usb_transfer", "usb_core";
+
+	status = "okay";
+};
+
+&usb_0_dwc3 {
+	dr_mode = "peripheral";
+};
+
+&usb_0_hsphy {
+	power-domains = <&scmi12_pd 0>, <&scmi12_pd 1>;
+	power-domain-names = "usb_transfer", "usb_core";
+
+	status = "okay";
+};
+
+&usb_0_qmpphy {
+	power-domains = <&scmi12_pd 2>, <&scmi12_pd 3>;
+	power-domain-names = "usb_transfer", "usb_core";
+
+	status = "okay";
+};
+
+&usb_1 {
+	power-domains = <&scmi2_pd 0>, <&scmi2_pd 1>;
+	power-domain-names = "usb_transfer", "usb_core";
+
+	status = "okay";
+};
+
+&usb_1_dwc3 {
+	dr_mode = "host";
+};
+
+&usb_1_hsphy {
+	power-domains = <&scmi14_pd 0>, <&scmi14_pd 1>;
+	power-domain-names = "usb_transfer", "usb_core";
+
+	status = "okay";
+};
+
+&xo_board_clk {
+	clock-frequency = <38400000>;
+};
+
+&ethernet0 {
+	phy-mode = "sgmii";
+	phy-handle = <&sgmii_phy0>;
+
+	pinctrl-0 = <&ethernet0_default>;
+	pinctrl-names = "default";
+
+	snps,mtl-rx-config = <&mtl_rx_setup>;
+	snps,mtl-tx-config = <&mtl_tx_setup>;
+	snps,ps-speed = <1000>;
+
+	power-domains = <&scmi7_pd 0>, <&scmi7_pd 1>,<&scmi7_dvfs 0>;
+	power-domain-names = "power_core", "power_mdio","perf_serdes";
+
+	status = "okay";
+
+	mdio {
+		compatible = "snps,dwmac-mdio";
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		sgmii_phy0: phy@8 {
+			compatible = "ethernet-phy-id0141.0dd4";
+			reg = <0x8>;
+			device_type = "ethernet-phy";
+			interrupts-extended = <&tlmm 4 IRQ_TYPE_EDGE_FALLING>;
+			reset-gpios = <&tlmm 31 GPIO_ACTIVE_LOW>;
+			reset-assert-us = <11000>;
+			reset-deassert-us = <70000>;
+		};
+	};
+
+	mtl_rx_setup: rx-queues-config {
+		snps,rx-queues-to-use = <4>;
+		snps,rx-sched-sp;
+
+		queue0 {
+			snps,dcb-algorithm;
+			snps,map-to-dma-channel = <0x0>;
+			snps,route-up;
+			snps,priority = <0x1>;
+		};
+
+		queue1 {
+			snps,dcb-algorithm;
+			snps,map-to-dma-channel = <0x1>;
+			snps,route-ptp;
+		};
+
+		queue2 {
+			snps,avb-algorithm;
+			snps,map-to-dma-channel = <0x2>;
+			snps,route-avcp;
+		};
+
+		queue3 {
+			snps,avb-algorithm;
+			snps,map-to-dma-channel = <0x3>;
+			snps,priority = <0xc>;
+		};
+	};
+
+	mtl_tx_setup: tx-queues-config {
+		snps,tx-queues-to-use = <4>;
+		snps,tx-sched-sp;
+
+		queue0 {
+			snps,dcb-algorithm;
+		};
+
+		queue1 {
+			snps,dcb-algorithm;
+		};
+
+		queue2 {
+			snps,avb-algorithm;
+			snps,send_slope = <0x1000>;
+			snps,idle_slope = <0x1000>;
+			snps,high_credit = <0x3e800>;
+			snps,low_credit = <0xffc18000>;
+		};
+
+		queue3 {
+			snps,avb-algorithm;
+			snps,send_slope = <0x1000>;
+			snps,idle_slope = <0x1000>;
+			snps,high_credit = <0x3e800>;
+			snps,low_credit = <0xffc18000>;
+		};
+	};
+};
+
+&tlmm {
+	ethernet0_default: ethernet0-default-state {
+		ethernet0_mdc: ethernet0-mdc-pins {
+			pins = "gpio5";
+			function = "emac0_mdc";
+			drive-strength = <16>;
+			bias-pull-up;
+		};
+
+		ethernet0_mdio: ethernet0-mdio-pins {
+			pins = "gpio6";
+			function = "emac0_mdio";
+			drive-strength = <16>;
+			bias-pull-up;
+		};
+	};
+};
