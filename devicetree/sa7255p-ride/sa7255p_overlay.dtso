@@ -231,6 +231,15 @@
 		#address-cells = <2>;
 		#size-cells = <2>;
 	};
+
+	qcom,dma-heaps {
+		compatible = "qcom,dma-heaps";
+		status = "okay";
+	};
+
+	qcom,secure-buffer {
+		compatible = "qcom,secure-buffer";
+	};
 };
 
 &spi10 {
