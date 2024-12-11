@@ -164,6 +164,15 @@
 		compatible = "qcom,kaslr-off-store";
 		reg = <0x0 0x146d86d0 0x0 0xc>;
 	};
+
+	qcom,dma-heaps {
+		compatible = "qcom,dma-heaps";
+		status = "okay";
+	};
+
+	qcom,secure-buffer {
+		compatible = "qcom,secure-buffer";
+	};
 };
 
 &spi10 {
