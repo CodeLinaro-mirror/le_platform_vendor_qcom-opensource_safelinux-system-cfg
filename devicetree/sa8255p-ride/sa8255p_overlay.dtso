@@ -60,3 +60,18 @@
 	/delete-property/ remote-vmids;
 	remote-vmids = <2 3>;
 };
+
+&scmi4 {
+	status = "okay";
+};
+
+&soc {
+	scmi_ufs2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi4_pd 0>;
+		power-domain-names = "power";
+
+		qcom,dev-name = "scmi_ufs2";
+	};
+};
