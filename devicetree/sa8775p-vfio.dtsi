@@ -112,7 +112,8 @@
 
 	gemnoc@9100000 {
 		compatible = "qcom,vfio-platform";
-		reg = <0x0 0x9100000 0x0 0xF7000>;
+		reg = <0x0 0x9100000 0x0 0xF7000>,
+			<0x0 0x90B5000 0x0 0x2000>;
 		iommus = <&apps_smmu 0x03C0 0x0>;
 		dma-coherent;
 	};
@@ -972,6 +973,7 @@
 		/* MMU: non_secure_cb */
 		iommus = <&apps_smmu 0x0880 0x0400>;
 		qcom,iommu-dma-addr-pool = <0x0 0x25800000 0x0 0xba800000>;
+		memory-region = <&vidc_fw_mem>;
 		dma-coherent;
 	};
 

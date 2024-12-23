@@ -266,18 +266,19 @@
 	power-domains = <&scmi2_pd 0>, <&scmi2_pd 1>;
 	power-domain-names = "usb_transfer", "usb_core";
 
-	status = "okay";
+	status = "disabled";
 };
 
 &usb_2_dwc3 {
 	dr_mode = "host";
+	status = "disabled";
 };
 
 &usb_2_hsphy {
 	power-domains = <&scmi14_pd 0>, <&scmi14_pd 1>;
 	power-domain-names = "usb_transfer", "usb_core";
 
-	status = "okay";
+	status = "disabled";
 };
 
 &xo_board_clk {

@@ -129,6 +129,7 @@
 		qcom_scm {
 			compatible = "qcom,scm-sa7255p", "qcom,scm";
 			memory-region = <&tz_ffi_mem>;
+			qcom,dload-mode = <&tcsr 0x13000>;
 		};
 	};
 
@@ -798,7 +799,16 @@
 			lanes-per-direction = <2>;
 			iommus = <&apps_smmu 0x100 0x0>;
 			dma-coherent;
+			qcom,ice = <&ice>;
 			status = "disabled";
+		};
+
+		ice: crypto@1d88000 {
+			compatible = "qcom,sa7255p-inline-crypto-engine",
+				     "qcom,inline-crypto-engine";
+			reg = <0x0 0x01d88000 0x0 0x10000>;
+			qcom,ice-use-hwkm;
+			qcom,ice-skip-clk;
 		};
 
 		usb_0_hsphy: phy@8904000 {
@@ -1447,6 +1457,19 @@
 				    <0xab00 &pcie_smmu 0x0086 0x1>;
 
 			status = "disabled";
+		};
+
+		mini_dump_mode {
+			compatible = "qcom,minidump";
+		};
+
+		dload_mode {
+			compatible = "qcom,dload-mode";
+		};
+
+		kaslr_store {
+			compatible = "qcom,kaslr-off-store";
+			reg = <0x0 0x146d86d0 0x0 0xc>;
 		};
 	};
 
