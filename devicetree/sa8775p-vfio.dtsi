@@ -750,6 +750,7 @@
 		compatible = "qcom,vfio-platform";
 		iommus = <&apps_smmu 0x800 0x0400>;
 		dma-coherent;
+		qcom,iommu-dma-addr-pool = <0x0 0x800000 0x0 0xDF800000>;
 	};
 
 	vfio_cam_cdm_non_secure_cb {
@@ -762,6 +763,7 @@
 		compatible = "qcom,vfio-platform";
 		iommus = <&apps_smmu 0x840 0x0480>;
 		dma-coherent;
+		qcom,iommu-dma-addr-pool = <0x0 0x800000 0x0 0xDF800000>;
 	};
 
 	vfio_cci0@0 {
