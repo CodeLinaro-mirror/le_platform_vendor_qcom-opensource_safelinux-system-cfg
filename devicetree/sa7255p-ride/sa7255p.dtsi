@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
  */
 
 #include <dt-bindings/interrupt-controller/arm-gic.h>
@@ -14,6 +14,7 @@
 #include <dt-bindings/interconnect/qcom,icc.h>
 #include <dt-bindings/power/qcom-rpmpd.h>
 #include <dt-bindings/soc/qcom,rpmh-rsc.h>
+#include <dt-bindings/arm/qcom_dma_heap_dt_constants.h>
 #include <oot-dt-bindings/qcom-ipcc.h>
 
 / {
@@ -483,6 +484,14 @@
 		cpucp_fw_mem: cpucp_fw_region@db200000 {
 			no-map;
 			reg = <0x0 0xdb200000 0x0 0x100000>;
+		};
+
+		tzcom_mem: qcom,tzcom {
+			compatible = "shared-dma-pool";
+			alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;
+			reusable;
+			alignment = <0x0 0x400000>;
+			size = <0x0 0x1400000>; /* 20M */
 		};
 
 		/* global autoconfigured region for contiguous allocations */
@@ -2910,6 +2919,11 @@
 	qcom,dma-heaps {
 		compatible = "qcom,dma-heaps";
 		status = "okay";
+		qcom,tzcom {
+			qcom,dma-heap-name = "qcom,tzcom";
+			qcom,dma-heap-type = <HEAP_TYPE_CMA>;
+			memory-region = <&tzcom_mem>;
+		};
 	};
 
 	qcom,secure-buffer {
