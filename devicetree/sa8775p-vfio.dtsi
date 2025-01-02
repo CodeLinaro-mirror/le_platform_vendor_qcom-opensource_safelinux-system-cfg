@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: GPL-2.0-only
 /*
-* Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+* Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 */
 
 &soc {
@@ -1105,6 +1105,30 @@
 		iommus = <&pcie_smmu 0x0080 0x1>;
 		iommu-map = <0x0 &pcie_smmu 0x0080 0x1>,
 			<0x100 &pcie_smmu 0x0081 0x1>;
+		dma-coherent;
+	};
+
+	vfio_hwkm_gpce_core_0@1dc0000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x01dc0000 0x0 0x00040000>;
+		iommus = <&apps_smmu 0x480 0x0>;
+		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
+		dma-coherent;
+	};
+
+	vfio_gpce_gvm_ns_tzdec_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x481 0x0>;
+		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
+		dma-coherent;
+	};
+
+	vfio_gpce_gvm_s_tzdec_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x483 0x0>;
+		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
+		qcom,iommu-vmid = <0x9>; /*VMID_CP_BITSTREAM */
+		qcom,secure-context-bank;
 		dma-coherent;
 	};
 
