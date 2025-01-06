@@ -15,3 +15,11 @@
 	qcom,msm-id = <534 0x10000>, <534 0x20000>;
 };
 
+&ethernet0 {
+	iommus = <&apps_smmu 0x120 0x7>;
+};
+
+&ethernet1 {
+	iommus = <&apps_smmu 0x140 0x7>;
+};
+
