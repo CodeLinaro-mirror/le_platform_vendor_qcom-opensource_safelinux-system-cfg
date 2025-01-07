@@ -209,6 +209,11 @@
 		compatible = "qcom,minidump";
 	};
 
+	scm_user_intf_sec_device {
+		compatible = "qcom,scm-user-intf-sec";
+		status = "ok";
+	};
+
 	dload_mode {
 		compatible = "qcom,dload-mode";
 	};
