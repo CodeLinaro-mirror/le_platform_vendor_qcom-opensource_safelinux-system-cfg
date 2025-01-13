@@ -11,24 +11,6 @@
 		pinctrl-0 = <&sec_tdm_sck_active &sec_tdm_ws_active &sec_tdm_din_active &sec_tdm_dout_active &tert_tdm_sck_active &tert_tdm_ws_active &tert_tdm_din_active &tert_tdm_dout_active &hs0_i2s_sck_active &hs0_i2s_ws_active &hs0_i2s_data0_active &hs0_i2s_data1_active &audio_internal_mclk1_active>;
 	};
 
-	umd_glink@780000 {
-		compatible = "qcom,vfio-platform";
-		reg = <0x0 0x00780000 0x0 0x10000>,
-			<0x0 0x90900000 0x0 0x200000>,
-			<0x0 0x00408000 0x0 0x1000>;
-
-		interrupts-extended =
-		<&ipcc0 IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>,
-		<&ipcc0 IPCC_CLIENT_CDSP IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>,
-		<&ipcc0 IPCC_CLIENT_NSP1  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>,
-		<&ipcc0 IPCC_CLIENT_SLPI  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>,
-		<&ipcc0 IPCC_CLIENT_GPDSP0  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>,
-		<&ipcc0 IPCC_CLIENT_GPDSP1  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>;
-
-		iommus = <&apps_smmu 0x580 0x0>;
-		dma-coherent;
-	};
-
 	umd_nsp_drv@26092000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x26092000 0x0 0x1000>,
@@ -55,7 +37,8 @@
 			<0x0 0x9d700000 0x0 0x1e00000>,
 			<0x0 0x97b00000 0x0 0x1e00000>,
 			<0x0 0x99900000 0x0 0x1e00000>,
-			<0x0 0x9B780000 0x0 0x2000>;
+			<0x0 0x9B780000 0x0 0x2000>,
+			<0x0 0xc300000 0x0 0x1000>;
 		interrupts-extended =
 		<&ipcc0 IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
 		<&ipcc0 IPCC_CLIENT_CDSP  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
@@ -63,6 +46,7 @@
 		<&ipcc0 IPCC_CLIENT_SLPI  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
 		<&ipcc0 IPCC_CLIENT_GPDSP0  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
 		<&ipcc0 IPCC_CLIENT_GPDSP1  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
+		<&ipcc0 IPCC_CLIENT_AOP  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>,
 		<&intc GIC_SPI 486 IRQ_TYPE_LEVEL_HIGH>,
 		<&intc GIC_SPI 578 IRQ_TYPE_LEVEL_HIGH>,
 		<&intc GIC_SPI 887 IRQ_TYPE_LEVEL_HIGH>,
@@ -71,6 +55,21 @@
 		iommus = <&apps_smmu 0x0 0x0>;
 		dma-coherent;
 	};
+
+
+
+        subsystem_ramdump_util@90900000 {
+                compatible = "qcom,vfio-platform";
+                reg = <0x0 0x90900000 0x0 0x200000>,
+                        <0x0 0x99980000 0x0 0x1e00000>,
+                        <0x0 0x9d700000 0x0 0x1e00000>,
+                        <0x0 0x97b00000 0x0 0x1e00000>,
+                        <0x0 0x99900000 0x0 0x1e00000>,
+                        <0x0 0x95c00000 0x0 0x1e00000>;
+		iommus = <&apps_smmu 0x03FC 0x0>;
+                dma-coherent;
+        };
+
 
 	cdsp0_cb@1 {
 		compatible = "qcom,vfio-platform";
@@ -230,14 +229,6 @@
 		dma-coherent;
 	};
 
-	vfio_timer@17c23000 {
-		compatible = "qcom,vfio-platform";
-		interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
-		reg = <0x0 0x17c23000 0x0 0x1000>;
-		iommus = <&apps_smmu 0x4c0 0x00>;
-		dma-coherent;
-		qcom,iommu-dma-addr-pool = <0x0 0x60002000 0x0 0x1FFFE000>;
-	};
 
 	kiumd {
 		compatible = "qcom,kiumd";
