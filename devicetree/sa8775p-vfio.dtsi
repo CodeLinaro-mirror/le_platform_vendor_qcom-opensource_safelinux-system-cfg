@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: GPL-2.0-only
 /*
-* Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+* Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 */
 
 &soc {
@@ -69,7 +69,8 @@
 			<0x0 0x9d700000 0x0 0x1e00000>,
 			<0x0 0x97b00000 0x0 0x1e00000>,
 			<0x0 0x99900000 0x0 0x1e00000>,
-			<0x0 0x9D600000 0x0 0x800000>;
+			<0x0 0x9D600000 0x0 0x800000>,
+			<0x0 0x95200000 0x0 0x800000>;
 
 		interrupts-extended = <&ipcc0 IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
 				<&ipcc0 IPCC_CLIENT_CDSP  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
