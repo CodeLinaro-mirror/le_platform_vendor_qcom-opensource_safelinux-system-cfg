@@ -211,8 +211,8 @@
 	scmi_bluetooth {
 		compatible = "qcom,uscmi";
 
-		power-domains = <&scmi25_pd 0>;
-		power-domain-names = "power";
+		power-domains = <&scmi25_pd 0>, <&scmi25_pd 1>;
+		power-domain-names = "power_regulator", "power_gpio";
 
 		qcom,dev-name = "scmi_bluetooth";
 	};
