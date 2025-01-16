@@ -3,6 +3,8 @@
  * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
  */
 
+#include <oot-dt-bindings/qcom-shmem.h>
+
 &soc {
 	auto_vm: qcom,auto_vm_0@b40000000 {
 		reg = <0xb 0x40000000 0x0 0x3000000>;
@@ -266,7 +268,7 @@
 				&auto_vm_0_mem_2 &auto_vm_0_mem_3
 				&auto_vm_0_mem_4 &auto_vm_0_mem_5
 				&auto_vm_0_mem_6>;
-
+		shared-regions = <&glink_cma_mem>;
 		enable-gvm-dump;
 		virtio-backends = <&auto_vm_0_be0
 				&auto_vm_0_be1
@@ -316,6 +318,14 @@
 	#address-cells = <2>;
 	#size-cells = <2>;
 	ranges;
+
+	glink_cma_mem: glink_cma_mem@908c7000 {
+		no-map;
+		reg = <0x0 0x908c7000 0x0 0x9000>;
+		qcom,dst-vmids = <AC_VM_CDSP_Q6_ELF>;
+		qcom,dst-perms = <QCOM_PERM_RWX>;
+		gunyah-label = <0x60>;
+	};
 
 	auto_vm_0_vblk0_ring: auto_vm_0_vblk0_ring@b40000000 {
 		no-map;
