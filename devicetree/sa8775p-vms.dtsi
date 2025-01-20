@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
-* Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+* Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 */
 
 #include <oot-dt-bindings/qcom-shmem.h>
@@ -681,9 +681,9 @@
 		reg = <0xB 0x43000000 0x0 0x7D000000>;
 	};
 
-	auto_vm_0_mem_6: auto_vm_0_mem_6@e000000000 {
+	auto_vm_0_mem_6: auto_vm_0_mem_6@d000000000 {
 		no-map;
-		reg = <0xE 0x00000000 0x0 0xC0000000>;
+		reg = <0xD 0x00000000 0x0 0xC0000000>;
 	};
 };
 
@@ -747,4 +747,3 @@
 		};
 	};
 };
-
