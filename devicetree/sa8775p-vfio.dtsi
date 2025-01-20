@@ -1113,9 +1113,7 @@
 			<GIC_SPI 635 IRQ_TYPE_LEVEL_HIGH>,
 			<GIC_SPI 472 IRQ_TYPE_LEVEL_HIGH>,
 			<GIC_SPI 473 IRQ_TYPE_LEVEL_HIGH>;
-		iommus = <&pcie_smmu 0x0 0x0001>;
-		iommu-map = <0x0 &pcie_smmu 0x0000 0x1>,
-			<0x100 &pcie_smmu 0x0001 0x1>;
+		iommus = <&pcie_smmu 0x0000 0x7f>;
 		dma-coherent;
 	};
 
@@ -1129,9 +1127,7 @@
 			<GIC_SPI 603 IRQ_TYPE_LEVEL_HIGH>,
 			<GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
 			<GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>;
-		iommus = <&pcie_smmu 0x0080 0x1>;
-		iommu-map = <0x0 &pcie_smmu 0x0080 0x1>,
-			<0x100 &pcie_smmu 0x0081 0x1>;
+		iommus = <&pcie_smmu 0x0080 0x7f>;
 		dma-coherent;
 	};
 
