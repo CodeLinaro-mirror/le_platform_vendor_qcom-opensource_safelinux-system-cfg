@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: GPL-2.0-only
 /*
-* Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+* Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 */
 
 &soc {
@@ -69,7 +69,8 @@
 			<0x0 0x9d700000 0x0 0x1e00000>,
 			<0x0 0x97b00000 0x0 0x1e00000>,
 			<0x0 0x99900000 0x0 0x1e00000>,
-			<0x0 0x9D600000 0x0 0x800000>;
+			<0x0 0x9D600000 0x0 0x800000>,
+			<0x0 0x95200000 0x0 0x800000>;
 
 		interrupts-extended = <&ipcc0 IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
 				<&ipcc0 IPCC_CLIENT_CDSP  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
@@ -131,6 +132,7 @@
 			<&apps_smmu 0x25E1 0x4a0>,
 			<&apps_smmu 0x2181 0x400>,
 			<&apps_smmu 0x2581 0x400>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -147,6 +149,7 @@
 			<&apps_smmu 0x25E2 0x4a0>,
 			<&apps_smmu 0x2182 0x400>,
 			<&apps_smmu 0x2582 0x400>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -163,6 +166,7 @@
 			<&apps_smmu 0x25E3 0x4a0>,
 			<&apps_smmu 0x2183 0x400>,
 			<&apps_smmu 0x2583 0x400>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -179,6 +183,7 @@
 			<&apps_smmu 0x25E4 0x4a0>,
 			<&apps_smmu 0x2184 0x400>,
 			<&apps_smmu 0x2584 0x400>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -195,6 +200,7 @@
 			<&apps_smmu 0x2585 0x400>,
 			<&apps_smmu 0x25C5 0x4a0>,
 			<&apps_smmu 0x25E5 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -211,6 +217,7 @@
 			<&apps_smmu 0x2586 0x400>,
 			<&apps_smmu 0x25C6 0x4a0>,
 			<&apps_smmu 0x25E6 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -227,6 +234,7 @@
 			<&apps_smmu 0x2587 0x400>,
 			<&apps_smmu 0x25C7 0x4a0>,
 			<&apps_smmu 0x25E7 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -243,6 +251,7 @@
 			<&apps_smmu 0x2588 0x400>,
 			<&apps_smmu 0x25C8 0x4a0>,
 			<&apps_smmu 0x25E8 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -259,6 +268,7 @@
 			<&apps_smmu 0x2589 0x400>,
 			<&apps_smmu 0x25C9 0x4a0>,
 			<&apps_smmu 0x25E9 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -275,6 +285,7 @@
 			<&apps_smmu 0x258A 0x400>,
 			<&apps_smmu 0x25CA 0x4a0>,
 			<&apps_smmu 0x25EA 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -291,6 +302,7 @@
 			<&apps_smmu 0x258B 0x400>,
 			<&apps_smmu 0x25CB 0x4a0>,
 			<&apps_smmu 0x25EB 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -307,6 +319,7 @@
 			<&apps_smmu 0x258C 0x400>,
 			<&apps_smmu 0x25CC 0x4a0>,
 			<&apps_smmu 0x25EC 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -323,6 +336,7 @@
 			<&apps_smmu 0x258D 0x400>,
 			<&apps_smmu 0x25CD 0x4a0>,
 			<&apps_smmu 0x25ED 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -339,6 +353,7 @@
 			<&apps_smmu 0x2D81 0x400>,
 			<&apps_smmu 0x29E1 0x4a0>,
 			<&apps_smmu 0x2DE1 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -355,6 +370,7 @@
 			<&apps_smmu 0x2DE2 0x4a0>,
 			<&apps_smmu 0x2982 0x400>,
 			<&apps_smmu 0x2D82 0x400>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -371,6 +387,7 @@
 			<&apps_smmu 0x2DE3 0x4a0>,
 			<&apps_smmu 0x2983 0x400>,
 			<&apps_smmu 0x2D83 0x400>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -387,6 +404,7 @@
 			<&apps_smmu 0x2DE4 0x4a0>,
 			<&apps_smmu 0x2984 0x400>,
 			<&apps_smmu 0x2D84 0x400>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -403,6 +421,7 @@
 			<&apps_smmu 0x2D85 0x400>,
 			<&apps_smmu 0x2DC5 0x4a0>,
 			<&apps_smmu 0x2DE5 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -419,6 +438,7 @@
 			<&apps_smmu 0x2D86 0x400>,
 			<&apps_smmu 0x2DC6 0x4a0>,
 			<&apps_smmu 0x2DE6 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -435,6 +455,7 @@
 			<&apps_smmu 0x2D87 0x400>,
 			<&apps_smmu 0x2DC7 0x4a0>,
 			<&apps_smmu 0x2DE7 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -451,6 +472,7 @@
 			<&apps_smmu 0x2D88 0x400>,
 			<&apps_smmu 0x2DC8 0x4a0>,
 			<&apps_smmu 0x2DE8 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -467,6 +489,7 @@
 			<&apps_smmu 0x2D89 0x400>,
 			<&apps_smmu 0x2DC9 0x4a0>,
 			<&apps_smmu 0x2DE9 0x400>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -483,6 +506,7 @@
 			<&apps_smmu 0x2D8A 0x400>,
 			<&apps_smmu 0x2DCA 0x4a0>,
 			<&apps_smmu 0x2DEA 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -499,6 +523,7 @@
 			<&apps_smmu 0x2D8B 0x400>,
 			<&apps_smmu 0x2DCB 0x4a0>,
 			<&apps_smmu 0x2DEB 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -515,6 +540,7 @@
 			<&apps_smmu 0x2D8C 0x400>,
 			<&apps_smmu 0x2DCC 0x4a0>,
 			<&apps_smmu 0x2DEC 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -531,6 +557,7 @@
 			<&apps_smmu 0x2D8D 0x400>,
 			<&apps_smmu 0x2DCD 0x4a0>,
 			<&apps_smmu 0x2DED 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -1076,6 +1103,22 @@
 		dma-coherent;
 	};
 
+	vfio_pcie0_hdma@40005000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x40005000 0x0 0x2000>;
+		interrupts = <GIC_SPI 631 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 632 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 633 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 634 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 635 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 472 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 473 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&pcie_smmu 0x0 0x0001>;
+		iommu-map = <0x0 &pcie_smmu 0x0000 0x1>,
+			<0x100 &pcie_smmu 0x0001 0x1>;
+		dma-coherent;
+	};
+
 	vfio_pcie1_hdma@60005000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x60005000 0x0 0x2000>;
@@ -1089,6 +1132,30 @@
 		iommus = <&pcie_smmu 0x0080 0x1>;
 		iommu-map = <0x0 &pcie_smmu 0x0080 0x1>,
 			<0x100 &pcie_smmu 0x0081 0x1>;
+		dma-coherent;
+	};
+
+	vfio_hwkm_gpce_core_0@1dc0000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x01dc0000 0x0 0x00040000>;
+		iommus = <&apps_smmu 0x480 0x0>;
+		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
+		dma-coherent;
+	};
+
+	vfio_gpce_gvm_ns_tzdec_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x481 0x0>;
+		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
+		dma-coherent;
+	};
+
+	vfio_gpce_gvm_s_tzdec_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x483 0x0>;
+		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
+		qcom,iommu-vmid = <0x9>; /*VMID_CP_BITSTREAM */
+		qcom,secure-context-bank;
 		dma-coherent;
 	};
 
