@@ -83,6 +83,10 @@
 	status = "okay";
 };
 
+&scmi30 {
+	status = "okay";
+};
+
 &scmi63 {
 	status = "okay";
 };
@@ -171,6 +175,15 @@
 		power-domain-names = "power", "perf";
 
 		qcom,dev-name = "scmi_uart2";
+	};
+
+	scmi_gpce {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi30_dvfs 0>;
+		power-domain-names = "gpce_clock";
+
+		qcom,dev-name = "scmi_gpce";
 	};
 
 	scmi_pcie0 {
