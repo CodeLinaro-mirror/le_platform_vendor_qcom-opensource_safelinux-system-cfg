@@ -47,6 +47,10 @@
 	};
 };
 
+&pcie0 {
+	status = "disabled";
+};
+
 &scmi7 {
 	status = "okay";
 };
