@@ -34,6 +34,11 @@ dtb-y += sa8650p-ride/sa8650p_overlay_pcie_ep.dtbo
 dtb-y += sa8775p_overlay_pcie_ep.dtbo
 dtb-y += sa8255p-qvp/sa8255p-qvp.dtb
 dtb-y += sa8775p-qvp/sa8775p-qvp.dtb
+dtb-y += sa8775p-sw-eth-phy_overlay.dtbo
+dtb-y += sa8255p-ride/sa8255p-sw-eth-phy_overlay.dtbo
+dtb-y += sa8650p-ride/sa8650p-sw-eth-phy_overlay.dtbo
+dtb-y += sa7255p-ride/sa7255p-sw-eth-phy_overlay.dtbo
+dtb-y += sa8620p-ride/sa8620p-sw-eth-phy.dtb
 endif
 
 #include common target file
