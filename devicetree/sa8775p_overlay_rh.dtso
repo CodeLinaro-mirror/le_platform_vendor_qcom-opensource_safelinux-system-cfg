@@ -168,6 +168,22 @@
 	status = "okay";
 };
 
+&scmi38 {
+	status = "okay";
+};
+
+&scmi39 {
+	status = "okay";
+};
+
+&scmi40 {
+	status = "okay";
+};
+
+&scmi41 {
+	status = "okay";
+};
+
 &scmi63 {
 	status = "okay";
 };
@@ -643,6 +659,42 @@
 		power-domain-names = "perf";
 
 		qcom,dev-name = "scmi_mdss1";
+	};
+
+	scmi_mdss0_safe {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi38_dvfs 0>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_mdss0_safe";
+	};
+
+	scmi_mdss1_safe {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi39_dvfs 0>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_mdss1_safe";
+	};
+
+	scmi_mdss0_secure {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi40_dvfs 0>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_mdss0_secure";
+	};
+
+	scmi_mdss1_secure {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi41_dvfs 0>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_mdss1_secure";
 	};
 
 	scmi_gfx {
