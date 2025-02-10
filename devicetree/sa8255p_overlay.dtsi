@@ -620,8 +620,6 @@
 
 	ddr_bwprofiler {
 			compatible = "qcom,ddr_bwprofiler";
-			clocks = <&aoss_qmp>;
-			clock-names = "qdss_clk";
 	};
 
 	scmi_mdss0 {
