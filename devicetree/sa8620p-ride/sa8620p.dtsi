@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
  */
 
 #include <dt-bindings/interrupt-controller/arm-gic.h>
@@ -141,6 +141,8 @@
 	psci {
 		compatible = "arm,psci-1.0";
 		method = "smc";
+		mode-bootloader = <0x10001 0x2>;
+		mode-edl = <0 0x1>;
 	};
 
 	reserved-memory {
@@ -445,6 +447,15 @@
 			power-domain-names = "perf_eva_clk", "perf_eva_bw";
 
 			qcom,dev-name = "scmi_eva";
+		};
+
+		scmi_gpce {
+			compatible = "qcom,uscmi";
+
+			power-domains = <&scmi30_dvfs 0>;
+			power-domain-names = "gpce_clock";
+
+			qcom,dev-name = "scmi_gpce";
 		};
 
 		qupv3_id_0: geniqup@9c0000 {
@@ -845,6 +856,7 @@
 					IRQ_TYPE_EDGE_RISING>;
 			mboxes = <&ipcc0 IPCC_CLIENT_AOP IPCC_MPROC_SIGNAL_GLINK_QMP>;
 			#clock-cells = <0>;
+			status = "disabled";
 		};
 
 		ddr_bwprofiler {

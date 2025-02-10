@@ -58,19 +58,20 @@
 
 	umd_pil@408000 {
 		compatible = "qcom,vfio-platform";
+		memory-region = <&mproc_umdpil_mem>,
+						<&pil_adsp_mem>,
+						<&pil_cdsp0_mem>,
+						<&pil_video_mem>,
+						<&pil_cdsp1_mem>,
+						<&pil_gdsp0_mem>,
+						<&pil_gdsp1_mem>,
+						<&pil_gpu_mem>,
+						<&pil_camera_mem>;
 		reg = <0x0 0x00408000 0x0 0x1000>,
 			<0x0 0x90900000 0x0 0x200000>,
 			<0x0 0x00780000 0x0 0x10000>,
 			<0x0 0x146d8000 0x0 0x1000>,
-			<0x0 0x95700000 0x0 0x500000>,
-			<0x0 0x95c00000 0x0 0x1e00000>,
-			<0x0 0x9b800000 0x0 0x1e00000>,
-			<0x0 0x9fc00000 0x0 0x700000>,
-			<0x0 0x9d700000 0x0 0x1e00000>,
-			<0x0 0x97b00000 0x0 0x1e00000>,
-			<0x0 0x99900000 0x0 0x1e00000>,
-			<0x0 0x9D600000 0x0 0x800000>,
-			<0x0 0x95200000 0x0 0x800000>;
+			<0x0 0xc300000 0x0 0x1000>;
 
 		interrupts-extended = <&ipcc0 IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
 				<&ipcc0 IPCC_CLIENT_CDSP  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
@@ -78,6 +79,7 @@
 				<&ipcc0 IPCC_CLIENT_SLPI  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
 				<&ipcc0 IPCC_CLIENT_GPDSP0  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
 				<&ipcc0 IPCC_CLIENT_GPDSP1  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
+				<&ipcc0 IPCC_CLIENT_AOP  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>,
 				<&intc GIC_SPI 486 IRQ_TYPE_LEVEL_HIGH>,
 				<&intc GIC_SPI 768 IRQ_TYPE_LEVEL_HIGH>,
 				<&intc GIC_SPI 624 IRQ_TYPE_LEVEL_HIGH>;
@@ -1003,7 +1005,7 @@
 		/* MMU: non_secure_cb */
 		iommus = <&apps_smmu 0x0880 0x0400>;
 		qcom,iommu-dma-addr-pool = <0x0 0x25800000 0x0 0xba800000>;
-		memory-region = <&vidc_fw_mem>;
+		memory-region = <&pil_video_mem>;
 		dma-coherent;
 	};
 
@@ -1113,9 +1115,7 @@
 			<GIC_SPI 635 IRQ_TYPE_LEVEL_HIGH>,
 			<GIC_SPI 472 IRQ_TYPE_LEVEL_HIGH>,
 			<GIC_SPI 473 IRQ_TYPE_LEVEL_HIGH>;
-		iommus = <&pcie_smmu 0x0 0x0001>;
-		iommu-map = <0x0 &pcie_smmu 0x0000 0x1>,
-			<0x100 &pcie_smmu 0x0001 0x1>;
+		iommus = <&pcie_smmu 0x0000 0x7f>;
 		dma-coherent;
 	};
 
@@ -1129,9 +1129,7 @@
 			<GIC_SPI 603 IRQ_TYPE_LEVEL_HIGH>,
 			<GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
 			<GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>;
-		iommus = <&pcie_smmu 0x0080 0x1>;
-		iommu-map = <0x0 &pcie_smmu 0x0080 0x1>,
-			<0x100 &pcie_smmu 0x0081 0x1>;
+		iommus = <&pcie_smmu 0x0080 0x7f>;
 		dma-coherent;
 	};
 
@@ -1159,4 +1157,55 @@
 		dma-coherent;
 	};
 
+};
+
+&{/reserved-memory} {
+	#address-cells = <2>;
+	#size-cells = <2>;
+	ranges;
+
+	mproc_umdpil_mem: mproc_umdpil_region@95700000 {
+		no-map;
+		reg = <0x0 0x95700000 0x0 0x500000>;
+	};
+
+	pil_adsp_mem: pil_adsp_region@95c00000 {
+		no-map;
+		reg = <0x0 0x95c00000 0x0 0x1e00000>;
+	};
+
+	pil_gdsp0_mem: pil_gdsp0_region@97b00000 {
+		no-map;
+		reg = <0x0 0x97b00000 0x0 0x1e00000>;
+	};
+
+	pil_gdsp1_mem: pil_gdsp1_region@99900000 {
+		no-map;
+		reg = <0x0 0x99900000 0x0 0x1e00000>;
+	};
+
+	pil_cdsp0_mem: pil_cdsp0_region@9b800000 {
+		no-map;
+		reg = <0x0 0x9b800000 0x0 0x1e00000>;
+	};
+
+	pil_gpu_mem: pil_gpu_region@9d600000 {
+		no-map;
+		reg = <0x0 0x9d600000 0x0 0x2000>;
+	};
+
+	pil_cdsp1_mem: pil_cdsp1_region@9d700000 {
+		no-map;
+		reg = <0x0 0x9d700000 0x0 0x1e00000>;
+	};
+
+	pil_video_mem: pil_video_region@9fc00000 {
+		no-map;
+		reg = <0x0 0x9fc00000 0x0 0x700000>;
+	};
+
+	pil_camera_mem: pil-camera@95200000 {
+		reg = <0x0 0x95200000 0x0 0x700000>;
+		no-map;
+	};
 };
