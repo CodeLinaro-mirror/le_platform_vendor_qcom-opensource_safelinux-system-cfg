@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
-* Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+* Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 */
 
 #include <oot-dt-bindings/qcom-shmem.h>
@@ -57,6 +57,7 @@
 				&auto_vm_frpc_ring
 				&auto_vm_i2c0_ring
 				&auto_vm_ssr_ring
+				&auto_vm_eavb_ring
 				&auto_vm_resv_ring
 				&auto_vm_swiotlb>;
 	};
@@ -281,6 +282,11 @@
 		qcom,label = <0x4B>;
 	};
 
+	auto_vm_be44: auto_vm_be44@4C {
+		qcom,vm = <&auto_vm>;
+		qcom,label = <0x4C>;
+	};
+
 	auto_vm_0: gh-secure-vm-loader@0 {
 		compatible = "qcom,gh-secure-vm-loader";
 		qcom,pas-id = <44>;
@@ -333,7 +339,8 @@
 				&auto_vm_be40
 				&auto_vm_be41
 				&auto_vm_be42
-				&auto_vm_be43>;
+				&auto_vm_be43
+				&auto_vm_be44>;
 	};
 
 	qcom,test-dbl-tuivm {
@@ -639,10 +646,16 @@
 		gunyah-label = <0x4A>;
 	};
 
-	auto_vm_resv_ring: auto_vm_resv_ring@b401FA000 {
+	auto_vm_eavb_ring: auto_vm_eavb_ring@b401FA000 {
 		no-map;
-		reg = <0xb 0x401FA000 0x0 0xE06000>;
+		reg = <0xb 0x401FA000 0x0 0x40000>;
 		gunyah-label = <0x4B>;
+	};
+
+	auto_vm_resv_ring: auto_vm_resv_ring@b4023A000 {
+		no-map;
+		reg = <0xb 0x4023A000 0x0 0xDC6000>;
+		gunyah-label = <0x4C>;
 	};
 
 	auto_vm_swiotlb: auto_vm_swiotlb@b41000000 {
@@ -681,9 +694,9 @@
 		reg = <0xB 0x43000000 0x0 0x7D000000>;
 	};
 
-	auto_vm_0_mem_6: auto_vm_0_mem_6@e000000000 {
+	auto_vm_0_mem_6: auto_vm_0_mem_6@d000000000 {
 		no-map;
-		reg = <0xE 0x00000000 0x0 0xC0000000>;
+		reg = <0xD 0x00000000 0x0 0xC0000000>;
 	};
 };
 
@@ -747,4 +760,3 @@
 		};
 	};
 };
-

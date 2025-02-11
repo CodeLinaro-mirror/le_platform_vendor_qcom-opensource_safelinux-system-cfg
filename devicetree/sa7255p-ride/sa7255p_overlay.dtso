@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
  */
 
 /dts-v1/;
@@ -14,10 +14,15 @@
 #include "sa7255p-pinctrl.dtsi"
 #include "sa7255p-vfio.dtsi"
 #include "sa7255p-vms.dtsi"
+#include "sa7255p-vms-lv.dtsi"
 
 / {
 	model = "Qualcomm Technologies, Inc. SA7255P Ride";
 	compatible = "qcom,sa7255p-ride","qcom,sa7255p";
+
+	aliases {
+		ethernet0 = &ethernet0;
+	};
 };
 
 &{/} {
@@ -42,6 +47,18 @@
 	};
 };
 
+&pcie0 {
+	status = "disabled";
+};
+
+&scmi7 {
+	status = "okay";
+};
+
+&scmi11 {
+	status = "okay";
+};
+
 &scmi16 {
 	status = "okay";
 };
@@ -62,7 +79,48 @@
 	status = "okay";
 };
 
+&scmi24 {
+	status = "okay";
+};
+
+&scmi25 {
+	status = "okay";
+};
+
+&scmi30 {
+	status = "okay";
+};
+
+&scmi63 {
+	status = "okay";
+};
+
+&{/firmware} {
+        qcom_scm {
+                qcom,dload-mode = <&tcsr 0x13000>;
+        };
+};
+
 &soc {
+	ethernet0: ethernet@23040000 {
+			compatible = "qcom,sa8620p-ethqos";
+			reg = <0x0 0x23040000 0x0 0x10000>,
+				<0x0 0x23056000 0x0 0x100>;
+			reg-names = "stmmaceth", "rgmii";
+
+			interrupts = <GIC_SPI 946 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 782 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-names = "macirq", "sfty";
+
+			iommus = <&apps_smmu 0x120 0xf>;
+			dma-coherent;
+
+			snps,tso;
+			snps,pbl = <32>;
+			rx-fifo-depth = <16384>;
+			tx-fifo-depth = <20480>;
+
+	};
 	scmi_mdss0 {
 		compatible = "qcom,uscmi";
 		power-domains = <&scmi16_dvfs 0>;
@@ -114,9 +172,105 @@
 		qcom,dev-name = "scmi_camera";
 	};
 
+	scmi_uart2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi11_pd 2>, <&scmi11_dvfs 2>;
+		power-domain-names = "power", "perf";
+
+		qcom,dev-name = "scmi_uart2";
+	};
+
+	scmi_gpce {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi30_dvfs 0>;
+		power-domain-names = "gpce_clock";
+
+		qcom,dev-name = "scmi_gpce";
+	};
+
+	scmi_pcie0 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi5_pd 0>, <&scmi63_pd 0>;
+		power-domain-names = "power", "dummy";
+
+		qcom,dev-name = "scmi_pcie0";
+	};
+
+	scmi_bluetooth {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi25_pd 0>;
+		power-domain-names = "power";
+
+		qcom,dev-name = "scmi_bluetooth";
+	};
+
+	scmi_wlan {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi24_pd 0>, <&scmi24_pd 1>;
+		power-domain-names = "power_regulator", "power_gpio";
+
+		qcom,dev-name = "scmi_wlan";
+	};
+
 	rng: rng@10d2000 {
 		compatible = "qcom,sa7255p-trng", "qcom,trng";
 		reg = <0x0 0x010d2000 0x0 0x1000>;
+	};
+
+	mini_dump_mode {
+		compatible = "qcom,minidump";
+	};
+
+	scm_user_intf_sec_device {
+		compatible = "qcom,scm-user-intf-sec";
+		status = "ok";
+	};
+
+	dload_mode {
+		compatible = "qcom,dload-mode";
+	};
+
+	kaslr_store {
+		compatible = "qcom,kaslr-off-store";
+		reg = <0x0 0x146d86d0 0x0 0xc>;
+	};
+
+	qfprom_pte: qfprom@780158 {
+		compatible = "qcom,qfprom";
+		reg = <0x0 0x00780158 0x0 0x4>;
+		#address-cells = <2>;
+		#size-cells = <2>;
+	};
+
+	qfprom_tcsr: qfprom@1FFF018 {
+		compatible = "qcom,qfprom";
+		reg = <0x0 0x1FFF018 0x0 0x4>;
+		#address-cells = <2>;
+		#size-cells = <2>;
+	};
+
+	qcom,dma-heaps {
+		compatible = "qcom,dma-heaps";
+		status = "okay";
+	};
+
+	qcom,secure-buffer {
+		compatible = "qcom,secure-buffer";
+	};
+
+	kryo_erp: erp {
+		compatible = "arm,arm64-kryo-cpu-erp";
+		interrupts = <GIC_PPI 0 IRQ_TYPE_LEVEL_LOW>,
+				<GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-names = "l1-l2-faultirq",
+					"l3-c0-scu-faultirq",
+					"l3-c1-scu-faultirq";
 	};
 };
 
@@ -138,9 +292,123 @@
 	#size-cells = <2>;
 	ranges;
 
-	mproc_umdpil_mem: mproc_umdpil_region@95700000 {
+	tz-start-count {
+		reg = <0x0 0x146d87f8 0x0 0x8>;
 		no-map;
-		reg = <0x0 0x95700000 0x0 0x500000>;
+	};
+
+	tz-end-count {
+		reg = <0x0 0x146d87dc 0x0 0x8>;
+		no-map;
 	};
 };
 
+&ethernet0 {
+	phy-mode = "sgmii";
+	phy-handle = <&sgmii_phy0>;
+
+	pinctrl-0 = <&ethernet0_default>;
+	pinctrl-names = "default";
+
+	snps,mtl-rx-config = <&mtl_rx_setup>;
+	snps,mtl-tx-config = <&mtl_tx_setup>;
+	snps,ps-speed = <1000>;
+
+	power-domains = <&scmi7_pd 0>, <&scmi7_pd 1>,<&scmi7_dvfs 0>;
+	power-domain-names = "power_core", "power_mdio","perf_serdes";
+
+	status = "okay";
+
+	mdio {
+		compatible = "snps,dwmac-mdio";
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		sgmii_phy0: phy@8 {
+			compatible = "ethernet-phy-id0141.0dd4";
+			reg = <0x8>;
+			device_type = "ethernet-phy";
+			interrupts-extended = <&tlmm 4 IRQ_TYPE_EDGE_FALLING>;
+			reset-gpios = <&tlmm 31 GPIO_ACTIVE_LOW>;
+			reset-assert-us = <11000>;
+			reset-deassert-us = <70000>;
+		};
+	};
+
+	mtl_rx_setup: rx-queues-config {
+		snps,rx-queues-to-use = <4>;
+		snps,rx-sched-sp;
+
+		queue0 {
+			snps,dcb-algorithm;
+			snps,map-to-dma-channel = <0x0>;
+			snps,route-up;
+			snps,priority = <0x1>;
+		};
+
+		queue1 {
+			snps,dcb-algorithm;
+			snps,map-to-dma-channel = <0x1>;
+			snps,route-ptp;
+		};
+
+		queue2 {
+			snps,avb-algorithm;
+			snps,map-to-dma-channel = <0x2>;
+			snps,route-avcp;
+		};
+
+		queue3 {
+			snps,avb-algorithm;
+			snps,map-to-dma-channel = <0x3>;
+			snps,priority = <0xc>;
+		};
+	};
+
+	mtl_tx_setup: tx-queues-config {
+		snps,tx-queues-to-use = <4>;
+		snps,tx-sched-sp;
+
+		queue0 {
+			snps,dcb-algorithm;
+		};
+
+		queue1 {
+			snps,dcb-algorithm;
+		};
+
+		queue2 {
+			snps,avb-algorithm;
+			snps,send_slope = <0x1000>;
+			snps,idle_slope = <0x1000>;
+			snps,high_credit = <0x3e800>;
+			snps,low_credit = <0xffc18000>;
+		};
+
+		queue3 {
+			snps,avb-algorithm;
+			snps,send_slope = <0x1000>;
+			snps,idle_slope = <0x1000>;
+			snps,high_credit = <0x3e800>;
+			snps,low_credit = <0xffc18000>;
+		};
+	};
+};
+
+&tlmm {
+	ethernet0_default: ethernet0-default-state {
+		ethernet0_mdc: ethernet0-mdc-pins {
+			pins = "gpio5";
+			function = "emac0_mdc";
+			drive-strength = <16>;
+			bias-pull-up;
+		};
+
+		ethernet0_mdio: ethernet0-mdio-pins {
+			pins = "gpio6";
+			function = "emac0_mdio";
+			drive-strength = <16>;
+			bias-pull-up;
+		};
+	};
+};

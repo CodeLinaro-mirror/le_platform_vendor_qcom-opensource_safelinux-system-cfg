@@ -8,6 +8,7 @@
 
 #include "sa8255p_overlay.dtsi"
 #include "sa8775p-vms.dtsi"
+#include "sa8775p-vms-lv.dtsi"
 
 &{/} {
 	model = "Qualcomm Technologies, Inc. SA8255P Ride";
@@ -58,4 +59,12 @@
 &mmidgrp1600 {
 	/delete-property/ remote-vmids;
 	remote-vmids = <2 3>;
+};
+
+&ethernet0 {
+	iommus = <&apps_smmu 0x120 0x7>;
+};
+
+&ethernet1 {
+	iommus = <&apps_smmu 0x140 0x7>;
 };
