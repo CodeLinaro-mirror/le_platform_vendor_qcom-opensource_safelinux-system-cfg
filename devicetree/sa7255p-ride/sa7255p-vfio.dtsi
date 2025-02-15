@@ -14,8 +14,9 @@
 	umd_firmware_vm@d0040000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0xd0040000 0x0 0x10000>;
-		iommus = <&apps_smmu 0x3080 0x0>;
+		iommus = <&apps_smmu 0x2080 0x0>;
 		dma-coherent;
+		status = "disabled";
 	};
 
 	umd_glink@780000 {
