@@ -861,8 +861,6 @@
 
 		ddr_bwprofiler {
 			compatible = "qcom,ddr_bwprofiler";
-			clocks = <&aoss_qmp>;
-			clock-names = "qdss_clk";
 		};
 
 		ufs_mem_hc: ufs@1d84000 {
