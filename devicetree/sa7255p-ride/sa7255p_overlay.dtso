@@ -79,6 +79,10 @@
 	status = "okay";
 };
 
+&scmi22 {
+	status = "okay";
+};
+
 &scmi24 {
 	status = "okay";
 };
@@ -170,6 +174,15 @@
 		power-domains = <&scmi21_dvfs 0>;
 		power-domain-names = "perf_camera";
 		qcom,dev-name = "scmi_camera";
+	};
+
+	scmi_eva {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi22_dvfs 0>, <&scmi22_dvfs 1>;
+		power-domain-names = "perf_eva_clk", "perf_eva_bw";
+
+		qcom,dev-name = "scmi_eva";
 	};
 
 	scmi_uart2 {
