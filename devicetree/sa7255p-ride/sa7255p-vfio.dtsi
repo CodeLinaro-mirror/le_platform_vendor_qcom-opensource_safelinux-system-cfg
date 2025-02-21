@@ -471,6 +471,7 @@
 		/* MMU: non_secure_cb */
 		iommus = <&apps_smmu 0x0880 0x0400>;
 		qcom,iommu-dma-addr-pool = <0x0 0x25800000 0x0 0xba800000>;
+		memory-region = <&pil_video_mem>;
 		dma-coherent;
 	};
 
