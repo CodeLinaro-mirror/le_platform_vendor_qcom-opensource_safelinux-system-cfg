@@ -996,6 +996,17 @@
 				     <GIC_SPI 687 IRQ_TYPE_LEVEL_HIGH>;
 		};
 
+		adreno_smmu_fusa {
+			compatible = "qcom,smmu500-tbu-fusa";
+			reg = <0x0 0x3da8000 0x0 0x20>,
+			      <0x0 0x3dc8000 0x0 0x18000>;
+			reg-name = "smmu_fusa_base", "client_fusa_base";
+			qcom,client_offset = <0x8000>;
+			interrupts = <GIC_SPI 769 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 818 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 819 IRQ_TYPE_LEVEL_HIGH>;
+		};
+
 		pdc: interrupt-controller@b220000 {
 			compatible = "qcom,sa7255p-pdc", "qcom,pdc";
 			reg = <0x0 0x0b220000 0x0 0x30000>,
@@ -1237,6 +1248,26 @@
                                      <GIC_SPI 895 IRQ_TYPE_LEVEL_HIGH>;
                 };
 
+		apps_smmu_fusa {
+			compatible = "qcom,smmu500-tbu-fusa";
+			reg = <0x0 0x15008000 0x0 0x20>,
+			      <0x0 0x151a0000 0x0 0x60000>;
+			reg-name = "smmu_fusa_base", "client_fusa_base";
+			qcom,client_offset = <0x8000>;
+			interrupts = <GIC_SPI 779 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 453 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 458 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 717 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 718 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 662 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 667 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 762 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 767 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 466 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 461 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 464 IRQ_TYPE_LEVEL_HIGH>;
+		};
+
 		pcie_smmu: iommu@15200000 {
 			compatible = "qcom,sa7255p-smmu-500", "qcom,smmu-500", "arm,mmu-500";
 			reg = <0x0 0x15200000 0x0 0x80000>;
@@ -1310,6 +1341,16 @@
 				     <GIC_SPI 639 IRQ_TYPE_LEVEL_HIGH>,
 				     <GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH>,
 				     <GIC_SPI 640 IRQ_TYPE_LEVEL_HIGH>;
+		};
+
+		pcie_smmu_fusa {
+			compatible = "qcom,smmu500-tbu-fusa";
+			reg = <0x0 0x15208000 0x0 0x20>,
+			      <0x0 0x152f0000 0x0 0x10000>;
+			reg-name = "smmu_fusa_base", "client_fusa_base";
+			qcom,client_offset = <0x8000>;
+			interrupts = <GIC_SPI 652 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 645 IRQ_TYPE_LEVEL_HIGH>;
 		};
 
 		intc: interrupt-controller@17a00000 {
