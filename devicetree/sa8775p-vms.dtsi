@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
-* Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+* Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 */
 
 #include <oot-dt-bindings/qcom-shmem.h>
@@ -8,6 +8,23 @@
 &gptp_timedata_mem {
 	qcom,is-shared;
 	gunyah-label = <0x61>;
+};
+
+&qupv3_id_2 {
+	reg = <0x0 0x008c0000 0x0 0x1000>; /* For IOMEM Share, 1 4K page is enough */
+	qcom,is-shared;
+	qcom,is-iomem;
+	gunyah-label = <0x7F>;
+	qcom,dst-vmids = <AC_VM_GVM_1 AC_VM_GVM_2>;
+	qcom,dst-perms = <QCOM_PERM_RW QCOM_PERM_RW>;
+};
+
+&tlmm {
+	qcom,is-shared;
+	qcom,is-iomem;
+	gunyah-label = <0x7E>;
+	qcom,dst-vmids = <AC_VM_GVM_1 AC_VM_GVM_2>;
+	qcom,dst-perms = <QCOM_PERM_RW QCOM_PERM_RW>;
 };
 
 &soc {
@@ -288,7 +305,7 @@
 		qcom,firmware-name = "autoghgvm";
 		qcom,firmware-index = <0>;
 		memory-region = <&auto_vm_0_mem_0 &auto_vm_0_mem_1 &auto_vm_0_mem_2 &auto_vm_0_mem_3 &auto_vm_0_mem_4 &auto_vm_0_mem_5 &auto_vm_0_mem_6>;
-		shared-regions = <&glink_cma_mem &gptp_timedata_mem>;
+		shared-regions = <&glink_cma_mem &gptp_timedata_mem &tlmm &qupv3_id_2>;
 		enable-gvm-dump;
 		virtio-backends = <&auto_vm_be0
 				&auto_vm_be1
