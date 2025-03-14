@@ -518,7 +518,7 @@
 
 	auto_vm1_vscmi_ring: auto_vm1_vscmi_ring@e801ce000 {
 		no-map;
-		reg = <0xe 0xe801CE000 0x0 0x8000>;
+		reg = <0xe 0x801CE000 0x0 0x8000>;
 		gunyah-label = <0x123>;
 	};
 
