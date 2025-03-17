@@ -14,8 +14,9 @@
 	umd_firmware_vm@d0040000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0xd0040000 0x0 0x10000>;
-		iommus = <&apps_smmu 0x3080 0x0>;
+		iommus = <&apps_smmu 0x2080 0x0>;
 		dma-coherent;
+		status = "disabled";
 	};
 
 	umd_glink@780000 {
@@ -32,6 +33,13 @@
 		<&ipcc0 IPCC_CLIENT_GPDSP0  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>,
 		<&ipcc0 IPCC_CLIENT_GPDSP1  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>;
 
+		mboxes = <&ipcc0 IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_GLINK_QMP>,
+				<&ipcc0 IPCC_CLIENT_CDSP IPCC_MPROC_SIGNAL_GLINK_QMP>,
+				<&ipcc0 IPCC_CLIENT_NSP1  IPCC_MPROC_SIGNAL_GLINK_QMP>,
+				<&ipcc0 IPCC_CLIENT_SLPI  IPCC_MPROC_SIGNAL_GLINK_QMP>,
+				<&ipcc0 IPCC_CLIENT_GPDSP0  IPCC_MPROC_SIGNAL_GLINK_QMP>,
+				<&ipcc0 IPCC_CLIENT_GPDSP1  IPCC_MPROC_SIGNAL_GLINK_QMP>;
+
 		iommus = <&apps_smmu 0x580 0x0>;
 		dma-coherent;
 	};
@@ -39,8 +47,11 @@
 	umd_nsp_drv@26092000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x26092000 0x0 0x1000>,
+			<0x0 0x2A092000 0x0 0x1000>,
 			<0x0 0x2634B000 0x0 0x1000>,
-			<0x0 0x26350000 0x0 0x1000>;
+			<0x0 0x2A34B000 0x0 0x1000>,
+			<0x0 0x26350000 0x0 0x1000>,
+			<0x0 0x2A350000 0x0 0x1000>;
 		interrupts = <GIC_SPI 867 IRQ_TYPE_LEVEL_HIGH>,
 			<GIC_SPI 454 IRQ_TYPE_LEVEL_HIGH>,
 			<GIC_SPI 578 IRQ_TYPE_LEVEL_HIGH>,
@@ -72,10 +83,17 @@
 		<&ipcc0 IPCC_CLIENT_GPDSP1  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
 		<&ipcc0 IPCC_CLIENT_AOP  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>,
 		<&intc GIC_SPI 486 IRQ_TYPE_LEVEL_HIGH>,
-		<&intc GIC_SPI 578 IRQ_TYPE_LEVEL_HIGH>,
-		<&intc GIC_SPI 887 IRQ_TYPE_LEVEL_HIGH>,
 		<&intc GIC_SPI 768 IRQ_TYPE_LEVEL_HIGH>,
 		<&intc GIC_SPI 624 IRQ_TYPE_LEVEL_HIGH>;
+		
+		mboxes = <&ipcc0 IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_SMP2P>,
+				<&ipcc0 IPCC_CLIENT_CDSP  IPCC_MPROC_SIGNAL_SMP2P>,
+				<&ipcc0 IPCC_CLIENT_NSP1  IPCC_MPROC_SIGNAL_SMP2P>,
+				<&ipcc0 IPCC_CLIENT_SLPI  IPCC_MPROC_SIGNAL_SMP2P>,
+				<&ipcc0 IPCC_CLIENT_GPDSP0  IPCC_MPROC_SIGNAL_SMP2P>,
+				<&ipcc0 IPCC_CLIENT_GPDSP1  IPCC_MPROC_SIGNAL_SMP2P>,
+				<&ipcc0 IPCC_CLIENT_AOP  IPCC_MPROC_SIGNAL_GLINK_QMP>;
+
 		iommus = <&apps_smmu 0x0 0x0>;
 		dma-coherent;
 	};
@@ -470,6 +488,7 @@
 		/* MMU: non_secure_cb */
 		iommus = <&apps_smmu 0x0880 0x0400>;
 		qcom,iommu-dma-addr-pool = <0x0 0x25800000 0x0 0xba800000>;
+		memory-region = <&pil_video_mem>;
 		dma-coherent;
 	};
 
