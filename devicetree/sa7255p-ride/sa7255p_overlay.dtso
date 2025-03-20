@@ -47,6 +47,10 @@
 	};
 };
 
+&ipcc1 {
+	status = "okay";
+};
+
 &pcie0 {
 	status = "disabled";
 };
