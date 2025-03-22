@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
  */
 
 /dts-v1/;
@@ -25,6 +25,7 @@
 		spi10 = &spi10;
 		scmichannels = &scmichannels;
 		ufshc1 = &ufs_mem_hc;
+		mmc0 = &sdhc_1;
 	};
 
 	chosen {
@@ -106,6 +107,10 @@
 };
 
 &scmi3 {
+	status = "okay";
+};
+
+&scmi34 {
 	status = "okay";
 };
 
@@ -209,6 +214,13 @@
 &ufs_mem_hc {
 	reset-gpios = <&tlmm 133 GPIO_ACTIVE_LOW>;
 	power-domains = <&scmi3_pd 0>;
+	status = "okay";
+};
+
+&sdhc_1 {
+	power-domains = <&scmi34_pd 0>, <&scmi34_dvfs 0>;
+	power-domain-names = "power", "perf";
+
 	status = "okay";
 };
 
