@@ -112,9 +112,7 @@
 			<0x0 0x17D00000 0x0 0x1000>;
 		interrupts = <GIC_SPI 580 IRQ_TYPE_LEVEL_HIGH>,
 			     <GIC_SPI 457 IRQ_TYPE_LEVEL_HIGH>,
-			     <GIC_SPI 81 IRQ_TYPE_LEVEL_HIGH>,
-			     <GIC_SPI 47 IRQ_TYPE_LEVEL_HIGH>,
-			     <GIC_SPI 48 IRQ_TYPE_LEVEL_HIGH>;
+			     <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>;
 		iommus = <&apps_smmu 0x2E00 0x0>;
 		dma-coherent;
 	};
