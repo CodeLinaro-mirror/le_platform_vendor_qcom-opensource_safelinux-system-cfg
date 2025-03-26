@@ -179,6 +179,10 @@
 	status = "okay";
 };
 
+&scmi63 {
+	status = "okay";
+};
+
 &sleep_clk {
 	clock-frequency = <32000>;
 };
