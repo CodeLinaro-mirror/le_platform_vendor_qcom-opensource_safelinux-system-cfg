@@ -405,7 +405,8 @@
 
 	vfio_titan_base@ac00000 {
 		compatible = "qcom,vfio-platform";
-		reg = <0x0 0xac00000 0x0 0x1e0000>;
+		reg = <0x0 0xac00000 0x0 0x1e0000>,  /* TITAN_BASEADDR */
+		    <0x0 0xd0054000 0x0 0x2000>;     /* SHAREDMEM_BASEADDR */
 		interrupts = <GIC_SPI 463 IRQ_TYPE_EDGE_RISING>,
 						<GIC_SPI 459 IRQ_TYPE_EDGE_RISING>,
 						<GIC_SPI 460 IRQ_TYPE_EDGE_RISING>,
