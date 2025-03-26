@@ -11,6 +11,19 @@
 		pinctrl-0 = <&sec_tdm_sck_active &sec_tdm_ws_active &sec_tdm_din_active &sec_tdm_dout_active &tert_tdm_sck_active &tert_tdm_ws_active &tert_tdm_din_active &tert_tdm_dout_active &hs0_i2s_sck_active &hs0_i2s_ws_active &hs0_i2s_data0_active &hs0_i2s_data1_active &audio_internal_mclk1_active>;
 	};
 
+	vfio_hsi2s@3B40000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x3B40000 0x0 0x29000>,
+		    <0x0 0x3942000 0x0 0x6000>,
+		    <0x0 0x390C000 0x0 0x1000>;
+		interrupts = <GIC_SPI 719 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&apps_smmu 0x203c 0x1>,
+		       <&apps_smmu 0x203a 0x4>,
+		       <&apps_smmu 0x203b 0x0>;
+		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xFFFFFFFF>;
+		dma-coherent;
+	};
+
 	umd_firmware_vm@d0040000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0xd0040000 0x0 0x10000>;
