@@ -43,7 +43,6 @@
 
 	qtee_shmbridge {
 		compatible = "qcom,tee-shared-memory-bridge";
-		memory-region = <&cma>;
 	};
 
 	qcom_smcinvoke {

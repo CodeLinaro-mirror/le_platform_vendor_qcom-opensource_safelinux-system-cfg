@@ -36,7 +36,6 @@
 
 	qtee_shmbridge {
 		compatible = "qcom,tee-shared-memory-bridge";
-		memory-region = <&cma>;
 	};
 
 	qcom_smcinvoke {
@@ -251,6 +250,7 @@
 
 	scm_user_intf_sec_device {
 		compatible = "qcom,scm-user-intf-sec";
+		memory-region = <&cma>;
 		status = "ok";
 	};
 
