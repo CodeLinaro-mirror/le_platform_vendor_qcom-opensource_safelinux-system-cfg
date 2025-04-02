@@ -12,3 +12,11 @@
 	model = "Qualcomm Technologies, Inc. SA8650P Ride";
 	qcom,msm-id = <533 0x10000>, <533 0x20000>;
 };
+
+&ethernet0 {
+	iommus = <&apps_smmu 0x120 0x7>;
+};
+
+&ethernet1 {
+	iommus = <&apps_smmu 0x140 0x7>;
+};
