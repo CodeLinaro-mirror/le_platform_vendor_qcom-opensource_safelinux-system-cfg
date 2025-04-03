@@ -257,6 +257,7 @@
 		qcom,firmware-name = "autoghgvmlv";
 		qcom,firmware-index = <0>;
 		memory-region = <&auto_vm_1_mem_0 &auto_vm_1_mem_1>;
+		shared-regions = <&tlmm &qupv3_id_0 &qupv3_id_1 &qupv3_id_2>;
 		enable-gvm-dump;
 		virtio-backends = <&auto_vm1_be0
 				&auto_vm1_be1
@@ -561,4 +562,39 @@
 		no-map;
 		reg = <0xe 0x83000000 0x0 0x80000000>; /*2GB*/
 	};
+};
+
+&qupv3_id_0 {
+	reg = <0x0 0x009c0000 0x0 0x1000>;
+	qcom,is-shared;
+	qcom,is-iomem;
+	gunyah-label = <0x7F>;
+	qcom,dst-vmids = <AC_VM_GVM_1 AC_VM_GVM_2>;
+	qcom,dst-perms = <QCOM_PERM_RW QCOM_PERM_RW>;
+};
+
+&qupv3_id_1 {
+	reg = <0x0 0x00ac0000 0x0 0x1000>;
+	qcom,is-shared;
+	qcom,is-iomem;
+	gunyah-label = <0x80>;
+	qcom,dst-vmids = <AC_VM_GVM_1 AC_VM_GVM_2>;
+	qcom,dst-perms = <QCOM_PERM_RW QCOM_PERM_RW>;
+};
+
+&qupv3_id_2 {
+	reg = <0x0 0x008c0000 0x0 0x1000>;
+	qcom,is-shared;
+	qcom,is-iomem;
+	gunyah-label = <0x81>;
+	qcom,dst-vmids = <AC_VM_GVM_1 AC_VM_GVM_2>;
+	qcom,dst-perms = <QCOM_PERM_RW QCOM_PERM_RW>;
+};
+
+&tlmm {
+	qcom,is-shared;
+	qcom,is-iomem;
+	gunyah-label = <0x7E>;
+	qcom,dst-vmids = <AC_VM_GVM_1 AC_VM_GVM_2>;
+	qcom,dst-perms = <QCOM_PERM_RW QCOM_PERM_RW>;
 };
