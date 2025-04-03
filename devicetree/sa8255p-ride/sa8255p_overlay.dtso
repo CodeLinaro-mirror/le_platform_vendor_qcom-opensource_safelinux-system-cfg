@@ -61,6 +61,14 @@
 	remote-vmids = <2 3>;
 };
 
+&ethernet0 {
+	iommus = <&apps_smmu 0x120 0x7>;
+};
+
+&ethernet1 {
+	iommus = <&apps_smmu 0x140 0x7>;
+};
+
 &scmi4 {
 	status = "okay";
 };

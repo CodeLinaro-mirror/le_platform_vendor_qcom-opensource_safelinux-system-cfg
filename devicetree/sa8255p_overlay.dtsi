@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
  */
 
 #include <dt-bindings/interrupt-controller/irq.h>
@@ -95,11 +95,6 @@
 			no-map;
 		};
 
-		mproc_umdpil_mem: mproc_umdpil_region@95700000 {
-			no-map;
-			reg = <0x0 0x95700000 0x0 0x500000>;
-		};
-
 		gptp_timedata_mem: gptp_timedata_region@acfff000 {
 			no-map;
 			reg = <0x0 0xacfff000 0x0 0x1000>;
@@ -177,6 +172,30 @@
 };
 
 &scmi25 {
+	status = "okay";
+};
+
+&scmi30 {
+	status = "okay";
+};
+
+&scmi37 {
+	status = "okay";
+};
+
+&scmi38 {
+	status = "okay";
+};
+
+&scmi39 {
+	status = "okay";
+};
+
+&scmi40 {
+	status = "okay";
+};
+
+&scmi41 {
 	status = "okay";
 };
 
@@ -621,8 +640,6 @@
 
 	ddr_bwprofiler {
 			compatible = "qcom,ddr_bwprofiler";
-			clocks = <&aoss_qmp>;
-			clock-names = "qdss_clk";
 	};
 
 	scmi_mdss0 {
@@ -641,6 +658,42 @@
 		power-domain-names = "perf";
 
 		qcom,dev-name = "scmi_mdss1";
+	};
+
+	scmi_mdss0_safe {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi38_dvfs 0>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_mdss0_safe";
+	};
+
+	scmi_mdss1_safe {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi39_dvfs 0>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_mdss1_safe";
+	};
+
+	scmi_mdss0_secure {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi40_dvfs 0>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_mdss0_secure";
+	};
+
+	scmi_mdss1_secure {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi41_dvfs 0>;
+		power-domain-names = "perf";
+
+		qcom,dev-name = "scmi_mdss1_secure";
 	};
 
 	scmi_gfx {
@@ -718,6 +771,15 @@
 		qcom,dev-name = "scmi_eva";
 	};
 
+	scmi_gpce {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi30_dvfs 0>;
+		power-domain-names = "gpce_clock";
+
+		qcom,dev-name = "scmi_gpce";
+	};
+
 	test_scmi {
 		compatible = "qcom,uscmi";
 
@@ -783,6 +845,15 @@
 		qcom,dev-name = "scmi_bluetooth";
 	};
 
+	scmi_emac1 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi37_pd 0>;
+		power-domain-names = "gvm_power_mdio";
+
+		qcom,dev-name = "scmi_emac1";
+	};
+
 	scmi_usb2 {
 		compatible = "qcom,uscmi";
 
@@ -802,903 +873,17 @@
 	};
 
 	qfprom_pte: qfprom@780158 {
-		compatible = "qcom,qfprom";
+		compatible = "qcom,sm8450-qfprom";
 		reg = <0x0 0x00780158 0x0 0x4>;
 		#address-cells = <1>;
 		#size-cells = <1>;
 	};
 
 	qfprom_tcsr: qfprom@1FFF018 {
-		compatible = "qcom,qfprom";
+		compatible = "qcom,sm8450-qfprom";
 		reg = <0x0 0x1FFF018 0x0 0x4>;
 		#address-cells = <1>;
 		#size-cells = <1>;
-	};
-
-	thermal-zones {
-		aoss-0-thermal {
-			thermal-sensors = <&tsens0 0>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpu-0-0-0-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens0 1>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpu-0-1-0-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens0 2>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpu-0-2-0-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens0 3>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpu-0-3-0-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens0 4>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		gpuss-0-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens0 5>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		gpuss-1-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens0 6>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		gpuss-2-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens0 7>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		audio-thermal {
-			thermal-sensors = <&tsens0 8>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		camss-0-thermal {
-			thermal-sensors = <&tsens0 9>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		pcie-0-thermal {
-			thermal-sensors = <&tsens0 10>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpuss-0-0-thermal {
-			thermal-sensors = <&tsens0 11>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		aoss-1-thermal {
-			thermal-sensors = <&tsens1 0>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpu-0-0-1-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens1 1>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpu-0-1-1-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens1 2>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpu-0-2-1-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens1 3>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpu-0-3-1-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens1 4>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		gpuss-3-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens1 5>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		gpuss-4-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens1 6>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		gpuss-5-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens1 7>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		video-thermal {
-			thermal-sensors = <&tsens1 8>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		camss-1-thermal {
-			thermal-sensors = <&tsens1 9>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		pcie-1-thermal {
-			thermal-sensors = <&tsens1 10>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpuss-0-1-thermal {
-			thermal-sensors = <&tsens1 11>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		aoss-2-thermal {
-			thermal-sensors = <&tsens2 0>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpu-1-0-0-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens2 1>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpu-1-1-0-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens2 2>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpu-1-2-0-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens2 3>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpu-1-3-0-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens2 4>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		nsp-0-0-0-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens2 5>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		nsp-0-1-0-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens2 6>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		nsp-0-2-0-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens2 7>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		nsp-1-0-0-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens2 8>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		nsp-1-1-0-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens2 9>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		nsp-1-2-0-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens2 10>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		ddrss-0-thermal {
-			thermal-sensors = <&tsens2 11>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpuss-1-0-thermal {
-			thermal-sensors = <&tsens2 12>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		aoss-3-thermal {
-			thermal-sensors = <&tsens3 0>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpu-1-0-1-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens3 1>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpu-1-1-1-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens3 2>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpu-1-2-1-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens3 3>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpu-1-3-1-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens3 4>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		nsp-0-0-1-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens3 5>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		nsp-0-1-1-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens3 6>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		nsp-0-2-1-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens3 7>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		nsp-1-0-1-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens3 8>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		nsp-1-1-1-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens3 9>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		nsp-1-2-1-thermal {
-			polling-delay-passive = <10>;
-			thermal-sensors = <&tsens3 10>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		ddrss-1-thermal {
-			thermal-sensors = <&tsens3 11>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
-
-		cpuss-1-1-thermal {
-			thermal-sensors = <&tsens3 12>;
-			trips {
-				trip-point0 {
-					temperature = <105000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-
-				trip-point1 {
-					temperature = <115000>;
-					hysteresis = <10000>;
-					type = "passive";
-				};
-			};
-		};
 	};
 
 	qcom,dma-heaps {

@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: GPL-2.0-only
 /*
-* Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+* Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 */
 
 &soc {
@@ -35,6 +35,12 @@
 				<&ipcc0 IPCC_CLIENT_SLPI  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>,
 				<&ipcc0 IPCC_CLIENT_GPDSP0  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>,
 				<&ipcc0 IPCC_CLIENT_GPDSP1  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>;
+		mboxes = <&ipcc0 IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_GLINK_QMP>,
+				<&ipcc0 IPCC_CLIENT_CDSP IPCC_MPROC_SIGNAL_GLINK_QMP>,
+				<&ipcc0 IPCC_CLIENT_NSP1  IPCC_MPROC_SIGNAL_GLINK_QMP>,
+				<&ipcc0 IPCC_CLIENT_SLPI  IPCC_MPROC_SIGNAL_GLINK_QMP>,
+				<&ipcc0 IPCC_CLIENT_GPDSP0  IPCC_MPROC_SIGNAL_GLINK_QMP>,
+				<&ipcc0 IPCC_CLIENT_GPDSP1  IPCC_MPROC_SIGNAL_GLINK_QMP>;
 
 		iommus = <&apps_smmu 0x5E0 0x0>;
 		dma-coherent;
@@ -58,18 +64,19 @@
 
 	umd_pil@408000 {
 		compatible = "qcom,vfio-platform";
+		memory-region = <&mproc_umdpil_mem>,
+						<&pil_adsp_mem>,
+						<&pil_cdsp0_mem>,
+						<&pil_video_mem>,
+						<&pil_cdsp1_mem>,
+						<&pil_gdsp0_mem>,
+						<&pil_gdsp1_mem>,
+						<&pil_gpu_mem>,
+						<&pil_camera_mem>;
 		reg = <0x0 0x00408000 0x0 0x1000>,
 			<0x0 0x90900000 0x0 0x200000>,
 			<0x0 0x00780000 0x0 0x10000>,
 			<0x0 0x146d8000 0x0 0x1000>,
-			<0x0 0x95700000 0x0 0x500000>,
-			<0x0 0x95c00000 0x0 0x1e00000>,
-			<0x0 0x9b800000 0x0 0x1e00000>,
-			<0x0 0x9fc00000 0x0 0x700000>,
-			<0x0 0x9d700000 0x0 0x1e00000>,
-			<0x0 0x97b00000 0x0 0x1e00000>,
-			<0x0 0x99900000 0x0 0x1e00000>,
-			<0x0 0x9D600000 0x0 0x800000>,
 			<0x0 0xc300000 0x0 0x1000>;
 
 		interrupts-extended = <&ipcc0 IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
@@ -83,18 +90,29 @@
 				<&intc GIC_SPI 768 IRQ_TYPE_LEVEL_HIGH>,
 				<&intc GIC_SPI 624 IRQ_TYPE_LEVEL_HIGH>;
 
+			mboxes = <&ipcc0 IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_SMP2P>,
+					<&ipcc0 IPCC_CLIENT_CDSP  IPCC_MPROC_SIGNAL_SMP2P>,
+					<&ipcc0 IPCC_CLIENT_NSP1  IPCC_MPROC_SIGNAL_SMP2P>,
+					<&ipcc0 IPCC_CLIENT_SLPI  IPCC_MPROC_SIGNAL_SMP2P>,
+					<&ipcc0 IPCC_CLIENT_GPDSP0  IPCC_MPROC_SIGNAL_SMP2P>,
+					<&ipcc0 IPCC_CLIENT_GPDSP1  IPCC_MPROC_SIGNAL_SMP2P>,
+					<&ipcc0 IPCC_CLIENT_AOP  IPCC_MPROC_SIGNAL_GLINK_QMP>;
+
 		iommus = <&apps_smmu 0x2A00 0x0>;
 		dma-coherent;
 	};
 
-	//Add LLCC node for vfio probe.
 	umd_llcc@9200000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x009200000 0x0 0x86A000>,
 			<0x0 0x1fc8000 0x0 0x1000>,
 			<0x0 0x90900000 0x0 0x200000>,
-			<0x0 0x00780000 0x0 0x10000>;
-		interrupts = <GIC_SPI 580 IRQ_TYPE_LEVEL_HIGH>;
+			<0x0 0x00780000 0x0 0x10000>,
+			<0x0 0x090BD000 0x0 0x1000>,
+			<0x0 0x17D00000 0x0 0x1000>;
+		interrupts = <GIC_SPI 580 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 457 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>;
 		iommus = <&apps_smmu 0x2E00 0x0>;
 		dma-coherent;
 	};
@@ -114,10 +132,85 @@
 
 	gemnoc@9100000 {
 		compatible = "qcom,vfio-platform";
-		reg = <0x0 0x9100000 0x0 0xF7000>;
+		reg = <0x0 0x9100000 0x0 0xF7000>,
+			<0x0 0x90B5000 0x0 0x2000>;
 		iommus = <&apps_smmu 0x03C0 0x0>;
 		dma-coherent;
 	};
+
+	qdss-service@4B05000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x04B05000 0x0 0x1000>,
+			<0x0 0x04048000 0x0 0x1000>,
+			<0x0 0x04b06000 0x0 0x1000>,
+			<0x0 0x04046000 0x0 0x1000>,
+			<0x0 0x0404E000 0x0 0x1000>,
+			<0x0 0x04001000 0x0 0x1000>,
+			<0x0 0x4b11000 0x0 0x1000>,
+			<0x0 0x04002000 0x0 0x1000>,
+			<0x0 0x7040000 0x0 0x1000>,
+			<0x0 0x7140000 0x0 0x1000>,
+			<0x0 0x7240000 0x0 0x1000>,
+			<0x0 0x7340000 0x0 0x1000>,
+			<0x0 0x7440000 0x0 0x1000>,
+			<0x0 0x7540000 0x0 0x1000>,
+			<0x0 0x7640000 0x0 0x1000>,
+			<0x0 0x7740000 0x0 0x1000>,
+			<0x0 0x06861000 0x0 0x1000>,
+			<0x0 0x06861000 0x0 0x1000>,
+			<0x0 0x06861000 0x0 0x1000>,
+			<0x0 0x06861000 0x0 0x1000>,
+			<0x0 0x06861000 0x0 0x1000>,
+			<0x0 0x068B0000 0x0 0x1000>,
+			<0x0 0x068A0000 0x0 0x1000>,
+			<0x0 0x06860000 0x0 0x1000>,
+			<0x0 0x04B80000 0x0 0x1000>,
+			<0x0 0x04B81000 0x0 0x1000>,
+			<0x0 0x04980000 0x0 0x1000>,
+			<0x0 0x04BA0000 0x0 0x1000>,
+			<0x0 0x04BA1000 0x0 0x1000>,
+			<0x0 0x04B09000 0x0 0x1000>,
+			<0x0 0x04B0A000 0x0 0x1000>,
+			<0x0 0x04B0B000 0x0 0x1000>,
+			<0x0 0x04B0C000 0x0 0x1000>,
+			<0x0 0x049A0000 0x0 0x1000>,
+			<0x0 0x06863000 0x0 0x1000>,
+			<0x0 0x04AD3000 0x0 0x1000>,
+			<0x0 0x04863000 0x0 0x1000>,
+			<0x0 0x04B08000 0x0 0x1000>,
+			<0x0 0x04041000 0x0 0x1000>,
+			<0x0 0x04042000 0x0 0x1000>,
+			<0x0 0x04045000 0x0 0x1000>,
+			<0x0 0x04B04000 0x0 0x1000>,
+			<0x0 0x06800000 0x0 0x1000>,
+			<0x0 0x06810000 0x0 0x1000>,
+			<0x0 0x04B83000 0x0 0x1000>,
+			<0x0 0x04BA3000 0x0 0x1000>,
+			<0x0 0x04AD4000 0x0 0x1000>,
+			<0x0 0x04864000 0x0 0x1000>,
+			<0x0 0x04C44000 0x0 0x1000>,
+			<0x0 0x04983000 0x0 0x1000>,
+			<0x0 0x049A3000 0x0 0x1000>,
+			<0x0 0x16000000 0x0 0x1000000>,
+			<0x0 0x07040000 0x0 0x70000>,
+			<0x0 0x04B0E000 0x0 0x1000>;
+		iommus = <&apps_smmu 0x1C20 0x0>;
+		dma-coherent;
+	};
+
+	qdss_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x04C0 0x0>,
+			 <&apps_smmu 0x04E0 0x40>;
+		dma-coherent;
+	};
+
+        qdss_etr_irq {
+                compatible = "qcom,vfio-platform";
+		interrupts = <GIC_SPI 270 IRQ_TYPE_EDGE_RISING>;
+		iommus = <&apps_smmu 0x2600 0x0>;
+                dma-coherent;
+        };
 
 	cdsp0_cb@1 {
 		compatible = "qcom,vfio-platform";
@@ -132,6 +225,7 @@
 			<&apps_smmu 0x25E1 0x4a0>,
 			<&apps_smmu 0x2181 0x400>,
 			<&apps_smmu 0x2581 0x400>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -148,6 +242,7 @@
 			<&apps_smmu 0x25E2 0x4a0>,
 			<&apps_smmu 0x2182 0x400>,
 			<&apps_smmu 0x2582 0x400>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -164,6 +259,7 @@
 			<&apps_smmu 0x25E3 0x4a0>,
 			<&apps_smmu 0x2183 0x400>,
 			<&apps_smmu 0x2583 0x400>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -180,6 +276,7 @@
 			<&apps_smmu 0x25E4 0x4a0>,
 			<&apps_smmu 0x2184 0x400>,
 			<&apps_smmu 0x2584 0x400>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -196,6 +293,7 @@
 			<&apps_smmu 0x2585 0x400>,
 			<&apps_smmu 0x25C5 0x4a0>,
 			<&apps_smmu 0x25E5 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -212,6 +310,7 @@
 			<&apps_smmu 0x2586 0x400>,
 			<&apps_smmu 0x25C6 0x4a0>,
 			<&apps_smmu 0x25E6 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -228,6 +327,7 @@
 			<&apps_smmu 0x2587 0x400>,
 			<&apps_smmu 0x25C7 0x4a0>,
 			<&apps_smmu 0x25E7 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -244,6 +344,7 @@
 			<&apps_smmu 0x2588 0x400>,
 			<&apps_smmu 0x25C8 0x4a0>,
 			<&apps_smmu 0x25E8 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -260,6 +361,7 @@
 			<&apps_smmu 0x2589 0x400>,
 			<&apps_smmu 0x25C9 0x4a0>,
 			<&apps_smmu 0x25E9 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -276,6 +378,7 @@
 			<&apps_smmu 0x258A 0x400>,
 			<&apps_smmu 0x25CA 0x4a0>,
 			<&apps_smmu 0x25EA 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -292,6 +395,7 @@
 			<&apps_smmu 0x258B 0x400>,
 			<&apps_smmu 0x25CB 0x4a0>,
 			<&apps_smmu 0x25EB 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -308,6 +412,7 @@
 			<&apps_smmu 0x258C 0x400>,
 			<&apps_smmu 0x25CC 0x4a0>,
 			<&apps_smmu 0x25EC 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -324,6 +429,7 @@
 			<&apps_smmu 0x258D 0x400>,
 			<&apps_smmu 0x25CD 0x4a0>,
 			<&apps_smmu 0x25ED 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -340,6 +446,7 @@
 			<&apps_smmu 0x2D81 0x400>,
 			<&apps_smmu 0x29E1 0x4a0>,
 			<&apps_smmu 0x2DE1 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -356,6 +463,7 @@
 			<&apps_smmu 0x2DE2 0x4a0>,
 			<&apps_smmu 0x2982 0x400>,
 			<&apps_smmu 0x2D82 0x400>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -372,6 +480,7 @@
 			<&apps_smmu 0x2DE3 0x4a0>,
 			<&apps_smmu 0x2983 0x400>,
 			<&apps_smmu 0x2D83 0x400>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -388,6 +497,7 @@
 			<&apps_smmu 0x2DE4 0x4a0>,
 			<&apps_smmu 0x2984 0x400>,
 			<&apps_smmu 0x2D84 0x400>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -404,6 +514,7 @@
 			<&apps_smmu 0x2D85 0x400>,
 			<&apps_smmu 0x2DC5 0x4a0>,
 			<&apps_smmu 0x2DE5 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -420,6 +531,7 @@
 			<&apps_smmu 0x2D86 0x400>,
 			<&apps_smmu 0x2DC6 0x4a0>,
 			<&apps_smmu 0x2DE6 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -436,6 +548,7 @@
 			<&apps_smmu 0x2D87 0x400>,
 			<&apps_smmu 0x2DC7 0x4a0>,
 			<&apps_smmu 0x2DE7 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -452,6 +565,7 @@
 			<&apps_smmu 0x2D88 0x400>,
 			<&apps_smmu 0x2DC8 0x4a0>,
 			<&apps_smmu 0x2DE8 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -468,6 +582,7 @@
 			<&apps_smmu 0x2D89 0x400>,
 			<&apps_smmu 0x2DC9 0x4a0>,
 			<&apps_smmu 0x2DE9 0x400>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -484,6 +599,7 @@
 			<&apps_smmu 0x2D8A 0x400>,
 			<&apps_smmu 0x2DCA 0x4a0>,
 			<&apps_smmu 0x2DEA 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -500,6 +616,7 @@
 			<&apps_smmu 0x2D8B 0x400>,
 			<&apps_smmu 0x2DCB 0x4a0>,
 			<&apps_smmu 0x2DEB 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -516,6 +633,7 @@
 			<&apps_smmu 0x2D8C 0x400>,
 			<&apps_smmu 0x2DCC 0x4a0>,
 			<&apps_smmu 0x2DEC 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -532,6 +650,7 @@
 			<&apps_smmu 0x2D8D 0x400>,
 			<&apps_smmu 0x2DCD 0x4a0>,
 			<&apps_smmu 0x2DED 0x4a0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -707,7 +826,8 @@
 
 	vfio_titan_base@ac00000 {
 		compatible = "qcom,vfio-platform";
-		reg = <0x0 0xac00000 0x0 0x1e0000>;
+		reg = <0x0 0xac00000 0x0 0x1e0000>,  // TITAN_BASEADDR
+		    <0x0 0xd0054000 0x0 0x2000>;     // SHAREDMEM_BASEADDR
 		interrupts = <GIC_SPI 463 IRQ_TYPE_EDGE_RISING>,
 			<GIC_SPI 459 IRQ_TYPE_EDGE_RISING>,
 			<GIC_SPI 460 IRQ_TYPE_EDGE_RISING>,
@@ -752,6 +872,7 @@
 		compatible = "qcom,vfio-platform";
 		iommus = <&apps_smmu 0x800 0x0400>;
 		dma-coherent;
+		qcom,iommu-dma-addr-pool = <0x0 0x800000 0x0 0xDF800000>;
 	};
 
 	vfio_cam_cdm_non_secure_cb {
@@ -764,6 +885,7 @@
 		compatible = "qcom,vfio-platform";
 		iommus = <&apps_smmu 0x840 0x0480>;
 		dma-coherent;
+		qcom,iommu-dma-addr-pool = <0x0 0x800000 0x0 0xDF800000>;
 	};
 
 	vfio_cci0@0 {
@@ -952,9 +1074,10 @@
 	vfio_kgsl_secure {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x1 0x0 0x0>;
-		// switch to secure CB once ready
 		iommus = <&adreno_smmu 0x2 0xc00>;
 		qcom,iommu-dma-addr-pool = <0x0 0xC0000000 0x0 0x3FFFF000>;
+		qcom,iommu-vmid = <0xA>; // VMID_CP_PIXEL
+		qcom,secure-context-bank;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
 	};
@@ -975,6 +1098,7 @@
 		/* MMU: non_secure_cb */
 		iommus = <&apps_smmu 0x0880 0x0400>;
 		qcom,iommu-dma-addr-pool = <0x0 0x25800000 0x0 0xba800000>;
+		memory-region = <&pil_video_mem>;
 		dma-coherent;
 	};
 
@@ -1102,4 +1226,79 @@
 		dma-coherent;
 	};
 
+	vfio_hwkm_gpce_core_0@1dc0000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x01dc0000 0x0 0x00040000>;
+		iommus = <&apps_smmu 0x480 0x0>;
+		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
+		dma-coherent;
+	};
+
+	vfio_gpce_gvm_ns_tzdec_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x481 0x0>;
+		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
+		dma-coherent;
+	};
+
+	vfio_gpce_gvm_s_tzdec_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x483 0x0>;
+		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
+		qcom,iommu-vmid = <0x9>; /*VMID_CP_BITSTREAM */
+		qcom,secure-context-bank;
+		dma-coherent;
+	};
+
+};
+
+&{/reserved-memory} {
+	#address-cells = <2>;
+	#size-cells = <2>;
+	ranges;
+
+	mproc_umdpil_mem: mproc_umdpil_region@95A00000 {
+		no-map;
+		reg = <0x0 0x95A00000 0x0 0x200000>;
+	};
+
+	pil_adsp_mem: pil_adsp_region@95c00000 {
+		no-map;
+		reg = <0x0 0x95c00000 0x0 0x1e00000>;
+	};
+
+	pil_gdsp0_mem: pil_gdsp0_region@97b00000 {
+		no-map;
+		reg = <0x0 0x97b00000 0x0 0x1e00000>;
+	};
+
+	pil_gdsp1_mem: pil_gdsp1_region@99900000 {
+		no-map;
+		reg = <0x0 0x99900000 0x0 0x1e00000>;
+	};
+
+	pil_cdsp0_mem: pil_cdsp0_region@9b800000 {
+		no-map;
+		reg = <0x0 0x9b800000 0x0 0x1e00000>;
+	};
+
+	pil_gpu_mem: pil_gpu_region@9d600000 {
+		no-map;
+		reg = <0x0 0x9d600000 0x0 0x2000>;
+	};
+
+	pil_cdsp1_mem: pil_cdsp1_region@9d700000 {
+		no-map;
+		reg = <0x0 0x9d700000 0x0 0x1e00000>;
+	};
+
+	pil_video_mem: pil_video_region@9fc00000 {
+		no-map;
+		reg = <0x0 0x9fc00000 0x0 0x700000>;
+	};
+
+	pil_camera_mem: pil-camera@95200000 {
+		reg = <0x0 0x95200000 0x0 0x800000>;
+		no-map;
+	};
 };

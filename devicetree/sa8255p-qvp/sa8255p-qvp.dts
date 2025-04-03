@@ -1,0 +1,41 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+ */
+
+/dts-v1/;
+#include "sa8775p-qvp.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. SA8255P Virtual Platform";
+	compatible = "qcom,sa8255p";
+	qcom,msm-id = <532 0x10000>;
+
+	rng: rng@10d2000 {
+		compatible = "qcom,sa8255p-trng", "qcom,trng";
+		reg = <0x0 0x10d2000 0x0 0x1000>;
+	};
+
+	chosen {
+		bootargs = "rw root=/dev/vda earlyprintk=serial,ttyAMA0 console=ttyAMA0 \
+		firmware_class.path=/firmware \
+		rdinit=/sbin/early-ramdisk-init early-ramdisk.mode=0";
+		stdout-path = "/pl011@40000000";
+		linux,initrd-start = <0xbd151000>;
+		linux,initrd-end =  <0xbef00000>;
+		kaslr-seed = <0x0 0x0>;
+	};
+
+};
+
+&apps_smmu {
+	compatible = "qcom,sa8255p-smmu-500", "arm,mmu-500";
+};
+
+&adreno_smmu {
+	compatible = "qcom,sa8255p-smmu-500", "arm,mmu-500";
+};
+
+&ipcc {
+	compatible = "qcom,sa8255p-ipcc", "qcom,ipcc";
+};

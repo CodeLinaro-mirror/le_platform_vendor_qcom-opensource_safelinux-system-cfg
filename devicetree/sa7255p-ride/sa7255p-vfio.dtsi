@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: BSD-3-Clause
 /*
-* Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+* Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 */
 
 &soc {
@@ -11,17 +11,25 @@
 		pinctrl-0 = <&sec_tdm_sck_active &sec_tdm_ws_active &sec_tdm_din_active &sec_tdm_dout_active &tert_tdm_sck_active &tert_tdm_ws_active &tert_tdm_din_active &tert_tdm_dout_active &hs0_i2s_sck_active &hs0_i2s_ws_active &hs0_i2s_data0_active &hs0_i2s_data1_active &audio_internal_mclk1_active>;
 	};
 
-	umd_nsp_drv@26092000 {
+	vfio_hsi2s@3B40000 {
 		compatible = "qcom,vfio-platform";
-		reg = <0x0 0x26092000 0x0 0x1000>,
-			<0x0 0x2634B000 0x0 0x1000>,
-			<0x0 0x26350000 0x0 0x1000>;
-		interrupts = <GIC_SPI 867 IRQ_TYPE_LEVEL_HIGH>,
-			<GIC_SPI 454 IRQ_TYPE_LEVEL_HIGH>,
-			<GIC_SPI 578 IRQ_TYPE_LEVEL_HIGH>,
-			<GIC_SPI 798 IRQ_TYPE_LEVEL_HIGH>;
-		iommus = <&apps_smmu 0x04E0 0x0>;
+		reg = <0x0 0x3B40000 0x0 0x29000>,
+		    <0x0 0x3942000 0x0 0x6000>,
+		    <0x0 0x390C000 0x0 0x1000>;
+		interrupts = <GIC_SPI 719 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&apps_smmu 0x203c 0x1>,
+		       <&apps_smmu 0x203a 0x4>,
+		       <&apps_smmu 0x203b 0x0>;
+		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xFFFFFFFF>;
 		dma-coherent;
+	};
+
+	umd_firmware_vm@d0040000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0xd0040000 0x0 0x10000>;
+		iommus = <&apps_smmu 0x2080 0x0>;
+		dma-coherent;
+		status = "disabled";
 	};
 
 	umd_glink@780000 {
@@ -38,24 +46,47 @@
 		<&ipcc0 IPCC_CLIENT_GPDSP0  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>,
 		<&ipcc0 IPCC_CLIENT_GPDSP1  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>;
 
+		mboxes = <&ipcc0 IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_GLINK_QMP>,
+				<&ipcc0 IPCC_CLIENT_CDSP IPCC_MPROC_SIGNAL_GLINK_QMP>,
+				<&ipcc0 IPCC_CLIENT_NSP1  IPCC_MPROC_SIGNAL_GLINK_QMP>,
+				<&ipcc0 IPCC_CLIENT_SLPI  IPCC_MPROC_SIGNAL_GLINK_QMP>,
+				<&ipcc0 IPCC_CLIENT_GPDSP0  IPCC_MPROC_SIGNAL_GLINK_QMP>,
+				<&ipcc0 IPCC_CLIENT_GPDSP1  IPCC_MPROC_SIGNAL_GLINK_QMP>;
+
 		iommus = <&apps_smmu 0x580 0x0>;
 		dma-coherent;
 	};
+
+	umd_nsp_drv@26092000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x26092000 0x0 0x1000>,
+			<0x0 0x2A092000 0x0 0x1000>,
+			<0x0 0x2634B000 0x0 0x1000>,
+			<0x0 0x2A34B000 0x0 0x1000>,
+			<0x0 0x26350000 0x0 0x1000>,
+			<0x0 0x2A350000 0x0 0x1000>;
+		interrupts = <GIC_SPI 867 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 454 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 578 IRQ_TYPE_LEVEL_HIGH>,
+			<GIC_SPI 798 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&apps_smmu 0x04E0 0x0>;
+		dma-coherent;
+	};
+
 	umd_pil@408000 {
 		compatible = "qcom,vfio-platform";
+		memory-region = <&mproc_umdpil_mem>,
+						<&pil_adsp_mem>,
+						<&pil_cdsp0_mem>,
+						<&pil_video_mem>,
+						<&pil_gdsp0_mem>,
+						<&pil_gpu_mem>;
 		reg = <0x0 0x00408000 0x0 0x1000>,
 			<0x0 0x90900000 0x0 0x200000>,
 			<0x0 0x00780000 0x0 0x10000>,
 			<0x0 0x146d8000 0x0 0x1000>,
-			<0x0 0x95700000 0x0 0x500000>,
-			<0x0 0x95c00000 0x0 0x1e00000>,
-			<0x0 0x99980000 0x0 0x1e00000>,
-			<0x0 0x9be82000 0x0 0x700000>,
-			<0x0 0x9d700000 0x0 0x1e00000>,
-			<0x0 0x97b00000 0x0 0x1e00000>,
-			<0x0 0x99900000 0x0 0x1e00000>,
-			<0x0 0x9B780000 0x0 0x2000>,
 			<0x0 0xc300000 0x0 0x1000>;
+
 		interrupts-extended =
 		<&ipcc0 IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
 		<&ipcc0 IPCC_CLIENT_CDSP  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
@@ -65,11 +96,33 @@
 		<&ipcc0 IPCC_CLIENT_GPDSP1  IPCC_MPROC_SIGNAL_SMP2P IRQ_TYPE_EDGE_RISING>,
 		<&ipcc0 IPCC_CLIENT_AOP  IPCC_MPROC_SIGNAL_GLINK_QMP IRQ_TYPE_EDGE_RISING>,
 		<&intc GIC_SPI 486 IRQ_TYPE_LEVEL_HIGH>,
-		<&intc GIC_SPI 578 IRQ_TYPE_LEVEL_HIGH>,
-		<&intc GIC_SPI 887 IRQ_TYPE_LEVEL_HIGH>,
 		<&intc GIC_SPI 768 IRQ_TYPE_LEVEL_HIGH>,
 		<&intc GIC_SPI 624 IRQ_TYPE_LEVEL_HIGH>;
+		
+		mboxes = <&ipcc0 IPCC_CLIENT_LPASS IPCC_MPROC_SIGNAL_SMP2P>,
+				<&ipcc0 IPCC_CLIENT_CDSP  IPCC_MPROC_SIGNAL_SMP2P>,
+				<&ipcc0 IPCC_CLIENT_NSP1  IPCC_MPROC_SIGNAL_SMP2P>,
+				<&ipcc0 IPCC_CLIENT_SLPI  IPCC_MPROC_SIGNAL_SMP2P>,
+				<&ipcc0 IPCC_CLIENT_GPDSP0  IPCC_MPROC_SIGNAL_SMP2P>,
+				<&ipcc0 IPCC_CLIENT_GPDSP1  IPCC_MPROC_SIGNAL_SMP2P>,
+				<&ipcc0 IPCC_CLIENT_AOP  IPCC_MPROC_SIGNAL_GLINK_QMP>;
+
 		iommus = <&apps_smmu 0x0 0x0>;
+		dma-coherent;
+	};
+
+	umd_llcc@9200000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x009200000 0x0 0x86A000>,
+			<0x0 0x1fc8000 0x0 0x1000>,
+			<0x0 0x90900000 0x0 0x200000>,
+			<0x0 0x00780000 0x0 0x10000>,
+			<0x0 0x090BD000 0x0 0x1000>,
+			<0x0 0x17D00000 0x0 0x1000>;
+		interrupts = <GIC_SPI 580 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 457 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&apps_smmu 0x3A0 0x0>;
 		dma-coherent;
 	};
 
@@ -173,10 +226,19 @@
 		status = "ok";
 	};
 
+	nsp_sysmon@90900000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x90900000 0x0 0x200000>,
+			<0x0 0x00780000 0x0 0x10000>;
+		iommus = <&apps_smmu 0x04A0 0x0>;
+		dma-coherent;
+	};
+
 	sail-mailbox@90d80000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x90d80000 0x0 0x80000>,
 			<0x0 0x1FFE000 0x0 0x1000>,
+			<0x0 0x1FFD000 0x0 0x1000>,
 			<0x0 0x17C00000 0x0 0x1000>,
 			<0x0 0x00488000 0x0 0x1000>;
 		interrupts-extended = <&ipcc1 IPCC_CLIENT_SAIL0 0x2 IRQ_TYPE_EDGE_RISING>,
@@ -229,6 +291,29 @@
 				<&ipcc1 IPCC_CLIENT_SAIL1 0x1 IRQ_TYPE_EDGE_RISING>,
 				<&ipcc1 IPCC_CLIENT_SAIL2 0x1 IRQ_TYPE_EDGE_RISING>,
 				<&ipcc1 IPCC_CLIENT_SAIL3 0x1 IRQ_TYPE_EDGE_RISING>;
+		dma-coherent;
+	};
+
+	apss_stl: apss-stl@628000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x628000 0x0 0x1000>,
+			<0x0 0x62c000 0x0 0x1000>,
+			<0x0 0x630000 0x0 0x1000>,
+			<0x0 0x63a000 0x0 0x1000>,
+			<0x0 0x63e000 0x0 0x1000>,
+			<0x0 0x3d9a000 0x0 0x1000>,
+			<0x0 0x18290000 0x0 0x1000>,
+			<0x0 0x18292000 0x0 0x1000>,
+			<0x0 0x18294000 0x0 0x1000>,
+			<0x0 0x18296000 0x0 0x1000>,
+			<0x0 0x18390000 0x0 0x1000>,
+			<0x0 0x183a0000 0x0 0x1000>,
+			<0x0 0x18420000 0x0 0x1000>,
+			<0x0 0x18421000 0x0 0x1000>,
+			<0x0 0x18422000 0x0 0x1000>,
+			<0x0 0x18423000 0x0 0x1000>,
+			<0x0 0x17C21000 0x0 0x1000>;
+		iommus = <&apps_smmu 0x2902 0x0>;
 		dma-coherent;
 	};
 
@@ -421,6 +506,7 @@
 		/* MMU: non_secure_cb */
 		iommus = <&apps_smmu 0x0880 0x0400>;
 		qcom,iommu-dma-addr-pool = <0x0 0x25800000 0x0 0xba800000>;
+		memory-region = <&pil_video_mem>;
 		dma-coherent;
 	};
 
@@ -428,6 +514,33 @@
 		compatible = "qcom,vfio-platform";
 		iommus = <&apps_smmu 0x0887 0x0400>;
 		qcom,iommu-dma-addr-pool = <0x0 0x00100000 0x0 0xdff00000>;
+		dma-coherent;
+	};
+
+	vfio_vidc_secure_non_pixel_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x0884 0x0400>;
+		qcom,iommu-dma-addr-pool = <0x0 0x01000000 0x0 0x24800000>;
+		qcom,iommu-vmid = <0xB>; /* VMID_CP_NON_PIXEL */
+		qcom,secure-context-bank;
+		dma-coherent;
+	};
+
+	vfio_vidc_secure_bitstream_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x0881 0x0404>;
+		qcom,iommu-dma-addr-pool = <0x0 0x00500000 0x0 0xdfb00000>;
+		qcom,iommu-vmid = <0x9>; /* VMID_CP_BITSTREAM */
+		qcom,secure-context-bank;
+		dma-coherent;
+	};
+
+	vfio_vidc_secure_pixel_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x0883 0x0400>;
+		qcom,iommu-dma-addr-pool = <0x0 0x00500000 0x0 0xdfb00000>;
+		qcom,iommu-vmid = <0xA>; /* VMID_CP_PIXEL */
+		qcom,secure-context-bank;
 		dma-coherent;
 	};
 
@@ -475,5 +588,66 @@
 		iommus = <&apps_smmu 0x08A0 0x400>;
 		qcom,iommu-dma-addr-pool = <0x0 0x4b000000 0x0 0x90000000>;
 		dma-coherent;
+	};
+
+	vfio_hwkm_gpce_core_0@1dc0000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x01dc0000 0x0 0x00040000>;
+		iommus = <&apps_smmu 0x480 0x0>;
+		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
+		dma-coherent;
+	};
+
+	vfio_gpce_gvm_ns_tzdec_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x481 0x0>;
+		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
+		dma-coherent;
+	};
+
+	vfio_gpce_gvm_s_tzdec_cb {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x483 0x0>;
+		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
+		qcom,iommu-vmid = <0x9>; /*VMID_CP_BITSTREAM */
+		qcom,secure-context-bank;
+		dma-coherent;
+	};
+
+};
+
+&{/reserved-memory} {
+	#address-cells = <2>;
+	#size-cells = <2>;
+	ranges;
+
+	mproc_umdpil_mem: mproc_umdpil_region@95700000 {
+		no-map;
+		reg = <0x0 0x95700000 0x0 0x500000>;
+	};
+
+	pil_adsp_mem: pil_adsp_region@95c00000 {
+		no-map;
+		reg = <0x0 0x95c00000 0x0 0x1e00000>;
+	};
+
+	pil_cdsp0_mem: pil_cdsp0_region@99980000 {
+		no-map;
+		reg = <0x0 0x99980000 0x0 0x1e00000>;
+	};
+
+	pil_video_mem: pil_video_region@9be82000 {
+		no-map;
+		reg = <0x0 0x9be82000 0x0 0x700000>;
+	};
+
+	pil_gdsp0_mem: pil_gdsp0_region@97b00000 {
+		no-map;
+		reg = <0x0 0x97b00000 0x0 0x1e00000>;
+	};
+
+	pil_gpu_mem: pil_gpu_region@9b780000 {
+		no-map;
+		reg = <0x0 0x9b780000 0x0 0x2000>;
 	};
 };

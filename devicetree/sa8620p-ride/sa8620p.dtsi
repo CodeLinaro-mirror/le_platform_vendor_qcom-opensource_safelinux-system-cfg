@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
  */
 
 #include <dt-bindings/interrupt-controller/arm-gic.h>
@@ -141,6 +141,8 @@
 	psci {
 		compatible = "arm,psci-1.0";
 		method = "smc";
+		mode-bootloader = <0x10001 0x2>;
+		mode-edl = <0 0x1>;
 	};
 
 	reserved-memory {
@@ -383,6 +385,13 @@
 		#size-cells = <2>;
 		ranges = <0 0 0 0 0x10 0>;
 
+		dcc: dma@40ff000 {
+			compatible = "qcom,dcc-v3", "qcom,dcc";
+			reg = <0x0 0x040ff000 0x0 0x1000>,
+			      <0x0 0x040b8800 0x0 0x6000>;
+			qcom,dcc-offset = <0x38800>;
+		};
+
 		scmi_mdss0 {
 			compatible = "qcom,uscmi";
 
@@ -438,6 +447,44 @@
 			power-domain-names = "perf_eva_clk", "perf_eva_bw";
 
 			qcom,dev-name = "scmi_eva";
+		};
+
+		scmi_gpce {
+			compatible = "qcom,uscmi";
+
+			power-domains = <&scmi30_dvfs 0>;
+			power-domain-names = "gpce_clock";
+
+			qcom,dev-name = "scmi_gpce";
+		};
+
+		test_scmi {
+			compatible = "qcom,uscmi";
+
+			power-domains = <&scmi63_pd 2> , <&scmi63_dvfs 2>;
+			power-domain-names = "power", "perf";
+
+			resets = <&scmi63_rst 0>;
+			reset-names = "core";
+
+			qcom,dev-name = "test_scmi";
+		};
+
+		test_scmi_perf {
+			compatible = "qcom,uscmi";
+
+			power-domains = <&scmi63_dvfs 1>;
+			power-domain-names = "perf";
+
+			qcom,dev-name = "test_scmi_perf";
+		};
+
+		test_scmi_power {
+			compatible = "qcom,uscmi";
+
+			power-domains = <&scmi63_pd 1>;
+
+			qcom,dev-name = "test_scmi_power";
 		};
 
 		qupv3_id_0: geniqup@9c0000 {
@@ -843,8 +890,6 @@
 
 		ddr_bwprofiler {
 			compatible = "qcom,ddr_bwprofiler";
-			clocks = <&aoss_qmp>;
-			clock-names = "qdss_clk";
 		};
 
 		ufs_mem_hc: ufs@1d84000 {
@@ -854,7 +899,16 @@
 			lanes-per-direction = <2>;
 			iommus = <&apps_smmu 0x100 0x0>;
 			dma-coherent;
+			qcom,ice = <&ice>;
 			status = "disabled";
+		};
+
+		ice: crypto@1d88000 {
+			compatible = "qcom,sa7255p-inline-crypto-engine",
+				     "qcom,inline-crypto-engine";
+			reg = <0x0 0x01d88000 0x0 0x10000>;
+			qcom,ice-use-hwkm;
+			qcom,ice-skip-clk;
 		};
 
 		usb_0_hsphy: phy@8904000 {
@@ -1428,19 +1482,6 @@
 						"l3-c1-scu-faultirq";
 		};
 
-		mini_dump_mode {
-			compatible = "qcom,minidump";
-		};
-
-		dload_mode {
-			compatible = "qcom,dload-mode";
-		};
-
-		kaslr_store {
-			compatible = "qcom,kaslr-off-store";
-			reg = <0x0 0x146d86d0 0x0 0xc>;
-		};
-
 		pcie0: pci@400000000 {
 			compatible = "qcom,pcie-ecam-rc";
 			reg = <0x4 0x00000000 0x0 0x10000000>;
@@ -1517,6 +1558,34 @@
 
 			status = "disabled";
 		};
+
+		mini_dump_mode {
+			compatible = "qcom,minidump";
+		};
+
+		dload_mode {
+			compatible = "qcom,dload-mode";
+		};
+
+		kaslr_store {
+			compatible = "qcom,kaslr-off-store";
+			reg = <0x0 0x146d86d0 0x0 0xc>;
+		};
+
+		qfprom_pte: qfprom@780158 {
+                        compatible = "qcom,sm8450-qfprom";
+                        reg = <0x0 0x00780158 0x0 0x4>;
+                        #address-cells = <2>;
+                        #size-cells = <2>;
+                };
+
+                qfprom_tcsr: qfprom@1FFF018 {
+                        compatible = "qcom,sm8450-qfprom";
+                        reg = <0x0 0x1FFF018 0x0 0x4>;
+                        #address-cells = <2>;
+                        #size-cells = <2>;
+                };
+
 	};
 
 	thermal-zones {

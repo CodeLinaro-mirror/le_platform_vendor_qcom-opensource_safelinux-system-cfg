@@ -12,10 +12,12 @@
 
 &ethernet0 {
 	phy-mode = "2500base-x";
+	iommus = <&apps_smmu 0x120 0x7>;
 };
 
 &ethernet1 {
 	phy-mode = "2500base-x";
+	iommus = <&apps_smmu 0x140 0x7>;
 };
 
 &sgmii_phy0 {

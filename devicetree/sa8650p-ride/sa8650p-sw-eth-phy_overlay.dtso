@@ -1,0 +1,12 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+ */
+
+#include "sa8650p_overlay.dtso"
+
+&{/} {
+	model = "Qualcomm Technologies, Inc. SA8650P Ride Switch Ethernet PHY";
+	qcom,board-id = <0x01030025 1>;
+};
+
