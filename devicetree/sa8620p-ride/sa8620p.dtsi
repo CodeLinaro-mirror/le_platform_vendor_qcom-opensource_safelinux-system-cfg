@@ -458,6 +458,35 @@
 			qcom,dev-name = "scmi_gpce";
 		};
 
+		test_scmi {
+			compatible = "qcom,uscmi";
+
+			power-domains = <&scmi63_pd 2> , <&scmi63_dvfs 2>;
+			power-domain-names = "power", "perf";
+
+			resets = <&scmi63_rst 0>;
+			reset-names = "core";
+
+			qcom,dev-name = "test_scmi";
+		};
+
+		test_scmi_perf {
+			compatible = "qcom,uscmi";
+
+			power-domains = <&scmi63_dvfs 1>;
+			power-domain-names = "perf";
+
+			qcom,dev-name = "test_scmi_perf";
+		};
+
+		test_scmi_power {
+			compatible = "qcom,uscmi";
+
+			power-domains = <&scmi63_pd 1>;
+
+			qcom,dev-name = "test_scmi_power";
+		};
+
 		qupv3_id_0: geniqup@9c0000 {
 			compatible = "qcom,sa7255p-geni-se-qup";
 			reg = <0x0 0x9c0000 0x0 0x2000>;

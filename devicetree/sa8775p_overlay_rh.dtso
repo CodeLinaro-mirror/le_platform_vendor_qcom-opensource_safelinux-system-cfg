@@ -168,6 +168,10 @@
 	status = "okay";
 };
 
+&scmi37 {
+	status = "okay";
+};
+
 &scmi38 {
 	status = "okay";
 };
@@ -835,6 +839,15 @@
 		power-domain-names = "power";
 
 		qcom,dev-name = "scmi_bluetooth";
+	};
+
+	scmi_emac1 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi37_pd 0>;
+		power-domain-names = "gvm_power_mdio";
+
+		qcom,dev-name = "scmi_emac1";
 	};
 
 	scmi_usb2 {

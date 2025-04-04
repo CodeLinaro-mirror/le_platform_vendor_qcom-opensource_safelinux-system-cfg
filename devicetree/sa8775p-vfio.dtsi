@@ -102,14 +102,17 @@
 		dma-coherent;
 	};
 
-	//Add LLCC node for vfio probe.
 	umd_llcc@9200000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x009200000 0x0 0x86A000>,
 			<0x0 0x1fc8000 0x0 0x1000>,
 			<0x0 0x90900000 0x0 0x200000>,
-			<0x0 0x00780000 0x0 0x10000>;
-		interrupts = <GIC_SPI 580 IRQ_TYPE_LEVEL_HIGH>;
+			<0x0 0x00780000 0x0 0x10000>,
+			<0x0 0x090BD000 0x0 0x1000>,
+			<0x0 0x17D00000 0x0 0x1000>;
+		interrupts = <GIC_SPI 580 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 457 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>;
 		iommus = <&apps_smmu 0x2E00 0x0>;
 		dma-coherent;
 	};
@@ -823,7 +826,8 @@
 
 	vfio_titan_base@ac00000 {
 		compatible = "qcom,vfio-platform";
-		reg = <0x0 0xac00000 0x0 0x1e0000>;
+		reg = <0x0 0xac00000 0x0 0x1e0000>,  // TITAN_BASEADDR
+		    <0x0 0xd0054000 0x0 0x2000>;     // SHAREDMEM_BASEADDR
 		interrupts = <GIC_SPI 463 IRQ_TYPE_EDGE_RISING>,
 			<GIC_SPI 459 IRQ_TYPE_EDGE_RISING>,
 			<GIC_SPI 460 IRQ_TYPE_EDGE_RISING>,
@@ -1253,9 +1257,9 @@
 	#size-cells = <2>;
 	ranges;
 
-	mproc_umdpil_mem: mproc_umdpil_region@95700000 {
+	mproc_umdpil_mem: mproc_umdpil_region@95A00000 {
 		no-map;
-		reg = <0x0 0x95700000 0x0 0x500000>;
+		reg = <0x0 0x95A00000 0x0 0x200000>;
 	};
 
 	pil_adsp_mem: pil_adsp_region@95c00000 {
@@ -1294,7 +1298,7 @@
 	};
 
 	pil_camera_mem: pil-camera@95200000 {
-		reg = <0x0 0x95200000 0x0 0x700000>;
+		reg = <0x0 0x95200000 0x0 0x800000>;
 		no-map;
 	};
 };
