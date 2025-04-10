@@ -22,6 +22,7 @@
 		i2c8 = &i2c8;
 		i2c15 = &i2c15;
 		serial0 = &uart7;
+		serial1 = &uart12;
 		spi10 = &spi10;
 		scmichannels = &scmichannels;
 		ufshc1 = &ufs_mem_hc;
@@ -202,6 +203,12 @@
 		spi-cpha;
 		status = "okay";
 	};
+};
+
+&uart12 {
+	power-domains = <&scmi11_pd 12>, <&scmi11_dvfs 12>;
+	power-domain-names = "power", "perf";
+	status = "okay";
 };
 
 &uart7 {
