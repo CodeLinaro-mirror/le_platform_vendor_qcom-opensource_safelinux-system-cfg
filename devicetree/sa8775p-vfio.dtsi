@@ -784,7 +784,8 @@
 				      <&ipcc1 IPCC_CLIENT_SAIL0 0x6 IRQ_TYPE_EDGE_RISING>,
 				      <&ipcc1 IPCC_CLIENT_SAIL0 0x7 IRQ_TYPE_EDGE_RISING>,
 				      <&ipcc1 IPCC_CLIENT_SAIL2 0x8 IRQ_TYPE_EDGE_RISING>,
-				      <&ipcc1 IPCC_CLIENT_SAIL1 0x9 IRQ_TYPE_EDGE_RISING>;
+				      <&ipcc1 IPCC_CLIENT_SAIL1 0x9 IRQ_TYPE_EDGE_RISING>,
+				      <&ipcc1 IPCC_CLIENT_SAIL2 0xA IRQ_TYPE_EDGE_RISING>;
 		iommus = <&apps_smmu 0x3900 0x00>;
 		dma-coherent;
 	};
