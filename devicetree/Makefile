@@ -11,6 +11,7 @@ dtb-y += sa8255p-ride/sa8255p-ride.dtb
 dtb-$(CONFIG_ARCH_SA7255) += sa7255p-ride/sa7255p-ride_rh.dtb
 dtb-$(CONFIG_ARCH_SA7255) += sa8620p-ride/sa8620p-ride_rh.dtb
 dtb-y += sa8775p_overlay_pcie_ep_rh.dtbo
+dtb-y += sa8775p-fw-managed-tmp.dtb
 ifeq ($(shell uname -i), aarch64)
 dtb-y += sa8775p-qvp/native/sa8775p-qvp.dtb
 else
