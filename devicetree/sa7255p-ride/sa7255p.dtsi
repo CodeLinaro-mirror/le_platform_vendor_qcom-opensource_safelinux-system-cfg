@@ -218,8 +218,6 @@
 
 	qtee_shmbridge {
 		compatible = "qcom,tee-shared-memory-bridge";
-		qcom,support-hypervisor;
-		memory-region = <&cma>;
 	};
 
 	qcom_smcinvoke {

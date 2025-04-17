@@ -37,20 +37,16 @@
 		compatible = "qcom,tz-log";
 		reg = <0x0 0x146d8720 0x0 0x3000>;
 		qcom,hyplog-enabled;
-		qcom,support-hypervisor;
 		hyplog-address-offset = <0x410>;
 		hyplog-size-offset = <0x414>;
-        };
+	};
 
 	qtee_shmbridge {
 		compatible = "qcom,tee-shared-memory-bridge";
-		qcom,support-hypervisor;
-		memory-region = <&cma>;
-        };
+	};
 
 	qcom_smcinvoke {
 		compatible = "qcom,smcinvoke";
-		qcom,support-hypervisor;
 	};
 
 };

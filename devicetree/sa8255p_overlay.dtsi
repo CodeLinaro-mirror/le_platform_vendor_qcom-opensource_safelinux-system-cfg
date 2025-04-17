@@ -35,20 +35,16 @@
 		compatible = "qcom,tz-log";
 		reg = <0x0 0x146d8720 0x0 0x3000>;
 		qcom,hyplog-enabled;
-		qcom,support-hypervisor;
 		hyplog-address-offset = <0x410>;
 		hyplog-size-offset = <0x414>;
 	};
 
 	qtee_shmbridge {
 		compatible = "qcom,tee-shared-memory-bridge";
-		qcom,support-hypervisor;
-		memory-region = <&cma>;
 	};
 
 	qcom_smcinvoke {
 		compatible = "qcom,smcinvoke";
-		qcom,support-hypervisor;
 	};
 
 	gpio-keys {
@@ -614,6 +610,7 @@
 
 	scm_user_intf_sec_device {
 		compatible = "qcom,scm-user-intf-sec";
+		memory-region = <&cma>;
 		status = "ok";
 	};
 
@@ -893,6 +890,16 @@
 
 	qcom,secure-buffer {
 		compatible = "qcom,secure-buffer";
+	};
+
+	tlmm_fusa {
+		compatible = "qcom,tlmm-fusa";
+		interrupts = <GIC_SPI 445 IRQ_TYPE_EDGE_RISING>;
+		reg = <0x0 0xf1b3000 0x0 0x2>,
+		      <0x0 0xf1bb000 0x0 0x4>,
+		      <0x0 0xf1bb008 0x0 0x4>;
+		reg-names = "error_status", "ahb_hreset_status", "por_ares_status";
+		qcom,por-ares-reset-bit = <2>;
 	};
 };
 
