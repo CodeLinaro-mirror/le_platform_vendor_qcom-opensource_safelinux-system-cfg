@@ -2835,7 +2835,7 @@
 			compatible = "qcom,sa8775p-usb-hs-phy\0qcom,usb-snps-hs-5nm-phy";
 			reg = <0x00 0x88e7000 0x00 0x120>;
 			#phy-cells = <0x00>;
-			status = "okay";
+			status = "disabled";
 			power-domains = <0x6f 0x00 0x6f 0x01>;
 			power-domain-names = "usb_transfer\0usb_core";
 			qcom,firmware-managed-resources;
@@ -2852,7 +2852,7 @@
 			interrupt-names = "pwr_event\0dp_hs_phy_irq\0dm_hs_phy_irq";
 			power-domains = <0x70 0x00 0x70 0x01>;
 			wakeup-source;
-			status = "okay";
+			status = "disabled";
 			power-domain-names = "usb_transfer\0usb_core";
 			qcom,firmware-managed-resources;
 
