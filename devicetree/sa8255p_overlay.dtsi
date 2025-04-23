@@ -104,6 +104,11 @@
 			alignment = <0x0 0x400000>;
 			size = <0x0 0x1400000>; /* 20M */
 		};
+
+		non_ecc_heap_mem: non_ecc_heap_mem_region {
+			reg = <0x9 0xC0000000 0x1 0x80000000>;
+			no-map;
+		};
 	};
 };
 
@@ -957,6 +962,12 @@
 			qcom,dma-heap-name = "qcom,tzcom";
 			qcom,dma-heap-type = <HEAP_TYPE_CMA>;
 			memory-region = <&tzcom_mem>;
+		};
+
+		qcom,non-ecc {
+			qcom,dma-heap-name = "qcom,non-ecc";
+			qcom,dma-heap-type = <HEAP_TYPE_CARVEOUT>;
+			memory-region = <&non_ecc_heap_mem>;
 		};
 	};
 
