@@ -72,6 +72,8 @@
 				&auto_vm_vblk20_ring
 				&auto_vm_vblk21_ring
 				&auto_vm_vblk22_ring
+				&auto_vm_vblk23_ring
+				&auto_vm_vblk24_ring
 				&auto_vm_vnet0_ring
 				&auto_vm_vnet1_ring
 				&auto_vm_vhab0_ring
@@ -322,6 +324,16 @@
 		qcom,label = <0x4C>;
 	};
 
+	auto_vm_be45: auto_vm_be45@4D {
+		qcom,vm = <&auto_vm>;
+		qcom,label = <0x4D>;
+	};
+
+	auto_vm_be46: auto_vm_be46@4E {
+		qcom,vm = <&auto_vm>;
+		qcom,label = <0x4E>;
+	};
+
 	auto_vm_0: gh-secure-vm-loader@0 {
 		compatible = "qcom,gh-secure-vm-loader";
 		qcom,pas-id = <44>;
@@ -375,7 +387,10 @@
 				&auto_vm_be41
 				&auto_vm_be42
 				&auto_vm_be43
-				&auto_vm_be44>;
+				&auto_vm_be44
+				&auto_vm_be45
+				&auto_vm_be46
+				>;
 	};
 
 	qcom,test-dbl-tuivm {
@@ -687,10 +702,22 @@
 		gunyah-label = <0x4B>;
 	};
 
-	auto_vm_resv_ring: auto_vm_resv_ring@b4023A000 {
+	auto_vm_vblk23_ring: auto_vm_vblk23_ring@B4023A000 {
 		no-map;
-		reg = <0xb 0x4023A000 0x0 0xDC6000>;
+		reg = <0xB 0x4023A000 0x0 0x4000>;
 		gunyah-label = <0x4C>;
+	};
+
+	auto_vm_vblk24_ring: auto_vm_vblk24_ring@B4023E000 {
+		no-map;
+		reg = <0xB 0x4023E000 0x0 0x4000>;
+		gunyah-label = <0x4D>;
+	};
+
+	auto_vm_resv_ring: auto_vm_resv_ring@B40242000 {
+		no-map;
+		reg = <0xB 0x40242000 0x0 0xDBE000>;
+		gunyah-label = <0x4E>;
 	};
 
 	auto_vm_swiotlb: auto_vm_swiotlb@b41000000 {
