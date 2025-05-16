@@ -11,6 +11,7 @@
 #include <oot-dt-bindings/qcom-ipcc.h>
 #include "sa8775p-pinctrl.dtsi"
 #include "sa8775p-vfio.dtsi"
+#include "sa8775p-cnss.dtsi"
 
 / {
 	model = "Qualcomm Technologies, Inc. SA8255P Ride";
@@ -206,6 +207,13 @@
 };
 
 &scmi63 {
+	status = "okay";
+};
+
+&uart17 {
+	power-domains = <&scmi11_pd 17>, <&scmi11_dvfs 17>;
+	power-domain-names = "power", "perf";
+
 	status = "okay";
 };
 
@@ -827,6 +835,7 @@
 
 		qcom,dev-name = "test_scmi_power";
 	};
+
 
 	qfprom_pte: qfprom@780158 {
 		compatible = "qcom,sm8450-qfprom";
