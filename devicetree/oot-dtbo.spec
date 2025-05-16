@@ -49,7 +49,7 @@ cat %{_builddir}/%{name}/centos-stream-9/arch/arm64/boot/dts/qcom/sa8775p-ride-f
             %{_builddir}/%{name}/sa8650p-ride/sa8650p-ride.dtb \
             %{_builddir}/%{name}/sa8255p-ride/sa8255p-ride.dtb \
             > ${install_dtbo_path}/dtb/qcom/sa8775p-ride-fw-managed.dtb.overlay
-cp %{_builddir}/%{name}/sa8775p-qvp/sa8775p-qvp.dtb ${install_dtbo_path}/dtb/qcom/sa8775p-qvp.dtb
+cp %{_builddir}/%{name}/sa8775p-qvp/native/sa8775p-qvp.dtb ${install_dtbo_path}/dtb/qcom/sa8775p-qvp.dtb
 
 %files
 %define kernel_module_path /lib/modules/%{kversion_with_debug}
