@@ -1,15 +1,9 @@
 //SPDX-License-Identifier: BSD-3-Clause
 /*
-* Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 */
 
 &soc {
-
-	audio_tlmm@0 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&sec_tdm_sck_active &sec_tdm_ws_active &sec_tdm_din_active &sec_tdm_dout_active &tert_tdm_sck_active &tert_tdm_ws_active &tert_tdm_din_active &tert_tdm_dout_active &hs0_i2s_sck_active &hs0_i2s_ws_active &hs0_i2s_data0_active &hs0_i2s_data1_active &audio_internal_mclk1_active>;
-	};
 
 	vfio_hsi2s@3B40000 {
 		compatible = "qcom,vfio-platform";
@@ -458,6 +452,10 @@
 	vfio_cam_ipe_non_secure_cb {
 		compatible = "qcom,vfio-platform";
 		iommus = <&apps_smmu 0x800 0x0400>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&cci0_sda_default &cci0_scl_default
+			&cci2_sda_default &cci2_scl_default
+			&cci4_sda_default &cci4_scl_default>;
 		dma-coherent;
 		qcom,iommu-dma-addr-pool = <0x0 0x800000 0x0 0xDF800000>;
 	};
@@ -465,6 +463,8 @@
 	vfio_cam_cdm_non_secure_cb {
 		compatible = "qcom,vfio-platform";
 		iommus = <&apps_smmu 0x860 0x0400>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&fsync0_default &fsync1_default &fsync2_default>;
 		dma-coherent;
 	};
 
@@ -473,42 +473,6 @@
 		iommus = <&apps_smmu 0x840 0x0480>;
 		dma-coherent;
 		qcom,iommu-dma-addr-pool = <0x0 0x800000 0x0 0xDF800000>;
-	};
-
-	vfio_cci0@0 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default","default";
-		pinctrl-0 = <&cci0_sda_default &cci0_scl_default>;
-	};
-
-	vfio_cci1@1 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default","default";
-		pinctrl-0 = <&cci2_sda_default &cci2_scl_default>;
-	};
-
-	vfio_cci2@2 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default","default";
-		pinctrl-0 = <&cci4_sda_default &cci4_scl_default>;
-	};
-
-	vfio_fsync0@0 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&fsync0_default>;
-	};
-
-	vfio_fsync1@1 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&fsync1_default>;
-	};
-
-	vfio_fsync2@2 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&fsync2_default>;
 	};
 
 	vfio_vidc@aa00000 {
@@ -562,6 +526,14 @@
 		reg = <0x0 0x1 0x0 0x0>;
 		iommus = <&apps_smmu 0x2001 0x0>;
 		dma-coherent;
+		pinctrl-names = "default";
+		pinctrl-0 = <&sec_tdm_sck_active &sec_tdm_ws_active
+			&sec_tdm_din_active &sec_tdm_dout_active
+			&tert_tdm_sck_active &tert_tdm_ws_active
+			&tert_tdm_din_active &tert_tdm_dout_active
+			&hs0_i2s_sck_active &hs0_i2s_ws_active
+			&hs0_i2s_data0_active &hs0_i2s_data1_active
+			&audio_internal_mclk1_active>;
         };
 
 	vfio_audio_gpdsp0_cb@2 {
