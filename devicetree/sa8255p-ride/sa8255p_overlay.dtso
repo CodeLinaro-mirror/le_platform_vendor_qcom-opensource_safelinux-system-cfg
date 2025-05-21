@@ -1,64 +1,16 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
  */
 
 /dts-v1/;
 /plugin/;
 
 #include "sa8255p_overlay.dtsi"
-#include "sa8775p-vms.dtsi"
-#include "sa8775p-vms-lv.dtsi"
 
 &{/} {
 	model = "Qualcomm Technologies, Inc. SA8255P Ride";
 	qcom,msm-id = <532 0x10000>, <532 0x20000>;
-};
-
-
-&mmidgrp100 {
-	/delete-property/ remote-vmids;
-	remote-vmids = <2 3>;
-};
-
-&mmidgrp200 {
-	/delete-property/ remote-vmids;
-	remote-vmids = <2 3>;
-};
-
-&mmidgrp300 {
-	/delete-property/ remote-vmids;
-	remote-vmids = <2 3>;
-};
-
-&mmidgrp400 {
-	/delete-property/ remote-vmids;
-	remote-vmids = <2 3>;
-};
-
-&mmidgrp500 {
-	/delete-property/ remote-vmids;
-	remote-vmids = <2 3>;
-};
-
-&mmidgrp600 {
-	/delete-property/ remote-vmids;
-	remote-vmids = <2 3>;
-};
-
-&mmidgrp1400 {
-	/delete-property/ remote-vmids;
-	remote-vmids = <2 3>;
-};
-
-&mmidgrp1500 {
-	/delete-property/ remote-vmids;
-	remote-vmids = <2 3>;
-};
-
-&mmidgrp1600 {
-	/delete-property/ remote-vmids;
-	remote-vmids = <2 3>;
 };
 
 &ethernet0 {
@@ -67,19 +19,4 @@
 
 &ethernet1 {
 	iommus = <&apps_smmu 0x140 0x7>;
-};
-
-&scmi4 {
-	status = "okay";
-};
-
-&soc {
-	scmi_ufs2 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi4_pd 0>;
-		power-domain-names = "power";
-
-		qcom,dev-name = "scmi_ufs2";
-	};
 };

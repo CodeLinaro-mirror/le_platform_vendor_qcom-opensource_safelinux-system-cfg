@@ -5,6 +5,10 @@
 
 #include <oot-dt-bindings/qcom-shmem.h>
 
+&pcie0 {
+	status = "disabled";
+};
+
 &soc {
 	auto_vm: qcom,auto_vm_0@b40000000 {
 		reg = <0xb 0x40000000 0x0 0x3000000>;
