@@ -10,3 +10,11 @@
 	qcom,board-id = <0x3010019 0>;
 };
 
+&pcie1 {
+	status = "disabled";
+};
+
+&pcie1_ep {
+	status = "okay";
+};
+
