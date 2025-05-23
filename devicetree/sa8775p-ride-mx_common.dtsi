@@ -285,6 +285,7 @@
 
 &ethernet0 {
 	phy-mode = "sgmii";
+	iommus = <&apps_smmu 0x120 0x7>;
 
 	pinctrl-0 = <&ethernet0_default>;
 	pinctrl-names = "default";
@@ -366,6 +367,7 @@
 
 &ethernet1 {
 	phy-mode = "sgmii";
+	iommus = <&apps_smmu 0x140 0x7>;
 
 	snps,mtl-rx-config = <&mtl_rx_setup1>;
 	snps,mtl-tx-config = <&mtl_tx_setup1>;

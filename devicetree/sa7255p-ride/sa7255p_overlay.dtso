@@ -332,6 +332,7 @@
 
 &ethernet0 {
 	phy-mode = "sgmii";
+	iommus = <&apps_smmu 0x120 0x7>;
 	phy-handle = <&sgmii_phy0>;
 
 	pinctrl-0 = <&ethernet0_default>;
