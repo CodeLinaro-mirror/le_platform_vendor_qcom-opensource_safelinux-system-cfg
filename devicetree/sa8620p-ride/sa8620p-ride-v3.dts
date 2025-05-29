@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
  */
 
 #include "sa8620p_common.dtsi"
@@ -12,6 +12,7 @@
 
 &ethernet0 {
 	phy-mode = "2500base-x";
+	qcom-disable-sph;
 };
 
 &sgmii_phy0 {
