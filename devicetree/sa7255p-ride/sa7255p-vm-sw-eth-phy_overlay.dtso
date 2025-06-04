@@ -8,5 +8,6 @@
 /plugin/;
 
 #include "sa7255p-sw-eth-phy_overlay.dtso"
+#include "sa7255p-vms-hab.dtsi"
 #include "sa7255p-vms.dtsi"
 #include "sa7255p-vms-lv.dtsi"
