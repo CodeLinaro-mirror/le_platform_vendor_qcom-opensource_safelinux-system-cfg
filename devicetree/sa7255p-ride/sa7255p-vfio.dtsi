@@ -24,7 +24,7 @@
 		reg = <0x0 0xd0040000 0x0 0x10000>;
 		iommus = <&apps_smmu 0x2080 0x0>;
 		dma-coherent;
-		status = "disabled";
+		status = "okay";
 	};
 
 	gemnoc@9100000 {
