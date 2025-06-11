@@ -1,21 +1,9 @@
-//SPDX-License-Identifier: GPL-2.0-only
 /*
-* Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+* SPDX-License-Identifier: GPL-2.0-only
+* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 */
 
 &soc {
-	audio_tlmm@0 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&sec_tdm_sck_active &sec_tdm_ws_active &sec_tdm_din_active &sec_tdm_dout_active &tert_tdm_sck_active &tert_tdm_ws_active &tert_tdm_din_active &tert_tdm_dout_active &hs2_i2s_sck_active &hs2_i2s_ws_active &hs2_i2s_data0_active &hs2_i2s_data1_active &audio_internal_mclk1_active>;
-	};
-
-	hsi2s_tlmm@0 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&hs0_i2s_sck_active &hs0_i2s_ws_active &hs0_i2s_data0_active &hs0_i2s_data1_active &hs1_i2s_sck_active &hs1_i2s_ws_active &hs1_i2s_data0_active &hs1_i2s_data1_active>;
-	};
-
 	umd_firmware_vm@d0040000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0xd0040000 0x0 0x10000>;
@@ -786,7 +774,8 @@
 				      <&ipcc1 IPCC_CLIENT_SAIL0 0x6 IRQ_TYPE_EDGE_RISING>,
 				      <&ipcc1 IPCC_CLIENT_SAIL0 0x7 IRQ_TYPE_EDGE_RISING>,
 				      <&ipcc1 IPCC_CLIENT_SAIL2 0x8 IRQ_TYPE_EDGE_RISING>,
-				      <&ipcc1 IPCC_CLIENT_SAIL1 0x9 IRQ_TYPE_EDGE_RISING>;
+				      <&ipcc1 IPCC_CLIENT_SAIL1 0x9 IRQ_TYPE_EDGE_RISING>,
+				      <&ipcc1 IPCC_CLIENT_SAIL2 0xA IRQ_TYPE_EDGE_RISING>;
 		iommus = <&apps_smmu 0x3900 0x00>;
 		dma-coherent;
 	};
@@ -805,6 +794,11 @@
 		    <0x0 0x390C000 0x0 0x1000>;
 		reg-names = "lpa_if", "lpass_core_cc_hs_if", "lpass_core_cc_i2s_if_ctl";
 		interrupts = <GIC_SPI 719 IRQ_TYPE_LEVEL_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&hs0_i2s_sck_active &hs0_i2s_ws_active
+			&hs0_i2s_data0_active &hs0_i2s_data1_active
+			&hs1_i2s_sck_active &hs1_i2s_ws_active
+			&hs1_i2s_data0_active &hs1_i2s_data1_active>;
 		number-of-rate-detectors = <2>;
 		rate-detector-interfaces = <0 1>;
 		number-of-interfaces = <2>;
@@ -873,6 +867,15 @@
 	vfio_cam_ipe_non_secure_cb {
 		compatible = "qcom,vfio-platform";
 		iommus = <&apps_smmu 0x800 0x0400>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&cci0_sda_default &cci0_scl_default
+			&cci1_sda_default &cci1_scl_default
+			&cci2_sda_default &cci2_scl_default
+			&cci3_sda_default &cci4_sda_default
+			&cci4_scl_default &cci5_sda_default
+			&cci5_scl_default &cci6_sda_default
+			&cci6_scl_default &cci7_sda_default
+			&cci7_scl_default>;
 		dma-coherent;
 		qcom,iommu-dma-addr-pool = <0x0 0x800000 0x0 0xDF800000>;
 	};
@@ -880,102 +883,20 @@
 	vfio_cam_cdm_non_secure_cb {
 		compatible = "qcom,vfio-platform";
 		iommus = <&apps_smmu 0x860 0x0400>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&fsync0_default &fsync1_default
+			 &fsync2_default &fsync3_default>;
 		dma-coherent;
 	};
 
 	vfio_cam_icp_non_secure_cb {
 		compatible = "qcom,vfio-platform";
 		iommus = <&apps_smmu 0x840 0x0480>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&cam_lock0_default &cam_lock1_default
+			&cam_lock2_default &cam_lock3_default>;
 		dma-coherent;
 		qcom,iommu-dma-addr-pool = <0x0 0x800000 0x0 0xDF800000>;
-	};
-
-	vfio_cci0@0 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default","default";
-		pinctrl-0 = <&cci0_sda_default &cci0_scl_default>;
-		pinctrl-1 = <&cci1_sda_default &cci1_scl_default>;
-	};
-
-	vfio_cci1@1 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default","default";
-		pinctrl-0 = <&cci2_sda_default &cci2_scl_default>;
-		pinctrl-1 = <&cci3_sda_default &cci3_scl_default>;
-	};
-
-	vfio_cci2@2 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default","default";
-		pinctrl-0 = <&cci4_sda_default &cci4_scl_default>;
-		pinctrl-1 = <&cci5_sda_default &cci5_scl_default>;
-	};
-
-	vfio_cci3@3 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default","default";
-		pinctrl-0 = <&cci6_sda_default &cci6_scl_default>;
-		pinctrl-1 = <&cci7_sda_default &cci7_scl_default>;
-	};
-
-	vfio_fsync0@0 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&fsync0_default>;
-	};
-
-	vfio_fsync1@1 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&fsync1_default>;
-	};
-
-	vfio_fsync2@2 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&fsync2_default>;
-	};
-
-	vfio_fsync3@3 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&fsync3_default>;
-	};
-
-	vfio_cam_lock0@0 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&cam_lock0_default>;
-	};
-
-	vfio_cam_lock1@1 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&cam_lock1_default>;
-	};
-
-	vfio_cam_lock2@2 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&cam_lock2_default>;
-	};
-
-	vfio_cam_lock3@3 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&cam_lock3_default>;
-	};
-
-	vfio_dpu00_hpd0@0 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&edp0_hpd_ctrl>;
-	};
-
-	vfio_dpu00_hpd1@1 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&edp1_hpd_ctrl>;
 	};
 
 	vfio_dpu_00@ae00000 {
@@ -985,18 +906,8 @@
 		iommus = <&apps_smmu 0x1000 0x402>;
 		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
 		dma-coherent;
-	};
-
-	vfio_dpu_10_hpd3@3 {
-		compatible = "qcom,apps-pinctlr";
 		pinctrl-names = "default";
-		pinctrl-0 = <&edp2_hpd_ctrl>;
-	};
-
-	vfio_dpu_10_hpd4@4 {
-		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default";
-		pinctrl-0 = <&edp3_hpd_ctrl>;
+		pinctrl-0 = <&edp0_hpd_ctrl>;
 	};
 
 	vfio_dpu_01_secure {
@@ -1007,6 +918,8 @@
 		qcom,iommu-vmid = <0xa>;
 		qcom,secure-context-bank;
 		dma-coherent;
+		pinctrl-names = "default";
+		pinctrl-0 = <&edp1_hpd_ctrl>;
 	};
 
 	vfio_dpu_10@22000000 {
@@ -1017,6 +930,8 @@
 		iommus = <&apps_smmu 0x1800 0x402>;
 		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
 		dma-coherent;
+		pinctrl-names = "default";
+		pinctrl-0 = <&edp2_hpd_ctrl>;
 	};
 
 	vfio_dpu_11_secure {
@@ -1027,6 +942,8 @@
 		qcom,iommu-vmid = <0xa>;
 		qcom,secure-context-bank;
 		dma-coherent;
+		pinctrl-names = "default";
+		pinctrl-0 = <&edp3_hpd_ctrl>;
 	};
 
 	vfio_kgsl@3d00000 {
@@ -1077,7 +994,7 @@
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x1 0x0 0x0>;
 		iommus = <&adreno_smmu 0x2 0xc00>;
-		qcom,iommu-dma-addr-pool = <0x0 0xC0000000 0x0 0x3FFFF000>;
+		qcom,iommu-dma-addr-pool = <0x0 0x10000000 0x0 0x4FFFF000>;
 		qcom,iommu-vmid = <0xA>; // VMID_CP_PIXEL
 		qcom,secure-context-bank;
 		qcom,iommu-dma = "disabled";
@@ -1175,7 +1092,15 @@
 		reg = <0x0 0x1 0x0 0x0>;
 		iommus = <&apps_smmu 0x3001 0x0>;
 		dma-coherent;
-        };
+		pinctrl-names = "default";
+		pinctrl-0 = <&sec_tdm_sck_active &sec_tdm_ws_active
+			&sec_tdm_din_active &sec_tdm_dout_active
+			&tert_tdm_sck_active &tert_tdm_ws_active
+			&tert_tdm_din_active &tert_tdm_dout_active
+			&hs2_i2s_sck_active &hs2_i2s_ws_active
+			&hs2_i2s_data0_active &hs2_i2s_data1_active
+			&audio_internal_mclk1_active>;
+	};
 
 	vfio_audio_gpdsp0_cb@2 {
 		compatible = "qcom,vfio-platform";
