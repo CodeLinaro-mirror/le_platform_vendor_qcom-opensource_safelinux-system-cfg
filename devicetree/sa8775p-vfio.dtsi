@@ -888,6 +888,7 @@
 		iommus = <&apps_smmu 0x3400 0x0020>;
 		dma-coherent;
 		iommu-faults;
+		qcom,iommu-dma-addr-range = <0x0 0xA00000 0x0 0xFFFFFFFF>;
 	};
 
 	vfio_cam_ipe_non_secure_cb {
@@ -903,8 +904,8 @@
 			&cci6_scl_default &cci7_sda_default
 			&cci7_scl_default>;
 		dma-coherent;
-		qcom,iommu-dma-addr-pool = <0x0 0x800000 0x0 0xDF800000>;
 		iommu-faults;
+		qcom,iommu-dma-addr-range = <0x0 0xA00000 0x0 0xFFFFFFFF>;
 	};
 
 	vfio_cam_cdm_non_secure_cb {
@@ -915,6 +916,7 @@
 			 &fsync2_default &fsync3_default>;
 		dma-coherent;
 		iommu-faults;
+		qcom,iommu-dma-addr-range = <0x0 0xA00000 0x0 0xFFFFFFFF>;
 	};
 
 	vfio_cam_icp_non_secure_cb {
@@ -924,8 +926,8 @@
 		pinctrl-0 = <&cam_lock0_default &cam_lock1_default
 			&cam_lock2_default &cam_lock3_default>;
 		dma-coherent;
-		qcom,iommu-dma-addr-pool = <0x0 0x800000 0x0 0xDF800000>;
 		iommu-faults;
+		qcom,iommu-dma-addr-range = <0x0 0xA00000 0x0 0xFFFFFFFF>;
 	};
 
 	vfio_dpu_00@ae00000 {
