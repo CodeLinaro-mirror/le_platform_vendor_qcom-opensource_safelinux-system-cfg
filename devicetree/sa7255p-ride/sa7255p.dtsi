@@ -427,7 +427,7 @@
 
 		camera_mem: camera_region@95200000 {
 			no-map;
-			reg = <0x0 0x95200000 0x0 0x500000>;
+			reg = <0x0 0x95200000 0x0 0x800000>;
 		};
 
 		cvp_mem: cvp_region@9b782000 {
