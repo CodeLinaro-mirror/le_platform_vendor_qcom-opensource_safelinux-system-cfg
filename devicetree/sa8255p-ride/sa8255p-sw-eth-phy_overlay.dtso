@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
  */
 
 #include "sa8255p_overlay.dtso"
@@ -30,6 +30,7 @@
 
 &ethernet0 {
 	phy-mode = "sgmii";
+	qcom-disable-sph;
 
 	pinctrl-0 = <&ethernet0_default>;
 	pinctrl-names = "default";
@@ -111,6 +112,7 @@
 
 &ethernet1 {
 	phy-mode = "sgmii";
+	qcom-disable-sph;
 
 	snps,mtl-rx-config = <&mtl_rx_setup1>;
 	snps,mtl-tx-config = <&mtl_tx_setup1>;
