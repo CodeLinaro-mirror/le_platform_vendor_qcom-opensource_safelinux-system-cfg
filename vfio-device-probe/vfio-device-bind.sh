@@ -32,7 +32,7 @@ for DEV in $DEVS; do
 	echo "$DEV" > /sys/bus/platform/drivers/vfio-platform/bind
 done
 
-if env selinuxenabled && [ -x "$(command -v restorecon)" ]; then
+if selinuxenabled && [ -x "$(command -v restorecon)" ]; then
     restorecon -vFR /dev
 fi
 
