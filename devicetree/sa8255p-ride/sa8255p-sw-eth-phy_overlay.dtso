@@ -25,6 +25,10 @@
 
 	status = "okay";
 
+	mdio {
+		status = "disabled";
+	};
+
 	mtl_rx_setup: rx-queues-config {
 		snps,rx-queues-to-use = <4>;
 		snps,rx-sched-sp;
