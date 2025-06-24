@@ -56,6 +56,12 @@ dtb-y += sa8775p-vm-v3_overlay.dtbo
 dtb-y += sa8775p-vm_overlay_pcie_ep.dtbo
 dtb-y += sa8775p-vm-sw-eth-phy_overlay.dtbo
 dtb-y += sa8650p-ride/sa8650p-ride-mx_overlay.dtbo
+ifeq ($(QCVIRTIO), true)
+dtb-y += sa8775p-vm-trout_overlay.dtbo
+dtb-y += sa8775p-vm-v3-trout_overlay.dtbo
+dtb-y += sa8775p-vm-trout_overlay_pcie_ep.dtbo
+dtb-y += sa8775p-vm-sw-eth-phy-trout_overlay.dtbo
+endif
 endif
 
 #include common target file
