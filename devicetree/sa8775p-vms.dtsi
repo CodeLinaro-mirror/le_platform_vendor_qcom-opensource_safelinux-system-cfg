@@ -346,8 +346,6 @@
 				&auto_vm_0_mem_3
 				&auto_vm_0_mem_4
 				&auto_vm_0_mem_5
-				&auto_vm_0_mem_6
-				&auto_vm_0_mem_7
 				>;
 		shared-regions = <&glink_cma_mem &gptp_timedata_mem &vm_cp_pixel &vm_cp_bitstream &tlmm &qupv3_id_0 &qupv3_id_1 &qupv3_id_2>;
 		enable-gvm-dump;
@@ -773,17 +771,7 @@
 		reg = <0x9 0x00000000 0x0 0xC0000000>;
 	};
 
-	auto_vm_0_mem_5: auto_vm_0_mem_5@9C0000000 {
-		no-map;
-		reg = <0x9 0xC0000000 0x0 0xC0000000>;
-	};
-
-	auto_vm_0_mem_6: auto_vm_0_mem_6@A80000000 {
-		no-map;
-		reg = <0xA 0x80000000 0x0 0xC0000000>;
-	};
-
-	auto_vm_0_mem_7: auto_vm_0_mem_7@b43000000 {
+	auto_vm_0_mem_5: auto_vm_0_mem_5@b43000000 {
 		no-map;
 		reg = <0xB 0x43000000 0x0 0x9D000000>;
 	};
