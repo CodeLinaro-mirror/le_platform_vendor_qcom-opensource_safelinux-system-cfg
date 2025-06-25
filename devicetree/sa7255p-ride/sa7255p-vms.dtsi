@@ -1,9 +1,13 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
  */
 
 #include <oot-dt-bindings/qcom-shmem.h>
+
+&pcie0 {
+	status = "disabled";
+};
 
 &soc {
 	auto_vm: qcom,auto_vm_0@b40000000 {

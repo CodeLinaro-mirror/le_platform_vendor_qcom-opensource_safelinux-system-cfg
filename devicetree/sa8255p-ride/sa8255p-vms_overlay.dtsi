@@ -1,0 +1,64 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+&mmidgrp100 {
+	/delete-property/ remote-vmids;
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp200 {
+	/delete-property/ remote-vmids;
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp300 {
+	/delete-property/ remote-vmids;
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp400 {
+	/delete-property/ remote-vmids;
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp500 {
+	/delete-property/ remote-vmids;
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp600 {
+	/delete-property/ remote-vmids;
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp1400 {
+	/delete-property/ remote-vmids;
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp1500 {
+	/delete-property/ remote-vmids;
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp1600 {
+	/delete-property/ remote-vmids;
+	remote-vmids = <2 3>;
+};
+
+&scmi4 {
+	status = "okay";
+};
+
+&soc {
+	scmi_ufs2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi4_pd 0>;
+		power-domain-names = "power";
+
+		qcom,dev-name = "scmi_ufs2";
+	};
+};
