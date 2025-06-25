@@ -877,69 +877,6 @@
 		qcom,dev-name = "test_scmi_power";
 	};
 
-	scmi_uart17 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi11_pd 17>, <&scmi11_dvfs 17>;
-		power-domain-names = "power", "perf";
-
-		qcom,dev-name = "scmi_uart17";
-	};
-
-	scmi_pcie0 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi5_pd 0>, <&scmi63_pd 0>;
-		power-domain-names = "power", "dummy";
-
-		qcom,dev-name = "scmi_pcie0";
-	};
-
-	scmi_wlan {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi24_pd 0>, <&scmi24_pd 1>;
-		power-domain-names = "power_regulator", "power_gpio";
-
-		qcom,dev-name = "scmi_wlan";
-	};
-
-	scmi_bluetooth {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi25_pd 0>;
-		power-domain-names = "power";
-
-		qcom,dev-name = "scmi_bluetooth";
-	};
-
-	scmi_emac1 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi37_pd 0>;
-		power-domain-names = "gvm_power_mdio";
-
-		qcom,dev-name = "scmi_emac1";
-	};
-
-	scmi_usb2 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi2_pd 0>, <&scmi2_pd 1>;
-		power-domain-names = "usb_transfer", "usb_core";
-
-		qcom,dev-name = "scmi_usb2";
-	};
-
-	scmi_usb2_phy2 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi14_pd 0>, <&scmi14_pd 1>;
-		power-domain-names = "usb_transfer", "usb_core";
-
-		qcom,dev-name = "scmi_usb2_phy2";
-	};
-
 	qfprom_pte: qfprom@780158 {
 		compatible = "qcom,sm8450-qfprom";
 		reg = <0x0 0x00780158 0x0 0x4>;
