@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ * Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
  * Copyright (c) 2023, Linaro Limited
  */
 
@@ -945,9 +945,9 @@
 		reg = <0x0 0x95700000 0x0 0x500000>;
         };
 
-	gptp_timedata_mem: gptp_timedata_region@ac5fe000 {
+	gptp_timedata_mem: gptp_timedata_region@acfff000 {
 		no-map;
-		reg = <0x0 0xAC5FE000 0x0 0x1000>;
+		reg = <0x0 0xACFFF000 0x0 0x1000>;
 	};
 };
 
