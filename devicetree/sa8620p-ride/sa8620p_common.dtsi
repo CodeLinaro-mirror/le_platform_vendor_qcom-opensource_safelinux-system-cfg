@@ -140,7 +140,7 @@
 };
 
 &scmi3 {
-	status = "okay";
+	status = "disabled";
 };
 
 &scmi5 {
@@ -257,7 +257,7 @@
 &ufs_mem_hc {
 	reset-gpios = <&tlmm 133 GPIO_ACTIVE_LOW>;
 	power-domains = <&scmi3_pd 0>;
-	status = "okay";
+	status = "disabled";
 };
 
 &usb_0 {
