@@ -606,11 +606,6 @@
 	#size-cells = <2>;
 	ranges;
 
-	mproc_umdpil_mem: mproc_umdpil_region@95700000 {
-		no-map;
-		reg = <0x0 0x95700000 0x0 0x500000>;
-	};
-
 	pil_adsp_mem: pil_adsp_region@95c00000 {
 		no-map;
 		reg = <0x0 0x95c00000 0x0 0x1e00000>;
