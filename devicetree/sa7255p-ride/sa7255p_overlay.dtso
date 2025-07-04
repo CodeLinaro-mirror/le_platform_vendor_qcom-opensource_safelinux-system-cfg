@@ -481,3 +481,15 @@
 		};
 	};
 };
+
+&usb_1 {
+	status = "disabled";
+};
+
+&usb_1_dwc3 {
+	status = "disabled";
+};
+
+&usb_1_hsphy {
+	status = "disabled";
+};
