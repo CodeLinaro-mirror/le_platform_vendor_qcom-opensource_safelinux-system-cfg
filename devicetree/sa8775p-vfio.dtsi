@@ -92,6 +92,14 @@
 		dma-coherent;
 	};
 
+	umd_ipcc_err_handler@1fc0000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x1fc0000 0x0 0x00040000>; /*IPCC_FUSA_ERR_BASE_ADDR*/
+		interrupts = <GIC_SPI 949 IRQ_TYPE_LEVEL_HIGH>; /*IPCC_FUSA_IRQ*/
+		iommus = <&apps_smmu 0x2A01 0x0>;
+		dma-coherent;
+	};
+
 	umd_llcc@9200000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x009200000 0x0 0x86A000>,
