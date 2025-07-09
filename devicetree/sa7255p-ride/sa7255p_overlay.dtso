@@ -13,6 +13,7 @@
 #include <oot-dt-bindings/qcom-ipcc.h>
 #include "sa7255p-pinctrl.dtsi"
 #include "sa7255p-vfio.dtsi"
+#include "sa7255p-cnss.dtsi"
 
 / {
 	model = "Qualcomm Technologies, Inc. SA7255P Ride";
