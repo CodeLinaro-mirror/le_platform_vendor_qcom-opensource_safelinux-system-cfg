@@ -3,6 +3,7 @@
  * Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
  */
 
+#include <dt-bindings/arm/qcom_dma_heap_dt_constants.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
 
 / {
@@ -366,6 +367,11 @@
 
 		cpucp_fw_mem: cpucp-fw@db200000 {
 			reg = <0x0 0xdb200000 0x0 0x100000>;
+			no-map;
+		};
+
+		non_ecc_heap_mem: non_ecc_heap_mem_region {
+			reg = <0xB 0x95800000 0x0 0x61200000>;
 			no-map;
 		};
 
@@ -2370,6 +2376,12 @@
 	qcom,dma-heaps {
 		compatible = "qcom,dma-heaps";
 		status = "okay";
+
+		qcom,non-ecc {
+			qcom,dma-heap-name = "qcom,non-ecc";
+			qcom,dma-heap-type = <HEAP_TYPE_CARVEOUT>;
+			memory-region = <&non_ecc_heap_mem>;
+		};
 	};
 
 	qcom,secure-buffer {
