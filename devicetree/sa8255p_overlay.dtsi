@@ -977,5 +977,12 @@
 		reg-names = "error_status", "ahb_hreset_status", "por_ares_status";
 		qcom,por-ares-reset-bit = <2>;
 	};
+
+	qcom_l3_cache_config: qcom_l3_cache_config@0 {
+		compatible = "qcom,l3-cache-config";
+		status = "okay";
+		nr_clusters = <2>;
+		nr_cpus = <4>;
+	};
 };
 
