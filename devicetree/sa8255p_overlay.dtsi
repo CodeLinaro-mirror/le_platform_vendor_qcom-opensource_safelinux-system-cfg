@@ -896,3 +896,49 @@
 	};
 };
 
+&tlmm {
+	ethernet0_default: ethernet0-default-state {
+		ethernet0_mdc: ethernet0-mdc-pins {
+			pins = "gpio8";
+			function = "emac0_mdc";
+			drive-strength = <16>;
+			bias-pull-up;
+		};
+
+		ethernet0_mdio: ethernet0-mdio-pins {
+			pins = "gpio9";
+			function = "emac0_mdio";
+			drive-strength = <16>;
+			bias-pull-up;
+		};
+
+		ethernet0_pps_o_0: ethernet0-pps-o-0-pins {
+			pins = "gpio6";
+			function = "emac0_ptp_pps";
+			output-enable;
+		};
+
+		ethernet0_pps_o_1: ethernet0-pps-o-1-pins {
+			pins = "gpio10";
+			function = "emac0_ptp_pps";
+			output-enable;
+		};
+
+		ethernet0_pps_o_2: ethernet0-pps-o-2-pins {
+			pins = "gpio11";
+			function = "emac0_ptp_pps";
+			output-enable;
+		};
+
+		ethernet0_pps_o_3: ethernet0-pps-o-3-pins {
+			pins = "gpio12";
+			function = "emac0_ptp_pps";
+			output-enable;
+		};
+	};
+};
+
+&ethernet0 {
+	pinctrl-0 = <&ethernet0_default>;
+	pinctrl-names = "default";
+};
