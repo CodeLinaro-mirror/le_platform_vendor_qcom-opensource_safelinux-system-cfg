@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ * Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
  */
 
 /dts-v1/;
@@ -12,7 +12,6 @@
 #include "sa8620p-scmi.dtsi"
 #include "sa7255p-vfio.dtsi"
 #include "sa8620p-pinctrl.dtsi"
-#include "sa8255p-pmics.dtsi"
 
 / {
 	compatible = "qcom,sa8620p-ride","qcom,sa8620p";
@@ -174,10 +173,6 @@
 };
 
 &scmi22 {
-	status = "okay";
-};
-
-&scmi23 {
 	status = "okay";
 };
 
@@ -383,20 +378,4 @@
 			bias-pull-up;
 		};
 	};
-};
-
-&pmm8654au_0_thermal {
-	thermal-sensors = <&scmi23_sensor 0>;
-};
-
-&pmm8654au_1_thermal {
-	thermal-sensors = <&scmi23_sensor 1>;
-};
-
-&pmm8654au_2_thermal {
-	thermal-sensors = <&scmi23_sensor 2>;
-};
-
-&pmm8654au_3_thermal {
-	thermal-sensors = <&scmi23_sensor 3>;
 };
