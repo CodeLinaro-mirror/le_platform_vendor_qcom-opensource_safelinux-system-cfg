@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
  */
 
 #include <dt-bindings/interrupt-controller/irq.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/arm/qcom_dma_heap_dt_constants.h>
 #include <oot-dt-bindings/qcom-ipcc.h>
 #include "sa8775p-pinctrl.dtsi"
 #include "sa8775p-vfio.dtsi"
@@ -20,6 +21,10 @@
 	qcom,board-id = <0x10019 0>, <0x1010019 1>, <0x10025 0>, <0x1010025 1>;
 	#address-cells = <2>;
 	#size-cells = <2>;
+
+	chosen {
+		bootargs = "pd_ignore_unused";
+	};
 
 	kaslr_store {
 		compatible = "qcom,kaslr-off-store";
@@ -94,6 +99,14 @@
 		gptp_timedata_mem: gptp_timedata_region@acfff000 {
 			no-map;
 			reg = <0x0 0xacfff000 0x0 0x1000>;
+		};
+
+		tzcom_mem: qcom,tzcom {
+			compatible = "shared-dma-pool";
+			alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;
+			reusable;
+			alignment = <0x0 0x400000>;
+			size = <0x0 0x1400000>; /* 20M */
 		};
 	};
 };
@@ -681,7 +694,20 @@
 	};
 
 	ddr_bwprofiler {
-			compatible = "qcom,ddr_bwprofiler";
+			compatible = "qcom,sa8255_ddr_bwprofiler";
+			reg = <0x0 0x9200000 0x0 0x100000>,
+			      <0x0 0x9300000 0x0 0x100000>,
+			      <0x0 0x9400000 0x0 0x100000>,
+			      <0x0 0x9500000 0x0 0x100000>,
+			      <0x0 0x9600000 0x0 0x100000>,
+			      <0x0 0x9700000 0x0 0x100000>,
+			      <0x0 0x9152000 0x0 0x001000>,
+			      <0x0 0x9153000 0x0 0x001000>,
+			      <0x0 0x9154000 0x0 0x001000>,
+			      <0x0 0x9155000 0x0 0x001000>,
+			      <0x0 0x9156000 0x0 0x001000>,
+			      <0x0 0x9157000 0x0 0x001000>,
+			      <0x0 0x17A0000 0x0 0x040000>;
 	};
 
 	scmi_mdss0 {
@@ -931,6 +957,11 @@
 	qcom,dma-heaps {
 		compatible = "qcom,dma-heaps";
 		status = "okay";
+		qcom,tzcom {
+			qcom,dma-heap-name = "qcom,tzcom";
+			qcom,dma-heap-type = <HEAP_TYPE_CMA>;
+			memory-region = <&tzcom_mem>;
+		};
 	};
 
 	qcom,secure-buffer {
@@ -945,6 +976,13 @@
 		      <0x0 0xf1bb008 0x0 0x4>;
 		reg-names = "error_status", "ahb_hreset_status", "por_ares_status";
 		qcom,por-ares-reset-bit = <2>;
+	};
+
+	qcom_l3_cache_config: qcom_l3_cache_config@0 {
+		compatible = "qcom,l3-cache-config";
+		status = "okay";
+		nr_clusters = <2>;
+		nr_cpus = <4>;
 	};
 };
 

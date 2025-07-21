@@ -1,9 +1,25 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
  */
 
 #include <oot-dt-bindings/qcom-shmem.h>
+
+&pcie0 {
+	status = "disabled";
+};
+
+&usb_1 {
+	status = "disabled";
+};
+
+&usb_1_dwc3 {
+	status = "disabled";
+};
+
+&usb_1_hsphy {
+	status = "disabled";
+};
 
 &soc {
 	auto_vm: qcom,auto_vm_0@b40000000 {
@@ -311,6 +327,25 @@
 				&auto_vm_0_be38
 				&auto_vm_0_be39
 				&auto_vm_0_be40>;
+	};
+
+	/* SCMI node for USB2 controller power management */
+	scmi_usb2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi2_pd 0>, <&scmi2_pd 1>;
+		power-domain-names = "usb_transfer", "usb_core";
+
+		qcom,dev-name = "scmi_usb2";
+	};
+
+	scmi_usb2_phy2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi14_pd 0>, <&scmi14_pd 1>;
+		power-domain-names = "usb_transfer", "usb_core";
+
+		qcom,dev-name = "scmi_usb2_phy2";
 	};
 };
 
