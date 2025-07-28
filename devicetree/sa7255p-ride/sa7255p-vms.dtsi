@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
  */
 
 #include <oot-dt-bindings/qcom-shmem.h>
@@ -628,9 +628,9 @@
 		gunyah-label = <0x50>;
 	};
 
-	auto_vm_0_mem_0: auto_vm_0_mem_0@db300000 {
+	auto_vm_0_mem_0: auto_vm_0_mem_0@e0000000 {
 		no-map;
-		reg = <0x0 0xdb300000 0x0 0x19000000>;/*400M*/
+		reg = <0x0 0xe0000000 0x0 0x19000000>;/*400M*/
 	};
 
 	auto_vm_0_mem_1: auto_vm_0_mem_1@a80000000 {
