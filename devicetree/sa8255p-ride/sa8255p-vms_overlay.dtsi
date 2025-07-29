@@ -62,3 +62,7 @@
 		qcom,dev-name = "scmi_ufs2";
 	};
 };
+
+&ufs_mem_hc2 {
+	status = "disabled";
+};
