@@ -40,6 +40,7 @@ dtb-y += sa8255p-ride/sa8255p-sw-eth-phy_overlay.dtbo
 dtb-y += sa8650p-ride/sa8650p-sw-eth-phy_overlay.dtbo
 dtb-y += sa7255p-ride/sa7255p-sw-eth-phy_overlay.dtbo
 dtb-y += sa8620p-ride/sa8620p-sw-eth-phy.dtb
+dtb-y += sa8650p-ride/sa8650p-ride-mx_overlay.dtbo
 endif
 
 #include common target file
