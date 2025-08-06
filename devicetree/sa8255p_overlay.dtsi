@@ -110,7 +110,7 @@
 		};
 
 		non_ecc_heap_mem: non_ecc_heap_mem_region {
-			reg = <0x9 0xC0000000 0x1 0x80000000>;
+			reg = <0x3 0x00000000 0x0 0x80000000>;
 			no-map;
 		};
 	};
