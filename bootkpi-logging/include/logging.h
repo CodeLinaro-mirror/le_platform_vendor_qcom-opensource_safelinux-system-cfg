@@ -1,13 +1,12 @@
-/*
- * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
- * SPDX-License-Identifier: BSD-3-Clause-Clear
- */
+/* SPDX-License-Identifier: BSD-3-Clause-Clear */
+/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
 
 #ifndef BOOTKPI_LOGGING_H
 #define BOOTKPI_LOGGING_H
 
 #include <stdio.h>
 #include <stdint.h>
+#include <time.h>
 #include "systemd/sd-daemon.h"
 
 #define BOOTKPI_LOG_PREFIX "qcom-bootkpi"
@@ -34,10 +33,13 @@
  * ... argument: variadic arguments. use the same arguments as printf
  */
 #define bootkpi_log_line(...) \
-    do { \
-        fprintf(stdout, SD_NOTICE BOOTKPI_LOG_PREFIX ": " __VA_ARGS__); \
-        fprintf(stdout, "\n"); \
-    } while (0)
-
+	do { \
+		struct timespec ts; \
+		clock_gettime(CLOCK_BOOTTIME, &ts); \
+		fprintf(stdout, SD_NOTICE BOOTKPI_LOG_PREFIX ": realtime=[%ld.%09ld] ",\
+		ts.tv_sec, ts.tv_nsec); \
+		fprintf(stdout, __VA_ARGS__); \
+		fprintf(stdout, "\n"); \
+	} while (0)
 
 #endif // BOOTKPI_LOGGING_H
