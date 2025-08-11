@@ -1266,11 +1266,6 @@
 		};
 
 		ddr_bwprofiler {
-<<<<<<< HEAD   (915ef6 Merge "devicetree: overlay: Change iommu SID offset for ethe)
-			compatible = "qcom,ddr_bwprofiler";
-			clocks = <&aoss_qmp>;
-			clock-names = "qdss_clk";
-=======
 			compatible = "qcom,sa7255_ddr_bwprofiler";
 			reg = <0x0 0x9200000 0x0 0x100000>,
 			      <0x0 0x9300000 0x0 0x100000>,
@@ -1281,7 +1276,6 @@
 			      <0x0 0x915f000 0x0 0x001000>,
 			      <0x0 0x915e000 0x0 0x001000>,
 			      <0x0 0x17A0000 0x0 0x040000>;
->>>>>>> CHANGE (8bd0bc devicetree: ddr_bwprofiler: add ddr registers to nodes)
 		};
 
 		ufs_mem_hc: ufs@1d84000 {
