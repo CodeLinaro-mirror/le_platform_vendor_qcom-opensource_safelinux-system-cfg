@@ -868,6 +868,7 @@
 			<GIC_SPI 366 IRQ_TYPE_EDGE_RISING>;
 		iommus = <&apps_smmu 0x3400 0x0020>;
 		dma-coherent;
+		qcom,iova-align-shift-max = <21>;
 	};
 
 	vfio_cam_ipe_non_secure_cb {
@@ -875,12 +876,14 @@
 		iommus = <&apps_smmu 0x800 0x0400>;
 		dma-coherent;
 		qcom,iommu-dma-addr-pool = <0x0 0x800000 0x0 0xDF800000>;
+		qcom,iova-align-shift-max = <21>;
 	};
 
 	vfio_cam_cdm_non_secure_cb {
 		compatible = "qcom,vfio-platform";
 		iommus = <&apps_smmu 0x860 0x0400>;
 		dma-coherent;
+		qcom,iova-align-shift-max = <21>;
 	};
 
 	vfio_cam_icp_non_secure_cb {
@@ -888,6 +891,7 @@
 		iommus = <&apps_smmu 0x840 0x0480>;
 		dma-coherent;
 		qcom,iommu-dma-addr-pool = <0x0 0x800000 0x0 0xDF800000>;
+		qcom,iova-align-shift-max = <21>;
 	};
 
 	vfio_cci0@0 {
