@@ -45,6 +45,11 @@
 	qcom,dst-perms = <QCOM_PERM_RW QCOM_PERM_RW>;
 };
 
+
+&non_ecc_heap_mem {
+	reg = <0x9 0xC0000000 0x1 0x80000000>;
+};
+
 &soc {
 	auto_vm: qcom,auto_vm@b40000000 {
 		reg = <0xb 0x40000000 0x0 0x3000000>;
