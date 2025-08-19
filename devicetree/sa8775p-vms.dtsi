@@ -1,9 +1,10 @@
-// SPDX-License-Identifier: GPL-2.0-only
+// SPDX-License-Identifier: BSD-3-Clause
 /*
-* Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
-*/
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
 
 #include <oot-dt-bindings/qcom-shmem.h>
+#include "sa8775p-vms-uscmi.dtsi"
 
 &gptp_timedata_mem {
 	qcom,is-shared;
@@ -340,7 +341,13 @@
 		qcom,vmid = <52>;
 		qcom,firmware-name = "autoghgvm";
 		qcom,firmware-index = <0>;
-		memory-region = <&auto_vm_0_mem_0 &auto_vm_0_mem_1 &auto_vm_0_mem_2 &auto_vm_0_mem_3 &auto_vm_0_mem_4 &auto_vm_0_mem_5 &auto_vm_0_mem_6>;
+		memory-region = <&auto_vm_0_mem_0
+				&auto_vm_0_mem_1
+				&auto_vm_0_mem_2
+				&auto_vm_0_mem_3
+				&auto_vm_0_mem_4
+				&auto_vm_0_mem_5
+				>;
 		shared-regions = <&glink_cma_mem &gptp_timedata_mem &vm_cp_pixel &vm_cp_bitstream &tlmm &qupv3_id_0 &qupv3_id_1 &qupv3_id_2>;
 		enable-gvm-dump;
 		virtio-backends = <&auto_vm_be0
@@ -726,53 +733,48 @@
 		gunyah-label = <0x50>;
 	};
 
-	vm_cp_pixel: vm_cp_pixel@BA0000000 {
+	vm_cp_pixel: vm_cp_pixel@BE0000000 {
 		no-map;
-		reg = <0xB 0xA0000000 0x0 0x10000000>;
+		reg = <0xB 0xE0000000 0x0 0x10000000>;
 		gunyah-label = <0xC0A>;
 		qcom,is-phantom;
 	};
 
-	vm_cp_bitstream: vm_cp_bitstream@BB0000000 {
+	vm_cp_bitstream: vm_cp_bitstream@BF0000000 {
 		no-map;
-		reg = <0xB 0xB0000000 0x0 0x10000000>;
+		reg = <0xB 0xF0000000 0x0 0x10000000>;
 		gunyah-label = <0xC09>;
 		qcom,is-phantom;
 	};
 
-	auto_vm_0_mem_0: auto_vm_0_mem_0@e00000000 {
+	auto_vm_0_mem_0: auto_vm_0_mem_0@db300000 {
 		no-map;
-		reg = <0x0 0xE0000000 0x0 0x20000000>;
+		reg = <0x0 0xDB300000 0x0 0x18000000>;
 	};
 
-	auto_vm_0_mem_1: auto_vm_0_mem_1@1800000000 {
+	auto_vm_0_mem_1: auto_vm_0_mem_1@1C0000000 {
 		no-map;
-		reg = <0x1 0x80000000 0x0 0xC0000000>;
+		reg = <0x1 0xC0000000 0x0 0xC0000000>;
 	};
 
-	auto_vm_0_mem_2: auto_vm_0_mem_2@240000000 {
+	auto_vm_0_mem_2: auto_vm_0_mem_2@280000000 {
 		no-map;
-		reg = <0x2 0x40000000 0x0 0xC0000000>;
+		reg = <0x2 0x80000000 0x0 0xC0000000>;
 	};
 
-	auto_vm_0_mem_3: auto_vm_0_mem_3@a300000000 {
+	auto_vm_0_mem_3: auto_vm_0_mem_3@340000000 {
 		no-map;
-		reg = <0xA 0x30000000 0x0 0x50000000>;
+		reg = <0x3 0x40000000 0x0 0xC0000000>;
 	};
 
-	auto_vm_0_mem_4: auto_vm_0_mem_4@a80000000 {
+	auto_vm_0_mem_4: auto_vm_0_mem_4@900000000 {
 		no-map;
-		reg = <0xA 0x80000000 0x0 0xC0000000>;
+		reg = <0x9 0x00000000 0x0 0xC0000000>;
 	};
 
-	auto_vm_0_mem_5: auto_vm_0_mem_5@b42000000 {
+	auto_vm_0_mem_5: auto_vm_0_mem_5@b43000000 {
 		no-map;
-		reg = <0xB 0x43000000 0x0 0x5D000000>;
-	};
-
-	auto_vm_0_mem_6: auto_vm_0_mem_6@d000000000 {
-		no-map;
-		reg = <0xD 0x00000000 0x0 0xC0000000>;
+		reg = <0xB 0x43000000 0x0 0x9D000000>;
 	};
 };
 

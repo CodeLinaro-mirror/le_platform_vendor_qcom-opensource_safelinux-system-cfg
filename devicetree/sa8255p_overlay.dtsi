@@ -96,9 +96,9 @@
 			no-map;
 		};
 
-		gptp_timedata_mem: gptp_timedata_region@acfff000 {
+		gptp_timedata_mem: gptp_timedata_region@ac5fe000 {
 			no-map;
-			reg = <0x0 0xacfff000 0x0 0x1000>;
+			reg = <0x0 0xac5fe000 0x0 0x1000>;
 		};
 
 		tzcom_mem: qcom,tzcom {
@@ -108,23 +108,16 @@
 			alignment = <0x0 0x400000>;
 			size = <0x0 0x1400000>; /* 20M */
 		};
+
+		non_ecc_heap_mem: non_ecc_heap_mem_region {
+			reg = <0x9 0xC0000000 0x1 0x80000000>;
+			no-map;
+		};
 	};
 };
 
 &ipcc1 {
 	status = "okay";
-};
-
-&usb_2 {
-	status = "disabled";
-};
-
-&usb_2_dwc3 {
-	status = "disabled";
-};
-
-&usb_2_hsphy {
-	status = "disabled";
 };
 
 &spi16 {
@@ -877,69 +870,6 @@
 		qcom,dev-name = "test_scmi_power";
 	};
 
-	scmi_uart17 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi11_pd 17>, <&scmi11_dvfs 17>;
-		power-domain-names = "power", "perf";
-
-		qcom,dev-name = "scmi_uart17";
-	};
-
-	scmi_pcie0 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi5_pd 0>, <&scmi63_pd 0>;
-		power-domain-names = "power", "dummy";
-
-		qcom,dev-name = "scmi_pcie0";
-	};
-
-	scmi_wlan {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi24_pd 0>, <&scmi24_pd 1>;
-		power-domain-names = "power_regulator", "power_gpio";
-
-		qcom,dev-name = "scmi_wlan";
-	};
-
-	scmi_bluetooth {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi25_pd 0>;
-		power-domain-names = "power";
-
-		qcom,dev-name = "scmi_bluetooth";
-	};
-
-	scmi_emac1 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi37_pd 0>;
-		power-domain-names = "gvm_power_mdio";
-
-		qcom,dev-name = "scmi_emac1";
-	};
-
-	scmi_usb2 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi2_pd 0>, <&scmi2_pd 1>;
-		power-domain-names = "usb_transfer", "usb_core";
-
-		qcom,dev-name = "scmi_usb2";
-	};
-
-	scmi_usb2_phy2 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi14_pd 0>, <&scmi14_pd 1>;
-		power-domain-names = "usb_transfer", "usb_core";
-
-		qcom,dev-name = "scmi_usb2_phy2";
-	};
-
 	qfprom_pte: qfprom@780158 {
 		compatible = "qcom,sm8450-qfprom";
 		reg = <0x0 0x00780158 0x0 0x4>;
@@ -961,6 +891,12 @@
 			qcom,dma-heap-name = "qcom,tzcom";
 			qcom,dma-heap-type = <HEAP_TYPE_CMA>;
 			memory-region = <&tzcom_mem>;
+		};
+
+		qcom,non-ecc {
+			qcom,dma-heap-name = "qcom,non-ecc";
+			qcom,dma-heap-type = <HEAP_TYPE_CARVEOUT>;
+			memory-region = <&non_ecc_heap_mem>;
 		};
 	};
 
@@ -986,3 +922,49 @@
 	};
 };
 
+&tlmm {
+	ethernet0_default: ethernet0-default-state {
+		ethernet0_mdc: ethernet0-mdc-pins {
+			pins = "gpio8";
+			function = "emac0_mdc";
+			drive-strength = <16>;
+			bias-pull-up;
+		};
+
+		ethernet0_mdio: ethernet0-mdio-pins {
+			pins = "gpio9";
+			function = "emac0_mdio";
+			drive-strength = <16>;
+			bias-pull-up;
+		};
+
+		ethernet0_pps_o_0: ethernet0-pps-o-0-pins {
+			pins = "gpio6";
+			function = "emac0_ptp_pps";
+			output-enable;
+		};
+
+		ethernet0_pps_o_1: ethernet0-pps-o-1-pins {
+			pins = "gpio10";
+			function = "emac0_ptp_pps";
+			output-enable;
+		};
+
+		ethernet0_pps_o_2: ethernet0-pps-o-2-pins {
+			pins = "gpio11";
+			function = "emac0_ptp_pps";
+			output-enable;
+		};
+
+		ethernet0_pps_o_3: ethernet0-pps-o-3-pins {
+			pins = "gpio12";
+			function = "emac0_ptp_pps";
+			output-enable;
+		};
+	};
+};
+
+&ethernet0 {
+	pinctrl-0 = <&ethernet0_default>;
+	pinctrl-names = "default";
+};

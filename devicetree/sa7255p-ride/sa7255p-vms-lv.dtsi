@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
  */
 
 &soc {
@@ -539,13 +539,49 @@
 		gunyah-label = <0x140>;
 	};
 
-	auto_vm_1_mem_0: auto_vm_1_mem_0@a1000000 {
+	auto_vm_1_mem_0: auto_vm_1_mem_0@f3300000 {
 		no-map;
-		reg = <0x0 0xa1000000 0x0 0xBFF0000>; /*191MB*/
+		reg = <0x0 0xF3300000 0x0 0xCD00000>; /*205MB*/
 	};
 
-	auto_vm_1_mem_1: auto_vm_1_mem_1@e83000000 {
+	auto_vm_1_mem_1: auto_vm_1_mem_1@f02000000 {
 		no-map;
-		reg = <0xe 0x83000000 0x0 0x80000000>; /*2GB*/
+		reg = <0xf 0x02000000 0x0 0x58400000>; /*1413.5MB*/
 	};
+};
+
+&mmidgrp100 {
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp200 {
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp300 {
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp400 {
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp500 {
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp600 {
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp1400 {
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp1500 {
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp1600 {
+	remote-vmids = <2 3>;
 };

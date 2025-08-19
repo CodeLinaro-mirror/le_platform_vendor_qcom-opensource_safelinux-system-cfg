@@ -3,6 +3,7 @@
  * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
  */
 
+#include <dt-bindings/arm/qcom_dma_heap_dt_constants.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
 #include <dt-bindings/arm/qcom_dma_heap_dt_constants.h>
 
@@ -272,12 +273,12 @@
 
 		camera_mem: camera_region@95200000 {
 			no-map;
-			reg = <0x0 0x95200000 0x0 0x500000>;
+			reg = <0x0 0x95200000 0x0 0x800000>;
 		};
 
-		mproc_umdpil_mem: mproc_umdpil_region@95700000 {
+		mproc_umdpil_mem: mproc_umdpil_region@95a00000 {
 			no-map;
-			reg = <0x0 0x95700000 0x0 0x500000>;
+			reg = <0x0 0x95a00000 0x0 0x200000>;
 		};
 
 		adsp_mem: adsp_region@95c00000 {
@@ -376,6 +377,11 @@
 			reusable;
 			alignment = <0x0 0x400000>;
 			size = <0x0 0x1400000>; /* 20M */
+		};
+
+		non_ecc_heap_mem: non_ecc_heap_mem_region {
+			reg = <0xB 0x95800000 0x0 0x61200000>;
+			no-map;
 		};
 
 		cma: linux,cma {
@@ -1628,7 +1634,9 @@
 
 		pcie0: pci@400000000 {
 			compatible = "qcom,pcie-ecam-rc";
-			reg = <0x4 0x00000000 0x0 0x10000000>;
+			reg = <0x4 0x00000000 0x0 0x10000000>,
+			      <0x0 0x01c00000 0x0 0x3000>;
+			reg-names = "dbi", "parf";
 
 			device_type = "pci";
 
@@ -1651,7 +1659,11 @@
 				     <GIC_SPI 313 IRQ_TYPE_LEVEL_HIGH>,
 				     <GIC_SPI 314 IRQ_TYPE_LEVEL_HIGH>,
 				     <GIC_SPI 374 IRQ_TYPE_LEVEL_HIGH>,
-				     <GIC_SPI 375 IRQ_TYPE_LEVEL_HIGH>;
+				     <GIC_SPI 375 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-names = "msi0", "msi1", "msi2", "msi3",
+					  "msi4", "msi5", "msi6", "msi7",
+					  "global_int";
 			interrupt-parent = <&intc>;
 
 			iommus = <&pcie_smmu 0x00 0x7f>;
@@ -1665,7 +1677,9 @@
 
 		pcie1: pci@600000000 {
 			compatible = "qcom,pcie-ecam-rc";
-			reg = <0x6 0x00000000 0x0 0x10000000>;
+			reg = <0x6 0x00000000 0x0 0x10000000>,
+			      <0x0 0x01c10000 0x0 0x3000>;
+			reg-names = "dbi", "parf";
 
 			device_type = "pci";
 
@@ -1688,7 +1702,11 @@
 				     <GIC_SPI 143 IRQ_TYPE_LEVEL_HIGH>,
 				     <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>,
 				     <GIC_SPI 145 IRQ_TYPE_LEVEL_HIGH>,
-				     <GIC_SPI 146 IRQ_TYPE_LEVEL_HIGH>;
+				     <GIC_SPI 146 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 518 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-names = "msi0", "msi1", "msi2", "msi3",
+					  "msi4", "msi5", "msi6", "msi7",
+					  "global_int";
 			interrupt-parent = <&intc>;
 
 			iommus = <&pcie_smmu 0x80 0x7f>;
@@ -1723,9 +1741,9 @@
                         #size-cells = <2>;
                 };
 
-                qfprom_tcsr: qfprom@1FFF018 {
+		qfprom_tcsr: qfprom@1FFF014 {
                         compatible = "qcom,sm8450-qfprom";
-                        reg = <0x0 0x1FFF018 0x0 0x4>;
+			reg = <0x0 0x1FFF014 0x0 0x4>;
                         #address-cells = <2>;
                         #size-cells = <2>;
                 };
@@ -2527,6 +2545,12 @@
 			qcom,dma-heap-name = "qcom,tzcom";
 			qcom,dma-heap-type = <HEAP_TYPE_CMA>;
 			memory-region = <&tzcom_mem>;
+		};
+
+		qcom,non-ecc {
+			qcom,dma-heap-name = "qcom,non-ecc";
+			qcom,dma-heap-type = <HEAP_TYPE_CARVEOUT>;
+			memory-region = <&non_ecc_heap_mem>;
 		};
 	};
 

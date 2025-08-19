@@ -8,3 +8,5 @@
 
 #include "sa8775p-v3_overlay.dtso"
 #include "sa8775p-vms.dtsi"
+#include "sa8775p-vms-lv.dtsi"
+#include "sa8255p-ride/sa8255p-vms_overlay.dtsi"

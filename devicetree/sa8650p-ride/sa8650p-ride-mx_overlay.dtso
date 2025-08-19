@@ -9,18 +9,30 @@
 #include "sa8255p_overlay.dtsi"
 
 &{/} {
-	model = "Qualcomm Technologies, Inc. SA8650P Ride";
+	model = "Qualcomm Technologies, Inc. SA8650P Ride MX";
 	qcom,msm-id = <533 0x10000>, <533 0x20000>;
+	qcom,board-id = <0x4010025 4>, <0x2010025 2>;
 };
 
 &ethernet0 {
 	iommus = <&apps_smmu 0x120 0x7>;
+	mdio {
+		status = "disabled";
+	};
+
+	fixed-link {
+		status = "okay";
+		speed = <2500>;
+		full-duplex;
+	};
 };
 
 &ethernet1 {
 	iommus = <&apps_smmu 0x140 0x7>;
+	fixed-link {
+		status = "okay";
+		speed = <2500>;
+		full-duplex;
+	};
 };
 
-&non_ecc_heap_mem {
-	reg = <0x2 0x52000000 0x1 0xA8D00000>;
-};
