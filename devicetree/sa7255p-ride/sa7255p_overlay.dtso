@@ -184,24 +184,6 @@
 		qcom,dev-name = "scmi_eva";
 	};
 
-	scmi_uart2 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi11_pd 2>, <&scmi11_dvfs 2>;
-		power-domain-names = "power", "perf";
-
-		qcom,dev-name = "scmi_uart2";
-	};
-
-	scmi_uart3 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi11_pd 3>, <&scmi11_dvfs 3>;
-		power-domain-names = "power", "perf";
-
-		qcom,dev-name = "scmi_uart3";
-	};
-
 	scmi_gpce {
 		compatible = "qcom,uscmi";
 
@@ -209,33 +191,6 @@
 		power-domain-names = "gpce_clock";
 
 		qcom,dev-name = "scmi_gpce";
-	};
-
-	scmi_pcie0 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi5_pd 0>, <&scmi63_pd 0>;
-		power-domain-names = "power", "dummy";
-
-		qcom,dev-name = "scmi_pcie0";
-	};
-
-	scmi_bluetooth {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi25_pd 0>, <&scmi25_pd 1>;
-		power-domain-names = "power_regulator", "power_gpio";
-
-		qcom,dev-name = "scmi_bluetooth";
-	};
-
-	scmi_wlan {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi24_pd 0>, <&scmi24_pd 1>;
-		power-domain-names = "power_regulator", "power_gpio";
-
-		qcom,dev-name = "scmi_wlan";
 	};
 
 	rng: rng@10d2000 {
