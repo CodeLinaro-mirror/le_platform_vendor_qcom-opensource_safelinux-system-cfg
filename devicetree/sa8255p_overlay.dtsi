@@ -117,18 +117,6 @@
 	status = "okay";
 };
 
-&usb_2 {
-	status = "disabled";
-};
-
-&usb_2_dwc3 {
-	status = "disabled";
-};
-
-&usb_2_hsphy {
-	status = "disabled";
-};
-
 &spi16 {
 	spidevmaster@0 {
 		/* FIXME: Replace below compatible once we have proper dt-bindings
