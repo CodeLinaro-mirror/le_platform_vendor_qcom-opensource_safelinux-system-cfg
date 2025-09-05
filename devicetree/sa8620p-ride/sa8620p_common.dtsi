@@ -55,6 +55,12 @@
 		qcom,support-hypervisor;
 	};
 
+	scm_user_intf_sec_device {
+		compatible = "qcom,scm-user-intf-sec";
+		memory-region = <&cma>;
+		status = "ok";
+	};
+
 };
 
 &gpll0_board_clk {
