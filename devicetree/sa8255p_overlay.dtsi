@@ -32,6 +32,11 @@
 		reg = <0x0 0x146d86d0 0x0 0xc>;
 	};
 
+	imem_table {
+		compatible = "qcom,msm-imem-mem-dump-table";
+		reg = <0x0 0x146d8010 0x0 0x8>;
+	};
+
 	dload_type {
 	       compatible = "qcom,msm-imem-dload-type";
 	       reg = <0x0 0x146d801c 0x0 0x4>;
