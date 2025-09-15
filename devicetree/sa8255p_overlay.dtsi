@@ -11,6 +11,7 @@
 #include <oot-dt-bindings/qcom-ipcc.h>
 #include "sa8775p-pinctrl.dtsi"
 #include "sa8775p-vfio.dtsi"
+#include "sa8775p-cnss.dtsi"
 
 / {
 	model = "Qualcomm Technologies, Inc. SA8255P Ride";
@@ -110,7 +111,7 @@
 		};
 
 		non_ecc_heap_mem: non_ecc_heap_mem_region {
-			reg = <0x9 0xC0000000 0x1 0x80000000>;
+			reg = <0x3 0x00000000 0x0 0x80000000>;
 			no-map;
 		};
 	};
@@ -202,6 +203,13 @@
 };
 
 &scmi63 {
+	status = "okay";
+};
+
+&uart17 {
+	power-domains = <&scmi11_pd 17>, <&scmi11_dvfs 17>;
+	power-domain-names = "power", "perf";
+
 	status = "okay";
 };
 
