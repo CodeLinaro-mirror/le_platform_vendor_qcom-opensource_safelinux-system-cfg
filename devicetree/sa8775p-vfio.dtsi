@@ -1,6 +1,6 @@
-//SPDX-License-Identifier: GPL-2.0-only
 /*
-* Copyright (c) 2023-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+* SPDX-License-Identifier: GPL-2.0-only
+* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 */
 
 &soc {
@@ -1081,7 +1081,7 @@
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x1 0x0 0x0>;
 		iommus = <&adreno_smmu 0x2 0xc00>;
-		qcom,iommu-dma-addr-pool = <0x0 0xC0000000 0x0 0x3FFFF000>;
+		qcom,iommu-dma-addr-pool = <0x0 0x10000000 0x0 0x4FFFF000>;
 		qcom,iommu-vmid = <0xA>; // VMID_CP_PIXEL
 		qcom,secure-context-bank;
 		qcom,iommu-dma = "disabled";
