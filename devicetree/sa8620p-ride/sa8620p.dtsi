@@ -1735,14 +1735,14 @@
 		};
 
 		qfprom_pte: qfprom@780158 {
-                        compatible = "qcom,sm8450-qfprom";
+			compatible = "qcom,qfprom";
                         reg = <0x0 0x00780158 0x0 0x4>;
                         #address-cells = <2>;
                         #size-cells = <2>;
                 };
 
 		qfprom_tcsr: qfprom@1FFF014 {
-                        compatible = "qcom,sm8450-qfprom";
+			compatible = "qcom,qfprom";
 			reg = <0x0 0x1FFF014 0x0 0x4>;
                         #address-cells = <2>;
                         #size-cells = <2>;
