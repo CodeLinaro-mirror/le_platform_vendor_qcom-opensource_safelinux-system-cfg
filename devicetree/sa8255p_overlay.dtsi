@@ -98,7 +98,7 @@
 
 		gptp_timedata_mem: gptp_timedata_region@ac5fe000 {
 			no-map;
-			reg = <0x0 0xac5fe000 0x0 0x1000>;
+			reg = <0x0 0xac5fe000 0x0 0x2000>;
 		};
 
 		non_ecc_heap_mem: non_ecc_heap_mem_region {
