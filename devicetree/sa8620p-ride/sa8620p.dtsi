@@ -1650,6 +1650,11 @@
 			reg = <0x0 0x146d86d0 0x0 0xc>;
 		};
 
+		imem_table {
+			compatible = "qcom,msm-imem-mem-dump-table";
+			reg = <0x0 0x146d8010 0x0 0x8>;
+		};
+
 		qfprom_pte: qfprom@780158 {
 			compatible = "qcom,qfprom";
                         reg = <0x0 0x00780158 0x0 0x4>;
