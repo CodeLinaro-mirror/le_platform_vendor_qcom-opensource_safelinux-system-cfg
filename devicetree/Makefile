@@ -51,6 +51,12 @@ dtb-y += sa8255p-ride/sa8255p-vm_overlay.dtbo
 dtb-y += sa8255p-ride/sa8255p-vm-v3_overlay.dtbo
 dtb-y += sa8255p-ride/sa8255p-vm_overlay_pcie_ep.dtbo
 dtb-y += sa8255p-ride/sa8255p-vm-sw-eth-phy_overlay.dtbo
+ifeq ($(QCVIRTIO), true)
+dtb-y += sa8255p-ride/sa8255p-vm-agl_overlay.dtbo
+dtb-y += sa8255p-ride/sa8255p-vm-v3-agl_overlay.dtbo
+dtb-y += sa8255p-ride/sa8255p-vm-agl_overlay_pcie_ep.dtbo
+dtb-y += sa8255p-ride/sa8255p-vm-sw-eth-phy-agl_overlay.dtbo
+endif
 dtb-y += sa8775p-vm_overlay.dtbo
 dtb-y += sa8775p-vm-v3_overlay.dtbo
 dtb-y += sa8775p-vm_overlay_pcie_ep.dtbo

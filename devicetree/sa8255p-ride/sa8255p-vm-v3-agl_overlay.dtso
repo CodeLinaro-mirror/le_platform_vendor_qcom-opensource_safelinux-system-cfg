@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+/dts-v1/;
+/plugin/;
+
+#include "sa8255p-vm-v3_overlay.dtso"
+#include "sa8775p-vms-lv-agl.dtsi"
+
+&{/} {
+	model = "Qualcomm Technologies, Inc. SA8255P Ride V3 AGL";
+};
