@@ -213,6 +213,11 @@
 		reg = <0x0 0x146d86d0 0x0 0xc>;
 	};
 
+	imem_table {
+		compatible = "qcom,msm-imem-mem-dump-table";
+		reg = <0x0 0x146d8010 0x0 0x8>;
+	};
+
 	adreno_smmu_fusa {
 		compatible = "qcom,smmu500-tbu-fusa";
 		reg = <0x0 0x3da8000 0x0 0x20>,
