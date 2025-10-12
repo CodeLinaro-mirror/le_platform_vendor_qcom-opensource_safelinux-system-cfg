@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+/dts-v1/;
+/plugin/;
+
+#include "sa8775p-vm-sw-eth-phy_overlay.dtso"
+#include "sa8775p-vms-trout.dtsi"
+
+&{/} {
+	model = "Qualcomm Technologies, Inc. SA8775P Ride Switch Ethernet PHY Trout";
+};

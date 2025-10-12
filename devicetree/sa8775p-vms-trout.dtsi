@@ -1,0 +1,168 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+&auto_vm {
+	shared-buffers = <&auto_vm_vblk0_ring
+				&auto_vm_vblk1_ring
+				&auto_vm_vblk2_ring
+				&auto_vm_vblk3_ring
+				&auto_vm_vblk4_ring
+				&auto_vm_vblk5_ring
+				&auto_vm_vblk6_ring
+				&auto_vm_vblk7_ring
+				&auto_vm_vblk8_ring
+				&auto_vm_vblk9_ring
+				&auto_vm_vblk10_ring
+				&auto_vm_vblk11_ring
+				&auto_vm_vblk12_ring
+				&auto_vm_vblk13_ring
+				&auto_vm_vblk14_ring
+				&auto_vm_vblk15_ring
+				&auto_vm_vblk16_ring
+				&auto_vm_vblk17_ring
+				&auto_vm_vblk18_ring
+				&auto_vm_vblk19_ring
+				&auto_vm_vblk20_ring
+				&auto_vm_vblk21_ring
+				&auto_vm_vblk22_ring
+				&auto_vm_vblk23_ring
+				&auto_vm_vblk24_ring
+				&auto_vm_vnet0_ring
+				&auto_vm_vnet1_ring
+				&auto_vm_vhab0_ring
+				&auto_vm_vhab1_ring
+				&auto_vm_vhab2_ring
+				&auto_vm_vhab3_ring
+				&auto_vm_vhab4_ring
+				&auto_vm_vhab5_ring
+				&auto_vm_vhab6_ring
+				&auto_vm_vhab7_ring
+				&auto_vm_vhab8_ring
+				&auto_vm_input0_ring
+				&auto_vm_input1_ring
+				&auto_vm_vconsole_ring
+				&auto_vm_vscmi_ring
+				&auto_vm_vsock_ring
+				&auto_vm_glink_ring
+				&auto_vm_frpc_ring
+				&auto_vm_i2c0_ring
+				&auto_vm_ssr_ring
+				&auto_vm_eavb_ring
+				&auto_vm_vgpu_ring
+				&auto_vm_vsnd_ring
+				&auto_vm_vinp_ring
+				&auto_vm_vnet_ring
+				&auto_vm_resv_ring
+				&auto_vm_swiotlb
+				>;
+};
+
+&soc {
+	auto_vm_be47: auto_vm_be47@4F {
+		qcom,vm = <&auto_vm>;
+		qcom,label = <0x4F>;
+	};
+
+	auto_vm_be48: auto_vm_be48@51 {
+		qcom,vm = <&auto_vm>;
+		qcom,label = <0x51>;
+	};
+
+	auto_vm_be49: auto_vm_be49@52 {
+		qcom,vm = <&auto_vm>;
+		qcom,label = <0x52>;
+	};
+
+	auto_vm_be50: auto_vm_be50@53 {
+		qcom,vm = <&auto_vm>;
+		qcom,label = <0x53>;
+	};
+};
+
+&auto_vm_0 {
+	virtio-backends = <&auto_vm_be0
+				&auto_vm_be1
+				&auto_vm_be2
+				&auto_vm_be3
+				&auto_vm_be4
+				&auto_vm_be5
+				&auto_vm_be6
+				&auto_vm_be7
+				&auto_vm_be8
+				&auto_vm_be9
+				&auto_vm_be10
+				&auto_vm_be11
+				&auto_vm_be12
+				&auto_vm_be13
+				&auto_vm_be14
+				&auto_vm_be15
+				&auto_vm_be16
+				&auto_vm_be17
+				&auto_vm_be18
+				&auto_vm_be19
+				&auto_vm_be20
+				&auto_vm_be21
+				&auto_vm_be22
+				&auto_vm_be23
+				&auto_vm_be24
+				&auto_vm_be25
+				&auto_vm_be26
+				&auto_vm_be27
+				&auto_vm_be28
+				&auto_vm_be29
+				&auto_vm_be30
+				&auto_vm_be31
+				&auto_vm_be32
+				&auto_vm_be33
+				&auto_vm_be34
+				&auto_vm_be35
+				&auto_vm_be36
+				&auto_vm_be37
+				&auto_vm_be38
+				&auto_vm_be39
+				&auto_vm_be40
+				&auto_vm_be41
+				&auto_vm_be42
+				&auto_vm_be43
+				&auto_vm_be44
+				&auto_vm_be45
+				&auto_vm_be46
+				&auto_vm_be47
+				&auto_vm_be48
+				&auto_vm_be49
+				&auto_vm_be50>;
+};
+
+&{/reserved-memory} {
+	auto_vm_vgpu_ring: auto_vm_vgpu_ring@B40242000 {
+		no-map;
+		reg = <0xB 0x40242000 0x0 0x8000>;
+		gunyah-label = <0x4E>;
+	};
+
+	auto_vm_vsnd_ring: auto_vm_vsnd_ring@B4024A000 {
+		no-map;
+		reg = <0xB 0x4024A000 0x0 0x8000>;
+		gunyah-label = <0x4F>;
+	};
+
+	auto_vm_vinp_ring: auto_vm_vinp_ring@B40252000 {
+		no-map;
+		reg = <0xB 0x40252000 0x0 0x4000>;
+		gunyah-label = <0x51>;
+	};
+
+	auto_vm_vnet_ring: auto_vm_vnet_ring@B40256000 {
+		no-map;
+		reg = <0xb 0x40256000 0x0 0x8000>;
+		gunyah-label = <0x52>;
+	};
+};
+
+&auto_vm_resv_ring {
+	no-map;
+	reg = <0xB 0x4025E000 0x0 0xDA2000>;
+	gunyah-label = <0x53>;
+};

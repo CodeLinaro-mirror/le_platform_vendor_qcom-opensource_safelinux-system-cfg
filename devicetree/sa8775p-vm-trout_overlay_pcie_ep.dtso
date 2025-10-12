@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+/dts-v1/;
+/plugin/;
+
+#include "sa8775p-vm_overlay_pcie_ep.dtso"
+#include "sa8775p-vms-trout.dtsi"
+
+&{/} {
+	model = "Qualcomm Technologies, Inc. SA8775P Star SIP with PCIE configured in EP Mode Trout";
+};
