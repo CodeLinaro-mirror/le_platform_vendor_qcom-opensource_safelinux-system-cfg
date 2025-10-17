@@ -44,6 +44,7 @@
 				&auto_vm1_vblk21_ring
 				&auto_vm1_qcvirtio_net_ring
 				&auto_vm1_qcvirtio_con_ring
+				&auto_vm1_qcvirtio_inp_ring
 				&auto_vm1_resv0_ring
 				&auto_vm1_resv1_ring
 				&auto_vm1_swiotlb>;
@@ -58,6 +59,11 @@
 	auto_vm1_be41: auto_vm1_be41@129 {
 		qcom,vm = <&auto_vm1>;
 		qcom,label = <0x129>;
+	};
+
+	auto_vm1_be42: auto_vm1_be42@130 {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x130>;
 	};
 };
 
@@ -104,6 +110,7 @@
 				&auto_vm1_be39
 				&auto_vm1_be40
 				&auto_vm1_be41
+				&auto_vm1_be42
 		>;
 };
 
@@ -119,14 +126,20 @@
 		reg = <0xf 0x001e6000 0x0 0x8000>;
 		gunyah-label = <0x127>;
 	};
+
+	auto_vm1_qcvirtio_inp_ring: auto_vm1_qcvirtio_inp_ring@f001ee000 {
+		no-map;
+		reg = <0xf 0x001ee000 0x0 0x4000>;
+		gunyah-label = <0x128>;
+	};
 };
 
 &auto_vm1_resv0_ring {
-	reg = <0xf 0x001ee000 0x0 0x8000>;
-	gunyah-label = <0x128>;
+	reg = <0xf 0x001f2000 0x0 0x8000>;
+	gunyah-label = <0x129>;
 };
 
 &auto_vm1_resv1_ring {
-	reg = <0xf 0x001f6000 0x0 0xF0A000>;
-	gunyah-label = <0x129>;
+	reg = <0xf 0x001fa000 0x0 0xF06000>;
+	gunyah-label = <0x130>;
 };
