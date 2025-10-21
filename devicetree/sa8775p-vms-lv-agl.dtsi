@@ -45,6 +45,8 @@
 				&auto_vm1_qcvirtio_vnet_ring
 				&auto_vm1_qcvirtio_vcon_ring
 				&auto_vm1_qcvirtio_vinput_ring
+				&auto_vm1_qcvirtio_rng_ring
+				&auto_vm1_qcvirtio_vsock_ring
 				&auto_vm1_resv0_ring
 				&auto_vm1_resv1_ring
 				&auto_vm1_swiotlb>;
@@ -64,6 +66,16 @@
 	auto_vm1_qcvirtio_be02: auto_vm1_qcvirtio_be02@202 {
 		qcom,vm = <&auto_vm1>;
 		qcom,label = <0x202>;
+	};
+
+	auto_vm1_qcvirtio_be03: auto_vm1_qcvirtio_be03@203 {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x203>;
+	};
+
+	auto_vm1_qcvirtio_be04: auto_vm1_qcvirtio_be04@204 {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x204>;
 	};
 };
 
@@ -111,6 +123,8 @@
 				&auto_vm1_qcvirtio_be00
 				&auto_vm1_qcvirtio_be01
 				&auto_vm1_qcvirtio_be02
+				&auto_vm1_qcvirtio_be03
+				&auto_vm1_qcvirtio_be04
 		>;
 };
 
@@ -132,12 +146,24 @@
 		reg = <0xf 0x001ee000 0x0 0x4000>;
 		gunyah-label = <0x202>;
 	};
+
+	auto_vm1_qcvirtio_rng_ring: auto_vm1_qcvirtio_rng_ring@f001f2000 {
+		no-map;
+		reg = <0xf 0x001f2000 0x0 0x4000>;
+		gunyah-label = <0x203>;
+	};
+
+	auto_vm1_qcvirtio_vsock_ring: auto_vm1_qcvirtio_vsock_ring@f001f6000 {
+		no-map;
+		reg = <0xf 0x001f6000 0x0 0x4000>;
+		gunyah-label = <0x204>;
+	};
 };
 
 &auto_vm1_resv0_ring {
-	reg = <0xf 0x001f2000 0x0 0x8000>;
+	reg = <0xf 0x001fa000 0x0 0x8000>;
 };
 
 &auto_vm1_resv1_ring {
-	reg = <0xf 0x001a6000 0x0 0xF06000>;
+	reg = <0xf 0x00202000 0x0 0xefe000>;
 };
