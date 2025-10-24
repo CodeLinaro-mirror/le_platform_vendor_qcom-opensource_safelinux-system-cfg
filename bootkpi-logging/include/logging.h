@@ -38,7 +38,7 @@
 #define log_line(prefix, ...) \
 	do { \
 		struct timespec ts; \
-		clock_gettime(CLOCK_BOOTTIME, &ts); \
+		clock_gettime(CLOCK_MONOTONIC, &ts); \
 		fprintf(stdout, SD_NOTICE "%s: realtime=[%ld.%09ld] ",\
 		prefix, ts.tv_sec, ts.tv_nsec); \
 		fprintf(stdout, __VA_ARGS__); \
