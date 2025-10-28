@@ -41,6 +41,11 @@ dtb-y += sa8650p-ride/sa8650p-sw-eth-phy_overlay.dtbo
 dtb-y += sa7255p-ride/sa7255p-sw-eth-phy_overlay.dtbo
 dtb-y += sa8620p-ride/sa8620p-sw-eth-phy.dtb
 dtb-y += sa8650p-ride/sa8650p-ride-mx_overlay.dtbo
+dtb-y += qcs9100-ride/qcs9100_overlay.dtbo
+dtb-y += qcs9100-ride/qcs9100-v3_overlay.dtbo
+dtb-y += qcs9100-ride/qcs9100_overlay_pcie_ep.dtbo
+dtb-y += qcs9100-ride/qcs9100-sw-eth-phy_overlay.dtbo
+dtb-y += qcs9100-ride/qcs9100-ride-mx_overlay.dtbo
 endif
 
 #include common target file

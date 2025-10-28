@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+#include "qcs9100_overlay.dtso"
+
+&{/} {
+	model = "Qualcomm Technologies, Inc. QCS9100 Ride V3";
+	qcom,board-id = <0x01020025 0>;
+};
+
+&ethernet0 {
+	phy-mode = "2500base-x";
+	iommus = <&apps_smmu 0x120 0x7>;
+};
+
+&ethernet1 {
+	phy-mode = "2500base-x";
+	iommus = <&apps_smmu 0x140 0x7>;
+};
+
+&sgmii_phy0 {
+	compatible = "ethernet-phy-id31c3.1c33";
+};
+
+&sgmii_phy1 {
+	compatible = "ethernet-phy-id31c3.1c33";
+	reg = <0x0>;
+};
+

@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+#include "qcs9100_overlay.dtso"
+
+&{/} {
+	model = "Qualcomm Technologies, Inc. QCS9100 Ride Switch Ethernet PHY";
+	qcom,board-id = <0x01030025 1>;
+};
+
+&ethernet0 {
+	mdio {
+		status = "disabled";
+	};
+
+	fixed-link {
+		status = "okay";
+		speed = <2500>;
+		full-duplex;
+	};
+};
+
+&ethernet1 {
+	fixed-link {
+		status = "okay";
+		speed = <2500>;
+		full-duplex;
+	};
+};

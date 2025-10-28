@@ -1,0 +1,40 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+#include "qcs9100_overlay.dtso"
+
+&{/} {
+	model = "Qualcomm Technologies, Inc. QCS9100 Ride";
+	compatible = "qcom,sa8650p-ride", "qcom,sa8650p";
+	qcom,board-id = <0x3010025 3>;
+};
+
+&pcie1 {
+	status = "disabled";
+};
+
+&pcie1_ep {
+	status = "okay";
+};
+
+&ethernet0 {
+	mdio {
+		status = "disabled";
+	};
+
+	fixed-link {
+		status = "okay";
+		speed = <2500>;
+		full-duplex;
+	};
+};
+
+&ethernet1 {
+	fixed-link {
+		status = "okay";
+		speed = <2500>;
+		full-duplex;
+	};
+};
