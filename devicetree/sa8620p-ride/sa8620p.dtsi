@@ -2572,4 +2572,9 @@
 		compatible = "qcom,nhlos-logs-io", "qcom,nhlos-logs";
 		memory-region = <&tz_end_count>;
 	};
+
+	uefi_log {
+		compatible = "qcom,nhlos-logs-mem", "qcom,nhlos-logs";
+		memory-region = <&uefi_log>;
+	};
 };
