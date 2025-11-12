@@ -28,9 +28,13 @@ fi
 . "$conf_file"
 
 for DEV in $DEVS; do
-	echo "vfio-platform" > /sys/bus/platform/devices/"$DEV"/driver_override
-	echo "$DEV" > /sys/bus/platform/drivers/vfio-platform/bind
+    (
+        echo "vfio-platform" > /sys/bus/platform/devices/"$DEV"/driver_override
+        echo "$DEV" > /sys/bus/platform/drivers/vfio-platform/bind
+    ) &
 done
+
+wait
 
 if selinuxenabled && [ -x "$(command -v restorecon)" ]; then
     restorecon -vFR /dev
