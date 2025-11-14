@@ -916,13 +916,6 @@
 		compatible = "qcom,secure-buffer";
 	};
 
-	qcom_l3_cache_config: qcom_l3_cache_config@0 {
-		compatible = "qcom,l3-cache-config";
-		status = "okay";
-		nr_clusters = <2>;
-		nr_cpus = <4>;
-        };
-
 	tlmm_fusa {
 		compatible = "qcom,tlmm-fusa";
 		interrupts = <GIC_SPI 445 IRQ_TYPE_EDGE_RISING>;
