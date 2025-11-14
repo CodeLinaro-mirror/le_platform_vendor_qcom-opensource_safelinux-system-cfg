@@ -56,5 +56,9 @@ dtb-y += sa8775p-vm_overlay_pcie_ep.dtbo
 dtb-y += sa8775p-vm-sw-eth-phy_overlay.dtbo
 endif
 
+#DDR Overlay
+dtb-y += sa8255p-ride/sa8255p-ddr-12gb_overlay.dtbo
+dtb-y += sa8255p-ride/sa8255p-ddr-36gb_overlay.dtbo
+
 #include common target file
 include $(PWD)/Makefile.common
