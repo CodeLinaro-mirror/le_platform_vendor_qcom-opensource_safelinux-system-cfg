@@ -32,6 +32,11 @@
 		reg = <0x0 0x146d86d0 0x0 0xc>;
 	};
 
+	imem_table {
+		compatible = "qcom,msm-imem-mem-dump-table";
+		reg = <0x0 0x146d8010 0x0 0x8>;
+	};
+
 	dload_type {
 	       compatible = "qcom,msm-imem-dload-type";
 	       reg = <0x0 0x146d801c 0x0 0x4>;
@@ -87,12 +92,12 @@
 			size = <0 0x3000000>;
 		};
 
-		tz-start-count {
+		tz_start_count: tz_start_count@146d87f8 {
 			reg = <0x0 0x146d87f8 0x0 0x8>;
 			no-map;
 		};
 
-		tz-end-count {
+		tz_end_count: tz_end_count@146d87dc {
 			reg = <0x0 0x146d87dc 0x0 0x8>;
 			no-map;
 		};
@@ -114,6 +119,16 @@
 			reg = <0x3 0x00000000 0x0 0x80000000>;
 			no-map;
 		};
+	};
+
+	tz_start_count {
+		compatible = "qcom,nhlos-logs-io", "qcom,nhlos-logs";
+		memory-region = <&tz_start_count>;
+	};
+
+	tz_end_count {
+		compatible = "qcom,nhlos-logs-io", "qcom,nhlos-logs";
+		memory-region = <&tz_end_count>;
 	};
 };
 
@@ -624,7 +639,7 @@
 
 	scm_user_intf_sec_device {
 		compatible = "qcom,scm-user-intf-sec";
-		memory-region = <&cma>;
+		memory-region = <&tzcom_mem>;
 		status = "ok";
 	};
 
