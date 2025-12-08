@@ -35,7 +35,7 @@
 #define bootkpi_log_line(...) \
 	do { \
 		struct timespec ts; \
-		clock_gettime(CLOCK_BOOTTIME, &ts); \
+		clock_gettime(CLOCK_MONOTONIC, &ts); \
 		fprintf(stdout, SD_NOTICE BOOTKPI_LOG_PREFIX ": realtime=[%ld.%09ld] ",\
 		ts.tv_sec, ts.tv_nsec); \
 		fprintf(stdout, __VA_ARGS__); \
