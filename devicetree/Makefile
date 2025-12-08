@@ -44,6 +44,7 @@ dtb-y += sa8650p-ride/sa8650p-ride-mx_overlay.dtbo
 dtb-y += sa8650p-ride/sa8650p-ddr-12gb_overlay.dtbo
 dtb-y += sa8650p-ride/sa8650p-ddr-18gb_overlay.dtbo
 dtb-y += sa8650p-ride/sa8650p-ddr-24gb_overlay.dtbo
+dtb-y += sa8650p-ride/sa8650p-ddr-36gb_overlay.dtbo
 endif
 
 #include common target file
