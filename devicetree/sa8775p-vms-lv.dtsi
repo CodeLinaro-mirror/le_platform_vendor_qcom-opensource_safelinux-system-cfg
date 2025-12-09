@@ -603,3 +603,22 @@
 	qcom,dst-vmids = <AC_VM_GVM_1 AC_VM_GVM_2>;
 	qcom,dst-perms = <QCOM_PERM_RW QCOM_PERM_RW>;
 };
+
+&scmi4 {
+	status = "okay";
+};
+
+&soc {
+	scmi_ufs2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi4_pd 0>;
+		power-domain-names = "power";
+
+		qcom,dev-name = "scmi_ufs2";
+	};
+};
+
+&ufs_mem_hc2 {
+	status = "disabled";
+};
