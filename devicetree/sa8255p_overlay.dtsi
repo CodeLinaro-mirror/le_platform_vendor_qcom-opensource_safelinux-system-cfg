@@ -90,25 +90,35 @@
 			size = <0 0x3000000>;
 		};
 
-		tz-start-count {
+		tz_start_count: tz_start_count@146d87f8 {
 			reg = <0x0 0x146d87f8 0x0 0x8>;
 			no-map;
 		};
 
-		tz-end-count {
+		tz_end_count: tz_end_count@146d87dc {
 			reg = <0x0 0x146d87dc 0x0 0x8>;
 			no-map;
 		};
 
-		gptp_timedata_mem: gptp_timedata_region@acfff000 {
+		gptp_timedata_mem: gptp_timedata_region@ac5fe000 {
 			no-map;
-			reg = <0x0 0xacfff000 0x0 0x1000>;
+			reg = <0x0 0xac5fe000 0x0 0x2000>;
 		};
 
 		non_ecc_heap_mem: non_ecc_heap_mem_region {
 			reg = <0x9 0xC0000000 0x1 0x80000000>;
 			no-map;
 		};
+	};
+
+	tz_start_count {
+		compatible = "qcom,nhlos-logs-io", "qcom,nhlos-logs";
+		memory-region = <&tz_start_count>;
+	};
+
+	tz_end_count {
+		compatible = "qcom,nhlos-logs-io", "qcom,nhlos-logs";
+		memory-region = <&tz_end_count>;
 	};
 };
 
@@ -638,6 +648,51 @@
 		status = "ok";
 	};
 
+	adreno_smmu_fusa {
+		compatible = "qcom,smmu500-tbu-fusa";
+		reg = <0x0 0x3da8000 0x0 0x20>,
+		      <0x0 0x3dc8000 0x0 0x18000>;
+		reg-name = "smmu_fusa_base", "client_fusa_base";
+		qcom,client_offset = <0x8000>;
+		interrupts = <GIC_SPI 769 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 818 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 819 IRQ_TYPE_LEVEL_HIGH>;
+	};
+
+	apps_smmu_fusa {
+		compatible = "qcom,smmu500-tbu-fusa";
+		reg = <0x0 0x15008000 0x0 0x20>,
+		      <0x0 0x15180000 0x0 0x80000>;
+		reg-name = "smmu_fusa_base", "client_fusa_base";
+		qcom,client_offset = <0x8000>;
+		interrupts = <GIC_SPI 779 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 453 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 458 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 717 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 718 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 662 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 667 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 671 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 716 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 762 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 767 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 829 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 821 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 466 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 461 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 464 IRQ_TYPE_LEVEL_HIGH>;
+	};
+
+	pcie_smmu_fusa {
+		compatible = "qcom,smmu500-tbu-fusa";
+		reg = <0x0 0x15208000 0x0 0x20>,
+		      <0x0 0x152f0000 0x0 0x10000>;
+		reg-name = "smmu_fusa_base", "client_fusa_base";
+		qcom,client_offset = <0x8000>;
+		interrupts = <GIC_SPI 652 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 645 IRQ_TYPE_LEVEL_HIGH>;
+	};
+
 	kryo_erp: erp {
 	compatible = "arm,arm64-kryo-cpu-erp";
 	interrupts = <GIC_PPI 0 IRQ_TYPE_LEVEL_LOW>,
@@ -832,69 +887,6 @@
 		qcom,dev-name = "test_scmi_power";
 	};
 
-	scmi_uart17 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi11_pd 17>, <&scmi11_dvfs 17>;
-		power-domain-names = "power", "perf";
-
-		qcom,dev-name = "scmi_uart17";
-	};
-
-	scmi_pcie0 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi5_pd 0>, <&scmi63_pd 0>;
-		power-domain-names = "power", "dummy";
-
-		qcom,dev-name = "scmi_pcie0";
-	};
-
-	scmi_wlan {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi24_pd 0>, <&scmi24_pd 1>;
-		power-domain-names = "power_regulator", "power_gpio";
-
-		qcom,dev-name = "scmi_wlan";
-	};
-
-	scmi_bluetooth {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi25_pd 0>;
-		power-domain-names = "power";
-
-		qcom,dev-name = "scmi_bluetooth";
-	};
-
-	scmi_emac1 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi37_pd 0>;
-		power-domain-names = "gvm_power_mdio";
-
-		qcom,dev-name = "scmi_emac1";
-	};
-
-	scmi_usb2 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi2_pd 0>, <&scmi2_pd 1>;
-		power-domain-names = "usb_transfer", "usb_core";
-
-		qcom,dev-name = "scmi_usb2";
-	};
-
-	scmi_usb2_phy2 {
-		compatible = "qcom,uscmi";
-
-		power-domains = <&scmi14_pd 0>, <&scmi14_pd 1>;
-		power-domain-names = "usb_transfer", "usb_core";
-
-		qcom,dev-name = "scmi_usb2_phy2";
-	};
-
 	qfprom_pte: qfprom@780158 {
 		compatible = "qcom,sm8450-qfprom";
 		reg = <0x0 0x00780158 0x0 0x4>;
@@ -922,6 +914,16 @@
 
 	qcom,secure-buffer {
 		compatible = "qcom,secure-buffer";
+	};
+
+	tlmm_fusa {
+		compatible = "qcom,tlmm-fusa";
+		interrupts = <GIC_SPI 445 IRQ_TYPE_EDGE_RISING>;
+		reg = <0x0 0xf1b3000 0x0 0x2>,
+		      <0x0 0xf1bb000 0x0 0x4>,
+		      <0x0 0xf1bb008 0x0 0x4>;
+		reg-names = "error_status", "ahb_hreset_status", "por_ares_status";
+		qcom,por-ares-reset-bit = <2>;
 	};
 };
 

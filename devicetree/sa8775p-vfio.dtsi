@@ -1,5 +1,5 @@
 /*
-* SPDX-License-Identifier: GPL-2.0-only
+* SPDX-License-Identifier: BSD-3-Clause
 * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 */
 
@@ -101,6 +101,14 @@
 					<&ipcc0 IPCC_CLIENT_AOP  IPCC_MPROC_SIGNAL_GLINK_QMP>;
 
 		iommus = <&apps_smmu 0x2A00 0x0>;
+		dma-coherent;
+	};
+
+	umd_ipcc_err_handler@1fc0000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x1fc0000 0x0 0x00040000>; /*IPCC_FUSA_ERR_BASE_ADDR*/
+		interrupts = <GIC_SPI 949 IRQ_TYPE_LEVEL_HIGH>; /*IPCC_FUSA_IRQ*/
+		iommus = <&apps_smmu 0x2A01 0x0>;
 		dma-coherent;
 	};
 
@@ -421,16 +429,16 @@
 	cdsp0_cb@d {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0xd 0x0 0x0>;
-		iommus = <&apps_smmu 0x214D 0x4a0>,
-			<&apps_smmu 0x216D 0x4a0>,
+		iommus = <&apps_smmu 0x214D 0x420>,
+			<&apps_smmu 0x216D 0x420>,
 			<&apps_smmu 0x218D 0x400>,
 			<&apps_smmu 0x21CD 0x4a0>,
-			<&apps_smmu 0x21ED 0x4a0>,
-			<&apps_smmu 0x254D 0x4a0>,
-			<&apps_smmu 0x256D 0x4a0>,
+			<&apps_smmu 0x21ED 0x400>,
+			<&apps_smmu 0x254D 0x420>,
+			<&apps_smmu 0x256D 0x420>,
 			<&apps_smmu 0x258D 0x400>,
-			<&apps_smmu 0x25CD 0x4a0>,
-			<&apps_smmu 0x25ED 0x4a0>;
+			<&apps_smmu 0x25CD 0x000>,
+			<&apps_smmu 0x25ED 0x400>;
 		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
@@ -1057,6 +1065,7 @@
 		iommus = <&adreno_smmu 0x0 0xc00>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
+		iommu-faults;
 	};
 
 	vfio_gmu {
@@ -1067,6 +1076,7 @@
 		iommus = <&adreno_smmu 0x5 0xc00>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
+		iommu-faults;
 	};
 
 	vfio_gmu_db {
@@ -1075,6 +1085,7 @@
 		iommus = <&adreno_smmu 0x4 0xc00>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
+		iommu-faults;
 	};
 
 	vfio_kgsl_secure {
@@ -1086,6 +1097,7 @@
 		qcom,secure-context-bank;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
+		iommu-faults;
 	};
 
 	vfio_kgsl_lpac {
@@ -1094,6 +1106,7 @@
 		iommus = <&adreno_smmu 0x1 0xc00>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
+		iommu-faults;
 	};
 
 	vfio_vidc@aa00000 {
@@ -1106,6 +1119,7 @@
 		qcom,iommu-dma-addr-pool = <0x0 0x25800000 0x0 0xba800000>;
 		memory-region = <&pil_video_mem>;
 		dma-coherent;
+		iommu-faults;
 	};
 
 	vfio_vidc_non_secure_pixel_cb {
@@ -1113,6 +1127,7 @@
 		iommus = <&apps_smmu 0x0887 0x0400>;
 		qcom,iommu-dma-addr-pool = <0x0 0x00100000 0x0 0xdff00000>;
 		dma-coherent;
+		iommu-faults;
 	};
 
 	vfio_vidc_secure_non_pixel_cb {
@@ -1172,6 +1187,7 @@
 		iommus = <&apps_smmu 0x08A0 0x400>;
 		qcom,iommu-dma-addr-pool = <0x0 0x4b000000 0x0 0x90000000>;
 		dma-coherent;
+		iommu-faults;
 	};
 
 	vfio_audio@1 {
