@@ -19,6 +19,7 @@
 		power-domains = <&scmi5_pd 0>, <&scmi63_pd 0>;
 		power-domain-names = "power", "dummy";
 
+		qcom,no-suspend;
 		qcom,dev-name = "scmi_pcie0";
 	};
 
