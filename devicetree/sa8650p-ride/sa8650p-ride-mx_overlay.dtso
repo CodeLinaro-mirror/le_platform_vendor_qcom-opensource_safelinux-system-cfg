@@ -35,7 +35,3 @@
 		full-duplex;
 	};
 };
-
-&non_ecc_heap_mem {
-	reg = <0x3 0x00000000 0x0 0xF0000000>;
-};
