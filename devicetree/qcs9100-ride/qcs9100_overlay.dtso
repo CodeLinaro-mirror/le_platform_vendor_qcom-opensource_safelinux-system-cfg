@@ -23,4 +23,7 @@
 
 &non_ecc_heap_mem {
 	reg = <0x3 0x00000000 0x0 0xF0000000>;
+
+	/*ecc not used in 9100, release the reserved memory*/
+	status = "disabled";
 };
