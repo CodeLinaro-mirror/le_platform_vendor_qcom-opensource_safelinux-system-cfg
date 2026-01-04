@@ -7,7 +7,7 @@
 
 &{/} {
 	model = "Qualcomm Technologies, Inc. SA8255P Ride V3";
-	qcom,board-id = <0x01020025 0>;
+	qcom,board-id = <0x01020025 1>;
 };
 
 &ethernet0 {
