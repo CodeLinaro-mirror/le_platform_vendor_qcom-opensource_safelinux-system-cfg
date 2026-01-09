@@ -5,6 +5,6 @@
 /dts-v1/;
 /plugin/;
 
-// Keep the original attributes of sa8255p_overlay.dtsi non-ecc heap unchanged.
-
-&{/reserved-memory} {};
+&non_ecc_heap_mem {
+	reg = <0x2 0x43000000 0x1 0xA8D00000>;
+};
