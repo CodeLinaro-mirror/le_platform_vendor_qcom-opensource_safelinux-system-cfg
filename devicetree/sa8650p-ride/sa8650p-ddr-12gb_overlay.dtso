@@ -12,3 +12,12 @@
 &hyptz_reserved_mem {
 	status = "disabled";
 };
+
+&audio_config {
+	status = "disabled";
+};
+
+&lpass_machine_learning_mem {
+	status = "disabled";
+};
+
