@@ -58,6 +58,11 @@
 		compatible = "qcom,smcinvoke";
 	};
 
+	qcom_tzffi {
+		compatible = "qcom,tzffi";
+		memory-region = <&tz_ffi_mem>;
+	};
+
 	gpio-keys {
 		compatible = "gpio-keys";
 
