@@ -9,3 +9,8 @@
 &non_ecc_heap_mem {
 	reg = <0x2 0x52000000 0x1 0xA8D00000>;
 };
+
+&hyptz_reserved_mem {
+	status = "disabled";
+};
+
