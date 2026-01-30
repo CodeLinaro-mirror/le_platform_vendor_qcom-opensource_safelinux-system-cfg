@@ -199,6 +199,28 @@
 		qcom,dev-name = "scmi_gpce";
 	};
 
+	test_scmi {
+		compatible = "qcom,uscmi";
+		power-domains = <&scmi63_pd 2> , <&scmi63_dvfs 2>;
+		power-domain-names = "power", "perf";
+		resets = <&scmi63_rst 0>;
+		reset-names = "core";
+		qcom,dev-name = "test_scmi";
+	};
+
+	test_scmi_perf {
+		compatible = "qcom,uscmi";
+		power-domains = <&scmi63_dvfs 1>;
+		power-domain-names = "perf";
+		qcom,dev-name = "test_scmi_perf";
+	};
+
+	test_scmi_power {
+		compatible = "qcom,uscmi";
+		power-domains = <&scmi63_pd 1>;
+		qcom,dev-name = "test_scmi_power";
+	};
+
 	rng: rng@10d2000 {
 		compatible = "qcom,sa7255p-trng", "qcom,trng";
 		reg = <0x0 0x010d2000 0x0 0x1000>;
