@@ -11,6 +11,13 @@
 		dma-coherent;
 	};
 
+	umd_qc_pm@d0057000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0xd0057000 0x0 0x10000>;
+		iommus = <&apps_smmu 0x3080 0x0>;
+		dma-coherent;
+	};
+
 	umd_glink@780000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x00780000 0x0 0x10000>,
