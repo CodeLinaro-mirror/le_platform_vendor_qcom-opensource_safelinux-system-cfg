@@ -943,6 +943,13 @@
 		nr_clusters = <2>;
 		nr_cpus = <4>;
 	};
+
+	firmware_vm_mini_dump: firmware-vm-mini-dump@0 {
+		compatible = "qcom,firmware-vm-mini-dump";
+		reg = <0x0 0xd0000000 0x0 0x00100000>,
+		      <0x0 0xb0000000 0x0 0x00800000>;
+		reg-names = "fvm_shared", "fvm_mem";
+	};
 };
 
 &tlmm {
