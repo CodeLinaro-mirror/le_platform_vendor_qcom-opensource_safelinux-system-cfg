@@ -80,16 +80,16 @@ target_conf_t nonsafe_ivi_conf_nords = {
 	.slice_count = 3,
 	.slices = {
 		{
-			.name = "pvm.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 5, .cpu_start = 0, .cpu_end = 3
+			.name = "pvm.slice", .boot_cpu_start = 12,
+			.boot_cpu_end = 17, .cpu_start = 14, .cpu_end = 17
 		},
 		{
-			.name = "gvm.slice", .boot_cpu_start = 4,
-			.boot_cpu_end = 17, .cpu_start = 4, .cpu_end = 5
+			.name = "gvm.slice", .boot_cpu_start = 0,
+			.boot_cpu_end = 11, .cpu_start = 12, .cpu_end = 13
 		},
 		{
-			.name = "system.slice", .boot_cpu_start = 4,
-			.boot_cpu_end = 17, .cpu_start = 4, .cpu_end = 5
+			.name = "system.slice", .boot_cpu_start = 0,
+			.boot_cpu_end = 11, .cpu_start = 12, .cpu_end = 13
 		},
 	}
 };
@@ -100,16 +100,16 @@ target_conf_t flex_conf_nords = {
 	.slice_count = 3,
 	.slices = {
 		{
-			.name = "pvm.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 5, .cpu_start = 0, .cpu_end = 3
+			.name = "pvm.slice", .boot_cpu_start = 12,
+			.boot_cpu_end = 17, .cpu_start = 14, .cpu_end = 17
 		},
 		{
-			.name = "gvm.slice", .boot_cpu_start = 6,
-			.boot_cpu_end = 17, .cpu_start = 4, .cpu_end = 5
+			.name = "gvm.slice", .boot_cpu_start = 0,
+			.boot_cpu_end = 11, .cpu_start = 12, .cpu_end = 13
 		},
 		{
-			.name = "system.slice", .boot_cpu_start = 6,
-			.boot_cpu_end = 17, .cpu_start = 4, .cpu_end = 5
+			.name = "system.slice", .boot_cpu_start = 0,
+			.boot_cpu_end = 11, .cpu_start = 12, .cpu_end = 13
 		},
 	}
 };
