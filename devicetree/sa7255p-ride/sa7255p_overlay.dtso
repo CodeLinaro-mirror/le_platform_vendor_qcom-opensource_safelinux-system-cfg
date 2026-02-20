@@ -135,6 +135,14 @@
 			tx-fifo-depth = <20480>;
 
 	};
+
+	firmware_vm_mini_dump: firmware-vm-mini-dump@0 {
+		compatible = "qcom,firmware-vm-mini-dump";
+		reg = <0x0 0xd0000000 0x0 0x00100000>,
+		      <0x0 0xb0000000 0x0 0x00800000>;
+		reg-names = "fvm_shared", "fvm_mem";
+	};
+
 	scmi_mdss0 {
 		compatible = "qcom,uscmi";
 		power-domains = <&scmi16_dvfs 0>;
