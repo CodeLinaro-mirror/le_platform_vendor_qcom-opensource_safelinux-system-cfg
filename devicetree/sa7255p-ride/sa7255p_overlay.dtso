@@ -50,11 +50,19 @@
 	status = "okay";
 };
 
+&scmi2 {
+	status = "okay";
+};
+
 &scmi7 {
 	status = "okay";
 };
 
 &scmi11 {
+	status = "okay";
+};
+
+&scmi14 {
 	status = "okay";
 };
 
@@ -191,6 +199,25 @@
 		power-domain-names = "gpce_clock";
 
 		qcom,dev-name = "scmi_gpce";
+	};
+
+	/* SCMI node for USB2 controller power management */
+	scmi_usb2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi2_pd 0>, <&scmi2_pd 1>;
+		power-domain-names = "usb_transfer", "usb_core";
+
+		qcom,dev-name = "scmi_usb2";
+	};
+
+	scmi_usb2_phy2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi14_pd 0>, <&scmi14_pd 1>;
+		power-domain-names = "usb_transfer", "usb_core";
+
+		qcom,dev-name = "scmi_usb2_phy2";
 	};
 
 	test_scmi {
