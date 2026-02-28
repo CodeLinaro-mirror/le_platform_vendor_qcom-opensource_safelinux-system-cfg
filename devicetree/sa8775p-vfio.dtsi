@@ -664,6 +664,7 @@
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x2 0x0 0x0>;
 		iommus = <&apps_smmu 0x3003 0x0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -671,6 +672,7 @@
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x3 0x0 0x0>;
 		iommus = <&apps_smmu 0x3004 0x0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -678,6 +680,7 @@
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x4 0x0 0x0>;
 		iommus = <&apps_smmu 0x3005 0x0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -685,6 +688,7 @@
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x1 0x0 0x0>;
 		iommus = <&apps_smmu 0x38A1 0x0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -692,6 +696,7 @@
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x3 0x0 0x0>;
 		iommus = <&apps_smmu 0x38A3 0x0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -699,6 +704,7 @@
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x1 0x0 0x0>;
 		iommus = <&apps_smmu 0x38C1 0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -706,6 +712,7 @@
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x3 0x0 0x0>;
 		iommus = <&apps_smmu 0x38C3 0>;
+		qcom,iova-align-shift-max = <21>;
 		dma-coherent;
 	};
 
@@ -793,7 +800,7 @@
 			<&ipcc1 IPCC_CLIENT_SAIL1 0x9 IRQ_TYPE_EDGE_RISING>,
 			<&ipcc1 IPCC_CLIENT_SAIL2 0xA IRQ_TYPE_EDGE_RISING>,
 			<&ipcc1 IPCC_CLIENT_SAIL1 0xB IRQ_TYPE_EDGE_RISING>,
-			<&ipcc1 IPCC_CLIENT_SAIL0 0xC IRQ_TYPE_EDGE_RISING>;
+			<&ipcc1 IPCC_CLIENT_SAIL1 0xC IRQ_TYPE_EDGE_RISING>;
 		iommus = <&apps_smmu 0x3900 0x00>;
 		dma-coherent;
 	};

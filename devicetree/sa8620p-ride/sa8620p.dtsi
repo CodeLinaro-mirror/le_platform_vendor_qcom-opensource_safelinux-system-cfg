@@ -13,6 +13,10 @@
 	#address-cells = <2>;
 	#size-cells = <2>;
 
+	chosen {
+		bootargs = "pd_ignore_unused";
+	};
+
 	clocks {
 		xo_board_clk: xo-board-clk {
 			compatible = "fixed-clock";
@@ -1761,6 +1765,13 @@
 			      <0x0 0xf1bb008 0x0 0x4>;
 			reg-names = "error_status", "ahb_hreset_status", "por_ares_status";
 			qcom,por-ares-reset-bit = <2>;
+		};
+
+		firmware_vm_mini_dump: firmware-vm-mini-dump@0 {
+			compatible = "qcom,firmware-vm-mini-dump";
+			reg = <0x0 0xd0000000 0x0 0x00100000>,
+			      <0x0 0xb0000000 0x0 0x00800000>;
+			reg-names = "fvm_shared", "fvm_mem";
 		};
 	};
 

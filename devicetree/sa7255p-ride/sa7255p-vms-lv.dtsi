@@ -292,6 +292,13 @@
                                 &auto_vm1_be37
                                 &auto_vm1_be38>;
 	};
+
+	scmi_uart2 {
+		compatible = "qcom,uscmi";
+		power-domains = <&scmi11_pd 2>, <&scmi11_dvfs 2>;
+		power-domain-names = "power", "perf";
+		qcom,dev-name = "scmi_uart2";
+	};
 };
 
 &{/reserved-memory} {

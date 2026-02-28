@@ -102,7 +102,12 @@
 			no-map;
 		};
 
-		gptp_timedata_mem: gptp_timedata_region@ac5fe000 {
+		gptp_timedata_mem: gptp_timedata_region@ac5ff000 {
+			no-map;
+			reg = <0x0 0xac5ff000 0x0 0x1000>;
+		};
+
+		vnw_reserved: gptp_timedata_region1@ac5fe000 {
 			no-map;
 			reg = <0x0 0xac5fe000 0x0 0x1000>;
 		};
@@ -942,6 +947,13 @@
 		status = "okay";
 		nr_clusters = <2>;
 		nr_cpus = <4>;
+	};
+
+	firmware_vm_mini_dump: firmware-vm-mini-dump@0 {
+		compatible = "qcom,firmware-vm-mini-dump";
+		reg = <0x0 0xd0000000 0x0 0x00100000>,
+		      <0x0 0xb0000000 0x0 0x00800000>;
+		reg-names = "fvm_shared", "fvm_mem";
 	};
 };
 

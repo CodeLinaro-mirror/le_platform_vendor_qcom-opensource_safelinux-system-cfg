@@ -25,6 +25,11 @@
 };
 
 &{/} {
+
+	chosen {
+		bootargs = "pd_ignore_unused";
+	};
+
 	qcom_tzlog: tz-log@146d8720 {
 		compatible = "qcom,tz-log";
 		reg = <0 0x146d8720 0 0x3000>;
@@ -130,6 +135,14 @@
 			tx-fifo-depth = <20480>;
 
 	};
+
+	firmware_vm_mini_dump: firmware-vm-mini-dump@0 {
+		compatible = "qcom,firmware-vm-mini-dump";
+		reg = <0x0 0xd0000000 0x0 0x00100000>,
+		      <0x0 0xb0000000 0x0 0x00800000>;
+		reg-names = "fvm_shared", "fvm_mem";
+	};
+
 	scmi_mdss0 {
 		compatible = "qcom,uscmi";
 		power-domains = <&scmi16_dvfs 0>;
@@ -197,6 +210,28 @@
 		power-domain-names = "gpce_clock";
 
 		qcom,dev-name = "scmi_gpce";
+	};
+
+	test_scmi {
+		compatible = "qcom,uscmi";
+		power-domains = <&scmi63_pd 2> , <&scmi63_dvfs 2>;
+		power-domain-names = "power", "perf";
+		resets = <&scmi63_rst 0>;
+		reset-names = "core";
+		qcom,dev-name = "test_scmi";
+	};
+
+	test_scmi_perf {
+		compatible = "qcom,uscmi";
+		power-domains = <&scmi63_dvfs 1>;
+		power-domain-names = "perf";
+		qcom,dev-name = "test_scmi_perf";
+	};
+
+	test_scmi_power {
+		compatible = "qcom,uscmi";
+		power-domains = <&scmi63_pd 1>;
+		qcom,dev-name = "test_scmi_power";
 	};
 
 	rng: rng@10d2000 {
