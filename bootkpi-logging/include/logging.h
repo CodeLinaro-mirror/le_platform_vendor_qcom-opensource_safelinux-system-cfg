@@ -10,6 +10,7 @@
 #include "systemd/sd-daemon.h"
 
 #define BOOTKPI_LOG_PREFIX "qcom-bootkpi"
+#define PM_LOG_PREFIX "qcom-pmkpi"
 
 
 /*
@@ -20,6 +21,7 @@
  * and their timestamps are accurate.
  */
 #define bootkpi_log_init() setvbuf(stdout, NULL, _IOLBF, 0)
+#define pm_log_init() setvbuf(stdout, NULL, _IOLBF, 0)
 
 /*
  * bootkpi_log_line API that logs one line of a bootkpi message
@@ -32,14 +34,19 @@
  *
  * ... argument: variadic arguments. use the same arguments as printf
  */
-#define bootkpi_log_line(...) \
+
+#define log_line(prefix, ...) \
 	do { \
 		struct timespec ts; \
 		clock_gettime(CLOCK_MONOTONIC, &ts); \
-		fprintf(stdout, SD_NOTICE BOOTKPI_LOG_PREFIX ": realtime=[%ld.%09ld] ",\
-		ts.tv_sec, ts.tv_nsec); \
+		fprintf(stdout, SD_NOTICE "%s: realtime=[%ld.%09ld] ",\
+		prefix, ts.tv_sec, ts.tv_nsec); \
 		fprintf(stdout, __VA_ARGS__); \
 		fprintf(stdout, "\n"); \
 	} while (0)
+
+#define bootkpi_log_line(...) log_line(BOOTKPI_LOG_PREFIX, __VA_ARGS__)
+
+#define pm_log_line(...) log_line(PM_LOG_PREFIX, __VA_ARGS__)
 
 #endif // BOOTKPI_LOGGING_H
