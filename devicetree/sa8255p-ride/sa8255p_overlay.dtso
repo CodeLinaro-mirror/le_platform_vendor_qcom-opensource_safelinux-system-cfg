@@ -20,3 +20,7 @@
 &ethernet1 {
 	iommus = <&apps_smmu 0x140 0x7>;
 };
+
+&scmi46 {
+	status = "okay";
+};

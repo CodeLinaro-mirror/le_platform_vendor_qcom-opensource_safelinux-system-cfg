@@ -50,6 +50,15 @@
 		qcom,dev-name = "scmi_bluetooth";
 	};
 
+	scmi_bluetooth_2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi46_pd 0>;
+		power-domain-names = "power";
+
+		qcom,dev-name = "scmi_bluetooth_2";
+	};
+
 	scmi_emac1 {
 		compatible = "qcom,uscmi";
 
