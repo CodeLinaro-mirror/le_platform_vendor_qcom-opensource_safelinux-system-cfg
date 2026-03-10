@@ -1,0 +1,17 @@
+Source: platform-config
+Section: misc
+Priority: optional
+Maintainer: Kai Meng <kmeng@qti.qualcomm.com>
+Build-Depends: debhelper-compat (= 13),
+               cmake,
+               pkg-config,
+               systemd
+Standards-Version: 4.6.0
+Homepage: https://git.codelinaro.org
+
+Package: platform-config
+Architecture: arm64
+Description: Enable Qualcomm systemd services to use specific slices for cgroup management
+ systemd slices are a systemd abstraction for cgroups. This package enables
+ Qualcomm systemd services to use different slices, allowing them to choose
+ the appropriate cgroup for each service.
