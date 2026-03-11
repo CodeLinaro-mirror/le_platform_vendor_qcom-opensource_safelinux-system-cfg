@@ -1,0 +1,13 @@
+Source: safelinux-system-cfg
+Section: misc
+Priority: optional
+Maintainer: Kai Meng <kmeng@qti.qualcomm.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.0
+Homepage: https://git.codelinaro.org/
+
+Package: safelinux-system-cfg
+Architecture: arm64
+Description: safelinux system configuration
+ Add default system configuration for safelinux, including VFIO device
+ binding, kernel module autoload configuration, and related systemd services.
