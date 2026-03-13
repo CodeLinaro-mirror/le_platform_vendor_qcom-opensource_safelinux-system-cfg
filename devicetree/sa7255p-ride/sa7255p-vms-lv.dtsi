@@ -556,3 +556,39 @@
 		reg = <0xf 0x02000000 0x0 0x58400000>; /*1413.5MB*/
 	};
 };
+
+&mmidgrp100 {
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp200 {
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp300 {
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp400 {
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp500 {
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp600 {
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp1400 {
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp1500 {
+	remote-vmids = <2 3>;
+};
+
+&mmidgrp1600 {
+	remote-vmids = <2 3>;
+};
