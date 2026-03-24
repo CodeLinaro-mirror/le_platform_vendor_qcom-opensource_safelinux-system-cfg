@@ -44,6 +44,22 @@
 		compatible = "qcom,smcinvoke";
 		qcom,support-hypervisor;
 	};
+
+	tz_start_count {
+		compatible = "qcom,nhlos-logs-io", "qcom,nhlos-logs";
+		memory-region = <&tz_start_count>;
+	};
+
+	tz_end_count {
+		compatible = "qcom,nhlos-logs-io", "qcom,nhlos-logs";
+		memory-region = <&tz_end_count>;
+	};
+
+	uefi_log {
+		compatible = "qcom,nhlos-logs-mem", "qcom,nhlos-logs";
+		memory-region = <&uefi_log>;
+	};
+
 };
 
 &ipcc1 {
@@ -338,12 +354,12 @@
 	#size-cells = <2>;
 	ranges;
 
-	tz-start-count {
+	tz_start_count: tz_start_count@146d87f8 {
 		reg = <0x0 0x146d87f8 0x0 0x8>;
 		no-map;
 	};
 
-	tz-end-count {
+	tz_end_count: tz_end_count@146d87dc {
 		reg = <0x0 0x146d87dc 0x0 0x8>;
 		no-map;
 	};
