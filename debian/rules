@@ -10,32 +10,8 @@ override_dh_auto_build:
 	# No build system - nothing to compile
 
 override_dh_auto_install:
-	# --- modules-load.d (from source tree) ---
-	install -D -m 0755 modules-autoload-config/i2cdev.conf \
-		debian/safelinux-system-cfg/usr/lib/modules-load.d/i2cdev.conf
-	install -D -m 0755 modules-autoload-config/spidev.conf \
-		debian/safelinux-system-cfg/usr/lib/modules-load.d/spidev.conf
-
-	# --- modules-load.d (from recipe overlay files) ---
-	install -D -m 0755 debian/overlay/vfio.conf \
-		debian/safelinux-system-cfg/usr/lib/modules-load.d/vfio.conf
-	install -D -m 0755 debian/overlay/vm_net.conf \
-		debian/safelinux-system-cfg/usr/lib/modules-load.d/vm_net.conf
-	install -D -m 0755 debian/overlay/vmm_pwr_key.conf \
-		debian/safelinux-system-cfg/usr/lib/modules-load.d/vmm_pwr_key.conf
-
-	# --- modprobe.d ---
-	install -D -m 0755 debian/overlay/vfio_param.conf \
-		debian/safelinux-system-cfg/etc/modprobe.d/vfio.conf
-
 	# --- vfio-device-probe service ---
 	install -D -m 0644 vfio-device-probe/vfio-device-probe.service \
-		debian/safelinux-system-cfg/lib/systemd/system/vfio-device-probe.service
-	sed -i '/ExecStartPost=.*sleep/d' \
-		debian/safelinux-system-cfg/lib/systemd/system/vfio-device-probe.service
-	sed -i '/After=systemd-modules-load.service/d' \
-		debian/safelinux-system-cfg/lib/systemd/system/vfio-device-probe.service
-	sed -i 's|ExecStart=/usr/bin/vfio-device-bind.sh|ExecStart=/bin/echo "vfio already run in early-ramdisk"|g' \
 		debian/safelinux-system-cfg/lib/systemd/system/vfio-device-probe.service
 
 	# --- vfio-device-bind.sh ---
