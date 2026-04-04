@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: BSD-3-Clause-Clear
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+
+[Unit]
+Description=reconfigure cgroup slices on boot
+Before=multi-user.target
+After=offline-target-cpus.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/reconfig-cgrp-slices
+
+[Install]
+WantedBy=multi-user.target
