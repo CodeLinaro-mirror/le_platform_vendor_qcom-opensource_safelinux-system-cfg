@@ -6,19 +6,9 @@ Build-Depends: cmake, debhelper-compat (= 13)
 Standards-Version: 4.6.0
 Homepage: https://www.codelinaro.org/
 
-Package: bootkpi-logging
-Architecture: arm64
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: bootkpi-logging API
- %{name} - %{summary} - abstracts the implementation of bootkpi logging for other userspace apps.
- %{name} - %{summary} - development files - header and pkgconfig file
- # We must set debug_package to nil because there are no "source code" files to
- # create debug symbols from.
- %global debug_package %{nil}
-
 Package: bootkpi-logging-dev
 Architecture: arm64
 Section: libdevel
-Depends: ${shlibs:Depends}, ${misc:Depends}, bootkpi-logging(= ${binary:Version})
+Depends: ${misc:Depends}
 Description: bootkpi-logging API
 
