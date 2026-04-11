@@ -1,13 +1,10 @@
 #!/usr/bin/make -f
 
-# CPU affinity for gen5 platform (PVM: cores 0-5, GVM: cores 6-17)
-PVM_CPUS = 0-5
-GVM_CPUS = 6-17
+PVM_CPUS = 0-17
 
 %:
 	dh $@
 
 override_dh_auto_configure:
 	dh_auto_configure -- \
-		-DPVM_CPUS:STRING=$(PVM_CPUS) \
-		-DGVM_CPUS:STRING=$(GVM_CPUS)
+		-DPVM_CPUS:STRING=$(PVM_CPUS)
