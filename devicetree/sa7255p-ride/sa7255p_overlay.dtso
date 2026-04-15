@@ -298,6 +298,11 @@
 		compatible = "qcom,dload-mode";
 	};
 
+	dload_type {
+		compatible = "qcom,msm-imem-dload-type";
+		reg = <0x0 0x146d801c 0x0 0x4>;
+	};
+
 	kaslr_store {
 		compatible = "qcom,kaslr-off-store";
 		reg = <0x0 0x146d86d0 0x0 0xc>;
