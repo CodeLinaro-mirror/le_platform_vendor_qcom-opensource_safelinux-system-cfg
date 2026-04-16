@@ -52,6 +52,11 @@
 		compatible = "qcom,smcinvoke";
 	};
 
+	qcom_tzffi {
+		compatible = "qcom,tzffi";
+		memory-region = <&tz_ffi_mem>;
+	};
+
 	scm_user_intf_sec_device {
 		compatible = "qcom,scm-user-intf-sec";
 		memory-region = <&tzcom_mem>;

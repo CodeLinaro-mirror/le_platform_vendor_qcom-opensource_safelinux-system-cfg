@@ -47,6 +47,11 @@
 		compatible = "qcom,smcinvoke";
 	};
 
+	qcom_tzffi {
+		compatible = "qcom,tzffi";
+		memory-region = <&tz_ffi_mem>;
+	};
+
 	tz_start_count {
 		compatible = "qcom,nhlos-logs-io", "qcom,nhlos-logs";
 		memory-region = <&tz_start_count>;
