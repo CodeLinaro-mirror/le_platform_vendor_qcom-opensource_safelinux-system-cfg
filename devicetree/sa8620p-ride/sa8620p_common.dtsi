@@ -42,6 +42,7 @@
 		qcom,hyplog-enabled;
 		hyplog-address-offset = <0x410>;
 		hyplog-size-offset = <0x414>;
+		memory-region = <&tz_ffi_mem>;
 	};
 
 	qtee_shmbridge {
