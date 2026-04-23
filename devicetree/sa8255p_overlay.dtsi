@@ -113,9 +113,9 @@
 			no-map;
 		};
 
-		ramcarveout_mem: ramcarveout_region@b20000000 {
+		ramcarveout_mem: ramcarveout_region@a00000000 {
 			no-map;
-			reg = <0xb 0x20000000 0x0 0x04000000>;  /* 64MB PVM journal*/
+			reg = <0xa 0x00000000 0x0 0x04000000>;  /* 64MB PVM journal*/
 		};
 	};
 
@@ -640,9 +640,9 @@
 		#size-cells = <2>;
 		ranges;
 
-		journal_region {
+		journal_region: journal_region {
 			compatible = "qcom,minidump-journal";
-			reg = <0xb 0x20000000 0x0 0x04000000>; /* 64M PVM journal */
+			reg = <0xa 0x00000000 0x0 0x04000000>; /* 64M PVM journal */
 		};
 	};
 
