@@ -5,7 +5,7 @@
 Description=Offline target CPUs at boot time
 
 DefaultDependencies=no
-After=init_post_boot.service display-be.service \
+After=display-be.service \
       vhost-user-misc.service vhost-user-disp.service \
       vhost-user-gpu.service vhost-user-aud.service \
       vhost-user-vid.service vhost-user-cam.service \
