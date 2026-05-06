@@ -8,3 +8,16 @@
 &non_ecc_heap_mem {
 	reg = <0x3 0x0B300000 0x0 0xF4100000>;
 };
+
+&hyptz_reserved_mem {
+	status = "disabled";
+};
+
+&audio_config {
+	status = "disabled";
+};
+
+&lpass_machine_learning_mem {
+	status = "disabled";
+};
+
