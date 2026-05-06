@@ -32,6 +32,14 @@
 		status = "okay";
 	};
 
+	gemnoc@9100000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x9100000 0x0 0xF8000>,
+			<0x0 0x90B5000 0x0 0x2000>;
+		iommus = <&apps_smmu 0x462 0x0>;
+		dma-coherent;
+	};
+
 	umd_glink@780000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x00780000 0x0 0x10000>,
