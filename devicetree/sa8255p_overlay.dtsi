@@ -112,6 +112,11 @@
 			reg = <0x3 0x00000000 0x0 0x80000000>;
 			no-map;
 		};
+
+		ramcarveout_mem: ramcarveout_region@b20000000 {
+			no-map;
+			reg = <0xb 0x20000000 0x0 0x04000000>;  /* 64MB PVM journal*/
+		};
 	};
 
 	tz_start_count {
@@ -622,6 +627,14 @@
 	mini_dump_mode {
 		compatible = "qcom,minidump";
 		status = "ok";
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		journal_region {
+			compatible = "qcom,minidump-journal";
+			reg = <0xb 0x20000000 0x0 0x04000000>; /* 64M PVM journal */
+		};
 	};
 
 	scm_user_intf_device {
