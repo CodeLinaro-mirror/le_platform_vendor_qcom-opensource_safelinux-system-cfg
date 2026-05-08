@@ -10,6 +10,4 @@ pkg_check_modules(SYSTEMD REQUIRED "systemd")
 pkg_get_variable(SYSTEMD_SYSTEM_UNIT_DIR systemd "systemdsystemunitdir")
 
 add_subdirectory(slices)
-if(DEFINED IS_GEN5)
-    add_subdirectory(plat-config-generator)
-endif()
+add_subdirectory(plat-config-generator)
