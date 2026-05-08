@@ -215,8 +215,17 @@
 	status = "okay";
 };
 
+&scmi46 {
+	status = "okay";
+};
+
 &scmi63 {
 	status = "okay";
+};
+
+&uart3 {
+	power-domains = <&scmi11_pd 3>, <&scmi11_dvfs 3>;
+	power-domain-names = "power", "perf";
 };
 
 &uart17 {
