@@ -8,6 +8,7 @@
 
 #include <dt-bindings/interrupt-controller/irq.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/arm/qcom_dma_heap_dt_constants.h>
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/gpio/gpio.h>
 #include <oot-dt-bindings/qcom-ipcc.h>
@@ -36,6 +37,7 @@
 		qcom,hyplog-enabled;
 		hyplog-address-offset = <0x410>;
 		hyplog-size-offset = <0x414>;
+		memory-region = <&tz_ffi_mem>;
 	};
 
 	qtee_shmbridge {
@@ -44,6 +46,11 @@
 
 	qcom_smcinvoke {
 		compatible = "qcom,smcinvoke";
+	};
+
+	qcom_tzffi {
+		compatible = "qcom,tzffi";
+		memory-region = <&tz_ffi_mem>;
 	};
 
 	tz_start_count {
@@ -362,6 +369,12 @@
 	qcom,dma-heaps {
 		compatible = "qcom,dma-heaps";
 		status = "okay";
+
+		qcom,non-ecc {
+			qcom,dma-heap-name = "qcom,non-ecc";
+			qcom,dma-heap-type = <HEAP_TYPE_CARVEOUT>;
+			memory-region = <&non_ecc_heap_mem>;
+		};
 	};
 
 	qcom,secure-buffer {
@@ -437,6 +450,17 @@
 		alignment = <0x0 0x400000>;
 		size = <0x0 0x1400000>; /* 20M */
 	};
+
+	non_ecc_heap_mem: non_ecc_heap_mem_region@edb9a0000 {
+		reg = <0xe 0xdb9a0000 0x0 0x20000000>;
+		no-map;
+	};
+
+	audio_mdf_mem: audio_mdf_region@ae000000 {
+		reg = <0x0 0xae000000 0x0 0x1000000>;
+		no-map;
+	};
+
 };
 
 &ethernet0 {
