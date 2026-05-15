@@ -76,9 +76,12 @@ endif
 
 #DDR Overlay
 # 0gvm: pvm only; 1gvm: single LAGVM; no mention gvm: multigvm LAGVM + LVGVM
+dtb-y += sa7255p-ride/sa7255p-ddr-12gb_overlay.dtbo
 dtb-y += sa8255p-ride/sa8255p-ddr-12gb_overlay.dtbo
 dtb-y += sa8255p-ride/sa8255p-ddr-36gb_overlay.dtbo
 
+dtb-y += sa7255p-ride/sa7255p-ddr-0gvm-12gb_overlay.dtbo
+dtb-y += sa7255p-ride/sa7255p-ddr-1gvm-12gb_overlay.dtbo
 dtb-y += sa8255p-ride/sa8255p-ddr-0gvm-12gb_overlay.dtbo
 dtb-y += sa8255p-ride/sa8255p-ddr-0gvm-36gb_overlay.dtbo
 dtb-y += sa8255p-ride/sa8255p-ddr-1gvm-36gb_overlay.dtbo
