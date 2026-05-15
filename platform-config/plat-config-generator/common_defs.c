@@ -279,6 +279,30 @@ static void set_default_target_conf(const char *sku, const char *machine_name,
 		fprintf(stderr, SD_ERR, "unsupported machine or sku: %s\n", sku);
 }
 
+static int get_max_cpu_index(void)
+{
+	FILE *f = fopen("/sys/devices/system/cpu/online", "r");
+	if (!f) {
+		return -1;
+	}
+	char buf[64];
+	if (!fgets(buf, sizeof(buf), f)) {
+		fclose(f);
+		return -1;
+	}
+	fclose(f);
+
+	char *dash = strchr(buf, '-');
+	if (!dash) {
+		return -1;
+	}
+	int max;
+	if (sscanf(dash + 1, "%d", &max) != 1) {
+		return -1;
+	}
+	return max;
+}
+
 int init_target_conf(target_conf_t *conf)
 {
 	int ret;
@@ -352,5 +376,20 @@ int init_target_conf(target_conf_t *conf)
 		set_default_target_conf(sku, machine_name, conf);
 	}
 
-	return 0;
+	/* Apply CPU adjustment only for Nord (8797) platforms */
+	if (strstr(machine_name, "8797") != NULL) {
+		int max_cpu = get_max_cpu_index();
+		if (max_cpu == 16) {
+			for (int i = 0; i < conf->slice_count; i++) {
+				if (conf->slices[i].boot_cpu_end == 17) {
+					conf->slices[i].boot_cpu_end = 16;
+				}
+				if (conf->slices[i].cpu_end == 17) {
+					conf->slices[i].cpu_end = 16;
+				}
+			}
+		}
+	}
+
+return 0;
 }
