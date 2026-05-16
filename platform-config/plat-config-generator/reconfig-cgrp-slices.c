@@ -19,14 +19,14 @@ static bool set_slice_cpuset(const char *slice_name,
 
 void print_final_config(target_conf_t *conf)
 {
-	fprintf(stdout, SD_INFO, "final cgrp configuration\n");
+	fprintf(stdout, SD_INFO "final cgrp configuration\n");
 
 	for (int i = 0; i < conf->slice_count; ++i) {
 		const char *slice_name = conf->slices[i].name;
 		int start = conf->slices[i].cpu_start;
 		int end = conf->slices[i].cpu_end;
 
-		fprintf(stdout, SD_INFO, "Slice: %s, CPUs: %d-%d\n", slice_name, start, end);
+		fprintf(stdout, SD_INFO "Slice: %s, CPUs: %d-%d\n", slice_name, start, end);
 	}
 }
 
@@ -45,7 +45,7 @@ int main(int argc, char **argv)
 		int end = conf.slices[i].cpu_end;
 
 		if (!set_slice_cpuset(slice_name, start, end)) {
-			fprintf(stderr, SD_ERR, "Failed to set cpuset for slice %s\n",
+			fprintf(stderr, SD_ERR "Failed to set cpuset for slice %s\n",
 					slice_name);
 			return -1;
 		}

@@ -18,7 +18,7 @@ static int write_slice_dropin(const char *dir_path,
 	fptr = fopen(dropin_file_path, "w");
 
 	if (!fptr) {
-		fprintf(stderr, SD_ERR, "Failed to open %s for writing: %s\n", dropin_file_path,
+		fprintf(stderr, SD_ERR "Failed to open %s for writing: %s\n", dropin_file_path,
 				strerror(errno));
 		return -errno;
 	}
@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 								conf.slices[i].boot_cpu_end);
 
 		if (rc) {
-			fprintf(stderr, SD_ERR, "Failed to write slice dropin file for %s\n",
+			fprintf(stderr, SD_ERR "Failed to write slice dropin file for %s\n",
 					conf.slices[i].name);
 			return rc;
 		}

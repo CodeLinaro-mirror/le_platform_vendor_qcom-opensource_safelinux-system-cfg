@@ -218,7 +218,7 @@ void create_dir(char *gen_dir)
 	// Assume argument dir pointer is valid
 	if (mkdir(gen_dir, 0755) < 0) {
 		if (errno != EEXIST) {
-			fprintf(stderr, SD_ERR,
+			fprintf(stderr, SD_ERR
 					"Failed to create %s: %s\n", gen_dir, strerror(errno));
 			exit(0 - errno);
 		}
@@ -233,7 +233,7 @@ bool write_sysfs(const char *path, const char *value)
 	int fd cleanup_close = open(path, O_WRONLY | O_CLOEXEC);
 
 	if (fd < 0) {
-		fprintf(stderr, SD_ERR, "Failed to open %s for writing: %s\n", path,
+		fprintf(stderr, SD_ERR "Failed to open %s for writing: %s\n", path,
 				strerror(errno));
 		return false;
 	}
@@ -242,7 +242,7 @@ bool write_sysfs(const char *path, const char *value)
 	write_status = write(fd, value, len);
 
 	if (write_status != len) {
-		fprintf(stderr, SD_ERR, "Failed to write to %s: %s\n", path,
+		fprintf(stderr, SD_ERR "Failed to write to %s: %s\n", path,
 				strerror(errno));
 		return false;
 	}
@@ -259,7 +259,7 @@ static int read_input_INIfile(target_conf_t *conf, const char *file_path)
 						sizeof(conf->sku), file_path);
 
 	if (ret_val == 0) {
-		fprintf(stderr, SD_ERR,
+		fprintf(stderr, SD_ERR
 				"Failed to read sku name from %s\n", file_path);
 		return -ENOENT;
 	}
@@ -267,7 +267,7 @@ static int read_input_INIfile(target_conf_t *conf, const char *file_path)
 	conf->slice_count = ini_getl("sku", "slice_count", -1, file_path);
 
 	if (conf->slice_count <= 0 || conf->slice_count > MAX_SLICES) {
-		fprintf(stderr, SD_ERR,
+		fprintf(stderr, SD_ERR
 				"Invalid slice count in %s\n", file_path);
 		return -EINVAL;
 	}
@@ -278,7 +278,7 @@ static int read_input_INIfile(target_conf_t *conf, const char *file_path)
 	}
 
 	if (i == num_skus) {
-		fprintf(stderr, SD_ERR,
+		fprintf(stderr, SD_ERR
 				"Invalid SKU name in %s\n", file_path);
 		return -EINVAL;
 	}
@@ -291,7 +291,7 @@ static int read_input_INIfile(target_conf_t *conf, const char *file_path)
 							sizeof(conf->slices[i].name), file_path);
 
 		if (ret_val == 0) {
-			fprintf(stderr, SD_ERR,
+			fprintf(stderr, SD_ERR
 					"Failed to read slice name from %s\n", file_path);
 			return -ENOENT;
 		}
@@ -302,7 +302,7 @@ static int read_input_INIfile(target_conf_t *conf, const char *file_path)
 								"boot_cpu_end",   -1, file_path);
 
 		if (conf->slices[i].boot_cpu_start < 0 || conf->slices[i].boot_cpu_end < 0) {
-			fprintf(stderr, SD_ERR,
+			fprintf(stderr, SD_ERR
 					"Failed to read boot_cpu_start and boot_cpu_end values from %s\n",
 					file_path);
 			return -EINVAL;
@@ -312,7 +312,7 @@ static int read_input_INIfile(target_conf_t *conf, const char *file_path)
 		conf->slices[i].cpu_end   = (int)ini_getl(section, "post_boot_cpu_end", -1, file_path);
 
 		if (conf->slices[i].cpu_start < 0 || conf->slices[i].cpu_end < 0) {
-			fprintf(stderr, SD_ERR,
+			fprintf(stderr, SD_ERR
 					"Failed to read post_boot_cpu_start and post_boot_cpu_end values from %s\n",
 					file_path);
 			return -EINVAL;
@@ -356,7 +356,7 @@ static void set_default_target_conf(const char *sku, const char *machine_name,
 		else if (strcmp(sku, "ADAS") == 0)
 			*conf = adas_conf_nords;
 		else
-			fprintf(stderr, SD_ERR, "unsupported sku: %s\n", sku);
+			fprintf(stderr, SD_ERR "unsupported sku: %s\n", sku);
 	} else if (strstr(machine_name, "8787") != NULL) {
 		if (strcmp(sku, "SAFE_IVI") == 0)
 			*conf = safe_ivi_conf_seca;
@@ -367,7 +367,7 @@ static void set_default_target_conf(const char *sku, const char *machine_name,
 		else if (strcmp(sku, "ADAS") == 0)
 			*conf = adas_conf_seca;
 		else
-			fprintf(stderr, SD_ERR, "unsupported sku: %s\n", sku);
+			fprintf(stderr, SD_ERR "unsupported sku: %s\n", sku);
 	} else if (strstr(machine_name, "8255") != NULL)
 		*conf = nonsafe_ivi_conf_lemans_8255;
 	else if (strstr(machine_name, "8775") != NULL)
@@ -375,7 +375,7 @@ static void set_default_target_conf(const char *sku, const char *machine_name,
 	else if (strstr(machine_name, "8650") != NULL)
 		*conf = adas_conf_lemans_8650;
 	else
-		fprintf(stderr, SD_ERR, "unsupported machine or sku: %s\n", sku);
+		fprintf(stderr, SD_ERR "unsupported machine or sku: %s\n", sku);
 }
 
 int init_target_conf(target_conf_t *conf)
@@ -400,26 +400,26 @@ int init_target_conf(target_conf_t *conf)
 
 		initialize_softsku_config();
 		if (get_status_bits(softsku_spare_0, 8, 9, &sku_id_by_bits))
-			fprintf(stderr, SD_INFO, "Get status bit failed!\n");
+			fprintf(stderr, SD_INFO "Get status bit failed!\n");
 		else {
 			/*checking with sku id got from macros*/
 			if (sku_id_by_bits != SW_CONFIG)
-				fprintf(stderr, SD_INFO, "Bit extraction verified.\n");
+				fprintf(stderr, SD_INFO "Bit extraction verified.\n");
 		}
 
-		if (SW_CONFIG_TYPE_NONSAFE_IVI) {
+		if (SW_CONFIG_NONSAFE_IVI) {
 			strlcpy(sku, "NONSAFE_IVI", sizeof(sku));
 			strlcpy(target_conf_file, is_nord ? NORD_NONSAFE_IVI_FILE : SECA_NONSAFE_IVI_FILE,
 					sizeof(target_conf_file));
-		} else if (SW_CONFIG_TYPE_FLEX) {
+		} else if (SW_CONFIG_FLEX) {
 			strlcpy(sku, "FLEX", sizeof(sku));
 			strlcpy(target_conf_file, is_nord ? NORD_FLEX_FILE : SECA_FLEX_FILE,
 					sizeof(target_conf_file));
-		} else if (SW_CONFIG_TYPE_ADAS) {
+		} else if (SW_CONFIG_ADAS) {
 			strlcpy(sku, "ADAS", sizeof(sku));
 			strlcpy(target_conf_file, is_nord ? NORD_ADAS_FILE : SECA_ADAS_FILE,
 					sizeof(target_conf_file));
-		} else if (SW_CONFIG_TYPE_SAFE_IVI) {
+		} else if (SW_CONFIG_SAFE_IVI) {
 			strlcpy(sku, "SAFE_IVI", sizeof(sku));
 			strlcpy(target_conf_file, is_nord ? NORD_SAFE_IVI_FILE : SECA_SAFE_IVI_FILE,
 					sizeof(target_conf_file));
@@ -451,7 +451,7 @@ int init_target_conf(target_conf_t *conf)
 	ret = read_input_INIfile(conf, target_conf_file);
 
 	if (ret != 0) {
-		fprintf(stderr, SD_INFO,
+		fprintf(stderr, SD_INFO
 				"Failed to read input %s file\n", target_conf_file);
 		set_default_target_conf(sku, machine_name, conf);
 	}
