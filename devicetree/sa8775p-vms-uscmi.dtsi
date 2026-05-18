@@ -13,6 +13,15 @@
 		qcom,dev-name = "scmi_uart17";
 	};
 
+	scmi_uart3 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi11_pd 3>, <&scmi11_dvfs 3>;
+		power-domain-names = "power", "perf";
+
+		qcom,dev-name = "scmi_uart3";
+	};
+
 	scmi_pcie0 {
 		compatible = "qcom,uscmi";
 
@@ -39,6 +48,15 @@
 		power-domain-names = "power";
 
 		qcom,dev-name = "scmi_bluetooth";
+	};
+
+	scmi_bluetooth_2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi46_pd 0>;
+		power-domain-names = "power";
+
+		qcom,dev-name = "scmi_bluetooth_2";
 	};
 
 	scmi_emac1 {

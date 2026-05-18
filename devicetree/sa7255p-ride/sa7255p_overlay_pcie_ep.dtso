@@ -7,7 +7,7 @@
 
 &{/} {
 	model = "Qualcomm Technologies, Inc. SA7255P Ride PCIe EP Mode";
-	qcom,board-id = <0x3010019 0>;
+	qcom,board-id = <0x3010019 3>;
 };
 
 &pcie1 {

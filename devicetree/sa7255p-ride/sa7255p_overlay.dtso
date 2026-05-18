@@ -8,6 +8,7 @@
 
 #include <dt-bindings/interrupt-controller/irq.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/arm/qcom_dma_heap_dt_constants.h>
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/gpio/gpio.h>
 #include <oot-dt-bindings/qcom-ipcc.h>
@@ -36,6 +37,7 @@
 		qcom,hyplog-enabled;
 		hyplog-address-offset = <0x410>;
 		hyplog-size-offset = <0x414>;
+		memory-region = <&tz_ffi_mem>;
 	};
 
 	qtee_shmbridge {
@@ -44,6 +46,11 @@
 
 	qcom_smcinvoke {
 		compatible = "qcom,smcinvoke";
+	};
+
+	qcom_tzffi {
+		compatible = "qcom,tzffi";
+		memory-region = <&tz_ffi_mem>;
 	};
 
 	tz_start_count {
@@ -61,11 +68,19 @@
 	status = "okay";
 };
 
+&scmi2 {
+	status = "okay";
+};
+
 &scmi7 {
 	status = "okay";
 };
 
 &scmi11 {
+	status = "okay";
+};
+
+&scmi14 {
 	status = "okay";
 };
 
@@ -212,6 +227,25 @@
 		qcom,dev-name = "scmi_gpce";
 	};
 
+	/* SCMI node for USB2 controller power management */
+	scmi_usb2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi2_pd 0>, <&scmi2_pd 1>;
+		power-domain-names = "usb_transfer", "usb_core";
+
+		qcom,dev-name = "scmi_usb2";
+	};
+
+	scmi_usb2_phy2 {
+		compatible = "qcom,uscmi";
+
+		power-domains = <&scmi14_pd 0>, <&scmi14_pd 1>;
+		power-domain-names = "usb_transfer", "usb_core";
+
+		qcom,dev-name = "scmi_usb2_phy2";
+	};
+
 	test_scmi {
 		compatible = "qcom,uscmi";
 		power-domains = <&scmi63_pd 2> , <&scmi63_dvfs 2>;
@@ -219,6 +253,20 @@
 		resets = <&scmi63_rst 0>;
 		reset-names = "core";
 		qcom,dev-name = "test_scmi";
+	};
+
+	scmi_wlan {
+		compatible = "qcom,uscmi";
+		power-domains = <&scmi24_pd 0>, <&scmi24_pd 1>;
+		power-domain-names = "power_regulator", "power_gpio";
+		qcom,dev-name = "scmi_wlan";
+	};
+
+	scmi_bluetooth {
+		compatible = "qcom,uscmi";
+		power-domains = <&scmi25_pd 0>, <&scmi25_pd 1>;
+		power-domain-names = "power_regulator", "power_gpio";
+		qcom,dev-name = "scmi_bluetooth";
 	};
 
 	test_scmi_perf {
@@ -251,6 +299,11 @@
 
 	dload_mode {
 		compatible = "qcom,dload-mode";
+	};
+
+	dload_type {
+		compatible = "qcom,msm-imem-dload-type";
+		reg = <0x0 0x146d801c 0x0 0x4>;
 	};
 
 	kaslr_store {
@@ -321,6 +374,12 @@
 	qcom,dma-heaps {
 		compatible = "qcom,dma-heaps";
 		status = "okay";
+
+		qcom,non-ecc {
+			qcom,dma-heap-name = "qcom,non-ecc";
+			qcom,dma-heap-type = <HEAP_TYPE_CARVEOUT>;
+			memory-region = <&non_ecc_heap_mem>;
+		};
 	};
 
 	qcom,secure-buffer {
@@ -396,6 +455,17 @@
 		alignment = <0x0 0x400000>;
 		size = <0x0 0x1400000>; /* 20M */
 	};
+
+	non_ecc_heap_mem: non_ecc_heap_mem_region@edb9a0000 {
+		reg = <0xe 0xdb9a0000 0x0 0x20000000>;
+		no-map;
+	};
+
+	audio_mdf_mem: audio_mdf_region@ae000000 {
+		reg = <0x0 0xae000000 0x0 0x1000000>;
+		no-map;
+	};
+
 };
 
 &ethernet0 {
