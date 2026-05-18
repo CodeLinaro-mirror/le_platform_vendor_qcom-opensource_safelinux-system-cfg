@@ -5,6 +5,10 @@
 /dts-v1/;
 /plugin/;
 
+/ {
+	compatible = "qcom,sa8255p-ride";
+};
+
 &{/} {
 	qcom,gvm-num = <1>;
 };
