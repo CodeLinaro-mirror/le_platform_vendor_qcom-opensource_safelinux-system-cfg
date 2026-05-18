@@ -42,4 +42,6 @@ if selinuxenabled && [ -x "$(command -v restorecon)" ]; then
     restorecon -vFR /dev
 fi
 
+echo 1 > /dev/vfio-complete
+
 exit 0
