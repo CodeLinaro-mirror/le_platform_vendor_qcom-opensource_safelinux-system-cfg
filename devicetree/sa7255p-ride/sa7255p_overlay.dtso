@@ -175,7 +175,7 @@
 	scmi_gpdsp0 {
 		compatible = "qcom,uscmi";
 
-		power-domains = <&scmi19_dvfs 2>;
+		power-domains = <&scmi19_dvfs 1>;
 		power-domain-names = "perf";
 
 		qcom,dev-name = "scmi_gpdsp0";
