@@ -371,7 +371,7 @@
 		iommus = <&adreno_smmu 0x0 0xc00>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
-		iommu_faults;
+		iommu-faults;
 	};
 
 	vfio_gmu {
@@ -382,7 +382,7 @@
 		iommus = <&adreno_smmu 0x5 0xc00>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
-		iommu_faults;
+		iommu-faults;
 	};
 
 	vfio_gmu_db {
@@ -391,7 +391,7 @@
 		iommus = <&adreno_smmu 0x4 0xc00>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
-		iommu_faults;
+		iommu-faults;
 	};
 
 	vfio_kgsl_secure {
@@ -404,7 +404,7 @@
 		qcom,secure-context-bank;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
-		iommu_faults;
+		iommu-faults;
 	};
 
 	vfio_kgsl_lpac {
@@ -413,7 +413,7 @@
 		iommus = <&adreno_smmu 0x1 0xc00>;
 		qcom,iommu-dma = "disabled";
 		dma-coherent;
-		iommu_faults;
+		iommu-faults;
 	};
 
 	vfio_titan_base@ac00000 {
@@ -457,6 +457,7 @@
 		iommus = <&apps_smmu 0x2400 0x0020>;
 		dma-coherent;
 		qcom,iova-align-shift-max = <21>;
+		iommu-faults;
 	};
 
 	vfio_cam_ipe_non_secure_cb {
@@ -465,6 +466,7 @@
 		dma-coherent;
 		qcom,iommu-dma-addr-pool = <0x0 0x800000 0x0 0xDF800000>;
 		qcom,iova-align-shift-max = <21>;
+		iommu-faults;
 	};
 
 	vfio_cam_cdm_non_secure_cb {
@@ -472,6 +474,7 @@
 		iommus = <&apps_smmu 0x860 0x0400>;
 		dma-coherent;
 		qcom,iova-align-shift-max = <21>;
+		iommu-faults;
 	};
 
 	vfio_cam_icp_non_secure_cb {
@@ -480,6 +483,7 @@
 		dma-coherent;
 		qcom,iommu-dma-addr-pool = <0x0 0x800000 0x0 0xDF800000>;
 		qcom,iova-align-shift-max = <21>;
+		iommu-faults;
 	};
 
 	vfio_cci0@0 {
@@ -528,7 +532,7 @@
 		qcom,iommu-dma-addr-pool = <0x0 0x25800000 0x0 0xba800000>;
 		memory-region = <&pil_video_mem>;
 		dma-coherent;
-		iommu_faults;
+		iommu-faults;
 	};
 
 	vfio_vidc_non_secure_pixel_cb {
@@ -536,7 +540,7 @@
 		iommus = <&apps_smmu 0x0887 0x0400>;
 		qcom,iommu-dma-addr-pool = <0x0 0x00100000 0x0 0xdff00000>;
 		dma-coherent;
-		iommu_faults;
+		iommu-faults;
 	};
 
 	vfio_vidc_secure_non_pixel_cb {
@@ -610,7 +614,7 @@
 		iommus = <&apps_smmu 0x08A0 0x400>;
 		qcom,iommu-dma-addr-pool = <0x0 0x4b000000 0x0 0x90000000>;
 		dma-coherent;
-		iommu_faults;
+		iommu-faults;
 	};
 
 	vfio_hwkm_gpce_core_0@1dc0000 {
