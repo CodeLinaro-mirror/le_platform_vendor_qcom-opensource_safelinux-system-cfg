@@ -2,7 +2,27 @@
 // Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 
 #include "platform_cfgs.h"
+#if IS_GEN5
 #include "softsku_config.h"
+#else
+#include <glib.h>
+#define strlcpy g_strlcpy
+#endif
+
+/* Gen 4 */
+#define LEMANS_NONSAFE_IVI_FILE "/etc/lemans/nonsafe_ivi.ini"
+#define LEMANS_FLEX_FILE "/etc/lemans/flex.ini"
+#define LEMANS_ADAS_FILE "/etc/lemans/adas.ini"
+
+/* Gen 5 */
+#define NORD_NONSAFE_IVI_FILE "/etc/nord/nonsafe_ivi.ini"
+#define NORD_FLEX_FILE "/etc/nord/flex.ini"
+#define NORD_ADAS_FILE "/etc/nord/adas.ini"
+#define NORD_SAFE_IVI_FILE "/etc/nord/safe_ivi.ini"
+#define SECA_NONSAFE_IVI_FILE "/etc/seca/nonsafe_ivi.ini"
+#define SECA_FLEX_FILE "/etc/seca/flex.ini"
+#define SECA_ADAS_FILE "/etc/seca/adas.ini"
+#define SECA_SAFE_IVI_FILE "/etc/seca/safe_ivi.ini"
 
 char *sku_names[] = {"SAFE_IVI", "ADAS", "FLEX", "NONSAFE_IVI"};
 
@@ -15,12 +35,12 @@ target_conf_t nonsafe_ivi_conf_lemans_8255 = {
 			.boot_cpu_end = 3, .cpu_start = 0, .cpu_end = 1
 		},
 		{
-			.name = "gvm.slice", .boot_cpu_start = 2,
-			.boot_cpu_end = 3, .cpu_start = 2, .cpu_end = 3
+			.name = "gvm.slice", .boot_cpu_start = 4,
+			.boot_cpu_end = 7, .cpu_start = 2, .cpu_end = 2
 		},
 		{
-			.name = "system.slice", .boot_cpu_start = 2,
-			.boot_cpu_end = 3, .cpu_start = 2, .cpu_end = 3
+			.name = "system.slice", .boot_cpu_start = 4,
+			.boot_cpu_end = 7, .cpu_start = 2, .cpu_end = 2
 		},
 	}
 };
@@ -32,15 +52,15 @@ target_conf_t flex_conf_lemans_8775 = {
 	.slices = {
 		{
 			.name = "pvm.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 3, .cpu_start = 0, .cpu_end = 1
+			.boot_cpu_end = 3, .cpu_start = 0, .cpu_end = 3
 		},
 		{
-			.name = "gvm.slice", .boot_cpu_start = 2,
-			.boot_cpu_end = 3, .cpu_start = 2, .cpu_end = 3
+			.name = "gvm.slice", .boot_cpu_start = 4,
+			.boot_cpu_end = 7, .cpu_start = 4, .cpu_end = 7
 		},
 		{
-			.name = "system.slice", .boot_cpu_start = 2,
-			.boot_cpu_end = 3, .cpu_start = 2, .cpu_end = 3
+			.name = "system.slice", .boot_cpu_start = 4,
+			.boot_cpu_end = 7, .cpu_start = 4, .cpu_end = 7
 		},
 	}
 };
@@ -125,12 +145,80 @@ target_conf_t adas_conf_nords = {
 	}
 };
 
+target_conf_t safe_ivi_conf_seca = {
+	.sku = "SAFE_IVI",
+	.slice_count = 3,
+	.slices = {
+		{
+			.name = "pvm.slice", .boot_cpu_start = 8,
+			.boot_cpu_end = 11, .cpu_start = 9, .cpu_end = 11
+		},
+		{
+			.name = "gvm.slice", .boot_cpu_start = 0,
+			.boot_cpu_end = 7, .cpu_start = 8, .cpu_end = 9
+		},
+		{
+			.name = "system.slice", .boot_cpu_start = 0,
+			.boot_cpu_end = 7, .cpu_start = 8, .cpu_end = 9
+		},
+	}
+};
+
+target_conf_t nonsafe_ivi_conf_seca = {
+	.sku = "NONSAFE_IVI",
+	.slice_count = 3,
+	.slices = {
+		{
+			.name = "pvm.slice", .boot_cpu_start = 8,
+			.boot_cpu_end = 11, .cpu_start = 9, .cpu_end = 11
+		},
+		{
+			.name = "gvm.slice", .boot_cpu_start = 0,
+			.boot_cpu_end = 7, .cpu_start = 8, .cpu_end = 9
+		},
+		{
+			.name = "system.slice", .boot_cpu_start = 0,
+			.boot_cpu_end = 7, .cpu_start = 8, .cpu_end = 9
+		},
+	}
+};
+
+target_conf_t flex_conf_seca = {
+	.sku = "FLEX",
+	.slice_count = 3,
+	.slices = {
+		{
+			.name = "pvm.slice", .boot_cpu_start = 8,
+			.boot_cpu_end = 11, .cpu_start = 9, .cpu_end = 11
+		},
+		{
+			.name = "gvm.slice", .boot_cpu_start = 0,
+			.boot_cpu_end = 7, .cpu_start = 8, .cpu_end = 9
+		},
+		{
+			.name = "system.slice", .boot_cpu_start = 0,
+			.boot_cpu_end = 7, .cpu_start = 8, .cpu_end = 9
+		},
+	}
+};
+
+target_conf_t adas_conf_seca = {
+	.sku = "ADAS",
+	.slice_count = 1,
+	.slices = {
+		{
+			.name = "pvm.slice", .boot_cpu_start = 0,
+			.boot_cpu_end = 11, .cpu_start = 0, .cpu_end = 11
+		},
+	}
+};
+
 void create_dir(char *gen_dir)
 {
 	// Assume argument dir pointer is valid
 	if (mkdir(gen_dir, 0755) < 0) {
 		if (errno != EEXIST) {
-			fprintf(stderr, SD_ERR,
+			fprintf(stderr, SD_ERR
 					"Failed to create %s: %s\n", gen_dir, strerror(errno));
 			exit(0 - errno);
 		}
@@ -145,7 +233,7 @@ bool write_sysfs(const char *path, const char *value)
 	int fd cleanup_close = open(path, O_WRONLY | O_CLOEXEC);
 
 	if (fd < 0) {
-		fprintf(stderr, SD_ERR, "Failed to open %s for writing: %s\n", path,
+		fprintf(stderr, SD_ERR "Failed to open %s for writing: %s\n", path,
 				strerror(errno));
 		return false;
 	}
@@ -154,7 +242,7 @@ bool write_sysfs(const char *path, const char *value)
 	write_status = write(fd, value, len);
 
 	if (write_status != len) {
-		fprintf(stderr, SD_ERR, "Failed to write to %s: %s\n", path,
+		fprintf(stderr, SD_ERR "Failed to write to %s: %s\n", path,
 				strerror(errno));
 		return false;
 	}
@@ -171,7 +259,7 @@ static int read_input_INIfile(target_conf_t *conf, const char *file_path)
 						sizeof(conf->sku), file_path);
 
 	if (ret_val == 0) {
-		fprintf(stderr, SD_ERR,
+		fprintf(stderr, SD_ERR
 				"Failed to read sku name from %s\n", file_path);
 		return -ENOENT;
 	}
@@ -179,7 +267,7 @@ static int read_input_INIfile(target_conf_t *conf, const char *file_path)
 	conf->slice_count = ini_getl("sku", "slice_count", -1, file_path);
 
 	if (conf->slice_count <= 0 || conf->slice_count > MAX_SLICES) {
-		fprintf(stderr, SD_ERR,
+		fprintf(stderr, SD_ERR
 				"Invalid slice count in %s\n", file_path);
 		return -EINVAL;
 	}
@@ -190,7 +278,7 @@ static int read_input_INIfile(target_conf_t *conf, const char *file_path)
 	}
 
 	if (i == num_skus) {
-		fprintf(stderr, SD_ERR,
+		fprintf(stderr, SD_ERR
 				"Invalid SKU name in %s\n", file_path);
 		return -EINVAL;
 	}
@@ -203,7 +291,7 @@ static int read_input_INIfile(target_conf_t *conf, const char *file_path)
 							sizeof(conf->slices[i].name), file_path);
 
 		if (ret_val == 0) {
-			fprintf(stderr, SD_ERR,
+			fprintf(stderr, SD_ERR
 					"Failed to read slice name from %s\n", file_path);
 			return -ENOENT;
 		}
@@ -214,7 +302,7 @@ static int read_input_INIfile(target_conf_t *conf, const char *file_path)
 								"boot_cpu_end",   -1, file_path);
 
 		if (conf->slices[i].boot_cpu_start < 0 || conf->slices[i].boot_cpu_end < 0) {
-			fprintf(stderr, SD_ERR,
+			fprintf(stderr, SD_ERR
 					"Failed to read boot_cpu_start and boot_cpu_end values from %s\n",
 					file_path);
 			return -EINVAL;
@@ -224,7 +312,7 @@ static int read_input_INIfile(target_conf_t *conf, const char *file_path)
 		conf->slices[i].cpu_end   = (int)ini_getl(section, "post_boot_cpu_end", -1, file_path);
 
 		if (conf->slices[i].cpu_start < 0 || conf->slices[i].cpu_end < 0) {
-			fprintf(stderr, SD_ERR,
+			fprintf(stderr, SD_ERR
 					"Failed to read post_boot_cpu_start and post_boot_cpu_end values from %s\n",
 					file_path);
 			return -EINVAL;
@@ -268,7 +356,18 @@ static void set_default_target_conf(const char *sku, const char *machine_name,
 		else if (strcmp(sku, "ADAS") == 0)
 			*conf = adas_conf_nords;
 		else
-			fprintf(stderr, SD_ERR, "unsupported sku: %s\n", sku);
+			fprintf(stderr, SD_ERR "unsupported sku: %s\n", sku);
+	} else if (strstr(machine_name, "8787") != NULL) {
+		if (strcmp(sku, "SAFE_IVI") == 0)
+			*conf = safe_ivi_conf_seca;
+		else if (strcmp(sku, "NONSAFE_IVI") == 0)
+			*conf = nonsafe_ivi_conf_seca;
+		else if (strcmp(sku, "FLEX") == 0)
+			*conf = flex_conf_seca;
+		else if (strcmp(sku, "ADAS") == 0)
+			*conf = adas_conf_seca;
+		else
+			fprintf(stderr, SD_ERR "unsupported sku: %s\n", sku);
 	} else if (strstr(machine_name, "8255") != NULL)
 		*conf = nonsafe_ivi_conf_lemans_8255;
 	else if (strstr(machine_name, "8775") != NULL)
@@ -276,17 +375,15 @@ static void set_default_target_conf(const char *sku, const char *machine_name,
 	else if (strstr(machine_name, "8650") != NULL)
 		*conf = adas_conf_lemans_8650;
 	else
-		fprintf(stderr, SD_ERR, "unsupported machine or sku: %s\n", sku);
+		fprintf(stderr, SD_ERR "unsupported machine or sku: %s\n", sku);
 }
 
 int init_target_conf(target_conf_t *conf)
 {
 	int ret;
 	char sku[MAX_SKU_NAME];
-	int max_cpus;
 	char machine_name[MACHINE_NAME_LEN] = {0};
 	char target_conf_file[INI_FILE_PATH_MAX] = {0};
-	unsigned int sku_id_by_bits;
 	bool supported = true;
 
 	ret = get_target_machine_name(machine_name);
@@ -296,45 +393,52 @@ int init_target_conf(target_conf_t *conf)
 		return -1;
 	}
 
-	if (strstr(machine_name, "8797") != NULL) {
-		initialize_softsku_config();
+	if (strstr(machine_name, "8797") != NULL || strstr(machine_name, "8787") != NULL) {
+#if IS_GEN5
+		unsigned int sku_id_by_bits;
+		bool is_nord = strstr(machine_name, "8797") != NULL;
 
+		initialize_softsku_config();
 		if (get_status_bits(softsku_spare_0, 8, 9, &sku_id_by_bits))
-			fprintf(stderr, SD_INFO, "Get status bit failed!\n");
+			fprintf(stderr, SD_INFO "Get status bit failed!\n");
 		else {
 			/*checking with sku id got from macros*/
 			if (sku_id_by_bits != SW_CONFIG)
-				fprintf(stderr, SD_INFO, "Bit extraction verified.\n");
+				fprintf(stderr, SD_INFO "Bit extraction verified.\n");
 		}
 
-		if (SW_CONFIG_TYPE_NONSAFE_IVI) {
+		if (SW_CONFIG_NONSAFE_IVI) {
 			strlcpy(sku, "NONSAFE_IVI", sizeof(sku));
-			strlcpy(target_conf_file, "/etc/target_conf_nonsafe_ivi.ini",
+			strlcpy(target_conf_file, is_nord ? NORD_NONSAFE_IVI_FILE : SECA_NONSAFE_IVI_FILE,
 					sizeof(target_conf_file));
-		} else if (SW_CONFIG_TYPE_FLEX) {
+		} else if (SW_CONFIG_FLEX) {
 			strlcpy(sku, "FLEX", sizeof(sku));
-			strlcpy(target_conf_file, "/etc/target_conf_flex.ini",
+			strlcpy(target_conf_file, is_nord ? NORD_FLEX_FILE : SECA_FLEX_FILE,
 					sizeof(target_conf_file));
-		} else if (SW_CONFIG_TYPE_ADAS) {
+		} else if (SW_CONFIG_ADAS) {
 			strlcpy(sku, "ADAS", sizeof(sku));
-			strlcpy(target_conf_file, "/etc/target_conf_adas.ini",
+			strlcpy(target_conf_file, is_nord ? NORD_ADAS_FILE : SECA_ADAS_FILE,
 					sizeof(target_conf_file));
-		} else if (SW_CONFIG_TYPE_SAFE_IVI) {
+		} else if (SW_CONFIG_SAFE_IVI) {
 			strlcpy(sku, "SAFE_IVI", sizeof(sku));
-			strlcpy(target_conf_file, "/etc/target_conf_safe_ivi.ini",
+			strlcpy(target_conf_file, is_nord ? NORD_SAFE_IVI_FILE : SECA_SAFE_IVI_FILE,
 					sizeof(target_conf_file));
 		} else {
 			supported = false;
 		}
+#endif
 	} else if (strstr(machine_name, "8255") != NULL) {
-		//will be added later for 8255 target config. for now just return error.
-		supported = false;
+		strlcpy(sku, "NONSAFE_IVI", sizeof(sku));
+		strlcpy(target_conf_file, LEMANS_NONSAFE_IVI_FILE,
+					sizeof(target_conf_file));
 	} else if (strstr(machine_name, "8775") != NULL) {
-		//will be added later for 8775 target config. for now just return error.
-		supported = false;
+		strlcpy(sku, "FLEX", sizeof(sku));
+		strlcpy(target_conf_file, LEMANS_FLEX_FILE,
+					sizeof(target_conf_file));
 	} else if (strstr(machine_name, "8650") != NULL) {
-		//will be added later for 8650 target config. for now just return error.
-		supported = false;
+		strlcpy(sku, "ADAS", sizeof(sku));
+		strlcpy(target_conf_file, LEMANS_ADAS_FILE,
+				sizeof(target_conf_file));
 	} else {
 		supported = false;
 	}
@@ -347,7 +451,7 @@ int init_target_conf(target_conf_t *conf)
 	ret = read_input_INIfile(conf, target_conf_file);
 
 	if (ret != 0) {
-		fprintf(stderr, SD_INFO,
+		fprintf(stderr, SD_INFO
 				"Failed to read input %s file\n", target_conf_file);
 		set_default_target_conf(sku, machine_name, conf);
 	}

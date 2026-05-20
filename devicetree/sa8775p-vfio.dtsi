@@ -11,6 +11,13 @@
 		dma-coherent;
 	};
 
+	umd_qc_pm@d0057000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0xd0057000 0x0 0x10000>;
+		iommus = <&apps_smmu 0x3080 0x0>;
+		dma-coherent;
+	};
+
 	umd_glink@780000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x00780000 0x0 0x10000>,
@@ -939,20 +946,6 @@
 		pinctrl-0 = <&edp0_hpd_ctrl>;
 	};
 
-	vfio_dpu_qm_00@ae00000 {
-		compatible = "qcom,vfio-platform";
-		reg = <0x0 0xae00000 0x0 0x200000>;
-		iommus = <&apps_smmu 0x1002 0x402>;
-		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
-		dma-coherent;
-	};
-
-	vfio_dpu_safe_00@ae00000 {
-		compatible = "qcom,vdev-device";
-		interrupts = <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH>;
-		reg = <0x0 0xae00000 0x0 0x200000>;
-	};
-
 	vfio_dpu_01_secure {
 		compatible = "qcom,vfio-platform";
 		iommus = <&apps_smmu 0x1001 0x400>,
@@ -975,22 +968,6 @@
 		dma-coherent;
 		pinctrl-names = "default";
 		pinctrl-0 = <&edp2_hpd_ctrl>;
-	};
-
-	vfio_dpu_qm_10@22000000 {
-		compatible = "qcom,vfio-platform";
-		reg = <0x0 0x22000000 0x0 0x200000>,
-			<0x0 0x786000 0x0 0x1000>;
-		iommus = <&apps_smmu 0x1800 0x402>;
-		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
-		dma-coherent;
-	};
-
-	vfio_dpu_safe_10@22000000 {
-		compatible = "qcom,vdev-device";
-		interrupts = <GIC_SPI 865 IRQ_TYPE_LEVEL_HIGH>;
-		reg = <0x0 0x22000000 0x0 0x200000>,
-			<0x0 0x786000 0x0 0x1000>;
 	};
 
 	vfio_dpu_11_secure {
