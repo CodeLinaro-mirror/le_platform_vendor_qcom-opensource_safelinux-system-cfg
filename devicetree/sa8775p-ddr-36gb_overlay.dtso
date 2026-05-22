@@ -1,0 +1,10 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+/dts-v1/;
+/plugin/;
+
+// Keep the original attributes of sa8255p_overlay.dtsi non-ecc heap unchanged.
+
+&{/reserved-memory} {};
