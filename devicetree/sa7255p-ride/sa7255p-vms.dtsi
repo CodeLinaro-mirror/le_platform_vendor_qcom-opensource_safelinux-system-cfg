@@ -6,6 +6,11 @@
 #include <oot-dt-bindings/qcom-shmem.h>
 #include "sa7255p-vms-uscmi.dtsi"
 
+&gptp_timedata_mem {
+	qcom,is-shared;
+	gunyah-label = <0x61>;
+};
+
 &usb_1 {
 	status = "disabled";
 };
@@ -317,7 +322,7 @@
 				&auto_vm_0_mem_2 &auto_vm_0_mem_3
 				&auto_vm_0_mem_4 &auto_vm_0_mem_5
 				&auto_vm_0_mem_6>;
-		shared-regions = <&glink_cma_mem &vm_cp_pixel &vm_cp_bitstream>;
+		shared-regions = <&glink_cma_mem &gptp_timedata_mem &vm_cp_pixel &vm_cp_bitstream>;
 		enable-gvm-dump;
 		virtio-backends = <&auto_vm_0_be0
 				&auto_vm_0_be1
