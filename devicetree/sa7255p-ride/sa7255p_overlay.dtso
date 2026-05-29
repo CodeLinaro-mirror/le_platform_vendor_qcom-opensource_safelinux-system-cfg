@@ -53,6 +53,30 @@
 		memory-region = <&tz_ffi_mem>;
 	};
 
+	gpio-keys {
+		compatible = "gpio-keys";
+
+		key_sleep {
+			label = "sleep";
+			linux,code = <KEY_SLEEP>;
+			gpios = <&tlmm 3 GPIO_ACTIVE_HIGH>;
+			linux,input-type = <1>;
+			debounce-interval = <0>;
+			wakeup-source;
+			wakeup-event-action = <1>;
+		};
+
+		key_power {
+			label = "power";
+			linux,code = <KEY_POWER>;
+			gpios = <&tlmm 56 GPIO_ACTIVE_HIGH>;
+			linux,input-type = <1>;
+			debounce-interval = <0>;
+			wakeup-source;
+			wakeup-event-action = <1>;
+		};
+	};
+
 	tz_start_count {
 		compatible = "qcom,nhlos-logs-io", "qcom,nhlos-logs";
 		memory-region = <&tz_start_count>;
