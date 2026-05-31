@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 		}
 
 		if (!offline_cpu(cpu)) {
-			fprintf(stderr, SD_ERR, "Failed to offline cpu %d\n", cpu);
+			fprintf(stderr, SD_ERR "Failed to offline cpu %d\n", cpu);
 			return -1;
 		}
 	}
