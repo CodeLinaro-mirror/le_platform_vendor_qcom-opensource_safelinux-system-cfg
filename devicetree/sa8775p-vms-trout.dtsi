@@ -50,10 +50,18 @@
 				&auto_vm_i2c0_ring
 				&auto_vm_ssr_ring
 				&auto_vm_eavb_ring
-				&auto_vm_vgpu_ring
-				&auto_vm_vsnd_ring
-				&auto_vm_vinp_ring
-				&auto_vm_vnet_ring
+				&auto_vm_qcvirtio_gpu_ring
+				&auto_vm_qcvirtio_snd_ring
+				&auto_vm_qcvirtio_inp_ring
+				&auto_vm_qcvirtio_net_ring
+				&auto_vm_qcvirtio_con_ring
+				&auto_vm_qcvirtio_vsock_ring
+				&auto_vm_qcvirtio_gpio_ring
+				&auto_vm_qcvirtio_scmi_ring
+				&auto_vm_qcvirtio_spi_ring
+				&auto_vm_qcvirtio_can_ring
+				&auto_vm_qcvirtio_i2c_ring
+				&auto_vm_qcvirtio_rtc_ring
 				&auto_vm_resv_ring
 				&auto_vm_swiotlb
 				>;
@@ -78,6 +86,46 @@
 	auto_vm_be50: auto_vm_be50@53 {
 		qcom,vm = <&auto_vm>;
 		qcom,label = <0x53>;
+	};
+
+	auto_vm_be51: auto_vm_be51@54 {
+		qcom,vm = <&auto_vm>;
+		qcom,label = <0x54>;
+	};
+
+	auto_vm_be52: auto_vm_be52@55 {
+		qcom,vm = <&auto_vm>;
+		qcom,label = <0x55>;
+	};
+
+	auto_vm_be53: auto_vm_be53@56 {
+		qcom,vm = <&auto_vm>;
+		qcom,label = <0x56>;
+	};
+
+	auto_vm_be54: auto_vm_be54@57 {
+		qcom,vm = <&auto_vm>;
+		qcom,label = <0x57>;
+	};
+
+	auto_vm_be55: auto_vm_be55@58 {
+		qcom,vm = <&auto_vm>;
+		qcom,label = <0x58>;
+	};
+
+	auto_vm_be56: auto_vm_be56@59 {
+		qcom,vm = <&auto_vm>;
+		qcom,label = <0x59>;
+	};
+
+	auto_vm_be57: auto_vm_be57@5A {
+		qcom,vm = <&auto_vm>;
+		qcom,label = <0x5A>;
+	};
+
+	auto_vm_be58: auto_vm_be58@5B {
+		qcom,vm = <&auto_vm>;
+		qcom,label = <0x5B>;
 	};
 };
 
@@ -132,37 +180,94 @@
 				&auto_vm_be47
 				&auto_vm_be48
 				&auto_vm_be49
-				&auto_vm_be50>;
+				&auto_vm_be50
+				&auto_vm_be51
+				&auto_vm_be52
+				&auto_vm_be53
+				&auto_vm_be54
+				&auto_vm_be55
+				&auto_vm_be56
+				&auto_vm_be57
+				&auto_vm_be58
+				>;
 };
 
 &{/reserved-memory} {
-	auto_vm_vgpu_ring: auto_vm_vgpu_ring@B40242000 {
+	auto_vm_qcvirtio_gpu_ring: auto_vm_qcvirtio_gpu_ring@B40242000 {
 		no-map;
 		reg = <0xB 0x40242000 0x0 0x8000>;
 		gunyah-label = <0x4E>;
 	};
 
-	auto_vm_vsnd_ring: auto_vm_vsnd_ring@B4024A000 {
+	auto_vm_qcvirtio_snd_ring: auto_vm_qcvirtio_snd_ring@B4024A000 {
 		no-map;
 		reg = <0xB 0x4024A000 0x0 0x8000>;
 		gunyah-label = <0x4F>;
 	};
 
-	auto_vm_vinp_ring: auto_vm_vinp_ring@B40252000 {
+	auto_vm_qcvirtio_inp_ring: auto_vm_qcvirtio_inp_ring@B40252000 {
 		no-map;
 		reg = <0xB 0x40252000 0x0 0x4000>;
 		gunyah-label = <0x51>;
 	};
 
-	auto_vm_vnet_ring: auto_vm_vnet_ring@B40256000 {
+	auto_vm_qcvirtio_net_ring: auto_vm_qcvirtio_net_ring@B40256000 {
 		no-map;
 		reg = <0xb 0x40256000 0x0 0x8000>;
 		gunyah-label = <0x52>;
+	};
+
+	auto_vm_qcvirtio_con_ring: auto_vm_qcvirtio_con_ring@B4025E000 {
+		no-map;
+		reg = <0xB 0x4025E000 0x0 0x8000>;
+		gunyah-label = <0x53>;
+	};
+
+	auto_vm_qcvirtio_vsock_ring: auto_vm_qcvirtio_vsock_ring@B40266000 {
+		no-map;
+		reg = <0xb 0x40266000 0x0 0x4000>;
+		gunyah-label = <0x54>;
+	};
+
+	auto_vm_qcvirtio_gpio_ring: auto_vm_qcvirtio_gpio_ring@B4026A000 {
+		no-map;
+		reg = <0xb 0x4026A000 0x0 0x4000>;
+		gunyah-label = <0x55>;
+	};
+
+	auto_vm_qcvirtio_scmi_ring: auto_vm_qcvirtio_scmi_ring@B4026E000 {
+		no-map;
+		reg = <0xb 0x4026E000 0x0 0x4000>;
+		gunyah-label = <0x56>;
+	};
+
+	auto_vm_qcvirtio_spi_ring: auto_vm_qcvirtio_spi_ring@B40272000 {
+		no-map;
+		reg = <0xb 0x40272000 0x0 0x4000>;
+		gunyah-label = <0x57>;
+	};
+
+	auto_vm_qcvirtio_can_ring: auto_vm_qcvirtio_can_ring@B40276000 {
+		no-map;
+		reg = <0xb 0x40276000 0x0 0x4000>;
+		gunyah-label = <0x58>;
+	};
+
+	auto_vm_qcvirtio_i2c_ring: auto_vm_qcvirtio_i2c_ring@B4027A000 {
+		no-map;
+		reg = <0xb 0x4027A000 0x0 0x4000>;
+		gunyah-label = <0x59>;
+	};
+
+	auto_vm_qcvirtio_rtc_ring: auto_vm_qcvirtio_rtc_ring@B4027E000 {
+		no-map;
+		reg = <0xb 0x4027E000 0x0 0x4000>;
+		gunyah-label = <0x5A>;
 	};
 };
 
 &auto_vm_resv_ring {
 	no-map;
-	reg = <0xB 0x4025E000 0x0 0xDA2000>;
-	gunyah-label = <0x53>;
+	reg = <0xB 0x40282000 0x0 0xD7E000>;
+	gunyah-label = <0x5B>;
 };
