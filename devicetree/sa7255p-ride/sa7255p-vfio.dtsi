@@ -422,14 +422,24 @@
 		status = "ok";
 	};
 
-        vfio_dpu_00@ae00000 {
-                compatible = "qcom,vfio-platform";
-                interrupts = <0 92 IRQ_TYPE_LEVEL_HIGH>;
-                reg = <0x0 0xae00000 0x0 0x200000>;
-                iommus = <&apps_smmu 0x1000 0x402>;
-                qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
-                dma-coherent;
-        };
+	vfio_dpu_00@ae00000 {
+		compatible = "qcom,vfio-platform";
+		interrupts = <0 92 IRQ_TYPE_LEVEL_HIGH>;
+		reg = <0x0 0xae00000 0x0 0x200000>;
+		iommus = <&apps_smmu 0x1000 0x402>;
+		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
+		dma-coherent;
+	};
+
+	vfio_dpu_01_secure {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x1001 0x400>,
+				<&apps_smmu 0x1401 0x400>;
+		qcom,iommu-dma-addr-pool = <0x0 0x00020000 0x0 0xfffe0000>;
+		qcom,iommu-vmid = <0xa>;
+		qcom,secure-context-bank;
+		dma-coherent;
+	};
 
 	vfio_kgsl@3d00000 {
 		name = "vfio_kgsl";
