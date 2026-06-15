@@ -406,6 +406,15 @@
 		qcom,iommu-dma-addr-pool = <0x0 0x60002000 0x0 0x1FFFE000>;
 	};
 
+	vfio_ptp_umd@0x23047000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x23047000 0x0 0x1000>,
+			<0x0 0x17c23000 0x0 0x1000>;
+		iommus = <&apps_smmu 0x1420 0x0>;
+		memory-region = <&gptp_timedata_mem>;
+		dma-coherent;
+	};
+
 	kiumd {
 		compatible = "qcom,kiumd";
 		qcom,dev-name = "kiumd";
@@ -740,6 +749,11 @@
 	pil_video_mem: pil_video_region@9be82000 {
 		no-map;
 		reg = <0x0 0x9be82000 0x0 0x700000>;
+	};
+
+	gptp_timedata_mem: gptp_timedata_region@ac5fe000 {
+		no-map;
+		reg = <0x0 0xac5fe000 0x0 0x1000>;
 	};
 
 	pil_gdsp0_mem: pil_gdsp0_region@97b00000 {
