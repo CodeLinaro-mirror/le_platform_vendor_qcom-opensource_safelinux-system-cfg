@@ -132,7 +132,6 @@
 		dma-coherent;
 	};
 
-
 	qdss-service@4B05000 {
 		compatible = "qcom,vdev-device";
 		reg = <0x0 0x04B05000 0x0 0x1000>,    /*0 coresight-tmc-etf*/
@@ -196,6 +195,15 @@
 		iommus = <&apps_smmu 0x04C0 0x0>,
 			 <&apps_smmu 0x04E0 0x40>;
 		dma-coherent;
+        };
+
+	subsystem_ramdump_util@90900000 {
+		compatible = "qcom,vdev-device";
+		reg = <0x0 0x90900000 0x0 0x200000>,       /*SMEM*/
+			<0x0 0x99980000 0x0 0x1e00000>,    /*CDSP0*/
+			<0x0 0x97b00000 0x0 0x1e00000>,    /*GPDSP0*/
+			<0x0 0x95c00000 0x0 0x1e00000>,    /*ADSP*/
+			<0x0 0x00780000 0x0 0x10000>;      /*JTAG*/
 	};
 
 	cdsp0_cb@1 {
