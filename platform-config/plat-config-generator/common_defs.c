@@ -13,6 +13,9 @@
 #define LEMANS_NONSAFE_IVI_FILE "/etc/lemans/nonsafe_ivi.ini"
 #define LEMANS_FLEX_FILE "/etc/lemans/flex.ini"
 #define LEMANS_ADAS_FILE "/etc/lemans/adas.ini"
+#define MONACO_NONSAFE_IVI_FILE "/etc/monaco/nonsafe_ivi.ini"
+#define MONACO_FLEX_FILE "/etc/monaco/flex.ini"
+#define MONACO_ADAS_FILE "/etc/monaco/adas.ini"
 
 /* Gen 5 */
 #define NORD_NONSAFE_IVI_FILE "/etc/nord/nonsafe_ivi.ini"
@@ -66,6 +69,55 @@ target_conf_t flex_conf_lemans_8775 = {
 };
 
 target_conf_t adas_conf_lemans_8650 = {
+	.sku = "ADAS",
+	.slice_count = 1,
+	.slices = {
+		{
+			.name = "pvm.slice", .boot_cpu_start = 0,
+			.boot_cpu_end = 7, .cpu_start = 0, .cpu_end = 7
+		},
+	}
+};
+
+target_conf_t nonsafe_ivi_conf_monaco_7255 = {
+	.sku = "NONSAFE_IVI",
+	.slice_count = 3,
+	.slices = {
+		{
+			.name = "pvm.slice", .boot_cpu_start = 0,
+			.boot_cpu_end = 7, .cpu_start = 4, .cpu_end = 5
+		},
+		{
+			.name = "gvm.slice", .boot_cpu_start = 0,
+			.boot_cpu_end = 7, .cpu_start = 6, .cpu_end = 6
+		},
+		{
+			.name = "system.slice", .boot_cpu_start = 0,
+			.boot_cpu_end = 7, .cpu_start = 7, .cpu_end = 7
+		},
+	}
+};
+
+target_conf_t flex_conf_monaco_7775 = {
+	.sku = "FLEX",
+	.slice_count = 3,
+	.slices = {
+		{
+			.name = "pvm.slice", .boot_cpu_start = 0,
+			.boot_cpu_end = 3, .cpu_start = 0, .cpu_end = 3
+		},
+		{
+			.name = "gvm.slice", .boot_cpu_start = 4,
+			.boot_cpu_end = 7, .cpu_start = 4, .cpu_end = 7
+		},
+		{
+			.name = "system.slice", .boot_cpu_start = 4,
+			.boot_cpu_end = 7, .cpu_start = 4, .cpu_end = 7
+		},
+	}
+};
+
+target_conf_t adas_conf_monaco_8620 = {
 	.sku = "ADAS",
 	.slice_count = 1,
 	.slices = {
@@ -374,6 +426,12 @@ static void set_default_target_conf(const char *sku, const char *machine_name,
 		*conf = flex_conf_lemans_8775;
 	else if (strstr(machine_name, "8650") != NULL)
 		*conf = adas_conf_lemans_8650;
+	else if (strstr(machine_name, "7255") != NULL)
+		*conf = nonsafe_ivi_conf_monaco_7255;
+	else if (strstr(machine_name, "8620") != NULL)
+		*conf = adas_conf_monaco_8620;
+	else if (strstr(machine_name, "7775") != NULL)
+		*conf = flex_conf_monaco_7775;
 	else
 		fprintf(stderr, SD_ERR "unsupported machine or sku: %s\n", sku);
 }
@@ -462,6 +520,18 @@ int init_target_conf(target_conf_t *conf)
 	} else if (strstr(machine_name, "8650") != NULL) {
 		strlcpy(sku, "ADAS", sizeof(sku));
 		strlcpy(target_conf_file, LEMANS_ADAS_FILE,
+				sizeof(target_conf_file));
+	} else if (strstr(machine_name, "7255") != NULL) {
+		strlcpy(sku, "NONSAFE_IVI", sizeof(sku));
+		strlcpy(target_conf_file, MONACO_NONSAFE_IVI_FILE,
+				sizeof(target_conf_file));
+	} else if (strstr(machine_name, "8620") != NULL) {
+		strlcpy(sku, "ADAS", sizeof(sku));
+		strlcpy(target_conf_file, MONACO_ADAS_FILE,
+				sizeof(target_conf_file));
+	} else if (strstr(machine_name, "7775") != NULL) {
+		strlcpy(sku, "FLEX", sizeof(sku));
+		strlcpy(target_conf_file, MONACO_FLEX_FILE,
 				sizeof(target_conf_file));
 	} else {
 		supported = false;
