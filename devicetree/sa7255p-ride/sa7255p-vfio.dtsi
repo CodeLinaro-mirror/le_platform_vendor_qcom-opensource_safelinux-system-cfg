@@ -701,6 +701,34 @@
 		dma-coherent;
 	};
 
+	vfio_pcie0_hdma@40005000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x40005000 0x0 0x2000>;
+		interrupts = <GIC_SPI 631 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 632 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 633 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 634 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 635 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 472 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 473 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&pcie_smmu 0x0000 0x7f>;
+		dma-coherent;
+	};
+
+	vfio_pcie1_hdma@60005000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x60005000 0x0 0x2000>;
+		interrupts = <GIC_SPI 475 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 476 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 601 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 602 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 603 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&pcie_smmu 0x80 0x7f>;
+		dma-coherent;
+	};
+
 };
 
 &{/reserved-memory} {
