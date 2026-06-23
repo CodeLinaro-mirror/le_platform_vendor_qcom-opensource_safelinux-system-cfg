@@ -36,8 +36,6 @@ done
 
 wait
 
-modprobe iommu_faults
-
 if selinuxenabled && [ -x "$(command -v restorecon)" ]; then
     restorecon -vFR /dev
 fi
