@@ -28,188 +28,120 @@ char *sku_names[] = {"SAFE_IVI", "ADAS", "FLEX", "NONSAFE_IVI"};
 
 target_conf_t nonsafe_ivi_conf_lemans_8255 = {
 	.sku = "NONSAFE_IVI",
+	.pvm_total_num_cpus = 8,
 	.slice_count = 3,
 	.slices = {
-		{
-			.name = "pvm.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 3, .cpu_start = 0, .cpu_end = 1
-		},
-		{
-			.name = "gvm.slice", .boot_cpu_start = 4,
-			.boot_cpu_end = 7, .cpu_start = 2, .cpu_end = 2
-		},
-		{
-			.name = "system.slice", .boot_cpu_start = 4,
-			.boot_cpu_end = 7, .cpu_start = 2, .cpu_end = 2
-		},
+		{ .name = "pvm.slice",    .cpu_start = 0, .total_cpu_num = 2 },
+		{ .name = "gvm.slice",    .cpu_start = 2, .total_cpu_num = 1 },
+		{ .name = "system.slice", .cpu_start = 2, .total_cpu_num = 1 },
 	}
 };
 
-
 target_conf_t flex_conf_lemans_8775 = {
 	.sku = "FLEX",
+	.pvm_total_num_cpus = 8,
 	.slice_count = 3,
 	.slices = {
-		{
-			.name = "pvm.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 3, .cpu_start = 0, .cpu_end = 3
-		},
-		{
-			.name = "gvm.slice", .boot_cpu_start = 4,
-			.boot_cpu_end = 7, .cpu_start = 4, .cpu_end = 7
-		},
-		{
-			.name = "system.slice", .boot_cpu_start = 4,
-			.boot_cpu_end = 7, .cpu_start = 4, .cpu_end = 7
-		},
+		{ .name = "pvm.slice",    .cpu_start = 0, .total_cpu_num = 3 },
+		{ .name = "gvm.slice",    .cpu_start = 3, .total_cpu_num = 1 },
+		{ .name = "system.slice", .cpu_start = 3, .total_cpu_num = 1 },
 	}
 };
 
 target_conf_t adas_conf_lemans_8650 = {
 	.sku = "ADAS",
+	.pvm_total_num_cpus = 8,
 	.slice_count = 1,
 	.slices = {
-		{
-			.name = "pvm.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 7, .cpu_start = 0, .cpu_end = 7
-		},
+		{ .name = "pvm.slice", .cpu_start = 0, .total_cpu_num = 8 },
 	}
 };
 
 target_conf_t safe_ivi_conf_nords = {
 	.sku = "SAFE_IVI",
-	.slice_count = 3,
+	.pvm_total_num_cpus = 6,
+	.slice_count = 4,
 	.slices = {
-		{
-			.name = "pvm.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 5, .cpu_start = 0, .cpu_end = 3
-		},
-		{
-			.name = "gvm.slice", .boot_cpu_start = 4,
-			.boot_cpu_end = 17, .cpu_start = 4, .cpu_end = 5
-		},
-		{
-			.name = "system.slice", .boot_cpu_start = 4,
-			.boot_cpu_end = 17, .cpu_start = 4, .cpu_end = 5
-		},
+		{ .name = "pvm.slice",    .cpu_start = 14, .total_cpu_num = 4 },
+		{ .name = "gvm.slice",    .cpu_start = 12, .total_cpu_num = 2 },
+		{ .name = "system.slice", .cpu_start = 12, .total_cpu_num = 2 },
+		{ .name = "rt.slice",     .cpu_start = 12, .total_cpu_num = 6 },
 	}
 };
 
 target_conf_t nonsafe_ivi_conf_nords = {
 	.sku = "NONSAFE_IVI",
-	.slice_count = 3,
+	.pvm_total_num_cpus = 6,
+	.slice_count = 4,
 	.slices = {
-		{
-			.name = "pvm.slice", .boot_cpu_start = 12,
-			.boot_cpu_end = 17, .cpu_start = 14, .cpu_end = 17
-		},
-		{
-			.name = "gvm.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 11, .cpu_start = 12, .cpu_end = 13
-		},
-		{
-			.name = "system.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 11, .cpu_start = 12, .cpu_end = 13
-		},
+		{ .name = "pvm.slice",    .cpu_start = 14, .total_cpu_num = 4 },
+		{ .name = "gvm.slice",    .cpu_start = 12, .total_cpu_num = 2 },
+		{ .name = "system.slice", .cpu_start = 12, .total_cpu_num = 2 },
+		{ .name = "rt.slice",     .cpu_start = 12, .total_cpu_num = 6 },
 	}
 };
 
-
 target_conf_t flex_conf_nords = {
 	.sku = "FLEX",
-	.slice_count = 3,
+	.pvm_total_num_cpus = 6,
+	.slice_count = 4,
 	.slices = {
-		{
-			.name = "pvm.slice", .boot_cpu_start = 12,
-			.boot_cpu_end = 17, .cpu_start = 14, .cpu_end = 17
-		},
-		{
-			.name = "gvm.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 11, .cpu_start = 12, .cpu_end = 13
-		},
-		{
-			.name = "system.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 11, .cpu_start = 12, .cpu_end = 13
-		},
+		{ .name = "pvm.slice",    .cpu_start = 14, .total_cpu_num = 4 },
+		{ .name = "gvm.slice",    .cpu_start = 12, .total_cpu_num = 2 },
+		{ .name = "system.slice", .cpu_start = 12, .total_cpu_num = 2 },
+		{ .name = "rt.slice",     .cpu_start = 12, .total_cpu_num = 6 },
 	}
 };
 
 target_conf_t adas_conf_nords = {
 	.sku = "ADAS",
-	.slice_count = 1,
+	.pvm_total_num_cpus = 18,
+	.slice_count = 2,
 	.slices = {
-		{
-			.name = "pvm.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 17, .cpu_start = 0, .cpu_end = 17
-		},
+		{ .name = "pvm.slice", .cpu_start = 0, .total_cpu_num = 18 },
+		{ .name = "rt.slice",  .cpu_start = 0, .total_cpu_num = 18 },
 	}
 };
 
 target_conf_t safe_ivi_conf_seca = {
 	.sku = "SAFE_IVI",
+	.pvm_total_num_cpus = 4,
 	.slice_count = 3,
 	.slices = {
-		{
-			.name = "pvm.slice", .boot_cpu_start = 8,
-			.boot_cpu_end = 11, .cpu_start = 9, .cpu_end = 11
-		},
-		{
-			.name = "gvm.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 7, .cpu_start = 8, .cpu_end = 9
-		},
-		{
-			.name = "system.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 7, .cpu_start = 8, .cpu_end = 9
-		},
+		{ .name = "pvm.slice",    .cpu_start = 9, .total_cpu_num = 3 },
+		{ .name = "gvm.slice",    .cpu_start = 8, .total_cpu_num = 2 },
+		{ .name = "system.slice", .cpu_start = 8, .total_cpu_num = 2 },
 	}
 };
 
 target_conf_t nonsafe_ivi_conf_seca = {
 	.sku = "NONSAFE_IVI",
+	.pvm_total_num_cpus = 4,
 	.slice_count = 3,
 	.slices = {
-		{
-			.name = "pvm.slice", .boot_cpu_start = 8,
-			.boot_cpu_end = 11, .cpu_start = 9, .cpu_end = 11
-		},
-		{
-			.name = "gvm.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 7, .cpu_start = 8, .cpu_end = 9
-		},
-		{
-			.name = "system.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 7, .cpu_start = 8, .cpu_end = 9
-		},
+		{ .name = "pvm.slice",    .cpu_start = 9, .total_cpu_num = 3 },
+		{ .name = "gvm.slice",    .cpu_start = 8, .total_cpu_num = 2 },
+		{ .name = "system.slice", .cpu_start = 8, .total_cpu_num = 2 },
 	}
 };
 
 target_conf_t flex_conf_seca = {
 	.sku = "FLEX",
+	.pvm_total_num_cpus = 4,
 	.slice_count = 3,
 	.slices = {
-		{
-			.name = "pvm.slice", .boot_cpu_start = 8,
-			.boot_cpu_end = 11, .cpu_start = 9, .cpu_end = 11
-		},
-		{
-			.name = "gvm.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 7, .cpu_start = 8, .cpu_end = 9
-		},
-		{
-			.name = "system.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 7, .cpu_start = 8, .cpu_end = 9
-		},
+		{ .name = "pvm.slice",    .cpu_start = 9, .total_cpu_num = 3 },
+		{ .name = "gvm.slice",    .cpu_start = 8, .total_cpu_num = 2 },
+		{ .name = "system.slice", .cpu_start = 8, .total_cpu_num = 2 },
 	}
 };
 
 target_conf_t adas_conf_seca = {
 	.sku = "ADAS",
+	.pvm_total_num_cpus = 12,
 	.slice_count = 1,
 	.slices = {
-		{
-			.name = "pvm.slice", .boot_cpu_start = 0,
-			.boot_cpu_end = 11, .cpu_start = 0, .cpu_end = 11
-		},
+		{ .name = "pvm.slice", .cpu_start = 0, .total_cpu_num = 12 },
 	}
 };
 
@@ -283,6 +215,14 @@ static int read_input_INIfile(target_conf_t *conf, const char *file_path)
 		return -EINVAL;
 	}
 
+	conf->pvm_total_num_cpus = (int)ini_getl("sku", "pvm_total_num_cpus", -1, file_path);
+
+	if (conf->pvm_total_num_cpus <= 0) {
+		fprintf(stderr, SD_ERR
+				"Failed to read pvm_total_num_cpus from %s\n", file_path);
+		return -EINVAL;
+	}
+
 	for (int i = 0; i < conf->slice_count; ++i) {
 		char section[16];
 
@@ -296,27 +236,18 @@ static int read_input_INIfile(target_conf_t *conf, const char *file_path)
 			return -ENOENT;
 		}
 
-		conf->slices[i].boot_cpu_start = (int)ini_getl(section,
-			"boot_cpu_start", -1, file_path);
-		conf->slices[i].boot_cpu_end   = (int)ini_getl(section,
-								"boot_cpu_end",   -1, file_path);
-
-		if (conf->slices[i].boot_cpu_start < 0 || conf->slices[i].boot_cpu_end < 0) {
-			fprintf(stderr, SD_ERR
-					"Failed to read boot_cpu_start and boot_cpu_end values from %s\n",
-					file_path);
-			return -EINVAL;
-		}
-
 		conf->slices[i].cpu_start = (int)ini_getl(section, "post_boot_cpu_start", -1, file_path);
-		conf->slices[i].cpu_end   = (int)ini_getl(section, "post_boot_cpu_end", -1, file_path);
+		conf->slices[i].total_cpu_num = (int)ini_getl(section, "total_cpu_num", -1, file_path);
 
-		if (conf->slices[i].cpu_start < 0 || conf->slices[i].cpu_end < 0) {
+		if (conf->slices[i].cpu_start < 0 || conf->slices[i].total_cpu_num <= 0) {
 			fprintf(stderr, SD_ERR
-					"Failed to read post_boot_cpu_start and post_boot_cpu_end values from %s\n",
+					"Failed to read post_boot_cpu_start or total_cpu_num from %s\n",
 					file_path);
 			return -EINVAL;
 		}
+
+		conf->slices[i].allow_cross_cluster = (int)ini_getl(section,
+				"allow_cross_cluster", 0, file_path);
 	}
 
 	return 0;
@@ -402,6 +333,72 @@ static int get_max_cpu_index(void)
 	return max;
 }
 
+/* Returns the lowest logical CPU in the same cluster as cpu_idx, or
+ * cpu_idx itself if the topology file cannot be read. */
+static int get_cluster_start(int cpu_idx)
+{
+	char path[FILE_PATH_LEN];
+	char buf[32];
+
+	snprintf(path, sizeof(path), CPU_CLUSTER_CPUS_PATH, cpu_idx);
+
+	FILE *f = fopen(path, "r");
+	if (!f)
+		return cpu_idx;
+
+	bool ok = fgets(buf, sizeof(buf), f) != NULL;
+	fclose(f);
+	if (!ok)
+		return cpu_idx;
+
+	unsigned long long mask;
+	if (sscanf(buf, "%llx", &mask) != 1 || mask == 0)
+		return cpu_idx;
+
+	/* Position of the least-significant set bit = first CPU in cluster */
+	int lsb = __builtin_ctzll(mask);
+	return lsb;
+}
+
+static void compute_cpu_ranges(target_conf_t *conf, int max_cpu)
+{
+	int pvm_boot_start, non_pvm_boot_end;
+
+	if (conf->pvm_total_num_cpus >= max_cpu) {
+		pvm_boot_start   = 0;
+		non_pvm_boot_end = max_cpu - 1;
+	} else {
+		pvm_boot_start   = max_cpu - conf->pvm_total_num_cpus;
+		non_pvm_boot_end = pvm_boot_start - 1;
+	}
+
+	for (int i = 0; i < conf->slice_count; i++) {
+		if (strcmp(conf->slices[i].name, "pvm.slice") == 0) {
+			conf->slices[i].boot_cpu_start = pvm_boot_start;
+			conf->slices[i].boot_cpu_end   = max_cpu - 1;
+		} else {
+			conf->slices[i].boot_cpu_start = 0;
+			conf->slices[i].boot_cpu_end   = non_pvm_boot_end;
+		}
+
+		conf->slices[i].cpu_end = conf->slices[i].cpu_start + conf->slices[i].total_cpu_num - 1;
+		if (conf->slices[i].cpu_end >= max_cpu)
+			conf->slices[i].cpu_end = max_cpu - 1;
+
+		if (!conf->slices[i].allow_cross_cluster) {
+			int cluster_start = get_cluster_start(conf->slices[i].cpu_end);
+			if (cluster_start > conf->slices[i].cpu_start) {
+				int capped = cluster_start - 1;
+				fprintf(stderr, SD_INFO
+						"Capping %s cpu_end %d to cluster boundary %d\n",
+						conf->slices[i].name, conf->slices[i].cpu_end,
+						capped);
+				conf->slices[i].cpu_end = capped;
+			}
+		}
+	}
+}
+
 int init_target_conf(target_conf_t *conf)
 {
 	int ret;
@@ -480,20 +477,14 @@ int init_target_conf(target_conf_t *conf)
 		set_default_target_conf(sku, machine_name, conf);
 	}
 
-	/* Apply CPU adjustment only for Nord (8797) platforms */
-	if (strstr(machine_name, "8797") != NULL) {
-		int max_cpu = get_max_cpu_index();
-		if (max_cpu == 16) {
-			for (int i = 0; i < conf->slice_count; i++) {
-				if (conf->slices[i].boot_cpu_end == 17) {
-					conf->slices[i].boot_cpu_end = 16;
-				}
-				if (conf->slices[i].cpu_end == 17) {
-					conf->slices[i].cpu_end = 16;
-				}
-			}
-		}
+	int max_cpu = get_max_cpu_index() + 1;
+
+	if (max_cpu <= 0) {
+		fprintf(stderr, SD_ERR "Failed to get max CPU index\n");
+		return -1;
 	}
+
+	compute_cpu_ranges(conf, max_cpu);
 
 return 0;
 }
