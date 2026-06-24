@@ -373,7 +373,7 @@ static void compute_cpu_ranges(target_conf_t *conf, int max_cpu)
 	}
 
 	for (int i = 0; i < conf->slice_count; i++) {
-		if (strcmp(conf->slices[i].name, "pvm.slice") == 0) {
+		if (conf->slices[i].cpu_start >= pvm_boot_start) {
 			conf->slices[i].boot_cpu_start = pvm_boot_start;
 			conf->slices[i].boot_cpu_end   = max_cpu - 1;
 		} else {
@@ -465,8 +465,10 @@ int init_target_conf(target_conf_t *conf)
 	}
 
 	if (!supported) {
-		fprintf(stderr, SD_ERR "Machine not supported\n");
-		return -EINVAL;
+		fprintf(stderr, SD_INFO "Machine %s not supported, skipping configuration\n",
+				machine_name);
+		conf->slice_count = 0;
+		return 0;
 	}
 
 	ret = read_input_INIfile(conf, target_conf_file);
