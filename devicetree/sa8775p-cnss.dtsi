@@ -46,6 +46,13 @@
 		power-domains = <&scmi25_pd 0>;
 		power-domain-names = "bt_ldo";
 	};
+
+	bluetooth2: bt-qca-auto-secondary {
+		compatible = "qcom,qca-auto-secondary";
+		qcom,firmware-managed-resources;
+		power-domains = <&scmi46_pd 0>;
+		power-domain-names = "bt_ldo";
+	};
 };
 
 &{/reserved-memory} {
@@ -73,6 +80,10 @@
 };
 
 &uart17 {
+	status = "ok";
+};
+
+&uart3 {
 	status = "ok";
 };
 

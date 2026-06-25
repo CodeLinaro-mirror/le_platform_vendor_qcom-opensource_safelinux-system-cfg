@@ -11,7 +11,6 @@
 #include <oot-dt-bindings/qcom-ipcc.h>
 #include "sa8775p-pinctrl.dtsi"
 #include "sa8775p-vfio.dtsi"
-#include "sa8775p-cnss.dtsi"
 
 / {
 	model = "Qualcomm Technologies, Inc. SA8255P Ride";
@@ -232,6 +231,12 @@
 
 &scmi63 {
 	status = "okay";
+};
+
+&uart3 {
+	power-domains = <&scmi11_pd 3>, <&scmi11_dvfs 3>;
+	power-domain-names = "power", "perf";
+	status = "disabled";
 };
 
 &uart17 {
