@@ -5,6 +5,10 @@
 /dts-v1/;
 /plugin/;
 
+/ {
+	compatible = "qcom,sa8255p-ride";
+};
+
 &non_ecc_heap_mem {
 	reg = <0x3 0x0B300000 0x0 0xF4100000>;
 };

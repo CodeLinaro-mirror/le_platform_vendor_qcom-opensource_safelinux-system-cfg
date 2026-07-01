@@ -5,6 +5,10 @@
 /dts-v1/;
 /plugin/;
 
+/ {
+	compatible = "qcom,sa8255p-ride";
+};
+
 // Keep the original attributes of sa8255p_overlay.dtsi non-ecc heap unchanged.
 
 &{/reserved-memory} {};
