@@ -117,6 +117,14 @@
 			no-map;
 			reg = <0xa 0x00000000 0x0 0x04000000>;  /* 64MB PVM journal*/
 		};
+
+		tzcom_mem: qcom,tzcom {
+			compatible = "shared-dma-pool";
+			alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;
+			reusable;
+			alignment = <0x0 0x400000>;
+			size = <0x0 0x1400000>; /* 20M */
+		};
 	};
 
 	tz_start_count {
@@ -880,6 +888,11 @@
 	qcom,dma-heaps {
 		compatible = "qcom,dma-heaps";
 		status = "okay";
+		qcom,tzcom {
+			qcom,dma-heap-name = "qcom,tzcom";
+			qcom,dma-heap-type = <HEAP_TYPE_CMA>;
+			memory-region = <&tzcom_mem>;
+		};
 
 		qcom,non-ecc {
 			qcom,dma-heap-name = "qcom,non-ecc";
