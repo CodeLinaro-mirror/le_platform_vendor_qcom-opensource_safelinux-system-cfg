@@ -944,9 +944,8 @@
 
 	vfio_cci3@3 {
 		compatible = "qcom,apps-pinctlr";
-		pinctrl-names = "default","default";
+		pinctrl-names = "default";
 		pinctrl-0 = <&cci6_sda_default &cci6_scl_default>;
-		pinctrl-1 = <&cci7_sda_default &cci7_scl_default>;
 	};
 
 	vfio_fsync0@0 {

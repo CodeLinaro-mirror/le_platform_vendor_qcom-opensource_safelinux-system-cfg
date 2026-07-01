@@ -825,34 +825,6 @@
 		};
 	};
 
-	cci7_sda_default: cci7_sda_default {
-		mux {
-			/* CLK, DATA */
-			pins = "gpio58";
-			function = "cci_i2c_sda7";
-		};
-
-		config {
-			pins = "gpio58";
-			bias-pull-up; /* PULL UP*/
-			drive-strength = <2>; /* 2 MA */
-		};
-	};
-
-	cci7_scl_default: cci7_scl_default {
-		mux {
-			/* CLK, DATA */
-			pins = "gpio59";
-			function = "cci_i2c_scl7";
-		};
-
-		config {
-			pins = "gpio59";
-			bias-pull-up; /* PULL UP*/
-			drive-strength = <2>; /* 2 MA */
-		};
-	};
-
 	fsync0_default: fsync0_default {
 		mux {
 			/* CLK, DATA */
