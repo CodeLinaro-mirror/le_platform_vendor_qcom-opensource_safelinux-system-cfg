@@ -5,6 +5,7 @@
 
 #include <dt-bindings/arm/qcom_dma_heap_dt_constants.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/arm/qcom_dma_heap_dt_constants.h>
 
 / {
 	interrupt-parent = <&intc>;
@@ -373,6 +374,14 @@
 		non_ecc_heap_mem: non_ecc_heap_mem_region {
 			reg = <0xB 0x95800000 0x0 0x61200000>;
 			no-map;
+		};
+
+		tzcom_mem: qcom,tzcom {
+			compatible = "shared-dma-pool";
+			alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;
+			reusable;
+			alignment = <0x0 0x400000>;
+			size = <0x0 0x1400000>; /* 20M */
 		};
 
 		cma: linux,cma {
@@ -2439,6 +2448,11 @@
 	qcom,dma-heaps {
 		compatible = "qcom,dma-heaps";
 		status = "okay";
+		qcom,tzcom {
+			qcom,dma-heap-name = "qcom,tzcom";
+			qcom,dma-heap-type = <HEAP_TYPE_CMA>;
+			memory-region = <&tzcom_mem>;
+		};
 
 		qcom,non-ecc {
 			qcom,dma-heap-name = "qcom,non-ecc";
