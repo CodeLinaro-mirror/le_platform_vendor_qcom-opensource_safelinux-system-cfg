@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 		}
 	}
 
-	max_cpu = sysconf(_SC_NPROCESSORS_CONF);
+	max_cpu = pvm_boot_end + 1;
 
 	for (int cpu = 0; cpu < max_cpu; cpu++) {
 		if ((cpu >= pvm_boot_start && cpu <= pvm_boot_end)

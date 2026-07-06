@@ -7,6 +7,7 @@
 /plugin/;
 
 #include "sa8255p_overlay.dtsi"
+#include "sa8775p-cnss.dtsi"
 
 &{/} {
 	model = "Qualcomm Technologies, Inc. SA8255P Ride";
