@@ -12,7 +12,7 @@
 #include "sa8620p-scmi.dtsi"
 #include "sa7255p-vfio.dtsi"
 #include "sa8620p-pinctrl.dtsi"
-#include "sa8255p-pmics.dtsi"
+#include "sa7255p-pmics.dtsi"
 
 / {
 	compatible = "qcom,sa8620p-ride","qcom,sa8620p";
@@ -484,4 +484,16 @@
 
 &pmm8654au_3_thermal {
 	thermal-sensors = <&scmi23_sensor 3>;
+};
+
+&pmm8654au_4_thermal {
+	thermal-sensors = <&scmi23_sensor 7>;
+};
+
+&pmm8654au_5_thermal {
+	thermal-sensors = <&scmi23_sensor 9>;
+};
+
+&pmm8654au_6_thermal {
+	thermal-sensors = <&scmi23_sensor 14>;
 };
