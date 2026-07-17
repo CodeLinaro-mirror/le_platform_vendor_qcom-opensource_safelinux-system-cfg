@@ -17,6 +17,7 @@
 /* Gen 5 */
 #define NORD_NONSAFE_IVI_FILE "/etc/nord/nonsafe_ivi.ini"
 #define NORD_FLEX_FILE "/etc/nord/flex.ini"
+#define NORD_FLEX_QCLGVM_FILE "/etc/nord/flex-qclgvm.ini"
 #define NORD_ADAS_FILE "/etc/nord/adas.ini"
 #define NORD_SAFE_IVI_FILE "/etc/nord/safe_ivi.ini"
 #define SECA_NONSAFE_IVI_FILE "/etc/seca/nonsafe_ivi.ini"
@@ -253,6 +254,33 @@ static int read_input_INIfile(target_conf_t *conf, const char *file_path)
 	return 0;
 }
 
+static bool is_qclgvm_mode(void)
+{
+	FILE *f = fopen("/proc/cmdline", "r");
+
+	if (!f)
+		return false;
+
+	char buf[4096] = {0};
+	bool found = false;
+
+	if (fgets(buf, sizeof(buf), f)) {
+		char *saveptr = NULL;
+		char *token = strtok_r(buf, " \t\n", &saveptr);
+
+		while (token) {
+			if (strcmp(token, "osconfig=PVM+QCLGVM") == 0) {
+				found = true;
+				break;
+			}
+			token = strtok_r(NULL, " \t\n", &saveptr);
+		}
+	}
+
+	fclose(f);
+	return found;
+}
+
 static int get_target_machine_name(char *machine_name)
 {
 	int bytes_read;
@@ -428,24 +456,37 @@ int init_target_conf(target_conf_t *conf)
 				fprintf(stderr, SD_INFO "Bit extraction verified.\n");
 		}
 
-		if (SW_CONFIG_NONSAFE_IVI) {
+		switch (SW_CONFIG) {
+		case SW_CONFIG_TYPE_NONSAFE_IVI:
 			strlcpy(sku, "NONSAFE_IVI", sizeof(sku));
 			strlcpy(target_conf_file, is_nord ? NORD_NONSAFE_IVI_FILE : SECA_NONSAFE_IVI_FILE,
 					sizeof(target_conf_file));
-		} else if (SW_CONFIG_FLEX) {
+			break;
+		case SW_CONFIG_TYPE_FLEX:
+			const char *flex_file;
+
+			if (is_nord)
+				flex_file = is_qclgvm_mode() ? NORD_FLEX_QCLGVM_FILE
+							    : NORD_FLEX_FILE;
+			else
+				flex_file = SECA_FLEX_FILE;
+
 			strlcpy(sku, "FLEX", sizeof(sku));
-			strlcpy(target_conf_file, is_nord ? NORD_FLEX_FILE : SECA_FLEX_FILE,
-					sizeof(target_conf_file));
-		} else if (SW_CONFIG_ADAS) {
+			strlcpy(target_conf_file, flex_file, sizeof(target_conf_file));
+			break;
+		case SW_CONFIG_TYPE_ADAS:
 			strlcpy(sku, "ADAS", sizeof(sku));
 			strlcpy(target_conf_file, is_nord ? NORD_ADAS_FILE : SECA_ADAS_FILE,
 					sizeof(target_conf_file));
-		} else if (SW_CONFIG_SAFE_IVI) {
+			break;
+		case SW_CONFIG_TYPE_SAFE_IVI:
 			strlcpy(sku, "SAFE_IVI", sizeof(sku));
 			strlcpy(target_conf_file, is_nord ? NORD_SAFE_IVI_FILE : SECA_SAFE_IVI_FILE,
 					sizeof(target_conf_file));
-		} else {
+			break;
+		default:
 			supported = false;
+			break;
 		}
 #endif
 	} else if (strstr(machine_name, "8255") != NULL) {
