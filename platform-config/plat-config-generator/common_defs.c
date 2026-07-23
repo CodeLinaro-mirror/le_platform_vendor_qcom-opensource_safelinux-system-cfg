@@ -17,7 +17,7 @@
 /* Gen 5 */
 #define NORD_NONSAFE_IVI_FILE "/etc/nord/nonsafe_ivi.ini"
 #define NORD_FLEX_FILE "/etc/nord/flex.ini"
-#define NORD_FLEX_QCLGVM_FILE "/etc/nord/flex-qclgvm.ini"
+#define NORD_QCLGVM_FILE "/etc/nord/qclgvm.ini"
 #define NORD_ADAS_FILE "/etc/nord/adas.ini"
 #define NORD_SAFE_IVI_FILE "/etc/nord/safe_ivi.ini"
 #define SECA_NONSAFE_IVI_FILE "/etc/seca/nonsafe_ivi.ini"
@@ -463,16 +463,9 @@ int init_target_conf(target_conf_t *conf)
 					sizeof(target_conf_file));
 			break;
 		case SW_CONFIG_TYPE_FLEX:
-			const char *flex_file;
-
-			if (is_nord)
-				flex_file = is_qclgvm_mode() ? NORD_FLEX_QCLGVM_FILE
-							    : NORD_FLEX_FILE;
-			else
-				flex_file = SECA_FLEX_FILE;
-
 			strlcpy(sku, "FLEX", sizeof(sku));
-			strlcpy(target_conf_file, flex_file, sizeof(target_conf_file));
+			strlcpy(target_conf_file, is_nord ? NORD_FLEX_FILE : SECA_FLEX_FILE,
+					sizeof(target_conf_file));
 			break;
 		case SW_CONFIG_TYPE_ADAS:
 			strlcpy(sku, "ADAS", sizeof(sku));
@@ -488,6 +481,11 @@ int init_target_conf(target_conf_t *conf)
 			supported = false;
 			break;
 		}
+
+		/* qclgvm mode shares one config across all nord SKUs */
+		if (supported && is_nord && is_qclgvm_mode())
+			strlcpy(target_conf_file, NORD_QCLGVM_FILE,
+					sizeof(target_conf_file));
 #endif
 	} else if (strstr(machine_name, "8255") != NULL) {
 		strlcpy(sku, "NONSAFE_IVI", sizeof(sku));
