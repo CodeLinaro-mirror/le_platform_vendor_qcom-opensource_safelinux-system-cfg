@@ -241,6 +241,10 @@
 	status = "okay";
 };
 
+&usb_0_hsphy {
+	qcom,eud-base-addr = <0x88e3000>;
+};
+
 &soc {
 	hsi2s: hsi2s@3B40000 {
 		compatible = "qcom,sa8775-hsi2s", "qcom,hsi2s";

@@ -124,6 +124,10 @@
 	status = "okay";
 };
 
+&usb_0_hsphy {
+	qcom,eud-base-addr = <0x8903000>;
+};
+
 &{/firmware} {
         qcom_scm {
                 qcom,dload-mode = <&tcsr 0x13000>;
