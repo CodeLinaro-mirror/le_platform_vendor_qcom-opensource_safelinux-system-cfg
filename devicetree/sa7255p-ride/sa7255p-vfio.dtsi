@@ -81,11 +81,11 @@
 	umd_pil@408000 {
 		compatible = "qcom,vfio-platform";
 		memory-region = <&mproc_umdpil_mem>,
-						<&pil_adsp_mem>,
-						<&pil_cdsp0_mem>,
-						<&pil_video_mem>,
-						<&pil_gdsp0_mem>,
-						<&pil_gpu_mem>;
+						<&adsp_mem>,
+						<&cdsp_mem>,
+						<&video_mem>,
+						<&gpdsp_mem>,
+						<&gpu_microcode_mem>;
 		reg = <0x0 0x00408000 0x0 0x1000>,
 			<0x0 0x90900000 0x0 0x200000>,
 			<0x0 0x00780000 0x0 0x10000>,
@@ -613,7 +613,7 @@
 		/* MMU: non_secure_cb */
 		iommus = <&apps_smmu 0x0880 0x0400>;
 		qcom,iommu-dma-addr-pool = <0x0 0x25800000 0x0 0xba800000>;
-		memory-region = <&pil_video_mem>;
+		memory-region = <&video_mem>;
 		dma-coherent;
 		iommu-faults;
 	};
@@ -731,38 +731,8 @@
 	#size-cells = <2>;
 	ranges;
 
-	mproc_umdpil_mem: mproc_umdpil_region@95700000 {
-		no-map;
-		reg = <0x0 0x95700000 0x0 0x500000>;
-	};
-
-	pil_adsp_mem: pil_adsp_region@95c00000 {
-		no-map;
-		reg = <0x0 0x95c00000 0x0 0x1e00000>;
-	};
-
-	pil_cdsp0_mem: pil_cdsp0_region@99980000 {
-		no-map;
-		reg = <0x0 0x99980000 0x0 0x1e00000>;
-	};
-
-	pil_video_mem: pil_video_region@9be82000 {
-		no-map;
-		reg = <0x0 0x9be82000 0x0 0x700000>;
-	};
-
 	gptp_timedata_mem: gptp_timedata_region@ac5fe000 {
 		no-map;
 		reg = <0x0 0xac5fe000 0x0 0x1000>;
-	};
-
-	pil_gdsp0_mem: pil_gdsp0_region@97b00000 {
-		no-map;
-		reg = <0x0 0x97b00000 0x0 0x1e00000>;
-	};
-
-	pil_gpu_mem: pil_gpu_region@9b780000 {
-		no-map;
-		reg = <0x0 0x9b780000 0x0 0x2000>;
 	};
 };
