@@ -4,7 +4,7 @@
 [Unit]
 Description=Offline target CPUs at boot time
 
-DefaultDependencies=no
+# DefaultDependencies=no
 After=display-be.service \
       vhost-user-misc.service vhost-user-disp.service \
       vhost-user-gpu.service vhost-user-aud.service \
@@ -17,10 +17,11 @@ After=display-be.service \
       vmm-pwr-key.service vhost-user-glinkpassthrough.service \
       vhost-user-frpc.service vhost-device-ssr.service \
       vhost-device-i2c.service gsl_hab_server.service
-Before=qcrosvm.service
+# Before=qcrosvm.service
 
 [Service]
 Type=oneshot
+ExecStartPre=/bin/sleep 20
 ExecStart=/usr/bin/offline-target-cpus
 
 [Install]

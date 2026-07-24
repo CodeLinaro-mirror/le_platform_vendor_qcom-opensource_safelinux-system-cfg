@@ -3,7 +3,7 @@
 
 [Unit]
 Description=reconfigure cgroup slices on boot
-Before=multi-user.target
+# Before=multi-user.target
 After=offline-target-cpus.service
 
 [Service]
