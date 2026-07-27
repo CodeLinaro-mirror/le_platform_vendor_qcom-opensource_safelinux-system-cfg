@@ -18,8 +18,8 @@ int main(int argc, char **argv)
 	int rc;
 	int max_cpu;
 	target_conf_t conf;
-	int pvm_boot_start = 0, pvm_boot_end = 0;
-
+	int pvm_boot_start = -1, pvm_boot_end = -1;
+  
 	if (init_target_conf(&conf) != 0)
 		return -1;
 
@@ -30,6 +30,9 @@ int main(int argc, char **argv)
 			break;
 		}
 	}
+
+	if (pvm_boot_end < 0)
+		return 0;
 
 	max_cpu = pvm_boot_end + 1;
 

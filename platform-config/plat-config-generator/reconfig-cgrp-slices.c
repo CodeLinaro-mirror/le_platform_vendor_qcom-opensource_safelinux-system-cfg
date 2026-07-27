@@ -9,7 +9,11 @@ static bool set_slice_cpuset(const char *slice_name,
 {
 	char range[10];
 	char path[FILE_PATH_LEN];
+	char cgrp_dir[FILE_PATH_LEN];
 	bool write_status;
+
+	snprintf(cgrp_dir, sizeof(cgrp_dir), "/sys/fs/cgroup/%s", slice_name);
+	create_dir(cgrp_dir);
 
 	snprintf(range, sizeof(range), "%d-%d", cpu_start, cpu_end);
 	snprintf(path, sizeof(path), "/sys/fs/cgroup/%s/cpuset.cpus", slice_name);
