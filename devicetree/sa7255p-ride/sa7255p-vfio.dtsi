@@ -422,14 +422,24 @@
 		status = "ok";
 	};
 
-        vfio_dpu_00@ae00000 {
-                compatible = "qcom,vfio-platform";
-                interrupts = <0 92 IRQ_TYPE_LEVEL_HIGH>;
-                reg = <0x0 0xae00000 0x0 0x200000>;
-                iommus = <&apps_smmu 0x1000 0x402>;
-                qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
-                dma-coherent;
-        };
+	vfio_dpu_00@ae00000 {
+		compatible = "qcom,vfio-platform";
+		interrupts = <0 92 IRQ_TYPE_LEVEL_HIGH>;
+		reg = <0x0 0xae00000 0x0 0x200000>;
+		iommus = <&apps_smmu 0x1000 0x402>;
+		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
+		dma-coherent;
+	};
+
+	vfio_dpu_01_secure {
+		compatible = "qcom,vfio-platform";
+		iommus = <&apps_smmu 0x1001 0x400>,
+				<&apps_smmu 0x1401 0x400>;
+		qcom,iommu-dma-addr-pool = <0x0 0x00020000 0x0 0xfffe0000>;
+		qcom,iommu-vmid = <0xa>;
+		qcom,secure-context-bank;
+		dma-coherent;
+	};
 
 	vfio_kgsl@3d00000 {
 		name = "vfio_kgsl";
@@ -698,6 +708,34 @@
 		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
 		qcom,iommu-vmid = <0x9>; /*VMID_CP_BITSTREAM */
 		qcom,secure-context-bank;
+		dma-coherent;
+	};
+
+	vfio_pcie0_hdma@40005000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x40005000 0x0 0x2000>;
+		interrupts = <GIC_SPI 631 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 632 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 633 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 634 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 635 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 472 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 473 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&pcie_smmu 0x0000 0x7f>;
+		dma-coherent;
+	};
+
+	vfio_pcie1_hdma@60005000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x60005000 0x0 0x2000>;
+		interrupts = <GIC_SPI 475 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 476 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 601 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 602 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 603 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&pcie_smmu 0x80 0x7f>;
 		dma-coherent;
 	};
 

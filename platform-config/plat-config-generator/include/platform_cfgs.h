@@ -24,8 +24,9 @@
 #define MACHINE_NAME_LEN  32
 #define DROPIN_FILE_NAME  "override.conf"
 #define CGROUP_DIR        "/sys/fs/cgroup"
-#define CPU_ONLINE_PATH   "/sys/devices/system/cpu/cpu%d/online"
-#define MACHINE_PATH "/sys/devices/soc0/machine"
+#define CPU_ONLINE_PATH      "/sys/devices/system/cpu/cpu%d/online"
+#define CPU_CLUSTER_CPUS_PATH "/sys/devices/system/cpu/cpu%d/topology/cluster_cpus"
+#define MACHINE_PATH         "/sys/devices/soc0/machine"
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof(x[0]))
 
 typedef struct {
@@ -34,12 +35,15 @@ typedef struct {
 	int boot_cpu_end;
 	int cpu_start;
 	int cpu_end;
+	int total_cpu_num;
+	int allow_cross_cluster;
 } slice_conf_t;
 
 typedef struct {
 	char sku[MAX_SKU_NAME];
 	slice_conf_t slices[MAX_SLICES];
 	int slice_count;
+	int pvm_total_num_cpus;
 } target_conf_t;
 
 extern char *sku_names[30];
