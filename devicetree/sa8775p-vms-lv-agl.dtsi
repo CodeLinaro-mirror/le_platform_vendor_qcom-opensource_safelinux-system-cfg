@@ -339,3 +339,25 @@
 		compatible = "coqos,rtc";
 	};
 };
+
+&{/} {
+	gpio-sim {
+		compatible = "gpio-simulator";
+
+		bank0 {
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <2>;
+			gpio-sim,label = "dt-bank0";
+			gpio-line-names = "sim-bank0-gpio0", "sim-bank0-gpio1";
+		};
+
+		bank1 {
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <2>;
+			gpio-sim,label = "dt-bank1";
+			gpio-line-names = "sim-bank1-gpio0", "sim-bank1-gpio1";
+		};
+	};
+};
