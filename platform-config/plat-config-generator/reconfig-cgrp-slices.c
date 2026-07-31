@@ -8,17 +8,30 @@ static bool set_slice_cpuset(const char *slice_name,
 							int cpu_end)
 {
 	char range[10];
-	char path[FILE_PATH_LEN];
+	char cmd[FILE_PATH_LEN];
 	char cgrp_dir[FILE_PATH_LEN];
-	bool write_status;
 
 	snprintf(cgrp_dir, sizeof(cgrp_dir), "/sys/fs/cgroup/%s", slice_name);
 	create_dir(cgrp_dir);
 
 	snprintf(range, sizeof(range), "%d-%d", cpu_start, cpu_end);
-	snprintf(path, sizeof(path), "/sys/fs/cgroup/%s/cpuset.cpus", slice_name);
-	write_status = write_sysfs(path, range);
-	return write_status;
+
+	/*
+	 * Use systemctl set-property --runtime to update AllowedCPUs through
+	 * systemd so the value persists through any future cgroup realization.
+	 * A direct cpuset.cpus write would be overwritten by systemd whenever
+	 * a new task enters the slice.
+	 */
+	snprintf(cmd, sizeof(cmd),
+			"systemctl set-property --runtime %s AllowedCPUs=%s",
+			slice_name, range);
+	if (system(cmd) != 0) {
+		fprintf(stderr, SD_ERR
+				"Failed to set AllowedCPUs for slice %s\n", slice_name);
+		return false;
+	}
+
+	return true;
 }
 
 void print_final_config(target_conf_t *conf)
