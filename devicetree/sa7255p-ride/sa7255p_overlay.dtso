@@ -159,6 +159,12 @@
 };
 
 &soc {
+	vfio_dpu00_hpd0@0 {
+		compatible = "qcom,apps-pinctlr";
+		pinctrl-names = "default";
+		pinctrl-0 = <&edp0_hpd_ctrl>;
+	};
+
 	ethernet0: ethernet@23040000 {
 			compatible = "qcom,sa8620p-ethqos";
 			reg = <0x0 0x23040000 0x0 0x10000>,
