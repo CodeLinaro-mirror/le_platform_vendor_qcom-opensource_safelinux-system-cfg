@@ -7,6 +7,20 @@
 
 #include "sa8255p-ddr-12gb-vms.dtsi"
 
+/ {
+	compatible = "qcom,sa8255p-ride";
+};
+
 &non_ecc_heap_mem {
 	reg = <0xB 0x16E00000 0x0 0x20000000>;
 };
+
+&{/reserved-memory} {
+
+	mdlc: mdlc@91300000 {
+		no-map;
+		reg = <0x0 0x91300000 0x0 0x10000>;
+	};
+
+};
+
