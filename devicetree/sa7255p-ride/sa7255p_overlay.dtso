@@ -148,6 +148,10 @@
 	status = "okay";
 };
 
+&usb_0_hsphy {
+	qcom,eud-base-addr = <0x8903000>;
+};
+
 &{/firmware} {
         qcom_scm {
                 qcom,dload-mode = <&tcsr 0x13000>;
@@ -479,6 +483,12 @@
 	qcom,dma-heaps {
 		compatible = "qcom,dma-heaps";
 		status = "okay";
+
+		qcom,tzcom {
+			qcom,dma-heap-name = "qcom,tzcom";
+			qcom,dma-heap-type = <HEAP_TYPE_CMA>;
+			memory-region = <&tzcom_mem>;
+		};
 
 		qcom,non-ecc {
 			qcom,dma-heap-name = "qcom,non-ecc";
