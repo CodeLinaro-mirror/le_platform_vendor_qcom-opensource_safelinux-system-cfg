@@ -14,6 +14,10 @@
 	qcom,msm-id = <534 0x10000>, <534 0x20000>;
 };
 
+&scmi46 {
+	status = "okay";
+};
+
 &ethernet0 {
 	iommus = <&apps_smmu 0x120 0x7>;
 };

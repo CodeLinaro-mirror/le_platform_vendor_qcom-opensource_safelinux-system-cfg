@@ -58,6 +58,7 @@
 				&auto_vm1_qcvirtio_video_dec_ring
 				&auto_vm1_qcvirtio_video_enc_ring
 				&auto_vm1_qcvirtio_rtc_ring
+				&auto_vm1_qcvirtio_usb_ring
 				&auto_vm1_resv0_ring
 				&auto_vm1_resv1_ring
 				&auto_vm1_swiotlb>;
@@ -143,6 +144,11 @@
 		qcom,vm = <&auto_vm1>;
 		qcom,label = <0x137>;
 	};
+
+	auto_vm1_be56: auto_vm1_be56@144 {
+		qcom,vm = <&auto_vm1>;
+		qcom,label = <0x138>;
+	};
 };
 
 &auto_vm_1 {
@@ -202,6 +208,7 @@
 				&auto_vm1_be53
 				&auto_vm1_be54
 				&auto_vm1_be55
+				&auto_vm1_be56
 		>;
 };
 
@@ -301,16 +308,22 @@
 		reg = <0xf 0x00222000 0x0 0x4000>;
 		gunyah-label = <0x135>;
 	};
+
+	auto_vm1_qcvirtio_usb_ring: auto_vm1_qcvirtio_usb_ring@f00226000 {
+		no-map;
+		reg = <0xf 0x00226000 0x0 0x10000>;
+		gunyah-label = <0x136>;
+	};
 };
 
 &auto_vm1_resv0_ring {
-	reg = <0xf 0x00226000 0x0 0x8000>;
-	gunyah-label = <0x136>;
+	reg = <0xf 0x00236000 0x0 0x8000>;
+	gunyah-label = <0x137>;
 };
 
 &auto_vm1_resv1_ring {
-	reg = <0xf 0x0022e000 0x0 0xed2000>;
-	gunyah-label = <0x137>;
+	reg = <0xf 0x0023e000 0x0 0xec2000>;
+	gunyah-label = <0x138>;
 };
 
 &{/} {

@@ -1029,6 +1029,7 @@
 				     "qcom,usb-snps-hs-5nm-phy";
 			reg = <0x0 0x08904000 0x0 0x120>;
 			#phy-cells = <0>;
+			qcom,eud-base-addr = <0x8903000>;
 
 			status = "disabled";
 		};

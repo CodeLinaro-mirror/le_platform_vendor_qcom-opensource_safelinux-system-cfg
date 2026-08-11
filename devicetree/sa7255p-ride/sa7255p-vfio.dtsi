@@ -366,7 +366,8 @@
 			<0x0 0x18422000 0x0 0x1000>,
 			<0x0 0x18423000 0x0 0x1000>,
 			<0x0 0x780000 0x0 0x1000>,
-			<0x0 0xDB1DB000 0x0 0x3000>;
+			<0x0 0xDB1DB000 0x0 0x3000>,
+			<0x0 0x17C10000 0x0 0x1000>;
 		iommus = <&apps_smmu 0x2903 0x0>;
 		interrupts-extended = <&ipcc1 IPCC_CLIENT_SAIL0 0x1 IRQ_TYPE_EDGE_RISING>,
 				<&ipcc1 IPCC_CLIENT_SAIL1 0x1 IRQ_TYPE_EDGE_RISING>,
@@ -402,7 +403,7 @@
 		compatible = "qcom,vfio-platform";
 		interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
 		reg = <0x0 0x17c23000 0x0 0x1000>;
-		iommus = <&apps_smmu 0x4c0 0x00>;
+		iommus = <&apps_smmu 0x460 0x00>;
 		dma-coherent;
 		qcom,iommu-dma-addr-pool = <0x0 0x60002000 0x0 0x1FFFE000>;
 	};
@@ -708,6 +709,34 @@
 		qcom,iommu-dma-addr-pool = <0x0 0x0 0x0 0xffffffff>;
 		qcom,iommu-vmid = <0x9>; /*VMID_CP_BITSTREAM */
 		qcom,secure-context-bank;
+		dma-coherent;
+	};
+
+	vfio_pcie0_hdma@40005000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x40005000 0x0 0x2000>;
+		interrupts = <GIC_SPI 631 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 632 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 633 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 634 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 635 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 472 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 473 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&pcie_smmu 0x0000 0x7f>;
+		dma-coherent;
+	};
+
+	vfio_pcie1_hdma@60005000 {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x60005000 0x0 0x2000>;
+		interrupts = <GIC_SPI 475 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 476 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 601 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 602 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 603 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
+				<GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>;
+		iommus = <&pcie_smmu 0x80 0x7f>;
 		dma-coherent;
 	};
 
