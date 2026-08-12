@@ -256,8 +256,17 @@
 		qcom,vmid = <53>;
 		qcom,firmware-name = "autoghgvmlv";
 		qcom,firmware-index = <0>;
-		memory-region = <&auto_vm_1_mem_0 &auto_vm_1_mem_1 &auto_vm_1_mem_2>;
-		shared-regions = <&tlmm &qupv3_id_0 &qupv3_id_1 &qupv3_id_2>;
+		memory-region = <&auto_vm_1_mem_0
+				&auto_vm_1_mem_1
+				&auto_vm_1_mem_2
+				>;
+		shared-regions = <&vm_1_cp_pixel
+				&vm_1_cp_bitstream
+				&tlmm
+				&qupv3_id_0
+				&qupv3_id_1
+				&qupv3_id_2
+				>;
 		enable-gvm-dump;
 		virtio-backends = <&auto_vm1_be0
 				&auto_vm1_be1
@@ -551,6 +560,20 @@
 		no-map;
 		reg = <0xf 0x01100000 0x0 0xF00000>;
 		gunyah-label = <0x140>;
+	};
+
+	vm_1_cp_pixel: vm_1_cp_pixel@B10000000 {
+		no-map;
+		reg = <0xB 0x10000000 0x0 0x20000000>;
+		gunyah-label = <0xD0A>;
+		qcom,is-phantom;
+	};
+
+	vm_1_cp_bitstream: vm_1_cp_bitstream@B30000000 {
+		no-map;
+		reg = <0xB 0x30000000 0x0 0x10000000>;
+		gunyah-label = <0xD09>;
+		qcom,is-phantom;
 	};
 
 	auto_vm_1_mem_0: auto_vm_1_mem_0@f3300000 {
