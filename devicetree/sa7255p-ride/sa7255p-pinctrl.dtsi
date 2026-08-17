@@ -213,6 +213,20 @@
 		};
 	};
 
+	edp0_hpd_ctrl: hpd_ctrl@94 {
+		mux {
+			pins = "gpio94";
+			function = "edp0_hot";
+		};
+
+		config {
+			pins = "gpio94";
+			bias-disable;
+			input-enable;
+			drive-strength = <2>;
+		};
+	};
+
 	tert_tdm_dout {
 		tert_tdm_dout_sleep: tert_tdm_dout_sleep {
 			mux {
