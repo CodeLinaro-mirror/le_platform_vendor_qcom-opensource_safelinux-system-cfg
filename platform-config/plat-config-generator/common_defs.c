@@ -247,6 +247,7 @@ static int read_input_INIfile(target_conf_t *conf, const char *file_path)
 
 		conf->slices[i].cpu_start = (int)ini_getl(section, "post_boot_cpu_start", -1, file_path);
 		conf->slices[i].total_cpu_num = (int)ini_getl(section, "total_cpu_num", -1, file_path);
+		conf->slices[i].cpu_end = conf->slices[i].cpu_start + conf->slices[i].total_cpu_num - 1;
 
 		if (conf->slices[i].cpu_start < 0 || conf->slices[i].total_cpu_num <= 0) {
 			fprintf(stderr, SD_ERR
@@ -345,7 +346,7 @@ static void set_default_target_conf(const char *sku, const char *machine_name,
 		fprintf(stderr, SD_ERR "unsupported machine or sku: %s\n", sku);
 }
 
-static int get_max_cpu_index(void)
+int get_max_cpu_index(void)
 {
 	FILE *f = fopen("/sys/devices/system/cpu/online", "r");
 	if (!f) {
@@ -398,25 +399,13 @@ static int get_cluster_start(int cpu_idx)
 
 static void compute_cpu_ranges(target_conf_t *conf, int max_cpu)
 {
-	int pvm_boot_start, pvm_boot_end, non_pvm_boot_end;
+	int pvm_boot_start = 0xFF, pvm_boot_end = -1;
 
-	if (!conf->pvm_boot_from_top) {
-		/* Lemans (Gen4): PVM at bottom */
-		pvm_boot_start   = 0;
-		pvm_boot_end     = conf->pvm_total_num_cpus - 1;
-		if (pvm_boot_end >= max_cpu)
-			pvm_boot_end = max_cpu - 1;
-		non_pvm_boot_end = max_cpu - 1;
-	} else if (conf->pvm_total_num_cpus >= max_cpu) {
-		/* Gen5: PVM owns all CPUs (e.g., ADAS) */
-		pvm_boot_start   = 0;
-		pvm_boot_end     = max_cpu - 1;
-		non_pvm_boot_end = max_cpu - 1;
-	} else {
-		/* Gen5: PVM at top-N */
-		pvm_boot_start   = max_cpu - conf->pvm_total_num_cpus;
-		pvm_boot_end     = max_cpu - 1;
-		non_pvm_boot_end = pvm_boot_start - 1;
+	for (int i = 0; i < conf->slice_count; ++i) {
+		if (pvm_boot_start > conf->slices[i].cpu_start)
+			pvm_boot_start = conf->slices[i].cpu_start;
+		if (pvm_boot_end < conf->slices[i].cpu_end)
+			pvm_boot_end = conf->slices[i].cpu_end;
 	}
 
 	for (int i = 0; i < conf->slice_count; i++) {
@@ -426,10 +415,9 @@ static void compute_cpu_ranges(target_conf_t *conf, int max_cpu)
 			conf->slices[i].boot_cpu_end   = pvm_boot_end;
 		} else {
 			conf->slices[i].boot_cpu_start = 0;
-			conf->slices[i].boot_cpu_end   = non_pvm_boot_end;
+			conf->slices[i].boot_cpu_end   = pvm_boot_end;
 		}
 
-		conf->slices[i].cpu_end = conf->slices[i].cpu_start + conf->slices[i].total_cpu_num - 1;
 		if (conf->slices[i].cpu_end >= max_cpu)
 			conf->slices[i].cpu_end = max_cpu - 1;
 
@@ -537,11 +525,6 @@ int init_target_conf(target_conf_t *conf)
 				"Failed to read input %s file\n", target_conf_file);
 		set_default_target_conf(sku, machine_name, conf);
 	}
-
-	/* Lemans (Gen4) places PVM at bottom of CPU range; Gen5 at top */
-	conf->pvm_boot_from_top = (strstr(machine_name, "8255") != NULL ||
-				   strstr(machine_name, "8775") != NULL ||
-				   strstr(machine_name, "8650") != NULL) ? 0 : 1;
 
 	int max_cpu = get_max_cpu_index() + 1;
 

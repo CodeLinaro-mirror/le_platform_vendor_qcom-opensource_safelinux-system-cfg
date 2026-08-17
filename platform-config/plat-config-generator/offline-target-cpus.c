@@ -18,44 +18,41 @@ int main(int argc, char **argv)
 	int rc;
 	int max_cpu;
 	target_conf_t conf;
-	int pvm_boot_start = -1, pvm_boot_end = -1;
+	int pvm_boot_start = 0xff, pvm_boot_end = -1;
   
 	if (init_target_conf(&conf) != 0)
 		return -1;
 
 	for (int i = 0; i < conf.slice_count; ++i) {
-		if (strcmp(conf.slices[i].name, "pvm.slice") == 0) {
+		if (pvm_boot_start > conf.slices[i].boot_cpu_start)
 			pvm_boot_start = conf.slices[i].boot_cpu_start;
+		if (pvm_boot_end < conf.slices[i].boot_cpu_end)
 			pvm_boot_end = conf.slices[i].boot_cpu_end;
-			break;
-		}
 	}
+
+	fprintf(stdout, "PVM CPU %d - %d\n", pvm_boot_start, pvm_boot_end);
 
 	if (pvm_boot_end < 0)
 		return 0;
 
-	if (conf.pvm_boot_from_top) {
-		/* Gen5: PVM at top, offline everything below pvm range */
-		max_cpu = pvm_boot_end + 1;
-		for (int cpu = 0; cpu < max_cpu; cpu++) {
-			if ((cpu >= pvm_boot_start && cpu <= pvm_boot_end)
-					|| !strcmp(conf.sku, "ADAS")) {
-				continue;
-			}
+	max_cpu = get_max_cpu_index() + 1;
 
-			if (!offline_cpu(cpu)) {
-				fprintf(stderr, SD_ERR "Failed to offline cpu %d\n", cpu);
-				return -1;
-			}
+	if (max_cpu <= 0) {
+		fprintf(stderr, SD_ERR "Failed to get max CPU index\n");
+		return -1;
+	}
+
+	for (int cpu = 0; cpu < max_cpu; cpu++) {
+		if ((cpu >= pvm_boot_start && cpu <= pvm_boot_end)
+				|| !strcmp(conf.sku, "ADAS")) {
+			continue;
 		}
-	} else {
-		/* Lemans (Gen4): PVM at bottom, offline everything above pvm range */
-		max_cpu = sysconf(_SC_NPROCESSORS_CONF);
-		for (int cpu = pvm_boot_end + 1; cpu < max_cpu; cpu++) {
-			if (!offline_cpu(cpu)) {
-				fprintf(stderr, SD_ERR "Failed to offline cpu %d\n", cpu);
-				return -1;
-			}
+
+		if (!offline_cpu(cpu)) {
+			fprintf(stderr, SD_ERR "Failed to offline cpu %d\n", cpu);
+			return -1;
+		} else {
+			fprintf(stdout, "Offline CPU %d\n", cpu);
 		}
 	}
 

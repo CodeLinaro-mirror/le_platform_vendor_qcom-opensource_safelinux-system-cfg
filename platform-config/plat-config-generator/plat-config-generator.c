@@ -78,7 +78,7 @@ int main(int argc, char **argv)
 {
 	int rc;
 	int max_cpu;
-	int pvm_boot_start = -1, pvm_boot_end = -1;
+	int pvm_boot_start = 0xFF, pvm_boot_end = -1;
 	target_conf_t conf;
 	const char *generator_abs_dir = "/run/systemd/generator";
 
@@ -100,10 +100,10 @@ int main(int argc, char **argv)
 			return rc;
 		}
 
-		if (strcmp(conf.slices[i].name, "pvm.slice") == 0) {
+		if (pvm_boot_start > conf.slices[i].boot_cpu_start)
 			pvm_boot_start = conf.slices[i].boot_cpu_start;
+		if (pvm_boot_end < conf.slices[i].boot_cpu_end)
 			pvm_boot_end = conf.slices[i].boot_cpu_end;
-		}
 	}
 
 	if (pvm_boot_start >= 0 && pvm_boot_end >= 0) {

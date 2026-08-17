@@ -44,7 +44,6 @@ typedef struct {
 	slice_conf_t slices[MAX_SLICES];
 	int slice_count;
 	int pvm_total_num_cpus;
-	int pvm_boot_from_top;
 } target_conf_t;
 
 extern char *sku_names[30];
@@ -55,6 +54,7 @@ extern target_conf_t adas_conf;
 bool write_sysfs(const char *path, const char *value);
 void create_dir(char *gen_dir);
 int  init_target_conf(target_conf_t *conf);
+int get_max_cpu_index(void);
 
 static inline void _cleanup_fclose(FILE **f)
 {
