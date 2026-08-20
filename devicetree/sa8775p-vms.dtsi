@@ -354,7 +354,7 @@
 				&auto_vm_0_mem_4
 				&auto_vm_0_mem_5
 				>;
-		shared-regions = <&glink_cma_mem
+		shared-regions = <&vm_0_glink_cma_mem
 				&gptp_timedata_mem
 				&vm_0_cp_pixel
 				&vm_0_cp_bitstream
@@ -451,7 +451,7 @@
 	#size-cells = <2>;
 	ranges;
 
-	glink_cma_mem: glink_cma_mem@908c7000 {
+	vm_0_glink_cma_mem: vm_0_glink_cma_mem@908c7000 {
 		no-map;
 		reg = <0x0 0x908c7000 0x0 0x12000>;
 		qcom,dst-vmids = <AC_VM_CDSP_Q6_ELF>;

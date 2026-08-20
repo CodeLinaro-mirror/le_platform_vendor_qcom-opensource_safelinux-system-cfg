@@ -260,7 +260,8 @@
 				&auto_vm_1_mem_1
 				&auto_vm_1_mem_2
 				>;
-		shared-regions = <&vm_1_cp_pixel
+		shared-regions = <&vm_1_glink_cma_mem
+				&vm_1_cp_pixel
 				&vm_1_cp_bitstream
 				&tlmm
 				&qupv3_id_0
@@ -315,6 +316,14 @@
 	#address-cells = <2>;
 	#size-cells = <2>;
 	ranges;
+
+	vm_1_glink_cma_mem: vm_1_glink_cma_mem@91ba1000 {
+		no-map;
+		reg = <0x0 0x91ba1000 0x0 0x12000>;
+		qcom,dst-vmids = <AC_VM_CDSP_Q6_ELF>;
+		qcom,dst-perms = <QCOM_PERM_RWX>;
+		gunyah-label = <0x150>;
+	};
 
 	auto_vm1_vblk0_ring: auto_vm1_vblk0_ring@f00000000 {
 		no-map;
