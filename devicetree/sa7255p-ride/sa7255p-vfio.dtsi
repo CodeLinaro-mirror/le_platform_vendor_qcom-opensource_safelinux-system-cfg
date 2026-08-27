@@ -731,6 +731,12 @@
 		dma-coherent;
 	};
 
+	ssctl_service@4c8000 {
+		compatible = "qcom,vdev-device";
+		reg =   <0x0 0x004c8000 0x0 0x1000>,
+			<0x0 0x1F60000 0x0 0x20000>;
+	};
+
 	vfio_pcie0_hdma@40005000 {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x40005000 0x0 0x2000>;
@@ -758,6 +764,7 @@
 		iommus = <&pcie_smmu 0x80 0x7f>;
 		dma-coherent;
 	};
+
 
 };
 
