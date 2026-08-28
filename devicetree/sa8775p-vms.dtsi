@@ -48,8 +48,8 @@
 
 
 &non_ecc_heap_mem {
-	/* reserve 6GB non-ecc memory for VM-specific configuration */
-	reg = <0x9 0xC0000000 0x1 0x80000000>;
+	/* reserve 5.25GB non-ecc memory for VM-specific configuration */
+	reg = <0x9 0xC0000000 0x1 0x50000000>;
 };
 
 &soc {
@@ -354,7 +354,15 @@
 				&auto_vm_0_mem_4
 				&auto_vm_0_mem_5
 				>;
-		shared-regions = <&glink_cma_mem &gptp_timedata_mem &vm_cp_pixel &vm_cp_bitstream &tlmm &qupv3_id_0 &qupv3_id_1 &qupv3_id_2>;
+		shared-regions = <&vm_0_glink_cma_mem
+				&gptp_timedata_mem
+				&vm_0_cp_pixel
+				&vm_0_cp_bitstream
+				&tlmm
+				&qupv3_id_0
+				&qupv3_id_1
+				&qupv3_id_2
+				>;
 		enable-gvm-dump;
 		virtio-backends = <&auto_vm_be0
 				&auto_vm_be1
@@ -443,7 +451,7 @@
 	#size-cells = <2>;
 	ranges;
 
-	glink_cma_mem: glink_cma_mem@908c7000 {
+	vm_0_glink_cma_mem: vm_0_glink_cma_mem@908c7000 {
 		no-map;
 		reg = <0x0 0x908c7000 0x0 0x12000>;
 		qcom,dst-vmids = <AC_VM_CDSP_Q6_ELF>;
@@ -739,14 +747,14 @@
 		gunyah-label = <0x50>;
 	};
 
-	vm_cp_pixel: vm_cp_pixel@BD0000000 {
+	vm_0_cp_pixel: vm_0_cp_pixel@BD0000000 {
 		no-map;
 		reg = <0xB 0xD0000000 0x0 0x20000000>;
 		gunyah-label = <0xC0A>;
 		qcom,is-phantom;
 	};
 
-	vm_cp_bitstream: vm_cp_bitstream@BF0000000 {
+	vm_0_cp_bitstream: vm_0_cp_bitstream@BF0000000 {
 		no-map;
 		reg = <0xB 0xF0000000 0x0 0x10000000>;
 		gunyah-label = <0xC09>;
