@@ -64,7 +64,8 @@
 	};
 
 	umd_nsp_drv@780000 {
-		compatible = "qcom,vfio-platform";
+		compatible = "qcom,vdev-device";
+		qcom,dev-name = "umd_nsp_drv";
 		reg =<0x0 0x00780000 0x0 0x10000>,	//NSP SECCTRL
 			<0x0 0x01FC0000 0x0 0x40000>,	//NSP TCSR
 			<0x0 0x26092000 0x0 0x1000>,	//NSP0 FUSA
@@ -74,8 +75,6 @@
 			<GIC_SPI 454 IRQ_TYPE_LEVEL_HIGH>,
 			<GIC_SPI 578 IRQ_TYPE_LEVEL_HIGH>,
 			<GIC_SPI 798 IRQ_TYPE_LEVEL_HIGH>;
-		iommus = <&apps_smmu 0x04E0 0x0>;
-		dma-coherent;
 	};
 
 	umd_pil@408000 {
