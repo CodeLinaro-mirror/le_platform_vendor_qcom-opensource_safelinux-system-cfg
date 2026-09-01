@@ -11,7 +11,8 @@
 
 #define BOOTKPI_LOG_PREFIX "qcom-bootkpi"
 #define PM_LOG_PREFIX "qcom-pmkpi"
-
+#define QC_PM_PREFIX "qc_pm"
+#define PCM_PREFIX "pcm"
 
 /*
  * bootkpi_log_init initializes bootkpi logger
@@ -22,6 +23,8 @@
  */
 #define bootkpi_log_init() setvbuf(stdout, NULL, _IOLBF, 0)
 #define pm_log_init() setvbuf(stdout, NULL, _IOLBF, 0)
+#define qc_pm_log_init() setvbuf(stdout, NULL, _IOLBF, 0)
+#define pcm_log_init() setvbuf(stdout, NULL, _IOLBF, 0)
 
 /*
  * bootkpi_log_line API that logs one line of a bootkpi message
@@ -48,5 +51,9 @@
 #define bootkpi_log_line(...) log_line(BOOTKPI_LOG_PREFIX, __VA_ARGS__)
 
 #define pm_log_line(...) log_line(PM_LOG_PREFIX, __VA_ARGS__)
+
+#define qc_pm_kpi(...) log_line(QC_PM_PREFIX, __VA_ARGS__)
+
+#define pcm_kpi(...) log_line(PCM_PREFIX, __VA_ARGS__)
 
 #endif // BOOTKPI_LOGGING_H
