@@ -34,17 +34,28 @@ int main(int argc, char **argv)
 	if (pvm_boot_end < 0)
 		return 0;
 
-	max_cpu = pvm_boot_end + 1;
+	if (conf.pvm_boot_from_top) {
+		/* Gen5: PVM at top, offline everything below pvm range */
+		max_cpu = pvm_boot_end + 1;
+		for (int cpu = 0; cpu < max_cpu; cpu++) {
+			if ((cpu >= pvm_boot_start && cpu <= pvm_boot_end)
+					|| !strcmp(conf.sku, "ADAS")) {
+				continue;
+			}
 
-	for (int cpu = 0; cpu < max_cpu; cpu++) {
-		if ((cpu >= pvm_boot_start && cpu <= pvm_boot_end)
-				|| !strcmp(conf.sku, "ADAS")) {
-			continue;
+			if (!offline_cpu(cpu)) {
+				fprintf(stderr, SD_ERR "Failed to offline cpu %d\n", cpu);
+				return -1;
+			}
 		}
-
-		if (!offline_cpu(cpu)) {
-			fprintf(stderr, SD_ERR "Failed to offline cpu %d\n", cpu);
-			return -1;
+	} else {
+		/* Lemans (Gen4): PVM at bottom, offline everything above pvm range */
+		max_cpu = sysconf(_SC_NPROCESSORS_CONF);
+		for (int cpu = pvm_boot_end + 1; cpu < max_cpu; cpu++) {
+			if (!offline_cpu(cpu)) {
+				fprintf(stderr, SD_ERR "Failed to offline cpu %d\n", cpu);
+				return -1;
+			}
 		}
 	}
 

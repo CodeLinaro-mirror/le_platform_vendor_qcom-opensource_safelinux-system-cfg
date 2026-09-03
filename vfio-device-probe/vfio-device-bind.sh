@@ -4,6 +4,8 @@
 
 # shellcheck disable=SC1090
 
+modprobe iommu_faults
+
 KGSL_OVERRIDE_DIR="/sys/bus/platform/devices/1.vfio_kgsl_lpac/driver_override"
 VFIO_BIND_DIR="/usr/lib/vfio-bind.d"
 SECA_CONF="${VFIO_BIND_DIR}/seca_dev.conf"
