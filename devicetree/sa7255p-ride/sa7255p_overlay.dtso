@@ -817,7 +817,7 @@
 		#size-cells = <2>;
 	};
 
-	qcom,dma-heaps {
+	qcom_dma_heaps: qcom,dma-heaps {
 		compatible = "qcom,dma-heaps";
 		status = "okay";
 
@@ -827,11 +827,6 @@
 			memory-region = <&tzcom_mem>;
 		};
 
-		qcom,non-ecc {
-			qcom,dma-heap-name = "qcom,non-ecc";
-			qcom,dma-heap-type = <HEAP_TYPE_CARVEOUT>;
-			memory-region = <&non_ecc_heap_mem>;
-		};
 	};
 
 	qcom,secure-buffer {
@@ -913,11 +908,6 @@
 		reusable;
 		alignment = <0x0 0x400000>;
 		size = <0x0 0x1400000>; /* 20M */
-	};
-
-	non_ecc_heap_mem: non_ecc_heap_mem_region@edb9a0000 {
-		reg = <0xe 0xdb9a0000 0x0 0x20000000>;
-		no-map;
 	};
 
 	audio_mdf_mem: audio_mdf_region@ae000000 {
