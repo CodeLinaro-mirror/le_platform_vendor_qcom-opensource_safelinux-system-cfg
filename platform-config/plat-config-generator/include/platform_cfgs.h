@@ -44,6 +44,7 @@ typedef struct {
 	slice_conf_t slices[MAX_SLICES];
 	int slice_count;
 	int pvm_total_num_cpus;
+	int pvm_boot_from_top;
 } target_conf_t;
 
 extern char *sku_names[30];
