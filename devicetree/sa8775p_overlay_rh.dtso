@@ -193,6 +193,10 @@
 	status = "okay";
 };
 
+&scmi42 {
+	status = "okay";
+};
+
 &scmi63 {
 	status = "okay";
 };

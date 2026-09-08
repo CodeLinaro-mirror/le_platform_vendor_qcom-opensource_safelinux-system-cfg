@@ -31,11 +31,11 @@
 	status = "disabled";
 };
 
-&vm_cp_pixel {
+&vm_0_cp_pixel {
 	reg = <0xB 0xC0000000 0x0 0x20000000>;
 };
 
-&vm_cp_bitstream {
+&vm_0_cp_bitstream {
 	reg = <0xB 0xE0000000 0x0 0x10000000>;
 };
 
