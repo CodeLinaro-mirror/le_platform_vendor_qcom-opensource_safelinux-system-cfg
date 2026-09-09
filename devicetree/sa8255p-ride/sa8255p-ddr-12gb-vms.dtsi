@@ -4,30 +4,26 @@
  */
 
 &auto_vm_0 {
-	memory-region = <&auto_vm_0_mem_0 &auto_vm_0_mem_1 &auto_vm_0_mem_2 &auto_vm_0_mem_3>;
+	memory-region = <&auto_vm_0_mem_0 &auto_vm_0_mem_1 &auto_vm_0_mem_2>;
 };
 
 &auto_vm_1 {
 	memory-region = <&auto_vm_1_mem_0 &auto_vm_1_mem_1>;
 };
 
+&auto_vm_0_mem_0 {
+	reg = <0x0 0xDB300000 0x0 0x18000000>;
+};
+
 &auto_vm_0_mem_1 {
-	reg = <0x3 0x00000000 0x0 0xC0000000>;
+	reg = <0x3 0x00000000 0x0 0xFC300000>;
 };
 
 &auto_vm_0_mem_2 {
-	reg = <0x3 0xC0000000 0x0 0x3C300000>;
-};
-
-&auto_vm_0_mem_3 {
 	reg = <0xB 0x43000000 0x0 0x7D000000>;
 };
 
-&auto_vm_0_mem_4 {
-	status = "disabled";
-};
-
-&auto_vm_0_mem_5 {
+&auto_vm_0_mem_3 {
 	status = "disabled";
 };
 
@@ -37,6 +33,10 @@
 
 &vm_cp_bitstream {
 	reg = <0xB 0xE0000000 0x0 0x10000000>;
+};
+
+&auto_vm_1_mem_0 {
+	reg = <0x0 0xF3300000 0x0 0xCD00000>;
 };
 
 &auto_vm_1_mem_1 {
