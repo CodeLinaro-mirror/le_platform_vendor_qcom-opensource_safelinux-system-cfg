@@ -33,33 +33,39 @@ char *sku_names[] = {"SAFE_IVI", "ADAS", "FLEX", "NONSAFE_IVI"};
 target_conf_t nonsafe_ivi_conf_lemans_8255 = {
 	.sku = "NONSAFE_IVI",
 	.pvm_total_num_cpus = 2,
-	.slice_count = 3,
+	.slice_count = 4,
 	.slices = {
 		{ .name = "pvm.slice",    .cpu_start = 0, .total_cpu_num = 1 },
 		{ .name = "gvm.slice",    .cpu_start = 1, .total_cpu_num = 1 },
 		{ .name = "system.slice", .cpu_start = 1, .total_cpu_num = 1 },
+		{ .name = "rt.slice",     .cpu_start = 0, .total_cpu_num = 2,
+		  .allow_cross_cluster = 1 },
 	}
 };
 
 target_conf_t flex_conf_lemans_8775 = {
 	.sku = "FLEX",
 	.pvm_total_num_cpus = 4,
-	.slice_count = 3,
+	.slice_count = 4,
 	.slices = {
 		{ .name = "pvm.slice",    .cpu_start = 0, .total_cpu_num = 3 },
 		{ .name = "gvm.slice",    .cpu_start = 3, .total_cpu_num = 1 },
 		{ .name = "system.slice", .cpu_start = 3, .total_cpu_num = 1 },
+		{ .name = "rt.slice",     .cpu_start = 0, .total_cpu_num = 4,
+		  .allow_cross_cluster = 1 },
 	}
 };
 
 target_conf_t adas_conf_lemans_8650 = {
 	.sku = "ADAS",
 	.pvm_total_num_cpus = 8,
-	.slice_count = 3,
+	.slice_count = 4,
 	.slices = {
 		{ .name = "pvm.slice",    .cpu_start = 0, .total_cpu_num = 4 },
 		{ .name = "misc.slice",   .cpu_start = 4, .total_cpu_num = 3 },
 		{ .name = "system.slice", .cpu_start = 7, .total_cpu_num = 1 },
+		{ .name = "rt.slice",     .cpu_start = 0, .total_cpu_num = 8,
+		  .allow_cross_cluster = 1 },
 	}
 };
 
