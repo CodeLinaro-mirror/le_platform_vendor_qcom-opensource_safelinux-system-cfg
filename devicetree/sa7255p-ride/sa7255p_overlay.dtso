@@ -475,10 +475,6 @@
 	status = "okay";
 };
 
-&scmi42 {
-	status = "okay";
-};
-
 &scmi63 {
 	status = "okay";
 };
@@ -649,13 +645,6 @@
 		power-domains = <&scmi24_pd 0>, <&scmi24_pd 1>;
 		power-domain-names = "power_regulator", "power_gpio";
 		qcom,dev-name = "scmi_wlan";
-	};
-
-	scmi_emac0 {
-		compatible = "qcom,uscmi";
-		power-domains = <&scmi42_pd 0>;
-		power-domain-names = "gvm_power_mdio";
-		qcom,dev-name = "scmi_emac0";
 	};
 
 	test_scmi_perf {
