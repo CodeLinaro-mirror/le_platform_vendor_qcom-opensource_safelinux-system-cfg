@@ -466,6 +466,14 @@ static void compute_cpu_ranges(target_conf_t *conf, int max_cpu)
 				conf->slices[i].cpu_start <= pvm_boot_end) {
 			conf->slices[i].boot_cpu_start = pvm_boot_start;
 			conf->slices[i].boot_cpu_end   = pvm_boot_end;
+
+			/*
+			 * For cross-cluster slices in the PVM range (e.g. rt.slice),
+			 * align cpu_start to pvm_boot_start so the post-boot cpuset
+			 * covers the full PVM window regardless of fused-off CPUs.
+			 */
+			if (conf->slices[i].allow_cross_cluster)
+				conf->slices[i].cpu_start = pvm_boot_start;
 		} else {
 			conf->slices[i].boot_cpu_start = 0;
 			conf->slices[i].boot_cpu_end   = non_pvm_boot_end;
