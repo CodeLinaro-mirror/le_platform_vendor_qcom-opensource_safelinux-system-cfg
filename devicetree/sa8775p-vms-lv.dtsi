@@ -555,7 +555,7 @@
 
 	auto_vm_1_mem_0: auto_vm_1_mem_0@f3300000 {
 		no-map;
-		reg = <0x0 0xF3300000 0x0 0xCD00000>;
+		reg = <0x0 0xF3300000 0x0 0x1CD00000>;
 	};
 
 	auto_vm_1_mem_1: auto_vm_1_mem_1@f02000000 {
@@ -563,9 +563,9 @@
 		reg = <0xf 0x02000000 0x0 0x58400000>;
 	};
 
-	auto_vm_1_mem_2: auto_vm_1_mem_2@100000000 {
+	auto_vm_1_mem_2: auto_vm_1_mem_2@110800000 {
 		no-map;
-		reg = <0x1 0x00000000 0x0 0xC0000000>;
+		reg = <0x1 0x10800000 0x0 0xAF800000>;
 	};
 };
 
