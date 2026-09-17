@@ -147,10 +147,10 @@ target_conf_t safe_ivi_conf_seca = {
 	.pvm_total_num_cpus = 4,
 	.slice_count = 4,
 	.slices = {
-		{ .name = "pvm.slice",    .cpu_start = 9, .total_cpu_num = 3 },
-		{ .name = "gvm.slice",    .cpu_start = 8, .total_cpu_num = 2 },
-		{ .name = "system.slice", .cpu_start = 8, .total_cpu_num = 2 },
-		{ .name = "rt.slice", .cpu_start = 8, .total_cpu_num = 4,
+		{ .name = "pvm.slice",    .cpu_start = 0, .total_cpu_num = 3 },
+		{ .name = "gvm.slice",    .cpu_start = 2, .total_cpu_num = 2 },
+		{ .name = "system.slice", .cpu_start = 2, .total_cpu_num = 2 },
+		{ .name = "rt.slice",     .cpu_start = 0, .total_cpu_num = 4,
 		  .allow_cross_cluster = 1 },
 	}
 };
@@ -160,23 +160,23 @@ target_conf_t nonsafe_ivi_conf_seca = {
 	.pvm_total_num_cpus = 4,
 	.slice_count = 4,
 	.slices = {
-		{ .name = "pvm.slice",    .cpu_start = 9, .total_cpu_num = 3 },
-		{ .name = "gvm.slice",    .cpu_start = 8, .total_cpu_num = 2 },
-		{ .name = "system.slice", .cpu_start = 8, .total_cpu_num = 2 },
-		{ .name = "rt.slice", .cpu_start = 8, .total_cpu_num = 4,
+		{ .name = "pvm.slice",    .cpu_start = 0, .total_cpu_num = 3 },
+		{ .name = "gvm.slice",    .cpu_start = 2, .total_cpu_num = 2 },
+		{ .name = "system.slice", .cpu_start = 2, .total_cpu_num = 2 },
+		{ .name = "rt.slice",     .cpu_start = 0, .total_cpu_num = 4,
 		  .allow_cross_cluster = 1 },
 	}
 };
 
 target_conf_t flex_conf_seca = {
 	.sku = "FLEX",
-	.pvm_total_num_cpus = 4,
+	.pvm_total_num_cpus = 5,
 	.slice_count = 4,
 	.slices = {
-		{ .name = "pvm.slice",    .cpu_start = 9, .total_cpu_num = 3 },
-		{ .name = "gvm.slice",    .cpu_start = 8, .total_cpu_num = 2 },
-		{ .name = "system.slice", .cpu_start = 8, .total_cpu_num = 2 },
-		{ .name = "rt.slice", .cpu_start = 8, .total_cpu_num = 4,
+		{ .name = "pvm.slice",    .cpu_start = 0, .total_cpu_num = 3 },
+		{ .name = "gvm.slice",    .cpu_start = 3, .total_cpu_num = 2 },
+		{ .name = "system.slice", .cpu_start = 3, .total_cpu_num = 2 },
+		{ .name = "rt.slice",     .cpu_start = 0, .total_cpu_num = 4,
 		  .allow_cross_cluster = 1 },
 	}
 };
@@ -466,6 +466,14 @@ static void compute_cpu_ranges(target_conf_t *conf, int max_cpu)
 				conf->slices[i].cpu_start <= pvm_boot_end) {
 			conf->slices[i].boot_cpu_start = pvm_boot_start;
 			conf->slices[i].boot_cpu_end   = pvm_boot_end;
+
+			/*
+			 * For cross-cluster slices in the PVM range (e.g. rt.slice),
+			 * align cpu_start to pvm_boot_start so the post-boot cpuset
+			 * covers the full PVM window regardless of fused-off CPUs.
+			 */
+			if (conf->slices[i].allow_cross_cluster)
+				conf->slices[i].cpu_start = pvm_boot_start;
 		} else {
 			conf->slices[i].boot_cpu_start = 0;
 			conf->slices[i].boot_cpu_end   = non_pvm_boot_end;
@@ -595,7 +603,8 @@ int init_target_conf(target_conf_t *conf)
 	/* Lemans (Gen4) places PVM at bottom of CPU range; Gen5 at top */
 	conf->pvm_boot_from_top = (strstr(machine_name, "8255") != NULL ||
 				   strstr(machine_name, "8775") != NULL ||
-				   strstr(machine_name, "8650") != NULL) ? 0 : 1;
+				   strstr(machine_name, "8650") != NULL ||
+				   strstr(machine_name, "8787") != NULL) ? 0 : 1;
 
 	int max_cpu = get_max_cpu_index() + 1;
 
