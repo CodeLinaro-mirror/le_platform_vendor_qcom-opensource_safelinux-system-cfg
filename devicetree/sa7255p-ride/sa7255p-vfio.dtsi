@@ -463,6 +463,15 @@
 		iommu-faults;
 	};
 
+	vfio_kgsl_ecats {
+		compatible = "qcom,vfio-platform";
+		reg = <0x0 0x1 0x0 0x0>;
+		iommus = <&adreno_smmu 0x7 0xc00>;
+		qcom,iommu-dma = "disabled";
+		dma-coherent;
+		iommu-faults;
+	};
+
 	vfio_gmu {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x1 0x0 0x0>,
