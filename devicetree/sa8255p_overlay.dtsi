@@ -119,6 +119,12 @@
 			reg = <0x0 0xac5fe000 0x0 0x1000>;
 		};
 
+		ipc_shared_mem: ipc_shared_mem@ad000000 {
+			compatible = "shared-dma-pool";
+			no-map;
+			reg = <0x0 0xad000000 0x0 0x2000000>;
+		};
+
 		tzcom_mem: qcom,tzcom {
 			compatible = "shared-dma-pool";
 			alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;

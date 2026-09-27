@@ -52,6 +52,15 @@
 	reg = <0x9 0xC0000000 0x1 0x50000000>;
 };
 
+&ipc_shared_mem {
+	qcom,src-vmids = <VMID_ADSP_Q6 AC_VM_SSC_Q6_ELF AC_VM_GPDSP1_Q6_ELF>;
+	qcom,src-perms = <QCOM_PERM_RWX QCOM_PERM_RWX QCOM_PERM_RWX>;
+	qcom,dst-vmids = <VMID_ADSP_Q6 AC_VM_SSC_Q6_ELF AC_VM_GPDSP1_Q6_ELF>;
+	qcom,dst-perms = <QCOM_PERM_RWX QCOM_PERM_RWX QCOM_PERM_RWX>;
+	qcom,is-shared;
+	gunyah-label = <0x4F>;
+};
+
 &soc {
 	auto_vm: qcom,auto_vm@b40000000 {
 		reg = <0xb 0x40000000 0x0 0x3000000>;
@@ -360,6 +369,7 @@
 				&qupv3_id_0
 				&qupv3_id_1
 				&qupv3_id_2
+				&ipc_shared_mem
 				>;
 		enable-gvm-dump;
 		virtio-backends = <&auto_vm_be0
