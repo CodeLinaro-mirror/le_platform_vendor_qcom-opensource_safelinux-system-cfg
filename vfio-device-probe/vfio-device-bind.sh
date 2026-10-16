@@ -64,12 +64,13 @@ select_conf_file()
     # soc_id to machine mapping:
     # 742 -> QAM8787P
     # 690 -> QAM8797P
+    # 798 -> IQ10800MD
     # 689 -> QAM8397P
     case "${socid}" in
         742)
             [ -f "${SECA_CONF}" ] && echo "${SECA_CONF}" && return 0
             ;;
-        689|690)
+        689|690|798)
             [ -f "${NORD_CONF}" ] && echo "${NORD_CONF}" && return 0
             ;;
     esac
@@ -78,7 +79,7 @@ select_conf_file()
         *QAM8787P*)
             [ -f "${SECA_CONF}" ] && echo "${SECA_CONF}" && return 0
             ;;
-        *QAM8397P*|*QAM8797P*)
+        *QAM8397P*|*QAM8797P*|*IQ10*)
             [ -f "${NORD_CONF}" ] && echo "${NORD_CONF}" && return 0
             ;;
     esac
