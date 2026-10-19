@@ -54,7 +54,7 @@
 				&auto_vm_qcvirtio_snd_ring
 				&auto_vm_qcvirtio_inp_ring
 				&auto_vm_qcvirtio_net_ring
-				&auto_vm_qcvirtio_con_ring
+				&auto_vm_qcvirtio_rng_ring
 				&auto_vm_qcvirtio_vsock_ring
 				&auto_vm_qcvirtio_gpio_ring
 				&auto_vm_qcvirtio_scmi_ring
@@ -217,7 +217,7 @@
 		gunyah-label = <0x52>;
 	};
 
-	auto_vm_qcvirtio_con_ring: auto_vm_qcvirtio_con_ring@B4025E000 {
+	auto_vm_qcvirtio_rng_ring: auto_vm_qcvirtio_rng_ring@B4025E000 {
 		no-map;
 		reg = <0xB 0x4025E000 0x0 0x8000>;
 		gunyah-label = <0x53>;

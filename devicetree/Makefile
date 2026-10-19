@@ -85,6 +85,8 @@ dtb-y += sa8775p-ddr-36gb_overlay.dtbo
 
 dtb-y += sa7255p-ride/sa7255p-ddr-0gvm-12gb_overlay.dtbo
 dtb-y += sa7255p-ride/sa7255p-ddr-1gvm-12gb_overlay.dtbo
+dtb-y += sa7255p-ride/sa7255p-ddr-1gvm-8gb_overlay.dtbo
+dtb-y += sa7255p-ride/sa7255p-ddr-0gvm-8gb_overlay.dtbo
 dtb-y += sa8255p-ride/sa8255p-ddr-0gvm-12gb_overlay.dtbo
 dtb-y += sa8255p-ride/sa8255p-ddr-0gvm-36gb_overlay.dtbo
 dtb-y += sa8255p-ride/sa8255p-ddr-1gvm-36gb_overlay.dtbo

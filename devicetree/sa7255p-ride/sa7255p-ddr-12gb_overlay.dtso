@@ -5,5 +5,20 @@
 /dts-v1/;
 /plugin/;
 
+#include <dt-bindings/arm/qcom_dma_heap_dt_constants.h>
+
 &{/reserved-memory} {
+
+	non_ecc_heap_mem: non_ecc_heap_mem_region@edb9a0000 {
+		reg = <0xe 0xdb9a0000 0x0 0x20000000>;
+		no-map;
+	};
+};
+
+&qcom_dma_heaps {
+	qcom,non-ecc {
+		qcom,dma-heap-name = "qcom,non-ecc";
+		qcom,dma-heap-type = <HEAP_TYPE_CARVEOUT>;
+		memory-region = <&non_ecc_heap_mem>;
+	};
 };
