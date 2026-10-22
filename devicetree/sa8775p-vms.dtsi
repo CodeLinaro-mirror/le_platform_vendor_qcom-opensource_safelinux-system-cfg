@@ -351,8 +351,6 @@
 				&auto_vm_0_mem_1
 				&auto_vm_0_mem_2
 				&auto_vm_0_mem_3
-				&auto_vm_0_mem_4
-				&auto_vm_0_mem_5
 				>;
 		shared-regions = <&vm_0_glink_cma_mem
 				&gptp_timedata_mem
@@ -768,25 +766,15 @@
 
 	auto_vm_0_mem_1: auto_vm_0_mem_1@1C0000000 {
 		no-map;
-		reg = <0x1 0xC0000000 0x0 0xC0000000>;
+		reg = <0x1 0xC0000000 0x2 0x40000000>;
 	};
 
-	auto_vm_0_mem_2: auto_vm_0_mem_2@280000000 {
-		no-map;
-		reg = <0x2 0x80000000 0x0 0xC0000000>;
-	};
-
-	auto_vm_0_mem_3: auto_vm_0_mem_3@340000000 {
-		no-map;
-		reg = <0x3 0x40000000 0x0 0xC0000000>;
-	};
-
-	auto_vm_0_mem_4: auto_vm_0_mem_4@900000000 {
+	auto_vm_0_mem_2: auto_vm_0_mem_4@900000000 {
 		no-map;
 		reg = <0x9 0x00000000 0x0 0xC0000000>;
 	};
 
-	auto_vm_0_mem_5: auto_vm_0_mem_5@b43000000 {
+	auto_vm_0_mem_3: auto_vm_0_mem_5@b43000000 {
 		no-map;
 		reg = <0xB 0x43000000 0x0 0x8D000000>;
 	};
