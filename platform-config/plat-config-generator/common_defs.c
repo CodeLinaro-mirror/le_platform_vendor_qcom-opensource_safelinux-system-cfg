@@ -440,29 +440,44 @@ static int get_cluster_start(int cpu_idx)
 
 static void compute_cpu_ranges(target_conf_t *conf, int max_cpu)
 {
-	int pvm_boot_start, pvm_boot_end, non_pvm_boot_end;
+	int pvm_boot_start, pvm_boot_end;
+	int non_pvm_boot_start, non_pvm_boot_end;
 
 	if (!conf->pvm_boot_from_top) {
-		/* Lemans (Gen4): PVM at bottom */
-		pvm_boot_start   = 0;
-		pvm_boot_end     = conf->pvm_total_num_cpus - 1;
+		/* Lemans/Seca (bottom-N): PVM owns 0..pvm_total-1 */
+		pvm_boot_start     = 0;
+		pvm_boot_end       = conf->pvm_total_num_cpus - 1;
 		if (pvm_boot_end >= max_cpu)
 			pvm_boot_end = max_cpu - 1;
-		non_pvm_boot_end = max_cpu - 1;
+		non_pvm_boot_start = pvm_boot_end + 1;
+		non_pvm_boot_end   = max_cpu - 1;
 	} else if (conf->pvm_total_num_cpus >= max_cpu) {
-		/* Gen5: PVM owns all CPUs (e.g., ADAS) */
-		pvm_boot_start   = 0;
-		pvm_boot_end     = max_cpu - 1;
-		non_pvm_boot_end = max_cpu - 1;
+		/* Gen5 ADAS: PVM owns all CPUs */
+		pvm_boot_start     = 0;
+		pvm_boot_end       = max_cpu - 1;
+		non_pvm_boot_start = 0;
+		non_pvm_boot_end   = max_cpu - 1;
 	} else {
-		/* Gen5: PVM at top-N */
-		pvm_boot_start   = max_cpu - conf->pvm_total_num_cpus;
-		pvm_boot_end     = max_cpu - 1;
-		non_pvm_boot_end = pvm_boot_start - 1;
+		/* Nord (top-N): PVM owns top CPUs, non-PVM owns 0..pvm_start-1 */
+		pvm_boot_start     = max_cpu - conf->pvm_total_num_cpus;
+		pvm_boot_end       = max_cpu - 1;
+		non_pvm_boot_start = 0;
+		non_pvm_boot_end   = pvm_boot_start - 1;
 	}
 
 	for (int i = 0; i < conf->slice_count; i++) {
-		if (conf->slices[i].cpu_start >= pvm_boot_start &&
+		/*
+		 * Boot dropin classification:
+		 * - gvm.slice and system.slice get the full non-PVM range at boot
+		 *   so gvm backends have access to all non-PVM CPUs before offlining.
+		 *   After offline-target-cpus runs, reconfig-cgrp-slices narrows them.
+		 * - All other slices (pvm.slice, misc.slice, rt.slice) that fall within
+		 *   the PVM range get the PVM boot range.
+		 */
+		bool is_gvm_side = (strcmp(conf->slices[i].name, "gvm.slice") == 0 ||
+				    strcmp(conf->slices[i].name, "system.slice") == 0);
+
+		if (!is_gvm_side && conf->slices[i].cpu_start >= pvm_boot_start &&
 				conf->slices[i].cpu_start <= pvm_boot_end) {
 			conf->slices[i].boot_cpu_start = pvm_boot_start;
 			conf->slices[i].boot_cpu_end   = pvm_boot_end;
@@ -475,7 +490,7 @@ static void compute_cpu_ranges(target_conf_t *conf, int max_cpu)
 			if (conf->slices[i].allow_cross_cluster)
 				conf->slices[i].cpu_start = pvm_boot_start;
 		} else {
-			conf->slices[i].boot_cpu_start = 0;
+			conf->slices[i].boot_cpu_start = non_pvm_boot_start;
 			conf->slices[i].boot_cpu_end   = non_pvm_boot_end;
 		}
 
@@ -556,6 +571,7 @@ int init_target_conf(target_conf_t *conf)
 		if (supported && is_nord && is_qclgvm_mode())
 			strlcpy(target_conf_file, NORD_QCLGVM_FILE,
 					sizeof(target_conf_file));
+
 #endif
 	} else if (strstr(machine_name, "8255") != NULL) {
 		strlcpy(sku, "NONSAFE_IVI", sizeof(sku));
