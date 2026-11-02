@@ -9,6 +9,13 @@
 
 #include "sa8255p_overlay.dtsi"
 
+/* Replaced by the gpu_parent nodes below */
+/delete-node/ &vfio_kgsl;
+/delete-node/ &vfio_gmu;
+/delete-node/ &vfio_gmu_db;
+/delete-node/ &vfio_kgsl_secure;
+/delete-node/ &vfio_kgsl_lpac;
+
 &{/} {
 	model = "Qualcomm Technologies, Inc. SA8775P Ride";
 	qcom,msm-id = <534 0x10000>, <534 0x20000>;
@@ -24,5 +31,91 @@
 
 &ethernet1 {
 	iommus = <&apps_smmu 0x140 0x7>;
+};
+
+&soc {
+	gpu_parent: gpu_parent@0 {
+		compatible = "gpu-parent-device";
+
+		gpu {
+			#address-cells = <2>;
+			#size-cells = <2>;
+			name = "gpu";
+			compatible = "qcom,gpu-umd-platform", "qcom,adreno-device";
+			reg = <0x0 0x1 0x0 0x0>,
+				<0x0 0x03d00000 0x0 0x69000>,
+				<0x0 0x03d69000 0x0 0x97000>,
+				<0x0 0x0b210000 0x0 0x400000>,
+				<0x0 0x00780000 0x0 0x7000>,
+				<0x0 0x01fc8000 0x0 0x1000>,
+				<0x0 0x01fc0000 0x0 0x30000>;
+			reg-names = "dummy", "gpu_reg", "gmu_reg",
+				"rpmh_pdc", "security_control_core",
+				"tcsr_hwver_reg", "tcsr_tcsr_reg";
+
+			interrupts = <0 300 IRQ_TYPE_LEVEL_HIGH>,
+				<0 304 IRQ_TYPE_LEVEL_HIGH>,
+				<0 305 IRQ_TYPE_LEVEL_HIGH>;
+
+			interrupt-names = "kgsl_3d0_irq", "kgsl_hfi_irq",
+				"kgsl_gmu_irq";
+
+			iommus = <&adreno_smmu 0x0 0xc00>;
+			qcom,iommu-dma = "disabled";
+			dma-coherent;
+		};
+
+		gmu {
+			#address-cells = <2>;
+			#size-cells = <2>;
+			name = "gmu";
+			compatible = "qcom,gpu-umd-platform";
+			reg = <0x0 0x1 0x0 0x0>,
+				<0x0 0x01fc0000 0x0 0x38000>;
+			reg-names = "dummy", "tcsr_tcsr_reg";
+			iommus = <&adreno_smmu 0x5 0xc00>;
+			qcom,iommu-dma = "disabled";
+			dma-coherent;
+		};
+
+		gmu-db {
+			#address-cells = <2>;
+			#size-cells = <2>;
+			name = "gmu-db";
+			compatible = "qcom,gpu-umd-platform";
+			reg = <0x0 0x1 0x0 0x0>;
+			reg-names = "dummy";
+			iommus = <&adreno_smmu 0x4 0xc00>;
+			qcom,iommu-dma = "disabled";
+			dma-coherent;
+		};
+
+		gpu_secure {
+			#address-cells = <2>;
+			#size-cells = <2>;
+			name = "gpu_secure";
+			compatible = "qcom,gpu-umd-platform";
+			reg = <0x0 0x1 0x0 0x0>;
+			reg-names = "dummy";
+			iommus = <&adreno_smmu 0x2 0xc00>;
+			qcom,iommu-dma-addr-pool = <0x0 0x10000000 0x0 0x4FFFF000>;
+			qcom,iommu-vmid = <0xA>; // VMID_CP_PIXEL
+			qcom,secure-context-bank;
+			qcom,iommu-dma = "disabled";
+			dma-coherent;
+		};
+
+		gpu_lpac {
+			#address-cells = <2>;
+			#size-cells = <2>;
+			name = "gpu_lpac";
+			compatible = "qcom,gpu-umd-platform", "qcom,adreno-device";
+			reg = <0x0 0x1 0x0 0x0>;
+			reg-names = "dummy";
+			iommus = <&adreno_smmu 0x1 0xc00>;
+			qcom,iommu-dma = "disabled";
+			dma-coherent;
+		};
+	};
 };
 

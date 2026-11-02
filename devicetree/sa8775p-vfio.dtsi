@@ -1017,7 +1017,7 @@
 		pinctrl-0 = <&edp3_hpd_ctrl>;
 	};
 
-	vfio_kgsl@3d00000 {
+	vfio_kgsl: vfio_kgsl@3d00000 {
 		name = "vfio_kgsl";
 		compatible = "qcom,kiumd-platform";
 
@@ -1044,7 +1044,7 @@
 		iommu-faults;
 	};
 
-	vfio_gmu {
+	vfio_gmu: vfio_gmu {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x1 0x0 0x0>,
 			<0x0 0x01fc0000 0x0 0x38000>;
@@ -1055,7 +1055,7 @@
 		iommu-faults;
 	};
 
-	vfio_gmu_db {
+	vfio_gmu_db: vfio_gmu_db {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x1 0x0 0x0>;
 		iommus = <&adreno_smmu 0x4 0xc00>;
@@ -1064,7 +1064,7 @@
 		iommu-faults;
 	};
 
-	vfio_kgsl_secure {
+	vfio_kgsl_secure: vfio_kgsl_secure {
 		compatible = "qcom,vfio-platform";
 		reg = <0x0 0x1 0x0 0x0>;
 		iommus = <&adreno_smmu 0x2 0xc00>;
@@ -1076,7 +1076,7 @@
 		iommu-faults;
 	};
 
-	vfio_kgsl_lpac {
+	vfio_kgsl_lpac: vfio_kgsl_lpac {
 		compatible = "qcom,kiumd-platform";
 		reg = <0x0 0x1 0x0 0x0>;
 		iommus = <&adreno_smmu 0x1 0xc00>;
