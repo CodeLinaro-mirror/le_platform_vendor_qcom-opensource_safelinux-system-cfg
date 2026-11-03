@@ -323,6 +323,13 @@
 	gunyah-label = <0x139>;
 };
 
+/*
+ * ssr_ring is defined in sa8775p-vms-lv.dtsi at 0xf_001e4000, which
+ * in the agl memory map is already occupied by auto_vm1_qcvirtio_inp_ring.
+ * Drop it here so the agl config has no overlapping reserved-memory region.
+ */
+/delete-node/ &auto_vm1_ssr_ring;
+
 &{/} {
 	// qcvirtio-uclk-driver-linux node
 	qcvirtio_uclk {
