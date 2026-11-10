@@ -1,16 +1,18 @@
-/* SPDX-License-Identifier: GPL-2.0-only */
+/* SPDX-License-Identifier: BSD-3-Clause */
 /*
- * Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
  */
 
 #ifndef __DT_BINDINGS_SHARED_MEMORY_H
 #define __DT_BINDINGS_SHARED_MEMORY_H
 
 /* VMIDs */
-#define AC_VM_SSC_Q6_ELF		0x5
+#define AC_VM_SSC_Q6_ELF		0x5  /* GPDSP VMID:5 */
+#define VMID_ADSP_Q6			0x6  /* ADSP0 VMID:6 */
 #define AC_VM_CDSP_Q6_ELF		0x1E
 #define AC_VM_GVM_1			0x34 /* OEM VM1, ID:52 */
 #define AC_VM_GVM_2			0x35 /* OEM VM2, ID:53 */
+#define AC_VM_GPDSP1_Q6_ELF		0x3B /* GPDSP1 VMID:59 */
 
 /* Access permissions */
 #define QCOM_PERM_READ			0x4
