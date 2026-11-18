@@ -47,7 +47,6 @@
 				&auto_vm1_vblk21_ring
 				&auto_vm1_resv0_ring
 				&auto_vm1_resv1_ring
-				&auto_vm1_ssr_ring
 				&auto_vm1_swiotlb>;
 	};
 
@@ -251,16 +250,6 @@
 		qcom,label = <0x127>;
 	};
 
-	auto_vm1_be58: auto_vm1_be58@13A {
-		qcom,vm = <&auto_vm1>;
-		qcom,label = <0x13A>;
-	};
-
-	auto_vm1_be59: auto_vm1_be59@13B {
-		qcom,vm = <&auto_vm1>;
-		qcom,label = <0x13B>;
-	};
-
 	auto_vm_1: gh-secure-vm-loader@1 {
 		compatible = "qcom,gh-secure-vm-loader";
 		qcom,pas-id = <45>;
@@ -271,9 +260,10 @@
 				&auto_vm_1_mem_1
 				&auto_vm_1_mem_2
 				>;
-		shared-regions = <&vm_1_glink_cma_mem
-				&vm_1_cp_pixel
-				&vm_1_cp_bitstream
+		/*&vm_1_glink_cma_mem
+		&vm_1_cp_pixel
+		&vm_1_cp_bitstream*/
+		shared-regions = <
 				&tlmm
 				&qupv3_id_0
 				&qupv3_id_1
@@ -319,9 +309,7 @@
 				&auto_vm1_be36
 				&auto_vm1_be37
 				&auto_vm1_be38
-				&auto_vm1_be39
-				&auto_vm1_be58
-				&auto_vm1_be59>;
+				&auto_vm1_be39>;
 	};
 };
 
@@ -330,13 +318,13 @@
 	#size-cells = <2>;
 	ranges;
 
-	vm_1_glink_cma_mem: vm_1_glink_cma_mem@91ba1000 {
+	/*vm_1_glink_cma_mem: vm_1_glink_cma_mem@91ba1000 {
 		no-map;
 		reg = <0x0 0x91ba1000 0x0 0x12000>;
 		qcom,dst-vmids = <AC_VM_CDSP_Q6_ELF>;
 		qcom,dst-perms = <QCOM_PERM_RWX>;
 		gunyah-label = <0x150>;
-	};
+	};*/
 
 	auto_vm1_vblk0_ring: auto_vm1_vblk0_ring@f00000000 {
 		no-map;
@@ -578,19 +566,13 @@
 		gunyah-label = <0x127>;
 	};
 
-	auto_vm1_ssr_ring: auto_vm1_ssr_ring@f001e4000 {
-		no-map;
-		reg = <0xf 0x001E4000 0x0 0x2000>;
-		gunyah-label = <0x13A>;
-	};
-
 	auto_vm1_swiotlb: auto_vm1_swiotlb@f01100000 {
 		no-map;
 		reg = <0xf 0x01100000 0x0 0xF00000>;
 		gunyah-label = <0x140>;
 	};
 
-	vm_1_cp_pixel: vm_1_cp_pixel@B10000000 {
+	/*vm_1_cp_pixel: vm_1_cp_pixel@B10000000 {
 		no-map;
 		reg = <0xB 0x10000000 0x0 0x20000000>;
 		gunyah-label = <0xD0A>;
@@ -602,7 +584,7 @@
 		reg = <0xB 0x30000000 0x0 0x10000000>;
 		gunyah-label = <0xD09>;
 		qcom,is-phantom;
-	};
+	};*/
 
 	auto_vm_1_mem_0: auto_vm_1_mem_0@f3300000 {
 		no-map;
